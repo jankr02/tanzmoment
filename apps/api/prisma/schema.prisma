@@ -65,25 +65,34 @@ model Instructor {
 // ============================================================================
 
 model Course {
-  id              String       @id @default(cuid())
-  title           String
-  slug            String       @unique
-  description     String       @db.Text
-  level           CourseLevel
-  maxParticipants Int
-  priceInCents    Int
-  duration        Int
-  imageUrl        String?
+  id                      String       @id @default(cuid())
+  title                   String
+  slug                    String       @unique
   
-  isPublished     Boolean      @default(false)
+  // Neu: Für Kursliste
+  catchPhrase             String?
+  shortDescription        String       @db.Text  
+  danceStyle              String                
+  targetGroup             String                 
+  isMarkedAsHighlighted   Boolean      @default(false)
   
-  instructorId    String
-  instructor      Instructor   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  // Bestehend: Für Details
+  description             String       @db.Text 
+  level                   CourseLevel
+  maxParticipants         Int
+  priceInCents            Int
+  duration                Int         
+  imageUrl                String?
   
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  isPublished             Boolean      @default(false)
   
-  sessions        Session[]
+  instructorId            String
+  instructor              Instructor   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  
+  sessions                Session[]
   
   @@map("courses")
 }
