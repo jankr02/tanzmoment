@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER & AUTH
+// ============================================================================
+
+model User {
+  id            String        @id @default(cuid())
+  email         String        @unique
+  passwordHash  String?
+  firstName     String
+  lastName      String
+  phone         String?
+  role          UserRole      @default(CUSTOMER)
+  
+  emailVerified Boolean       @default(false)
+  isActive      Boolean       @default(true)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  instructor    Instructor?
+  bookings      Booking[]
+  payments      Payment[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  CUSTOMER
+  INSTRUCTOR
+  ADMIN
+}
+
+// ============================================================================
+// INSTRUCTOR
+// ============================================================================
+
+model Instructor {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  bio         String?  @db.Text
+  imageUrl    String?
+  expertise   String[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  courses     Course[]
+  
+  @@map("instructors")
+}
+
+// ============================================================================
+// COURSE & SESSION
+// ============================================================================
+
+model Course {
+  id              String       @id @default(cuid())
+  title           String
+  slug            String       @unique
+  description     String       @db.Text
+  level           CourseLevel
+  maxParticipants Int
+  priceInCents    Int
+  duration        Int
+  imageUrl        String?
+  
+  isPublished     Boolean      @default(false)
+  
+  instructorId    String
+  instructor      Instructor   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  
+  sessions        Session[]
+  
+  @@map("courses")
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  ALL_LEVELS
+}
+
+model Session {
+  id          String       @id @default(cuid())
+  courseId    String
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  startTime   DateTime
+  endTime     DateTime
+  location    String
+  
+  status      SessionStatus @default(SCHEDULED)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  bookings    Booking[]
+  
+  @@map("sessions")
+}
+
+enum SessionStatus {
+  SCHEDULED
+  CANCELLED
+  COMPLETED
+}
+
+// ============================================================================
+// BOOKING & PAYMENT
+// ============================================================================
+
+model Booking {
+  id              String        @id @default(cuid())
+  
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sessionId       String
+  session         Session       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  status          BookingStatus @default(PENDING)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  payment         Payment?
+  
+  @@unique([userId, sessionId])
+  @@map("bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  WAITLISTED
+  ATTENDED
+  NO_SHOW
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  
+  bookingId         String        @unique
+  booking           Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  
+  amountInCents     Int
+  currency          String        @default("EUR")
+  
+  stripePaymentId   String?       @unique
+  stripeStatus      String?
+  
+  status            PaymentStatus @default(PENDING)
+  
+  paidAt            DateTime?
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
