@@ -1,1 +1,65 @@
-/* You can add global styles to this file, and also import other style files */
+// ============================================================================
+// TANZMOMENT – MAIN STYLES
+// ============================================================================
+
+// 1. Design Tokens (Variables, Colors, Typography, Spacing)
+@import './styles/tokens';
+
+// 2. Base Styles (Reset, Global Styles, Typography)
+@import './styles/base';
+
+// 3. Utility Classes (Flexbox, Spacing, Text, etc.)
+@import './styles/utilities';
+
+// ============================================================================
+// GLOBAL LAYOUT
+// ============================================================================
+
+// App Root
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+// Main Content Area
+main {
+  flex: 1;
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-12);
+}
+
+// ============================================================================
+// CUSTOM SCROLLBAR (Optional – for modern browsers)
+// ============================================================================
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-neutral-xl);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-sm);
+  
+  &:hover {
+    background: var(--color-text-secondary);
+  }
+}
+
+// ============================================================================
+// SELECTION
+// ============================================================================
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
