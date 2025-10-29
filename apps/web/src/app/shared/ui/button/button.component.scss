@@ -1,0 +1,205 @@
+// ============================================================================
+// BUTTON COMPONENT – Organic Shape
+// ============================================================================
+
+.tm-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-cta);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-cta);
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: transform var(--transition-base), opacity var(--transition-fast);
+  user-select: none;
+
+  // Remove default button styles
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // SVG Background Shape
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__path {
+    transition: fill var(--transition-base), stroke var(--transition-base);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // Content (Text)
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // SIZES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &--small {
+    min-width: 120px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+
+  &--medium {
+    min-width: 158px;
+    height: 38px;
+    font-size: 1rem;
+  }
+
+  &--large {
+    min-width: 200px;
+    height: 48px;
+    font-size: 1.125rem;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // VARIANTS
+  // ──────────────────────────────────────────────────────────────────────────
+
+  // Primary (Default – Accent Dark)
+  &--primary {
+    color: var(--color-primary-light);
+
+    .tm-button__path {
+      fill: var(--color-accent-dark);
+      stroke: var(--color-accent-dark);
+    }
+
+    &:hover:not(.tm-button--disabled) {
+      transform: translateY(-2px);
+
+      .tm-button__path {
+        fill: color-mix(in oklab, var(--color-accent-dark) 90%, black 10%);
+        stroke: color-mix(in oklab, var(--color-accent-dark) 90%, black 10%);
+      }
+    }
+
+    &:active:not(.tm-button--disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  // Secondary (Primary Dark – Brand Green)
+  &--secondary {
+    color: var(--color-surface);
+
+    .tm-button__path {
+      fill: var(--color-brand);
+      stroke: var(--color-brand);
+    }
+
+    &:hover:not(.tm-button--disabled) {
+      transform: translateY(-2px);
+
+      .tm-button__path {
+        fill: color-mix(in oklab, var(--color-brand) 85%, black 15%);
+        stroke: color-mix(in oklab, var(--color-brand) 85%, black 15%);
+      }
+    }
+
+    &:active:not(.tm-button--disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  // Ghost (Transparent with Border)
+  &--ghost {
+    color: var(--color-brand);
+
+    .tm-button__path {
+      fill: transparent;
+      stroke: var(--color-brand);
+      stroke-width: 2;
+    }
+
+    &:hover:not(.tm-button--disabled) {
+      .tm-button__path {
+        fill: color-mix(in oklab, var(--color-primary-light) 40%, white 60%);
+        stroke: var(--color-brand);
+      }
+    }
+
+    &:active:not(.tm-button--disabled) {
+      .tm-button__path {
+        fill: var(--color-primary-light);
+      }
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // STATES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  // Disabled
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 1; // Full opacity for better visibility
+
+    &.tm-button--primary,
+    &.tm-button--secondary {
+      color: var(--color-text-secondary);
+
+      .tm-button__path {
+        fill: color-mix(in oklab, var(--color-border) 80%, white 20%);
+        stroke: color-mix(in oklab, var(--color-border) 80%, white 20%);
+      }
+    }
+
+    &.tm-button--ghost {
+      color: var(--color-text-secondary);
+
+      .tm-button__path {
+        fill: transparent;
+        stroke: var(--color-border);
+        stroke-width: 2;
+      }
+    }
+  }
+
+  // Full Width
+  &--full-width {
+    width: 100%;
+  }
+
+  // Focus (Accessibility)
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-md);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // REDUCED MOTION
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover:not(.tm-button--disabled) {
+      transform: none;
+    }
+  }
+}
