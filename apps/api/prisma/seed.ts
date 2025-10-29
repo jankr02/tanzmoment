@@ -50,13 +50,18 @@ async function main() {
   });
   console.log('✅ Instructor profile created');
 
-  // 3. Sample Courses
+  // 3. Sample Courses mit ALLEN neuen Feldern
   const courses = [
     {
       title: 'Contemporary Dance – Basics',
       slug: 'contemporary-basics',
+      catchPhrase: 'Finde deinen Flow',
+      shortDescription:
+        'Ein sanfter Einstieg in zeitgenössischen Tanz. Entdecke Bewegung, Atmung und Ausdruck.',
       description:
-        'Ein sanfter Einstieg in die Welt des zeitgenössischen Tanzes. Wir erkunden Grundbewegungen, Atmung und den Fluss zwischen Boden und Stand. Perfekt für Anfänger:innen, die ihren Körper neu entdecken möchten.',
+        'Ein sanfter Einstieg in die Welt des zeitgenössischen Tanzes. Wir erkunden Grundbewegungen, Atmung und den Fluss zwischen Boden und Stand. Perfekt für Anfänger:innen, die ihren Körper neu entdecken möchten. In diesem Kurs lernst du die Grundlagen der Contemporary-Technik kennen und entwickelst ein Gefühl für deinen eigenen Bewegungsstil.',
+      danceStyle: 'Contemporary',
+      targetGroup: 'Anfänger:innen ohne Vorkenntnisse',
       level: CourseLevel.BEGINNER,
       maxParticipants: 12,
       priceInCents: 2500,
@@ -64,12 +69,18 @@ async function main() {
       imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800',
       instructorId: instructor.id,
       isPublished: true,
+      isMarkedAsHighlighted: true,
     },
     {
       title: 'Modern Dance – Intermediate',
       slug: 'modern-intermediate',
+      catchPhrase: 'Vertiefe deine Technik',
+      shortDescription:
+        'Für Fortgeschrittene: Dynamik, Release-Technik und choreografische Sequenzen.',
       description:
-        'Für alle, die bereits Tanzerfahrung haben und ihre Technik vertiefen möchten. Wir arbeiten an Dynamik, Release-Technik und choreografischen Sequenzen.',
+        'Für alle, die bereits Tanzerfahrung haben und ihre Technik vertiefen möchten. Wir arbeiten an Dynamik, Release-Technik und choreografischen Sequenzen. Dieser Kurs ist perfekt für dich, wenn du bereits erste Erfahrungen im zeitgenössischen oder modernen Tanz gesammelt hast und deine Fähigkeiten auf das nächste Level bringen möchtest.',
+      danceStyle: 'Modern',
+      targetGroup: 'Tänzer:innen mit Vorkenntnissen',
       level: CourseLevel.INTERMEDIATE,
       maxParticipants: 10,
       priceInCents: 3000,
@@ -77,12 +88,18 @@ async function main() {
       imageUrl: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=800',
       instructorId: instructor.id,
       isPublished: true,
+      isMarkedAsHighlighted: false,
     },
     {
       title: 'Improvisation & Flow',
       slug: 'improvisation-flow',
+      catchPhrase: 'Lass los und tanze',
+      shortDescription:
+        'Freies Bewegen ohne Perfektion. Finde deine eigene Bewegungssprache.',
       description:
-        'Frei bewegen, experimentieren, spielen. In diesem Kurs geht es um das Loslassen von Perfektion und das Finden der eigenen Bewegungssprache. Für alle Levels geeignet.',
+        'Frei bewegen, experimentieren, spielen. In diesem Kurs geht es um das Loslassen von Perfektion und das Finden der eigenen Bewegungssprache. Wir nutzen Improvisation als Werkzeug, um unseren Körper besser kennenzulernen und neue Bewegungsmöglichkeiten zu entdecken. Für alle Levels geeignet – jede:r ist willkommen!',
+      danceStyle: 'Improvisation',
+      targetGroup: 'Alle Levels – offen für jeden',
       level: CourseLevel.ALL_LEVELS,
       maxParticipants: 15,
       priceInCents: 2000,
@@ -90,6 +107,7 @@ async function main() {
       imageUrl: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800',
       instructorId: instructor.id,
       isPublished: true,
+      isMarkedAsHighlighted: false,
     },
   ];
 
@@ -101,10 +119,11 @@ async function main() {
     });
     console.log('✅ Course created:', course.title);
 
-    // Sessions für jeden Kurs (nächste 4 Wochen, Mittwoch 18:00)
+    // Sessions erstellen (nächste 4 Wochen, Mittwoch 18:00)
     for (let week = 0; week < 4; week++) {
       const date = new Date();
-      date.setDate(date.getDate() + (week * 7) + ((3 - date.getDay() + 7) % 7)); // Nächster Mittwoch
+      const daysUntilWednesday = (3 - date.getDay() + 7) % 7 || 7;
+      date.setDate(date.getDate() + daysUntilWednesday + week * 7);
       date.setHours(18, 0, 0, 0);
 
       const endDate = new Date(date);
@@ -115,7 +134,7 @@ async function main() {
           courseId: course.id,
           startTime: date,
           endTime: endDate,
-          location: 'Studio A',
+          location: 'Studio A – Ludwigsburg',
         },
       });
     }
