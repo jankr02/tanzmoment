@@ -1,2 +1,54 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<div class="container py-12">
+  <h1>Tanzmoment Design System</h1>
+  <p class="mb-8">Willkommen zu unserem Design System!</p>
+
+  <!-- Color Swatches -->
+  <section class="mb-12">
+    <h2>Farben</h2>
+    <div class="flex gap-4 mt-6">
+      <div class="p-6 rounded-lg" style="background: var(--color-primary-dark); color: white;">
+        Primary Dark
+      </div>
+      <div class="p-6 rounded-lg" style="background: var(--color-primary);">
+        Primary
+      </div>
+      <div class="p-6 rounded-lg" style="background: var(--color-secondary);">
+        Secondary
+      </div>
+      <div class="p-6 rounded-lg" style="background: var(--color-soft-accent);">
+        Soft Accent
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section class="mb-12">
+    <h2>Typografie</h2>
+    <h1>Headline 1 – DM Serif Display</h1>
+    <h2>Headline 2 – Elegante Serifen</h2>
+    <h3>Headline 3 – Ruhig und klar</h3>
+    <p>Body Text – Nunito Regular. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+    Wir nutzen eine warme, lesbare Sans-Serif für Fließtext.</p>
+    <small>Small Text – für Meta-Informationen</small>
+  </section>
+
+  <!-- Spacing -->
+  <section class="mb-12">
+    <h2>Spacing</h2>
+    <div class="flex flex-col gap-4">
+      <div class="p-4 bg-accent rounded-md">Padding 4 (16px)</div>
+      <div class="p-6 bg-accent rounded-md">Padding 6 (24px)</div>
+      <div class="p-8 bg-accent rounded-md">Padding 8 (32px)</div>
+    </div>
+  </section>
+
+  <!-- Shadows -->
+  <section>
+    <h2>Shadows</h2>
+    <div class="grid grid-cols-3 gap-6 mt-6">
+      <div class="p-6 bg-surface rounded-lg shadow-sm">Shadow SM</div>
+      <div class="p-6 bg-surface rounded-lg shadow-md">Shadow MD</div>
+      <div class="p-6 bg-surface rounded-lg shadow-lg">Shadow LG</div>
+    </div>
+  </section>
+</div>
