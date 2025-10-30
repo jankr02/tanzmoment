@@ -1,0 +1,187 @@
+<div [class]="inputClasses.join(' ')">
+  <!-- Label -->
+  @if (label) {
+    <label 
+      [for]="id || name" 
+      class="input__label"
+      [class.input__label--required]="required"
+    >
+      {{ label }}
+      @if (required) {
+        <span class="input__required-indicator">*</span>
+      }
+    </label>
+  }
+  
+  <!-- Input Container with Organic Shape -->
+  <div class="input__container">
+    
+    <!-- Organic SVG Background -->
+    <svg 
+      class="input__bg-shape" 
+      viewBox="0 0 231 28" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <filter id="input-shadow" x="0" y="0" width="100%" height="100%" filterUnits="userSpaceOnUse">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+          <feOffset dy="2"/>
+          <feGaussianBlur stdDeviation="2"/>
+          <feComposite in2="hardAlpha" operator="out"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+        </filter>
+      </defs>
+      <g filter="url(#input-shadow)">
+        <path 
+          d="M0.8 10C0.8 4.47715 5.27716 0 10.8 0H213.096C220.768 0 225.582 8.28271 221.785 14.9492L218.938 19.9492C217.159 23.0718 213.842 25 210.248 25H10.8C5.27715 25 0.8 20.5228 0.8 15V10Z" 
+          [attr.fill]="isFocused ? 'var(--color-surface)' : 'var(--color-surface)'"
+          [attr.stroke]="hasError ? 'var(--color-danger)' : (isFocused ? 'var(--color-brand)' : 'var(--color-border)')"
+          stroke-width="2"
+        />
+      </g>
+    </svg>
+    
+    <!-- Input Content Wrapper -->
+    <div class="input__content">
+      
+      <!-- Left Icon or Prefix -->
+      @if (iconLeft) {
+        <span class="input__icon input__icon--left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path [attr.d]="iconLeft"/>
+          </svg>
+        </span>
+      } @else if (prefix) {
+        <span class="input__prefix">{{ prefix }}</span>
+      }
+      
+      <!-- Input Element -->
+      <input
+        [id]="id || name"
+        [name]="name"
+        [type]="actualType"
+        [value]="value"
+        [placeholder]="placeholder"
+        [disabled]="disabled || loading"
+        [readonly]="readonly"
+        [required]="required"
+        [attr.minlength]="minLength"
+        [attr.maxlength]="maxLength"
+        [pattern]="pattern"
+        [attr.autocomplete]="autocomplete"
+        [attr.autofocus]="autofocus ? true : null"
+        (input)="onInputChange($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        class="input__field"
+      />
+      
+      <!-- Right Side Actions (Icons, Buttons, Suffix) -->
+      <div class="input__right-actions">
+        
+        <!-- Suffix Text -->
+        @if (suffix && !loading) {
+          <span class="input__suffix">{{ suffix }}</span>
+        }
+        
+        <!-- Loading Spinner -->
+        @if (loading) {
+          <span class="input__icon input__icon--loading">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </span>
+        }
+        
+        <!-- Clear Button -->
+        @if (shouldShowClearButton && !loading) {
+          <button 
+            type="button"
+            class="input__action-btn input__action-btn--clear"
+            (click)="clearInput()"
+            [attr.aria-label]="'Eingabe löschen'"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m15 9-6 6M9 9l6 6"/>
+            </svg>
+          </button>
+        }
+        
+        <!-- Password Toggle -->
+        @if (shouldShowPasswordToggle && !loading) {
+          <button 
+            type="button"
+            class="input__action-btn input__action-btn--password"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'"
+          >
+            @if (showPassword) {
+              <!-- Eye Off Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24M10.73 5.08A11 11 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                <line x1="2" y1="2" x2="22" y2="22"/>
+              </svg>
+            } @else {
+              <!-- Eye Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            }
+          </button>
+        }
+        
+        <!-- Search Icon -->
+        @if (showSearchIcon && !loading && !shouldShowClearButton) {
+          <span class="input__icon input__icon--right">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m22 22-5.5-5.5"/>
+            </svg>
+          </span>
+        }
+        
+        <!-- Custom Right Icon -->
+        @if (iconRight && !loading && !shouldShowClearButton && !shouldShowPasswordToggle) {
+          <span class="input__icon input__icon--right">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path [attr.d]="iconRight"/>
+            </svg>
+          </span>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Row: Helper Text & Character Counter -->
+  <div class="input__bottom">
+    <!-- Helper/Error Text -->
+    @if (shouldShowHelperText) {
+      <p 
+        class="input__helper-text"
+        [class.input__helper-text--error]="hasError"
+        [class.input__helper-text--success]="hasSuccess"
+      >
+        {{ displayText }}
+      </p>
+    }
+    
+    <!-- Character Counter -->
+    @if (shouldShowCharCounter) {
+      <span 
+        class="input__char-counter"
+        [class.input__char-counter--warning]="value.length >= (maxLength! * 0.9)"
+        [class.input__char-counter--error]="value.length >= maxLength!"
+      >
+        {{ charCountText }}
+      </span>
+    }
+  </div>
+</div>
