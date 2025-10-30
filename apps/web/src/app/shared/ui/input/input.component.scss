@@ -1,0 +1,510 @@
+// ============================================================================
+// INPUT COMPONENT V5 – Enhanced with Actions, Prefix/Suffix, Counter & More
+// ============================================================================
+
+.input {
+  display: inline-block;
+  position: relative;
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // LABEL
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 14px;
+    color: var(--color-text-primary);
+  }
+  
+  &__required-indicator {
+    color: var(--color-danger);
+    margin-left: 2px;
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // CONTAINER (Organic Shape Background)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 231 / 28;
+    min-height: 44px;
+    cursor: text;
+  }
+  
+  &__bg-shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    transition: all 200ms cubic-bezier(.2,.7,.2,1);
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // HOVER STATE (Playful)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__container:hover {
+    .input__bg-shape {
+      transform: translateY(-1px);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+    }
+    
+    .input__icon {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+  }
+  
+  // Don't apply hover when focused
+  &--focused &__container:hover {
+    .input__bg-shape {
+      transform: none;
+    }
+  }
+  
+  // Don't apply hover when disabled or loading
+  &--disabled &__container,
+  &--loading &__container {
+    cursor: not-allowed;
+    
+    &:hover {
+      .input__bg-shape {
+        transform: none;
+        filter: none;
+      }
+      
+      .input__icon {
+        transform: none;
+      }
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // CONTENT (Input + Icons) – Adjusted padding for organic shape
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 18px 0 18px;  // Left padding normal
+    padding-right: 28px;     // ← Right padding MUCH larger (organic shape cuts off)
+    gap: 10px;
+  }
+  
+  &__field {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    min-width: 0;
+    
+    &::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+    }
+    
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--color-text-secondary);
+      opacity: 0.5;
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // ICONS (Fixed sizing, right icon needs special treatment)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    transition: all 150ms cubic-bezier(.2,.7,.2,1);
+    
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+    }
+    
+    &--left {
+      margin-left: -2px;
+    }
+    
+    // Right icon - push far away from organic shape edge
+    &--right {
+      margin-right: -4px;  // ← Pull back from extra padding
+    }
+    
+    // Loading spinner animation
+    &--loading {
+      svg {
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // PREFIX & SUFFIX (Text before/after input)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__prefix,
+  &__suffix {
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    user-select: none;
+  }
+  
+  &__prefix {
+    margin-left: -2px;
+  }
+  
+  &__suffix {
+    margin-right: 6px;
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // RIGHT ACTIONS (Buttons: Clear, Password Toggle, etc.)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__right-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    // Margin removed - icons will sit closer to the right edge
+    
+    // Icons inside right-actions should match button dimensions & opacity
+    .input__icon {
+      width: 28px;      
+      height: 28px;     
+      opacity: 0.5;     
+      margin-right: 15px;  
+      
+      // Override --right modifier (prevent negative margin)
+      &--right {
+        margin-right: 6px;  // Keep the same spacing
+      }
+    }
+  }
+  
+  &__action-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 150ms cubic-bezier(.2,.7,.2,1);
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+    }
+    
+    &:hover {
+      opacity: 1;
+      background: color-mix(in oklab, var(--color-primary-light) 50%, transparent 50%);
+      transform: scale(1.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+    
+    // Clear button (X icon)
+    &--clear {
+      color: var(--color-text-secondary);
+      
+      &:hover {
+        color: var(--color-danger);
+      }
+    }
+    
+    // Password toggle
+    &--password {
+      &:hover {
+        color: var(--color-brand);
+      }
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // BOTTOM ROW (Helper Text + Character Counter)
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: var(--space-2);
+  }
+  
+  &__helper-text {
+    flex: 1;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    
+    &--error {
+      color: var(--color-danger);
+    }
+    
+    &--success {
+      color: var(--color-success);
+    }
+  }
+  
+  &__char-counter {
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+    transition: color 150ms ease;
+    
+    &--warning {
+      color: var(--color-warning);
+      opacity: 1;
+    }
+    
+    &--error {
+      color: var(--color-danger);
+      opacity: 1;
+      font-weight: 500;
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // SIZES
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &--small {
+    .input__container {
+      min-height: 36px;
+    }
+    
+    .input__content {
+      padding: 0 14px;
+      padding-right: 24px;
+      gap: 8px;
+    }
+    
+    .input__field {
+      font-size: 13px;
+    }
+    
+    .input__icon {
+      width: 20px;
+      height: 20px;
+      
+      svg {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    
+    .input__icon--right {
+      margin-right: -3px;
+    }
+    
+    .input__action-btn {
+      width: 24px;
+      height: 24px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+    
+    .input__prefix,
+    .input__suffix {
+      font-size: 13px;
+    }
+  }
+  
+  &--large {
+    .input__container {
+      min-height: 52px;
+    }
+    
+    .input__content {
+      padding: 0 22px;
+      padding-right: 32px;
+      gap: 12px;
+    }
+    
+    .input__field {
+      font-size: 16px;
+    }
+    
+    .input__icon {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+    
+    .input__icon--right {
+      margin-right: -6px;
+    }
+    
+    .input__action-btn {
+      width: 32px;
+      height: 32px;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    .input__prefix,
+    .input__suffix {
+      font-size: 16px;
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // STATES
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &--focused {
+    .input__bg-shape {
+      filter: drop-shadow(0 0 0 2px var(--color-brand));
+    }
+    
+    .input__icon {
+      color: var(--color-brand);
+      opacity: 1;
+    }
+    
+    .input__action-btn {
+      opacity: 0.7;
+    }
+  }
+  
+  &--error {
+    .input__icon {
+      color: var(--color-danger);
+      opacity: 1;
+    }
+  }
+  
+  &--success {
+    .input__icon {
+      color: var(--color-success);
+      opacity: 1;
+    }
+  }
+  
+  &--disabled,
+  &--loading {
+    opacity: 0.6;
+    cursor: not-allowed;
+    
+    .input__container {
+      cursor: not-allowed;
+    }
+    
+    .input__field {
+      cursor: not-allowed;
+    }
+    
+    .input__action-btn {
+      pointer-events: none;
+      opacity: 0.3;
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // FULL WIDTH
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  &--full-width {
+    width: 100%;
+    display: block;
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // ANIMATIONS
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  // ──────────────────────────────────────────────────────────────────────────
+  // REDUCED MOTION
+  // ──────────────────────────────────────────────────────────────────────────
+  
+  @media (prefers-reduced-motion: reduce) {
+    .input__container:hover {
+      .input__bg-shape {
+        transform: none;
+      }
+      
+      .input__icon {
+        transform: none;
+      }
+    }
+    
+    .input__action-btn {
+      &:hover,
+      &:active {
+        transform: none;
+      }
+    }
+    
+    .input__icon--loading svg {
+      animation: none;
+    }
+  }
+}
