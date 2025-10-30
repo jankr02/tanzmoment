@@ -1,0 +1,183 @@
+<article 
+  class="course-card"
+  [class.course-card--highlighted]="course.isHighlighted"
+  [ngStyle]="cardStyles"
+  (click)="onCardClick()"
+>
+  <!-- Organic SVG Background Shape -->
+  <svg 
+    class="course-card__bg-shape" 
+    viewBox="0 0 650 344" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <filter id="card-shadow" x="0" y="0" width="100%" height="100%" filterUnits="userSpaceOnUse">
+        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+        <feOffset dy="4"/>
+        <feGaussianBlur stdDeviation="2"/>
+        <feComposite in2="hardAlpha" operator="out"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0"/>
+        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+      </filter>
+    </defs>
+    <g filter="url(#card-shadow)">
+      <path 
+        d="M20.2785 23.1326C20.7475 12.3271 29.7219 3.85223 40.5365 4.00194L615.826 11.966C626.592 12.1151 635.308 20.7607 635.544 31.5254L641.669 310.633C641.916 321.909 632.795 331.16 621.516 331.071L27.8431 326.396C16.5193 326.307 7.52824 316.843 8.01937 305.53L20.2785 23.1326Z" 
+        [attr.fill]="colorScheme.bg"
+      />
+      <path 
+        d="M40.564 2.00171L615.853 9.96655C627.696 10.1305 637.283 19.6402 637.543 31.4812L643.668 310.589C643.941 322.993 633.907 333.169 621.5 333.071L27.8276 328.396C15.3716 328.298 5.48094 317.888 6.021 305.443L18.2808 23.0457C18.7969 11.1598 28.668 1.83714 40.564 2.00171Z" 
+        [attr.stroke]="colorScheme.border" 
+        stroke-width="4"
+      />
+    </g>
+  </svg>
+
+  <!-- Content Container -->
+  <div class="course-card__container">
+    
+    <!-- LEFT SIDE: Image -->
+    <div class="course-card__left">
+      <div class="course-card__image-container">
+        <svg 
+          class="course-card__image-frame" 
+          width="232" 
+          height="232" 
+          viewBox="0 0 232 232" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect 
+            x="2" y="2" width="228" height="228" rx="3" 
+            [attr.stroke]="colorScheme.border" 
+            stroke-width="4" 
+            fill="none"
+          />
+        </svg>
+        
+        <div class="course-card__image-wrapper">
+          @if (course.imageUrl) {
+            <img 
+              [src]="course.imageUrl" 
+              [alt]="course.title"
+              class="course-card__image"
+            />
+          } @else {
+            <div class="course-card__image-placeholder">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: Content -->
+    <div class="course-card__right">
+      
+      <!-- HEADER -->
+      <header class="course-card__header">
+        @if (course.isHighlighted) {
+          <svg class="course-card__star-icon" width="18" height="18" viewBox="0 0 24 24" fill="#E6B854">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        }
+        
+        <div class="course-card__badges">
+          <span class="course-card__dance-style-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path [attr.d]="danceStyleIcon"/>
+            </svg>
+            {{ course.danceStyle }}
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="course-card__content">
+        @if (course.catchPhrase) {
+          <div class="course-card__buzzword-wrapper">
+            <p class="course-card__buzzword">{{ course.catchPhrase }}</p>
+          </div>
+        }
+
+        <div class="course-card__title-wrapper">
+          <h2 class="course-card__title">{{ course.title }}</h2>
+        </div>
+
+        <div class="course-card__description-wrapper">
+          <div class="course-card__vertical-divider"></div>
+          <p class="course-card__description">{{ course.shortDescription }}</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="course-card__horizontal-divider">
+        <span>Alles auf einem Blick</span>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="course-card__footer">
+        
+        <!-- Quick Info -->
+        <div class="course-card__quick-info">
+          <div class="course-card__quick-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>{{ course.dateTime }}</span>
+          </div>
+
+          <div class="course-card__quick-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>{{ course.location }}</span>
+          </div>
+
+          <div class="course-card__quick-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span>{{ formattedPrice }}</span>
+          </div>
+
+          <div class="course-card__quick-info-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>{{ course.targetGroup || 'Alle' }}</span>
+          </div>
+        </div>
+
+        <!-- Divider before CTA -->
+        <div class="course-card__horizontal-divider course-card__horizontal-divider--cta"></div>
+
+        <!-- CTA -->
+        <div class="course-card__cta">
+          <p class="course-card__cta-title">Interesse geweckt?</p>
+          <app-button 
+            variant="primary" 
+            size="small"
+            (clicked)="onRegisterClick($event)"
+          >
+            {{ ctaText }}
+          </app-button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</article>
