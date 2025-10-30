@@ -1,77 +1,150 @@
 # Tanzmoment
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A modern dance course platform built with Angular and NestJS in an Nx monorepo.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Project Structure
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+This project uses [Nx](https://nx.dev) as a build system and consists of the following main components:
 
-## Finish your CI setup
+### Apps
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/fvm7Jm4afc)
+- **web** - Angular 20 frontend application with SSR support
+- **api** - NestJS backend API with Prisma ORM
 
+### Libs
 
-## Run tasks
+- **shared-types** - Shared TypeScript types
 
-To run tasks with Nx use:
+## Tech Stack
+
+### Frontend
+- Angular 20
+- Angular SSR
+- TanStack Query (Angular Experimental)
+- SCSS for styling
+- Vite as build tool
+
+### Backend
+- NestJS 11
+- Prisma ORM
+- PostgreSQL database
+- JWT Authentication (Passport)
+- BullMQ for queue management
+- Pino for logging
+- Swagger API documentation
+
+### Shared Services
+- Redis (for BullMQ)
+- Docker & Docker Compose
+
+## Prerequisites
+
+- Node.js (recommended: version 20.x)
+- Docker & Docker Compose
+- npm or yarn
+
+## Installation
 
 ```sh
-npx nx <target> <project-name>
+# Install dependencies
+npm install
+
+# Generate Prisma Client
+npm run prisma:generate
 ```
 
-For example:
+## Development
+
+### Start everything at once
 
 ```sh
-npx nx build myproject
+# Starts Docker services and both applications
+npm start
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
-```
-
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+### Start individual services
 
 ```sh
-# Generate an app
-npx nx g @nx/react:app demo
+# Start Docker services (PostgreSQL, Redis)
+npm run docker:up
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+# Start API (runs on port 3000)
+npm run serve:api
+
+# Start web app (runs on port 4200)
+npm run serve:web
+
+# Start both apps in parallel
+npm run dev
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Database Management
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+# Run database migration
+npm run prisma:migrate
 
+# Open Prisma Studio (UI for the database)
+npm run prisma:studio
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# Seed database with data
+npm run prisma:seed
 
-## Install Nx Console
+# Reset database completely
+npm run db:reset
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### Stop services
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+# Stop all Docker services
+npm stop
+```
 
-## Useful links
+## UI Components
 
-Learn more:
+The project includes a library of reusable UI components:
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Button** - Button component with various variants
+- **Course Card** - Card component for course display
+- **Input** - Input field with enhanced features (prefix/suffix, character counter, loading state)
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Components are located in [apps/web/src/app/shared/ui/](apps/web/src/app/shared/ui/).
+
+## API Documentation
+
+The Swagger API documentation is available at:
+```
+http://localhost:3000/api
+```
+
+## Visualize Project Graph
+
+```sh
+npx nx graph
+```
+
+## Testing
+
+```sh
+# E2E tests for web app
+npx nx e2e web-e2e
+
+# E2E tests for API
+npx nx e2e api-e2e
+```
+
+## Environment Variables
+
+Create a `.env` file in the project root with the necessary environment variables. Example configuration:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/tanzmoment"
+REDIS_HOST="localhost"
+REDIS_PORT=6379
+JWT_SECRET="your-secret-key"
+```
+
+## License
+
+MIT
