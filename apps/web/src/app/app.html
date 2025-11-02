@@ -1,38 +1,27 @@
-<div class="container py-12">
-  <h1>Button Component Test</h1>
+<!-- Header -->
+<app-header
+  [showNav]="true"
+  [navItems]="navItems"
+  [showLoginButton]="true"
+  [showRegisterButton]="true"
+  [showNewLabel]="false"
+  [fixed]="false"
+  [transparent]="false"
+  loginText="Anmelden"
+  registerText="Registrieren"
+  homeUrl="/"
+  (loginClicked)="onLogin()"
+  (registerClicked)="onRegister()"
+  (navItemClicked)="onNavItemClick($event)"
+/>
 
-  <!-- Primary Buttons -->
-  <section class="mb-8">
-    <h2>Primary</h2>
-    <div class="flex gap-4 mt-4">
-      <app-button variant="primary" size="small">Klein</app-button>
-      <app-button variant="primary" size="medium">Jetzt anmelden</app-button>
-      <app-button variant="primary" size="large">Mehr erfahren</app-button>
-      <app-button variant="primary" [disabled]="true">Disabled</app-button>
-    </div>
-  </section>
-
-  <!-- Secondary Buttons -->
-  <section class="mb-8">
-    <h2>Secondary</h2>
-    <div class="flex gap-4 mt-4">
-      <app-button variant="secondary" size="medium">Kontakt</app-button>
-      <app-button variant="secondary" [disabled]="true">Disabled</app-button>
-    </div>
-  </section>
-
-  <!-- Ghost Buttons -->
-  <section class="mb-8">
-    <h2>Ghost</h2>
-    <div class="flex gap-4 mt-4">
-      <app-button variant="ghost" size="medium">Mehr lesen</app-button>
-      <app-button variant="ghost" [disabled]="true">Disabled</app-button>
-    </div>
-  </section>
-
-  <!-- Full Width -->
-  <section>
-    <h2>Full Width</h2>
-    <app-button variant="primary" [fullWidth]="true">Kurs buchen</app-button>
-  </section>
-</div>
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container">
+    <h1>Willkommen bei Tanzmoment</h1>
+    <p>Hier kannst du deine Tanzkurse entdecken und buchen.</p>
+    
+    <!-- Example: Course Cards können hier platziert werden -->
+    <!-- <app-course-card [course]="courseData" /> -->
+  </div>
+</main>
