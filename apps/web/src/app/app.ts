@@ -3,12 +3,14 @@ import { RouterModule } from '@angular/router';
 import { ButtonComponent } from './shared/ui/button/button.component';
 import { HeaderComponent } from './shared/ui/header/header.component';
 import { NavItem, UserMenuData } from './shared/ui/header/header.types';
+import { FooterComponent } from './shared/ui/footer';
 
 @Component({
   imports: [
     RouterModule, 
     ButtonComponent, 
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.html',
@@ -350,5 +352,10 @@ export class App implements OnInit {
 
   onRegisterCourseClick(course: unknown) {
     console.log('✅ Register clicked for course:', course);
+  }
+
+  onNewsletterSubmit(email: string): void {
+    console.log('Newsletter:', email);
+    // TODO: Newsletter Service anbinden
   }
 }
