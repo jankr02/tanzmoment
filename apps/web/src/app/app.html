@@ -326,7 +326,12 @@
   </section>
 
 </main>
-
+    <app-footer 
+      [variant]="'curve'"
+      [showNewsletter]="true"
+      [showScrollTop]="true"
+      (newsletterSubmit)="onNewsletterSubmit($event)"
+    />
 <!-- ═══════════════════════════════════════════════════════════════════════════
      DEMO STYLES (inline für einfaches Testen)
      ═══════════════════════════════════════════════════════════════════════════ -->

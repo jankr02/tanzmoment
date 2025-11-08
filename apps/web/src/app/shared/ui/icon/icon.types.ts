@@ -19,6 +19,9 @@ export type IconName =
   | 'chevron-down'
   | 'x'
   | 'check-circle'
+  // Social Media
+  | 'instagram'
+  | 'facebook'
   | 'contemporary'
   | 'modern'
   | 'jazz'
