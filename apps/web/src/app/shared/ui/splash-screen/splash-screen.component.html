@@ -1,0 +1,96 @@
+<!--
+  Splash Screen Component Template
+
+  Full-screen intro sequence with organic illustration and brand messaging.
+  Features a two-phase text sequence and smooth fade animations.
+
+  Phase 1: Brand name appears (0ms)
+  Phase 2: Brand name fades out (1500ms)
+  Phase 3: Main message appears (1700ms)
+-->
+
+@if (visible()) {
+<div
+  class="splash-screen"
+  [class.splash-screen--fading-out]="fadingOut()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="splash-title"
+  [attr.aria-live]="animationState === 'leaving' ? 'polite' : null"
+>
+  <!-- Content Container -->
+  <div class="splash-screen__content">
+    <!-- Skip Button -->
+    @if (showSkipButton) {
+    <button
+      class="splash-screen__skip"
+      (click)="onSkip()"
+      aria-label="Skip intro"
+      type="button"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    }
+
+    <!-- Illustration (Inline SVG) -->
+    <div
+      #illustrationContainer
+      class="splash-screen__illustration"
+      aria-hidden="true"
+    >
+      @if (svgLoaded()) {
+      <div class="splash-screen__svg-container" [innerHTML]="svgContent"></div>
+      } @else {
+      <div class="splash-screen__loading">
+        <span>Loading...</span>
+      </div>
+      }
+    </div>
+
+    <!-- Text Content (Brand Intro Sequence) -->
+    <div class="splash-screen__text">
+      <!-- Brand Intro (appears first) -->
+      @if (!brandHidden()) {
+      <h2
+        class="splash-screen__brand-intro"
+        [class.splash-screen__brand-intro--fading-out]="brandFadingOut()"
+        aria-label="Tanzmoment"
+      >
+        Tanzmoment
+      </h2>
+      }
+
+      <!-- Main Content (appears after brand) -->
+      @if (brandHidden()) {
+      <h1
+        id="splash-title"
+        class="splash-screen__title splash-screen__title--delayed"
+      >
+        Ein Moment nur für dich.
+      </h1>
+
+      <p class="splash-screen__subtitle splash-screen__subtitle--delayed">
+        Für Leichtigkeit, Verbindung, Ausdruck.
+      </p>
+      }
+    </div>
+  </div>
+
+  <!-- Background Shape (organic decoration) -->
+  <div class="splash-screen__bg-shape" aria-hidden="true"></div>
+</div>
+}
