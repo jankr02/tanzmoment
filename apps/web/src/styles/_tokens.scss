@@ -29,11 +29,15 @@
   --color-soft-accent: #a9cdd4;
 
   // Neutral (Hintergründe, Karten, Texte)
+  --color-neutral-extra-light: #fcf8f3;
   --color-neutral-xl: #fcf3f3;
   --color-surface: #ffffff;
   --color-text-primary: #2e2a25;
   --color-text-secondary: #5e5a55;
   --color-border: #e6ded7;
+
+  // Background 
+  --color-background: var(--color-neutral-extra-light); 
 
   // Semantic Colors
   --color-brand: var(--color-primary-dark);

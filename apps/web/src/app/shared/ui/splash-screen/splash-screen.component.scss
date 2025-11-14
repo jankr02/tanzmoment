@@ -1,0 +1,490 @@
+// ==============================================================================
+// Splash Screen Component - Styles
+// ==============================================================================
+
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/base' as *;
+
+// ==============================================================================
+// Keyframe Animations
+// ==============================================================================
+
+/**
+ * Splash screen fade-in animation
+ */
+@keyframes splash-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/**
+ * Splash screen fade-out animation
+ */
+@keyframes splash-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+/**
+ * Brand intro enter animation
+ * Smooth scale and fade-in
+ */
+@keyframes brand-intro-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/**
+ * Brand intro exit animation
+ * Gentle fade-out only
+ */
+@keyframes brand-intro-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/**
+ * Delayed title enter animation
+ */
+@keyframes title-delayed-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**
+ * Dancing woman animation
+ * Subtle rotation and horizontal movement for organic feel
+ */
+@keyframes lady-dance {
+  0% {
+    transform: rotate(0deg) translateX(0px);
+  }
+  15% {
+    transform: rotate(-1.5deg) translateX(-3px);
+  }
+  35% {
+    transform: rotate(2deg) translateX(4px);
+  }
+  55% {
+    transform: rotate(-1deg) translateX(-2px);
+  }
+  75% {
+    transform: rotate(1.5deg) translateX(3px);
+  }
+  100% {
+    transform: rotate(0deg) translateX(0px);
+  }
+}
+
+/**
+ * Swaying plant animation
+ * Reacts to the "wind" from the dancing woman with slight delay
+ */
+@keyframes plant-sway {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: bottom center;
+  }
+  20% {
+    transform: rotate(2deg);
+  }
+  40% {
+    transform: rotate(-1.5deg);
+  }
+  60% {
+    transform: rotate(2.5deg);
+  }
+  80% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/**
+ * Background shape pulse animation
+ */
+@keyframes bg-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.5;
+  }
+}
+
+/**
+ * Fade and slide up animation for text elements
+ */
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**
+ * Simple fade-in animation for illustration
+ */
+@keyframes illustration-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ==============================================================================
+// Component Styles
+// ==============================================================================
+
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-cream) 0%,
+    var(--color-brand-green-light) 100%
+  );
+
+  animation: splash-fade-in 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  will-change: opacity, transform;
+
+  &--fading-out {
+    animation: splash-fade-out 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  // ============================================================================
+  // Content Container
+  // ============================================================================
+
+  &__content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    padding: var(--space-8);
+    z-index: 2;
+  }
+
+  // ============================================================================
+  // Skip Button
+  // ============================================================================
+
+  &__skip {
+    position: absolute;
+    top: var(--space-6);
+    right: var(--space-6);
+
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--color-brand-green);
+    color: var(--color-brand-green);
+
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    will-change: transform, background-color;
+
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(104, 139, 104, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand-green);
+      outline-offset: 4px;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2.5;
+    }
+  }
+
+  // ============================================================================
+  // Illustration
+  // ============================================================================
+
+  &__illustration {
+    position: relative;
+    width: min(400px, 80vw);
+    height: auto;
+    min-height: 300px; // Prevent layout shift when SVG loads
+    will-change: transform;
+
+    &--dancing {
+      animation: lady-dance 800ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+    }
+  }
+
+  &__svg-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // Smooth fade-in when SVG loads (no vertical movement to prevent flicker)
+    animation: illustration-fade-in 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    :global(svg) {
+      width: 100%;
+      height: auto;
+      max-width: 400px;
+      display: block;
+      filter: drop-shadow(0 8px 24px rgba(104, 139, 104, 0.15));
+    }
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+  }
+
+  // ============================================================================
+  // Text Content
+  // ============================================================================
+
+  &__text {
+    text-align: center;
+    max-width: 500px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__brand-intro {
+    font-family: var(--font-headline);
+    font-size: clamp(5rem, 6vw, 4rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    animation: brand-intro-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) 200ms backwards;
+
+    will-change: opacity, transform;
+
+    &--fading-out {
+      animation: brand-intro-exit 500ms cubic-bezier(0.4, 0, 0.1, 1) forwards;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-body);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0 0 var(--space-4) 0;
+
+    &--delayed {
+      animation: title-delayed-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) 100ms
+        backwards;
+    }
+  }
+
+  &__subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    &--delayed {
+      animation: fade-slide-up 800ms cubic-bezier(0.4, 0, 0.2, 1) 400ms
+        backwards;
+    }
+  }
+
+  // ============================================================================
+  // Background Shape
+  // ============================================================================
+
+  &__bg-shape {
+    position: absolute;
+    bottom: -10%;
+    right: -5%;
+    width: 50%;
+    height: 50%;
+
+    background: radial-gradient(
+      circle,
+      rgba(104, 139, 104, 0.1) 0%,
+      transparent 70%
+    );
+    border-radius: 50% 40% 60% 50%;
+
+    animation: bg-pulse 4s ease-in-out infinite;
+    will-change: transform, opacity;
+
+    z-index: 1;
+  }
+}
+
+// ==============================================================================
+// SVG Element Animations
+// ==============================================================================
+
+:global {
+  .splash-screen__illustration--dancing #plant {
+    animation: plant-sway 800ms cubic-bezier(0.45, 0, 0.55, 1) 100ms forwards;
+    transform-origin: bottom center;
+  }
+
+  .splash-screen__illustration--dancing #woman {
+    animation: lady-dance 800ms cubic-bezier(0.45, 0, 0.55, 1) forwards;
+    transform-origin: center center;
+  }
+}
+
+// ==============================================================================
+// Responsive Breakpoints
+// ==============================================================================
+
+@media (max-width: 768px) {
+  .splash-screen {
+    &__illustration {
+      width: min(300px, 90vw);
+    }
+
+    &__svg-container :global(svg) {
+      max-width: 300px;
+    }
+
+    &__brand-intro {
+      font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    &__title {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    &__subtitle {
+      font-size: clamp(0.875rem, 3vw, 1rem);
+    }
+
+    &__skip {
+      width: 40px;
+      height: 40px;
+      top: var(--space-4);
+      right: var(--space-4);
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__text {
+      min-height: 160px;
+    }
+  }
+}
+
+// ==============================================================================
+// Accessibility
+// ==============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen {
+    animation: none;
+
+    &--fading-out {
+      animation: none;
+      opacity: 0;
+    }
+
+    &__illustration--dancing {
+      animation: none;
+    }
+
+    &__bg-shape {
+      animation: none;
+    }
+
+    &__brand-intro,
+    &__title,
+    &__subtitle {
+      animation: none;
+      opacity: 1;
+    }
+
+    &__svg-container {
+      animation: none;
+      opacity: 1;
+    }
+  }
+
+  :global {
+    .splash-screen__illustration--dancing #plant,
+    .splash-screen__illustration--dancing #woman {
+      animation: none;
+    }
+  }
+}
