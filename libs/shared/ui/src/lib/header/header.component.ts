@@ -9,8 +9,10 @@ import {
   signal,
   computed,
   effect,
+  PLATFORM_ID,
+  inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { IconComponent } from '../icon/icon.component';
 import { HeaderConfig, NavItem, UserMenuData } from './header.types';
@@ -23,6 +25,13 @@ import { HeaderConfig, NavItem, UserMenuData } from './header.types';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  
+  // ============================================================================
+  // PLATFORM CHECK (SSR-Safe)
+  // ============================================================================
+  
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
   
   // ============================================================================
   // CONFIGURATION
@@ -122,7 +131,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   constructor() {
     effect(() => {
-      if (this.searchOpen()) {
+      if (this.searchOpen() && this.isBrowser) {
         setTimeout(() => {
           const searchInput = document.querySelector('.header__search-input') as HTMLInputElement;
           searchInput?.focus();
@@ -136,7 +145,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // ============================================================================
   
   ngOnInit(): void {
-    this.lastScrollY.set(window.scrollY);
+    // ✅ SSR-Safe: Only access window in browser
+    if (this.isBrowser) {
+      this.lastScrollY.set(window.scrollY);
+    }
     
     if (this.config) {
       this.applyConfig(this.config);
@@ -144,7 +156,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    document.body.style.overflow = '';
+    // ✅ SSR-Safe: Only access document in browser
+    if (this.isBrowser) {
+      document.body.style.overflow = '';
+    }
   }
   
   // ============================================================================
@@ -153,6 +168,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   @HostListener('window:scroll')
   onWindowScroll(): void {
+    // ✅ SSR-Safe: Only run in browser
+    if (!this.isBrowser) return;
+    
     const currentScrollY = window.scrollY;
     const lastY = this.lastScrollY();
     
@@ -192,11 +210,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // ============================================================================
   
   toggleMobileMenu(): void {
+    // ✅ SSR-Safe: Only access document in browser
+    if (!this.isBrowser) return;
+    
     this.mobileMenuOpen.update(open => !open);
     document.body.style.overflow = this.mobileMenuOpen() ? 'hidden' : '';
   }
   
   closeMobileMenu(): void {
+    // ✅ SSR-Safe: Only access document in browser
+    if (!this.isBrowser) return;
+    
     this.mobileMenuOpen.set(false);
     document.body.style.overflow = '';
   }
@@ -229,6 +253,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
+    // ✅ SSR-Safe: Only run in browser
+    if (!this.isBrowser) return;
+    
     const target = event.target as HTMLElement;
     const userMenuElement = document.querySelector('.header__user-menu');
     

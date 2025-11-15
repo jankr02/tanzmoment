@@ -2,14 +2,15 @@
 // HEADER COMPONENT – Organic Shape Header with Mobile Menu & Search
 // ============================================================================
 
+@use 'tokens' as *;
+
 .header {
   position: relative;
   width: 100%;
   height: 90px;
-  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1),
-              transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  @include transition(height, transform);
   will-change: transform, height;
-  
+
   // SVG Background Shape
   &__bg-shape {
     position: absolute;
@@ -19,9 +20,9 @@
     height: 100%;
     pointer-events: none;
     z-index: 0;
-    transition: opacity 300ms ease;
+    @include transition(opacity);
   }
-  
+
   // Content Container
   &__container {
     position: relative;
@@ -32,36 +33,32 @@
     height: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
-    transition: padding 300ms ease;
+    @include transition(padding);
   }
-  
+
   // ============================================================================
   // LEFT SIDE: Logo & Label
   // ============================================================================
-  
+
   &__left {
     display: flex;
     align-items: center;
     gap: var(--space-4);
   }
-  
+
   &__logo-link {
     display: flex;
     align-items: center;
     text-decoration: none;
-    transition: opacity var(--transition-fast);
-    
+    @include transition(opacity);
+
     &:hover {
       opacity: 0.85;
     }
-    
-    &:focus-visible {
-      outline: 2px solid var(--color-brand);
-      outline-offset: 4px;
-      border-radius: var(--radius-sm);
-    }
+
+    @include focus-visible;
   }
-  
+
   // Logo Container – Crossfade Effect
   &__logo-container {
     position: relative;
@@ -70,16 +67,18 @@
     justify-content: center;
     width: 143px;
     height: 66px;
-    
-    @media (max-width: 768px) {
+
+    // Mobile: Show logo without name
+    @include respond-to('md') {
       width: 79px;
     }
-    
+
+    // Extra small: Smaller height
     @media (max-width: 480px) {
       height: 52px;
     }
   }
-  
+
   &__logo {
     position: absolute;
     top: 50%;
@@ -87,46 +86,51 @@
     transform: translate(-50%, -50%);
     width: auto;
     will-change: opacity, transform;
-    transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1),
-                transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
-    
+    @include transition(opacity, transform);
+
     &--with-name {
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
       max-width: 143px;
-      
-      @media (max-width: 768px) {
+
+      // Hide on tablet/mobile
+      @include respond-to('md') {
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.95);
         pointer-events: none;
       }
     }
-    
+
     &--without-name {
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.95);
       pointer-events: none;
       max-width: 79px;
-      
-      @media (max-width: 768px) {
+
+      // Show on tablet/mobile
+      @include respond-to('md') {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
         pointer-events: auto;
       }
     }
-    
+
     @media (max-width: 480px) {
       max-height: 52px;
     }
   }
-  
+
   // New Label
   &__new-label {
     display: none;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-secondary) 0%,
+      var(--color-secondary-dark) 100%
+    );
     color: var(--color-text-primary);
     font-family: var(--font-body);
     font-size: 13px;
@@ -134,30 +138,30 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
     animation: slideInFromLeft 400ms cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     svg {
       width: 16px;
       height: 16px;
       stroke-width: 2.5;
     }
-    
-    @media (min-width: 1024px) {
+
+    @include respond-to('lg') {
       display: flex;
     }
   }
-  
+
   // ============================================================================
   // CENTER: Desktop Navigation
   // ============================================================================
-  
+
   &__nav {
     display: none;
-    
-    @media (min-width: 1024px) {
+
+    @include respond-to('lg') {
       display: block;
     }
   }
-  
+
   &__nav-list {
     display: flex;
     align-items: center;
@@ -166,11 +170,11 @@
     margin: 0;
     padding: 0;
   }
-  
+
   &__nav-item {
     position: relative;
   }
-  
+
   &__nav-link {
     display: flex;
     align-items: center;
@@ -182,30 +186,34 @@
     color: var(--color-text-primary);
     text-decoration: none;
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
+    @include transition(all);
     position: relative;
-    
+
     svg {
       width: 18px;
       height: 18px;
       stroke-width: 2;
       opacity: 0.7;
-      transition: opacity var(--transition-fast);
+      @include transition(opacity);
     }
-    
+
     &:hover {
-      background-color: color-mix(in oklab, var(--color-primary-light) 50%, white 50%);
+      background-color: color-mix(
+        in oklab,
+        var(--color-primary-light) 50%,
+        white 50%
+      );
       transform: translateY(-1px);
-      
+
       svg {
         opacity: 1;
       }
     }
-    
+
     &--active {
       background-color: var(--color-primary-light);
       color: var(--color-brand);
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -216,18 +224,15 @@
         background: var(--color-brand);
         border-radius: 2px;
       }
-      
+
       svg {
         opacity: 1;
       }
     }
-    
-    &:focus-visible {
-      outline: 2px solid var(--color-soft-accent);
-      outline-offset: 2px;
-    }
+
+    @include focus-visible;
   }
-  
+
   &__nav-badge {
     display: inline-flex;
     align-items: center;
@@ -242,17 +247,17 @@
     border-radius: 10px;
     line-height: 1;
   }
-  
+
   // ============================================================================
   // RIGHT SIDE: Actions
   // ============================================================================
-  
+
   &__right {
     display: flex;
     align-items: center;
     gap: var(--space-2);
   }
-  
+
   // Icon Buttons
   &__icon-btn {
     position: relative;
@@ -266,39 +271,40 @@
     border-radius: 50%;
     cursor: pointer;
     color: var(--color-text-primary);
-    transition: all var(--transition-fast);
-    
+    @include transition(all);
+
     svg {
       width: 20px;
       height: 20px;
       stroke-width: 2;
     }
-    
+
     &:hover {
-      background-color: color-mix(in oklab, var(--color-primary-light) 50%, white 50%);
+      background-color: color-mix(
+        in oklab,
+        var(--color-primary-light) 50%,
+        white 50%
+      );
       transform: scale(1.05);
     }
-    
+
     &:active {
       transform: scale(0.95);
     }
-    
-    &:focus-visible {
-      outline: 2px solid var(--color-soft-accent);
-      outline-offset: 2px;
-    }
-    
-    @media (max-width: 768px) {
+
+    @include focus-visible;
+
+    @include respond-to('md') {
       width: 36px;
       height: 36px;
-      
+
       svg {
         width: 18px;
         height: 18px;
       }
     }
   }
-  
+
   &__notification-badge {
     position: absolute;
     top: 6px;
@@ -314,14 +320,14 @@
     font-size: 11px;
     font-weight: var(--font-weight-bold);
     border-radius: 9px;
-    border: 2px solid var(--header-bg-color, #FDF8F3);
+    border: 2px solid var(--header-bg-color, #fdf8f3);
   }
-  
+
   // User Menu
   &__user-menu {
     position: relative;
   }
-  
+
   &__user-btn {
     display: flex;
     align-items: center;
@@ -331,68 +337,69 @@
     background: transparent;
     border-radius: var(--radius-lg);
     cursor: pointer;
-    transition: all var(--transition-fast);
-    
+    @include transition(all);
+
     &:hover {
-      background-color: color-mix(in oklab, var(--color-primary-light) 50%, white 50%);
+      background-color: color-mix(
+        in oklab,
+        var(--color-primary-light) 50%,
+        white 50%
+      );
     }
-    
-    &:focus-visible {
-      outline: 2px solid var(--color-soft-accent);
-      outline-offset: 2px;
-    }
+
+    @include focus-visible;
   }
-  
+
   &__user-avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    
+
     &--placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-primary-dark) 100%);
+      background: linear-gradient(
+        135deg,
+        var(--color-brand) 0%,
+        var(--color-primary-dark) 100%
+      );
       color: white;
       font-family: var(--font-headline);
       font-size: 16px;
       font-weight: var(--font-weight-bold);
     }
   }
-  
+
   &__user-chevron {
-    width: 16px;
-    height: 16px;
-    stroke-width: 2;
-    color: var(--color-text-secondary);
-    transition: transform var(--transition-fast);
-    
-    .header__user-btn[aria-expanded="true"] & {
+    @include transition(transform);
+
+    [aria-expanded='true'] & {
       transform: rotate(180deg);
     }
   }
-  
-  // User Dropdown
+
   &__user-dropdown {
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
     min-width: 240px;
     background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    padding: var(--space-4);
+    padding: var(--space-3);
     z-index: 1000;
     animation: slideDown 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   &__user-info {
-    padding-bottom: var(--space-3);
+    padding: var(--space-3);
     border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-2);
   }
-  
+
   &__user-name {
     font-family: var(--font-body);
     font-size: 15px;
@@ -400,28 +407,24 @@
     color: var(--color-text-primary);
     margin: 0 0 4px 0;
   }
-  
+
   &__user-email {
     font-family: var(--font-body);
     font-size: 13px;
     color: var(--color-text-secondary);
     margin: 0;
   }
-  
+
   &__user-menu-list {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  
+
   &__user-menu-item {
     margin-bottom: 2px;
-    
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
-  
+
   &__user-menu-link {
     display: flex;
     align-items: center;
@@ -431,103 +434,98 @@
     font-size: 14px;
     color: var(--color-text-primary);
     text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-    
+    border-radius: var(--radius-md);
+    @include transition(all);
+
     svg {
       width: 18px;
       height: 18px;
       stroke-width: 2;
-      color: var(--color-text-secondary);
       flex-shrink: 0;
     }
-    
+
     &:hover {
       background-color: var(--color-primary-light);
-      transform: translateX(2px);
-      
-      svg {
-        color: var(--color-brand);
-      }
     }
   }
-  
+
   &__user-menu-divider {
     height: 1px;
     background: var(--color-border);
     margin: var(--space-2) 0;
   }
-  
+
   // Auth Buttons
   &__login-btn,
   &__register-btn {
     display: none;
-    
-    @media (min-width: 768px) {
+
+    @include respond-to('md') {
       display: inline-flex;
     }
   }
-  
-  // Mobile Burger
+
+  // Mobile Menu Burger
   &__burger-btn {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    gap: 5px;
     width: 40px;
     height: 40px;
-    padding: 0;
     border: none;
     background: transparent;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: background-color var(--transition-fast);
-    
+    padding: 8px;
+    @include transition(all);
+
     &:hover {
-      background-color: color-mix(in oklab, var(--color-primary-light) 50%, white 50%);
+      background-color: color-mix(
+        in oklab,
+        var(--color-primary-light) 50%,
+        white 50%
+      );
     }
-    
-    &:focus-visible {
-      outline: 2px solid var(--color-soft-accent);
-      outline-offset: 2px;
+
+    &:active {
+      transform: scale(0.95);
     }
-    
-    @media (min-width: 1024px) {
+
+    @include focus-visible;
+
+    @include respond-to('lg') {
       display: none;
     }
   }
-  
+
   &__burger-line {
-    width: 20px;
+    width: 24px;
     height: 2px;
     background: var(--color-text-primary);
     border-radius: 2px;
-    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
-    
+    @include transition(all);
+
     .header--menu-open & {
       &:nth-child(1) {
         transform: translateY(7px) rotate(45deg);
       }
-      
+
       &:nth-child(2) {
         opacity: 0;
-        transform: scaleX(0);
       }
-      
+
       &:nth-child(3) {
         transform: translateY(-7px) rotate(-45deg);
       }
     }
   }
-  
+
   // ============================================================================
-  // MOBILE MENU DRAWER
+  // MOBILE MENU DRAWER (Fullscreen Overlay)
   // ============================================================================
-  
+
   &__mobile-overlay {
     position: fixed;
     top: 0;
@@ -539,7 +537,7 @@
     z-index: 9998;
     animation: fadeIn 250ms ease;
   }
-  
+
   &__mobile-drawer {
     position: fixed;
     top: 0;
@@ -549,25 +547,27 @@
     background: var(--color-surface);
     box-shadow: var(--shadow-lg);
     z-index: 9999;
-    padding: var(--space-6);
     overflow-y: auto;
+    padding: var(--space-6);
     animation: slideInFromRight 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   &__mobile-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
   }
-  
+
   &__mobile-title {
     font-family: var(--font-headline);
     font-size: 24px;
     color: var(--color-text-primary);
     margin: 0;
   }
-  
+
   &__mobile-close {
     display: flex;
     align-items: center;
@@ -576,33 +576,41 @@
     height: 40px;
     border: none;
     background: transparent;
-    border-radius: var(--radius-sm);
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
-    
+    color: var(--color-text-secondary);
+    @include transition(all);
+
     svg {
       width: 24px;
       height: 24px;
       stroke-width: 2;
-      color: var(--color-text-primary);
     }
-    
+
     &:hover {
-      background-color: color-mix(in oklab, var(--color-primary-light) 50%, white 50%);
+      color: var(--color-danger);
+      background-color: rgba(184, 92, 74, 0.1);
+      transform: scale(1.1);
     }
+
+    @include focus-visible;
   }
-  
+
   // Mobile Navigation
+  &__mobile-nav {
+    margin-bottom: var(--space-4);
+  }
+
   &__mobile-nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  
+
   &__mobile-nav-item {
-    margin-bottom: var(--space-2);
+    margin-bottom: 4px;
   }
-  
+
   &__mobile-nav-link {
     display: flex;
     align-items: center;
@@ -614,8 +622,8 @@
     color: var(--color-text-primary);
     text-decoration: none;
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    
+    @include transition(all);
+
     svg {
       width: 20px;
       height: 20px;
@@ -623,18 +631,18 @@
       color: var(--color-text-secondary);
       flex-shrink: 0;
     }
-    
+
     &:hover,
     &--active {
       background-color: var(--color-primary-light);
       color: var(--color-brand);
-      
+
       svg {
         color: var(--color-brand);
       }
     }
   }
-  
+
   &__mobile-nav-badge {
     margin-left: auto;
     display: inline-flex;
@@ -649,7 +657,7 @@
     font-weight: var(--font-weight-bold);
     border-radius: 11px;
   }
-  
+
   // Mobile Actions
   &__mobile-actions {
     display: flex;
@@ -658,44 +666,48 @@
     margin-top: var(--space-6);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);
-    
+
     app-button {
       width: 100%;
     }
   }
-  
+
   // Mobile User Menu
   &__mobile-user {
     margin-top: var(--space-6);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-border);
   }
-  
+
   &__mobile-user-info {
     display: flex;
     align-items: center;
     gap: var(--space-3);
     margin-bottom: var(--space-4);
   }
-  
+
   &__mobile-user-avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    
+
     &--placeholder {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-primary-dark) 100%);
+      background: linear-gradient(
+        135deg,
+        var(--color-brand) 0%,
+        var(--color-primary-dark) 100%
+      );
       color: white;
       font-family: var(--font-headline);
       font-size: 20px;
       font-weight: var(--font-weight-bold);
     }
   }
-  
+
   &__mobile-user-name {
     font-family: var(--font-body);
     font-size: 16px;
@@ -703,24 +715,24 @@
     color: var(--color-text-primary);
     margin: 0 0 4px 0;
   }
-  
+
   &__mobile-user-email {
     font-family: var(--font-body);
     font-size: 14px;
     color: var(--color-text-secondary);
     margin: 0;
   }
-  
+
   &__mobile-user-menu {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  
+
   &__mobile-user-item {
     margin-bottom: 2px;
   }
-  
+
   &__mobile-user-link {
     display: flex;
     align-items: center;
@@ -731,8 +743,8 @@
     color: var(--color-text-primary);
     text-decoration: none;
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-    
+    @include transition(all);
+
     svg {
       width: 20px;
       height: 20px;
@@ -740,26 +752,26 @@
       color: var(--color-text-secondary);
       flex-shrink: 0;
     }
-    
+
     &:hover {
       background-color: var(--color-primary-light);
-      
+
       svg {
         color: var(--color-brand);
       }
     }
   }
-  
+
   &__mobile-user-divider {
     height: 1px;
     background: var(--color-border);
     margin: var(--space-3) 0;
   }
-  
+
   // ============================================================================
   // SEARCH OVERLAY
   // ============================================================================
-  
+
   &__search-overlay {
     position: fixed;
     top: 0;
@@ -775,7 +787,7 @@
     padding-top: 120px;
     animation: fadeIn 250ms ease;
   }
-  
+
   &__search-container {
     position: relative;
     width: min(90vw, 600px);
@@ -785,7 +797,7 @@
     box-shadow: var(--shadow-lg);
     animation: slideDown 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   &__search-input {
     width: 100%;
     padding: 16px 60px 16px 20px;
@@ -795,18 +807,18 @@
     font-size: 18px;
     color: var(--color-text-primary);
     outline: none;
-    transition: border-color 200ms ease;
-    
+    @include transition(border-color);
+
     &:focus {
       border-color: var(--color-brand);
     }
-    
+
     &::placeholder {
       color: var(--color-text-secondary);
       opacity: 0.6;
     }
   }
-  
+
   &__search-close {
     position: absolute;
     top: 50%;
@@ -822,25 +834,25 @@
     border-radius: 50%;
     cursor: pointer;
     color: var(--color-text-secondary);
-    transition: all 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
-    
+    @include transition(all);
+
     svg {
       width: 24px;
       height: 24px;
       stroke-width: 2;
     }
-    
+
     &:hover {
       color: var(--color-danger);
       background-color: rgba(184, 92, 74, 0.1);
       transform: translateY(-50%) scale(1.1);
     }
   }
-  
+
   // ============================================================================
   // STATES & MODIFIERS
   // ============================================================================
-  
+
   // Fixed Position
   &--fixed {
     position: fixed;
@@ -849,54 +861,54 @@
     right: 0;
     z-index: 1000;
   }
-  
+
   // Transparent
   &--transparent {
     .header__bg-shape {
       opacity: 0;
     }
   }
-  
+
   // Scrolled State
   &--scrolled {
     .header__bg-shape {
       opacity: 1;
     }
   }
-  
+
   // Shrink on Scroll
   &--shrink {
     height: 70px;
-    
+
     .header__container {
       padding-top: 8px;
       padding-bottom: 8px;
     }
-    
+
     .header__logo-container {
       height: 54px;
     }
-    
+
     .header__logo {
       &--with-name {
         max-width: 120px;
       }
-      
+
       &--without-name {
         max-width: 66px;
       }
     }
   }
-  
+
   // Hidden State
   &--hidden {
     transform: translateY(-100%);
   }
-  
+
   // ============================================================================
   // ANIMATIONS
   // ============================================================================
-  
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -905,7 +917,7 @@
       opacity: 1;
     }
   }
-  
+
   @keyframes slideInFromRight {
     from {
       transform: translateX(100%);
@@ -914,7 +926,7 @@
       transform: translateX(0);
     }
   }
-  
+
   @keyframes slideInFromLeft {
     from {
       transform: translateX(-20px);
@@ -925,7 +937,7 @@
       opacity: 1;
     }
   }
-  
+
   @keyframes slideDown {
     from {
       transform: translateY(-20px);
@@ -936,11 +948,11 @@
       opacity: 1;
     }
   }
-  
+
   // ============================================================================
   // REDUCED MOTION
   // ============================================================================
-  
+
   @media (prefers-reduced-motion: reduce) {
     &,
     &__logo,

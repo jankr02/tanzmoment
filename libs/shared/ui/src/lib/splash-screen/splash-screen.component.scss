@@ -2,8 +2,8 @@
 // Splash Screen Component - Styles
 // ==============================================================================
 
-@use '../../../../styles/tokens' as *;
-@use '../../../../styles/base' as *;
+@use 'tokens' as *;
+@use 'base' as *;
 
 // ==============================================================================
 // Keyframe Animations
@@ -327,7 +327,8 @@
     color: var(--color-text-secondary);
     margin: 0;
 
-    animation: brand-intro-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) 200ms backwards;
+    animation: brand-intro-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) 200ms
+      backwards;
 
     will-change: opacity, transform;
 

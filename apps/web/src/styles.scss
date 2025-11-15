@@ -3,13 +3,13 @@
 // ============================================================================
 
 // 1. Design Tokens (Variables, Colors, Typography, Spacing)
-@import './styles/tokens';
+@use 'tokens' as *;
 
 // 2. Base Styles (Reset, Global Styles, Typography)
-@import './styles/base';
+@use 'base';
 
 // 3. Utility Classes (Flexbox, Spacing, Text, etc.)
-@import './styles/utilities';
+@use 'utilities';
 
 // ============================================================================
 // GLOBAL LAYOUT
@@ -44,7 +44,7 @@ main {
 ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: var(--radius-sm);
-  
+
   &:hover {
     background: var(--color-text-secondary);
   }

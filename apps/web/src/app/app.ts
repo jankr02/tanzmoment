@@ -1,36 +1,48 @@
 import { Component, isDevMode, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SplashScreenComponent } from './shared/ui/splash-screen';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent, NavItem } from '@tanzmoment/shared/ui';
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
-    SplashScreenComponent,
     RouterOutlet,
-    // ... andere imports
+    HeaderComponent  // ✅ Header importieren
   ],
-  template: `
-    <!-- Splash Screen -->
-    <app-splash-screen
-      [duration]="4000"
-      [autoFade]="true"
-      [showSkipButton]="true"
-      (completed)="onSplashCompleted()"
-    />
-
-    <!-- Main Content -->
-    <router-outlet />
-    <!-- oder deine Landing Page -->
-  `,
-  styleUrl: './app.scss',
+  templateUrl: './app.html',
+  styleUrls: ['./app.scss']
 })
 export class AppComponent {
-  // Splash Screen nur in Production anzeigen, nicht während der Entwicklung
-  showSplash = signal(!isDevMode());
-
-  onSplashCompleted(): void {
-    this.showSplash.set(false);
+    title = 'Tanzmoment';
+  
+  // Navigation Items für den Header
+  navItems: NavItem[] = [
+    {
+      label: 'Kurse',
+      route: '/courses',
+      iconName: 'calendar'
+    },
+    {
+      label: 'Über uns',
+      route: '/about',
+      iconName: 'heart'
+    },
+    {
+      label: 'Kontakt',
+      route: '/contact',
+      iconName: 'mail'
+    }
+  ];
+  
+  // Event Handlers
+  onLoginClick(): void {
+    console.log('Login clicked');
+    // Später: Navigate to login page
+  }
+  
+  onRegisterClick(): void {
+    console.log('Register clicked');
+    // Später: Navigate to register page
   }
 }
