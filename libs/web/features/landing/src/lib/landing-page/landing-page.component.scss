@@ -86,41 +86,4 @@
     flex-shrink: 0;
     margin-top: auto;
   }
-
-  // ========================================
-  // Temporary Placeholder Styles
-  // ========================================
-
-  .placeholder-features {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-
-    @include respond-to('md') {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-6);
-    }
-
-    @include respond-to('lg') {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-8);
-    }
-
-    .feature-card {
-      padding: var(--space-8);
-      background-color: var(--color-neutral-xl);
-      border-radius: var(--radius-lg);
-      text-align: center;
-      color: var(--color-text-secondary);
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-body);
-
-      @include respond-to('md') {
-        min-height: 240px;
-      }
-    }
-  }
 }

@@ -1,0 +1,29 @@
+<div class="feature-navigation">
+  <!-- Feature Cards Grid -->
+  <div class="feature-navigation__grid">
+    @for (feature of features; track feature.id) {
+    <article
+      class="feature-card"
+      (click)="navigateToFeature(feature.route)"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="navigateToFeature(feature.route)"
+      (keydown.space)="navigateToFeature(feature.route)"
+      [attr.aria-label]="'Navigiere zu ' + feature.title"
+    >
+      <!-- Illustration Container -->
+      <div class="feature-card__illustration">
+        <img [src]="feature.illustration" [alt]="feature.alt" loading="lazy" />
+      </div>
+
+      <!-- Title -->
+      <h3 class="feature-card__title">
+        {{ feature.title }}
+      </h3>
+
+      <!-- Decorative Curve Border (optional) -->
+      <div class="feature-card__border"></div>
+    </article>
+    }
+  </div>
+</div>

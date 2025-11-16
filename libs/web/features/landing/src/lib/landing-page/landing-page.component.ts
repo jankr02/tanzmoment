@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
 import { HeroGalleryComponent } from '../hero-gallery/hero-gallery.component';
+import { FeatureNavigationComponent } from '../feature-navigation/feature-navigation.component';
 
 @Component({
   selector: 'tm-landing-page',
@@ -10,8 +11,8 @@ import { HeroGalleryComponent } from '../hero-gallery/hero-gallery.component';
     CommonModule,
     HeaderComponent,
     FooterComponent,
-    HeroGalleryComponent, // ✅ Hero Gallery Component imported
-    // FeatureNavigationComponent, // Will be created next
+    HeroGalleryComponent,
+    FeatureNavigationComponent, // ✅ Feature Navigation Component imported
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
