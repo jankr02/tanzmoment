@@ -1,0 +1,128 @@
+<div class="hero-gallery">
+  <!-- Background Image Container -->
+  <div class="hero-gallery__background">
+    <img
+      [src]="currentSlide().imageUrl"
+      [alt]="currentSlide().alt"
+      class="hero-gallery__image"
+      loading="eager"
+    />
+
+    <!-- Overlay for better text readability -->
+    <div class="hero-gallery__overlay"></div>
+  </div>
+
+  <!-- Left Illustration (Wind) -->
+  <div class="hero-gallery__illustration hero-gallery__illustration--wind">
+    <img src="/assets/illustrations/Wind.svg" alt="" aria-hidden="true" />
+  </div>
+
+  <!-- Right Illustrations (Silhouette + Leafs) -->
+  <div class="hero-gallery__illustration hero-gallery__illustration--right">
+    <img
+      src="/assets/illustrations/Leafs.svg"
+      alt=""
+      aria-hidden="true"
+      class="hero-gallery__illustration-leafs"
+    />
+    <img
+      src="/assets/illustrations/Silhouette_1.svg"
+      alt=""
+      aria-hidden="true"
+      class="hero-gallery__illustration-silhouette"
+    />
+  </div>
+
+  <!-- Text Overlay (Top Right) with Fade Animation -->
+  <div class="hero-gallery__text-overlay">
+    <h1 class="hero-gallery__title">
+      {{ FULL_TITLE }}
+    </h1>
+    <p class="hero-gallery__tagline">
+      {{ FULL_TAGLINE }}
+    </p>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button
+    class="hero-gallery__nav hero-gallery__nav--prev"
+    (click)="previousSlide()"
+    aria-label="Vorheriges Bild"
+    type="button"
+  >
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15 18L9 12L15 6"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+
+  <button
+    class="hero-gallery__nav hero-gallery__nav--next"
+    (click)="nextSlide()"
+    aria-label="Nächstes Bild"
+    type="button"
+  >
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9 18L15 12L9 6"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+
+  <!-- Quote Section (Inside hero, above indicators) with Fade + Slide-Up Animation -->
+  @if (currentSlide().quote) {
+  <div class="hero-gallery__quote-container">
+    <p class="hero-gallery__quote">"{{ currentSlide().quote }}"</p>
+  </div>
+  }
+
+  <!-- Slide Indicators -->
+  <div class="hero-gallery__indicators">
+    @for (slide of slides; track slide.id; let i = $index) {
+    <button
+      class="hero-gallery__indicator"
+      [class.hero-gallery__indicator--active]="i === currentSlideIndex()"
+      (click)="goToSlide(i)"
+      [attr.aria-label]="'Zu Bild ' + (i + 1) + ' wechseln'"
+      [attr.aria-current]="i === currentSlideIndex() ? 'true' : 'false'"
+      type="button"
+    ></button>
+    }
+  </div>
+
+  <!-- Wave Border (SVG) -->
+  <div class="hero-gallery__wave">
+    <svg
+      viewBox="0 0 1440 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0 0L48 10C96 20 192 40 288 46.7C384 53 480 47 576 43.3C672 40 768 40 864 46.7C960 53 1056 67 1152 70C1248 73 1344 67 1392 63.3L1440 60V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V0Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+</div>

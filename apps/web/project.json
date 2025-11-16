@@ -23,11 +23,6 @@
           }
         ],
         "styles": ["apps/web/src/styles.scss"],
-        "server": "apps/web/src/main.server.ts",
-        "ssr": {
-          "entry": "apps/web/src/server.ts"
-        },
-        "outputMode": "server",
         "stylePreprocessorOptions": {
           "includePaths": [
             "libs/shared/ui/src/lib/styles"
@@ -36,6 +31,11 @@
       },
       "configurations": {
         "production": {
+          "server": "apps/web/src/main.server.ts",
+          "ssr": {
+            "entry": "apps/web/src/server.ts"
+          },
+          "outputMode": "server",
           "budgets": [
             {
               "type": "initial",
@@ -53,15 +53,13 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true,
-          "outputMode": "static"
+          "sourceMap": true
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "continuous": true,
-      "executor": "@angular/build:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "web:build:production"
@@ -71,7 +69,6 @@
         }
       },
       "defaultConfiguration": "development",
-      "dependsOn": ["api:serve"],
       "options": {
         "proxyConfig": "apps/web/proxy.conf.json"
       }
@@ -93,7 +90,6 @@
       }
     },
     "serve-static": {
-      "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "web:build",

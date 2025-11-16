@@ -1,0 +1,126 @@
+@use 'tokens' as *;
+
+// ============================================================================
+// Landing Page Container Component
+// ============================================================================
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
+
+  // ========================================
+  // Header Section
+  // ========================================
+
+  &__header {
+    flex-shrink: 0;
+    margin: 0; // Remove any default margins
+    padding: 0; // Remove any default padding
+  }
+
+  // ========================================
+  // Main Content Area
+  // ========================================
+
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0; // Remove any default margins
+    padding: 0; // Remove any default padding
+  }
+
+  // ========================================
+  // Hero Gallery Section (Fullscreen)
+  // ========================================
+
+  &__hero {
+    // No padding, no height constraints, no margins
+    // Hero Gallery Component manages its own fullscreen layout
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  // ========================================
+  // Features Navigation Section
+  // ========================================
+
+  &__features {
+    padding: var(--space-8) var(--space-4);
+    background-color: var(--color-background);
+
+    @include respond-to('md') {
+      padding: var(--space-12) var(--space-6);
+    }
+
+    @include respond-to('lg') {
+      padding: var(--space-16) var(--space-8);
+    }
+  }
+
+  .features-title {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: var(--space-6);
+
+    @include respond-to('md') {
+      margin-bottom: var(--space-8);
+    }
+
+    @include respond-to('lg') {
+      margin-bottom: var(--space-12);
+    }
+  }
+
+  // ========================================
+  // Footer Section
+  // ========================================
+
+  &__footer {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+
+  // ========================================
+  // Temporary Placeholder Styles
+  // ========================================
+
+  .placeholder-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
+    }
+
+    @include respond-to('lg') {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+
+    .feature-card {
+      padding: var(--space-8);
+      background-color: var(--color-neutral-xl);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      color: var(--color-text-secondary);
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+
+      @include respond-to('md') {
+        min-height: 240px;
+      }
+    }
+  }
+}

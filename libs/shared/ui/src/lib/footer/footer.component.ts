@@ -42,7 +42,7 @@ import {
  * />
  */
 @Component({
-  selector: 'app-footer',
+  selector: 'tm-footer',
   standalone: true,
   imports: [
     CommonModule,
