@@ -1,6 +1,6 @@
 // ============================================================================
-// SHARED SERVICES - BARREL EXPORT
+// PRELOAD - BARREL EXPORT
 // ============================================================================
 
-export * from './lib/preload';
-export * from './lib/image-preload';
+export * from './preload.types';
+export * from './preload.service';

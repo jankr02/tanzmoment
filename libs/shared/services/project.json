@@ -5,6 +5,16 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/services",
+        "main": "libs/shared/services/src/index.ts",
+        "tsConfig": "libs/shared/services/tsconfig.lib.json",
+        "assets": []
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },

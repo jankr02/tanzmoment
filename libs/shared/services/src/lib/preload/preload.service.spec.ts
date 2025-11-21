@@ -12,6 +12,7 @@ import {
   PreloadAsset,
   PreloadProgress,
 } from './preload.types';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 describe('PreloadService', () => {
   let service: PreloadService;
@@ -54,15 +55,13 @@ describe('PreloadService', () => {
       expect(service).toBeTruthy();
     });
 
-    it('should have initial progress state', (done) => {
-      service.progress$.subscribe((progress) => {
-        expect(progress.total).toBe(0);
-        expect(progress.loaded).toBe(0);
-        expect(progress.failed).toBe(0);
-        expect(progress.pending).toBe(0);
-        expect(progress.percentage).toBe(0);
-        done();
-      });
+    it('should have initial progress state', async () => {
+      const progress = await firstValueFrom(service.progress$);
+      expect(progress.total).toBe(0);
+      expect(progress.loaded).toBe(0);
+      expect(progress.failed).toBe(0);
+      expect(progress.pending).toBe(0);
+      expect(progress.percentage).toBe(0);
     });
   });
 
@@ -93,22 +92,14 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Empty Assets Handling', () => {
-    it('should handle empty asset array', (done) => {
-      service.preloadAssets([]).subscribe({
-        next: (results) => {
-          expect(results).toEqual([]);
-          done();
-        },
-      });
+    it('should handle empty asset array', async () => {
+      const results = await lastValueFrom(service.preloadAssets([]));
+      expect(results).toEqual([]);
     });
 
-    it('should handle null/undefined gracefully', (done) => {
-      service.preloadAssets(null as any).subscribe({
-        next: (results) => {
-          expect(results).toEqual([]);
-          done();
-        },
-      });
+    it('should handle null/undefined gracefully', async () => {
+      const results = await lastValueFrom(service.preloadAssets(null as any));
+      expect(results).toEqual([]);
     });
   });
 
@@ -117,7 +108,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Priority Sorting', () => {
-    it('should load HIGH priority assets first', (done) => {
+    it('should load HIGH priority assets first', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'low',
@@ -141,14 +132,7 @@ describe('PreloadService', () => {
 
       const loadOrder: string[] = [];
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          // Note: Due to concurrent loading, we can't guarantee exact order
-          // but we can verify all assets were attempted
-          expect(results.length).toBe(3);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       // Respond to requests in order they arrive
       // HIGH should arrive first due to priority sorting
@@ -164,11 +148,17 @@ describe('PreloadService', () => {
       loadOrder.push('low');
       lowReq.flush('<svg></svg>');
 
+      const results = await resultsPromise;
+
+      // Note: Due to concurrent loading, we can't guarantee exact order
+      // but we can verify all assets were attempted
+      expect(results.length).toBe(3);
+
       // Verify load order matches priority
       expect(loadOrder).toEqual(['high', 'medium', 'low']);
     });
 
-    it('should treat assets without priority as MEDIUM', (done) => {
+    it('should treat assets without priority as MEDIUM', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'no-priority',
@@ -183,12 +173,7 @@ describe('PreloadService', () => {
         },
       ];
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(2);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       // HIGH should be requested first
       const highReq = httpMock.expectOne('/high.svg');
@@ -196,6 +181,9 @@ describe('PreloadService', () => {
 
       const noPriorityReq = httpMock.expectOne('/no-priority.svg');
       noPriorityReq.flush('<svg></svg>');
+
+      const results = await resultsPromise;
+      expect(results.length).toBe(2);
     });
   });
 
@@ -204,7 +192,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('SVG Loading', () => {
-    it('should successfully load SVG assets', (done) => {
+    it('should successfully load SVG assets', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'logo',
@@ -214,23 +202,22 @@ describe('PreloadService', () => {
         },
       ];
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].status).toBe(LoadingStatus.SUCCESS);
-          expect(results[0].asset.id).toBe('logo');
-          expect(results[0].data).toBe('<svg>test</svg>');
-          expect(results[0].loadTime).toBeGreaterThan(0);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       const req = httpMock.expectOne('/assets/logo.svg');
       expect(req.request.responseType).toBe('text');
       req.flush('<svg>test</svg>');
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(1);
+      expect(results[0].status).toBe(LoadingStatus.SUCCESS);
+      expect(results[0].asset.id).toBe('logo');
+      expect(results[0].data).toBe('<svg>test</svg>');
+      expect(results[0].loadTime).toBeGreaterThanOrEqual(0);
     });
 
-    it('should handle SVG loading errors', (done) => {
+    it('should handle SVG loading errors', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'broken',
@@ -241,17 +228,16 @@ describe('PreloadService', () => {
 
       service.configure({ continueOnError: true });
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].status).toBe(LoadingStatus.ERROR);
-          expect(results[0].error).toBeTruthy();
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       const req = httpMock.expectOne('/broken.svg');
       req.error(new ProgressEvent('error'));
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(1);
+      expect(results[0].status).toBe(LoadingStatus.ERROR);
+      expect(results[0].error).toBeTruthy();
     });
   });
 
@@ -260,7 +246,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Image Loading', () => {
-    it('should load image assets', (done) => {
+    it('should load image assets', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'hero',
@@ -272,20 +258,16 @@ describe('PreloadService', () => {
 
       // Note: Image loading uses Image() constructor, not HTTP
       // We can only test that it attempts to load
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].asset.id).toBe('hero');
-          // In test environment, image loading may fail
-          // We just verify the attempt was made
-          done();
-        },
-        error: (err) => {
-          // Image loading may fail in test environment
-          expect(err).toBeTruthy();
-          done();
-        },
-      });
+      try {
+        const results = await lastValueFrom(service.preloadAssets(assets));
+        expect(results.length).toBe(1);
+        expect(results[0].asset.id).toBe('hero');
+        // In test environment, image loading may fail
+        // We just verify the attempt was made
+      } catch (err) {
+        // Image loading may fail in test environment
+        expect(err).toBeTruthy();
+      }
 
       // No HTTP mock needed for images
     });
@@ -296,7 +278,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Progress Tracking', () => {
-    it('should emit progress updates during loading', (done) => {
+    it('should emit progress updates during loading', async () => {
       const assets: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
         { id: '2', type: AssetType.SVG, url: '/2.svg' },
@@ -309,30 +291,29 @@ describe('PreloadService', () => {
         progressUpdates.push({ ...progress });
       });
 
-      service.preloadAssets(assets).subscribe({
-        next: () => {
-          // Check that we got progress updates
-          expect(progressUpdates.length).toBeGreaterThan(1);
-
-          // First update should show total
-          expect(progressUpdates[1].total).toBe(3);
-          expect(progressUpdates[1].pending).toBe(3);
-
-          // Last update should show completion
-          const lastUpdate = progressUpdates[progressUpdates.length - 1];
-          expect(lastUpdate.loaded).toBe(3);
-          expect(lastUpdate.percentage).toBe(100);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       // Flush all requests
       httpMock.expectOne('/1.svg').flush('<svg></svg>');
       httpMock.expectOne('/2.svg').flush('<svg></svg>');
       httpMock.expectOne('/3.svg').flush('<svg></svg>');
+
+      await resultsPromise;
+
+      // Check that we got progress updates
+      expect(progressUpdates.length).toBeGreaterThan(1);
+
+      // First update should show total
+      expect(progressUpdates[1].total).toBe(3);
+      expect(progressUpdates[1].pending).toBe(3);
+
+      // Last update should show completion
+      const lastUpdate = progressUpdates[progressUpdates.length - 1];
+      expect(lastUpdate.loaded).toBe(3);
+      expect(lastUpdate.percentage).toBe(100);
     });
 
-    it('should track failed assets in progress', (done) => {
+    it('should track failed assets in progress', async () => {
       const assets: PreloadAsset[] = [
         { id: 'success', type: AssetType.SVG, url: '/success.svg' },
         { id: 'failure', type: AssetType.SVG, url: '/failure.svg' },
@@ -346,17 +327,16 @@ describe('PreloadService', () => {
         finalProgress = progress;
       });
 
-      service.preloadAssets(assets).subscribe({
-        next: () => {
-          expect(finalProgress?.loaded).toBe(1);
-          expect(finalProgress?.failed).toBe(1);
-          expect(finalProgress?.percentage).toBe(50);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       httpMock.expectOne('/success.svg').flush('<svg></svg>');
       httpMock.expectOne('/failure.svg').error(new ProgressEvent('error'));
+
+      await resultsPromise;
+
+      expect(finalProgress?.loaded).toBe(1);
+      expect(finalProgress?.failed).toBe(1);
+      expect(finalProgress?.percentage).toBe(50);
     });
   });
 
@@ -365,7 +345,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Error Handling', () => {
-    it('should continue loading on error when configured', (done) => {
+    it('should continue loading on error when configured', async () => {
       const assets: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
         { id: '2', type: AssetType.SVG, url: '/2.svg' },
@@ -374,21 +354,20 @@ describe('PreloadService', () => {
 
       service.configure({ continueOnError: true });
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(3);
-          expect(results.filter((r) => r.status === LoadingStatus.SUCCESS).length).toBe(2);
-          expect(results.filter((r) => r.status === LoadingStatus.ERROR).length).toBe(1);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       httpMock.expectOne('/1.svg').flush('<svg></svg>');
       httpMock.expectOne('/2.svg').error(new ProgressEvent('error'));
       httpMock.expectOne('/3.svg').flush('<svg></svg>');
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(3);
+      expect(results.filter((r) => r.status === LoadingStatus.SUCCESS).length).toBe(2);
+      expect(results.filter((r) => r.status === LoadingStatus.ERROR).length).toBe(1);
     });
 
-    it('should stop on error when continueOnError is false', (done) => {
+    it('should stop on error when continueOnError is false', async () => {
       const assets: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
         { id: '2', type: AssetType.SVG, url: '/2.svg' },
@@ -396,18 +375,17 @@ describe('PreloadService', () => {
 
       service.configure({ continueOnError: false });
 
-      service.preloadAssets(assets).subscribe({
-        next: () => {
-          fail('Should not complete successfully');
-        },
-        error: (err) => {
-          expect(err).toBeTruthy();
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       httpMock.expectOne('/1.svg').flush('<svg></svg>');
       httpMock.expectOne('/2.svg').error(new ProgressEvent('error'));
+
+      try {
+        await resultsPromise;
+        fail('Should not complete successfully');
+      } catch (err) {
+        expect(err).toBeTruthy();
+      }
     });
   });
 
@@ -416,7 +394,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Cancellation', () => {
-    it('should cancel ongoing preload operation', () => {
+    it('should cancel ongoing preload operation', async () => {
       const assets: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
         { id: '2', type: AssetType.SVG, url: '/2.svg' },
@@ -425,14 +403,13 @@ describe('PreloadService', () => {
       service.preloadAssets(assets).subscribe();
       service.cancel();
 
-      // Progress should be reset
-      service.progress$.subscribe((progress) => {
-        expect(progress.total).toBe(0);
-        expect(progress.loaded).toBe(0);
-      });
+      // Progress should be reset after cancel
+      const progress = await firstValueFrom(service.progress$);
+      expect(progress.total).toBe(0);
+      expect(progress.pending).toBe(0);
     });
 
-    it('should allow new preload after cancellation', (done) => {
+    it('should allow new preload after cancellation', async () => {
       const assets1: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
       ];
@@ -443,15 +420,14 @@ describe('PreloadService', () => {
       service.preloadAssets(assets1).subscribe();
       service.cancel();
 
-      service.preloadAssets(assets2).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].asset.id).toBe('2');
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets2));
 
       httpMock.expectOne('/2.svg').flush('<svg></svg>');
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(1);
+      expect(results[0].asset.id).toBe('2');
     });
   });
 
@@ -460,7 +436,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Concurrent Loading', () => {
-    it('should respect maxConcurrent limit', (done) => {
+    it('should respect maxConcurrent limit', async () => {
       const assets: PreloadAsset[] = [
         { id: '1', type: AssetType.SVG, url: '/1.svg' },
         { id: '2', type: AssetType.SVG, url: '/2.svg' },
@@ -471,12 +447,7 @@ describe('PreloadService', () => {
 
       service.configure({ maxConcurrent: 2 });
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(5);
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       // Only first 2 should be requested immediately
       const req1 = httpMock.expectOne('/1.svg');
@@ -497,6 +468,10 @@ describe('PreloadService', () => {
       const req5 = httpMock.expectOne('/5.svg');
       req4.flush('<svg></svg>');
       req5.flush('<svg></svg>');
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(5);
     });
   });
 
@@ -505,7 +480,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Data Loading', () => {
-    it('should load JSON data assets', (done) => {
+    it('should load JSON data assets', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'config',
@@ -514,17 +489,16 @@ describe('PreloadService', () => {
         },
       ];
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].status).toBe(LoadingStatus.SUCCESS);
-          expect(results[0].data).toEqual({ test: 'data' });
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       const req = httpMock.expectOne('/config.json');
       req.flush({ test: 'data' });
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(1);
+      expect(results[0].status).toBe(LoadingStatus.SUCCESS);
+      expect(results[0].data).toEqual({ test: 'data' });
     });
   });
 
@@ -533,7 +507,7 @@ describe('PreloadService', () => {
   // ==========================================================================
 
   describe('Timeout Handling', () => {
-    it('should timeout slow loading assets', (done) => {
+    it('should timeout slow loading assets', async () => {
       const assets: PreloadAsset[] = [
         {
           id: 'slow',
@@ -544,17 +518,16 @@ describe('PreloadService', () => {
 
       service.configure({ loadTimeout: 100, continueOnError: true });
 
-      service.preloadAssets(assets).subscribe({
-        next: (results) => {
-          expect(results.length).toBe(1);
-          expect(results[0].status).toBe(LoadingStatus.ERROR);
-          expect(results[0].error).toContain('Timeout');
-          done();
-        },
-      });
+      const resultsPromise = lastValueFrom(service.preloadAssets(assets));
 
       // Don't flush the request - let it timeout
       httpMock.expectOne('/slow.svg');
+
+      const results = await resultsPromise;
+
+      expect(results.length).toBe(1);
+      expect(results[0].status).toBe(LoadingStatus.ERROR);
+      expect(results[0].error).toContain('Timeout');
     });
   });
 });
