@@ -4,3 +4,4 @@
 
 export * from './lib/landing-page/landing-page.component';
 export * from './lib/hero-gallery/hero-gallery.component';
+export * from './lib/feature-navigation/feature-navigation.component';
