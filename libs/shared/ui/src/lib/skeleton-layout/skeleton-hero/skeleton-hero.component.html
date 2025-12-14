@@ -1,0 +1,110 @@
+<!--
+  Skeleton Hero Component Template
+  
+  Matches the exact structure of hero-gallery.component.html
+  Provides a pre-composed loading state for the hero gallery.
+-->
+<div class="skeleton-hero">
+  <!-- Background Image Skeleton -->
+  <div class="skeleton-hero__background">
+    <tm-skeleton-image
+      aspectRatio="16/9"
+      width="100%"
+      [borderRadius]="'0'"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading hero image'"
+    ></tm-skeleton-image>
+
+    <!-- Overlay (matches real component) -->
+    <div class="skeleton-hero__overlay"></div>
+  </div>
+
+  <!-- Text Overlay (Top Right) - matches hero-gallery__text-overlay -->
+  <div class="skeleton-hero__text-overlay">
+    <!-- Title Skeleton (large text, single line) -->
+    <div class="skeleton-hero__title">
+      <tm-skeleton-box
+        width="200px"
+        height="3rem"
+        [borderRadius]="'var(--radius-sm)'"
+        [animation]="animation"
+        [variant]="variant"
+        [ariaLabel]="'Loading title'"
+      ></tm-skeleton-box>
+    </div>
+
+    <!-- Tagline Skeleton (smaller text, single line) -->
+    <div class="skeleton-hero__tagline">
+      <tm-skeleton-box
+        width="300px"
+        height="1.5rem"
+        [borderRadius]="'var(--radius-sm)'"
+        [animation]="animation"
+        [variant]="variant"
+        [ariaLabel]="'Loading tagline'"
+      ></tm-skeleton-box>
+    </div>
+  </div>
+
+  <!-- Navigation Buttons (Left/Right) - matches hero-gallery__nav -->
+  <div class="skeleton-hero__nav skeleton-hero__nav--prev">
+    <tm-skeleton-circle
+      size="48px"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading previous button'"
+    ></tm-skeleton-circle>
+  </div>
+
+  <div class="skeleton-hero__nav skeleton-hero__nav--next">
+    <tm-skeleton-circle
+      size="48px"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading next button'"
+    ></tm-skeleton-circle>
+  </div>
+
+  <!-- Quote Container (Optional) - matches hero-gallery__quote-container -->
+  @if (showQuote) {
+  <div class="skeleton-hero__quote-container">
+    <tm-skeleton-text
+      [lines]="2"
+      lastLineWidth="70%"
+      lineHeight="1.5rem"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading quote'"
+    ></tm-skeleton-text>
+  </div>
+  }
+
+  <!-- Slide Indicators - matches hero-gallery__indicators -->
+  <div class="skeleton-hero__indicators">
+    @for (index of indicatorArray; track index) {
+    <tm-skeleton-circle
+      size="12px"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading indicator ' + (index + 1)"
+    ></tm-skeleton-circle>
+    }
+  </div>
+
+  <!-- Wave Border (Decorative) - matches hero-gallery__wave -->
+  <div class="skeleton-hero__wave">
+    <svg
+      viewBox="0 0 1440 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M0 0L48 10C96 20 192 40 288 46.7C384 53 480 47 576 43.3C672 40 768 40 864 46.7C960 53 1056 67 1152 70C1248 73 1344 67 1392 63.3L1440 60V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V0Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+</div>

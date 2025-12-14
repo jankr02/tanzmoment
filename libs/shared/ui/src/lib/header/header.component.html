@@ -1,22 +1,17 @@
-<!-- ============================================================================
-     HEADER COMPONENT 
-     ============================================================================ 
--->
-
 <header 
   [class]="headerClasses()"
   [style.--header-bg-color]="bgColor"
 >
   <!-- Background Shape -->
-  <svg 
-    class="header__bg-shape" 
-    viewBox="0 0 1148 82" 
-    fill="none" 
+  <svg
+    class="header__bg-shape"
+    viewBox="0 0 1148 82"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
   >
     <defs>
-      <filter id="header-shadow" x="0" y="0" width="100%" height="100%" filterUnits="userSpaceOnUse">
+      <filter id="header-shadow" x="-4" y="0" width="110%" height="120%" filterUnits="userSpaceOnUse">
         <feFlood flood-opacity="0" result="BackgroundImageFix"/>
         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
         <feOffset dy="4"/>
@@ -28,8 +23,8 @@
       </filter>
     </defs>
     <g filter="url(#header-shadow)">
-      <path 
-        d="M4 0H1144V69C1144 71.7614 1141.76 74 1139 74H8.99998C6.23856 74 4 71.7614 4 69V0Z" 
+      <path
+        d="M0 0H1148V69C1148 71.7614 1145.76 74 1143 74H5C2.23858 74 0 71.7614 0 69V0Z"
         [attr.fill]="bgColor"
       />
     </g>
@@ -47,22 +42,10 @@
         (click)="onLogoClick()"
       >
         <div class="header__logo-container">
-          <!-- Logo WITH Name (Desktop) -->
-          <img 
+          <img
             src="assets/images/logo-with-name.svg"
             alt="Tanzmoment Logo"
-            class="header__logo header__logo--with-name"
-            width="143"
-            height="66"
-          />
-          
-          <!-- Logo WITHOUT Name (Mobile) -->
-          <img 
-            src="assets/images/logo-without-name.svg"
-            alt="Tanzmoment"
-            class="header__logo header__logo--without-name"
-            width="79"
-            height="66"
+            class="header__logo"
           />
         </div>
       </a>
@@ -231,10 +214,6 @@
   </div>
 </header>
 
-<!-- ============================================================================
-     MOBILE MENU DRAWER (Fullscreen Overlay)
-     ============================================================================ -->
-
 @if (mobileMenuOpen()) {
   <div class="header__mobile-overlay" (click)="closeMobileMenu()"></div>
   
@@ -353,10 +332,6 @@
     }
   </div>
 }
-
-<!-- ============================================================================
-     SEARCH OVERLAY (Fullscreen)
-     ============================================================================ -->
 
 @if (searchOpen()) {
   <div class="header__search-overlay" (click)="closeSearch()">

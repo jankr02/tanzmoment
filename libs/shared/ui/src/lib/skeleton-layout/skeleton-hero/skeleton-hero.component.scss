@@ -1,0 +1,249 @@
+// ============================================================================
+// SKELETON HERO COMPONENT STYLES
+// ============================================================================
+//
+// This component exactly mirrors the structure and positioning of
+// hero-gallery.component.scss to ensure visual consistency between
+// skeleton and real content.
+// ============================================================================
+
+:host {
+  display: block;
+}
+
+.skeleton-hero {
+  position: relative;
+  width: 100%;
+  height: 90vh; // Matches hero-gallery height
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+
+  // ========================================
+  // Background Image Skeleton
+  // ========================================
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  // Overlay for visual consistency with real component
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    // Subtle gradient to match text readability overlay in real component
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+  }
+
+  // ========================================
+  // Text Overlay (Top Right)
+  // Matches hero-gallery__text-overlay positioning exactly
+  // ========================================
+
+  &__text-overlay {
+    position: absolute;
+    top: var(--space-8);
+    right: var(--space-6);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-align: right;
+    padding: var(--space-6);
+
+    @media (min-width: 768px) {
+      top: var(--space-12);
+      right: var(--space-12);
+      padding: var(--space-8);
+    }
+
+    @media (min-width: 1024px) {
+      top: var(--space-16);
+      right: var(--space-16);
+    }
+  }
+
+  &__title {
+    // Container for title skeleton box
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__tagline {
+    // Container for tagline skeleton box
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  // ========================================
+  // Navigation Buttons (Left/Right)
+  // Matches hero-gallery__nav positioning exactly
+  // ========================================
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 15;
+
+    &--prev {
+      left: var(--space-4);
+
+      @media (min-width: 768px) {
+        left: var(--space-6);
+      }
+    }
+
+    &--next {
+      right: var(--space-4);
+
+      @media (min-width: 768px) {
+        right: var(--space-6);
+      }
+    }
+  }
+
+  // ========================================
+  // Quote Container (Optional)
+  // Matches hero-gallery__quote-container positioning exactly
+  // ========================================
+
+  &__quote-container {
+    position: absolute;
+    bottom: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 15;
+    padding: var(--space-4) var(--space-6);
+
+    @media (min-width: 768px) {
+      bottom: 240px;
+      width: 80%;
+      padding: var(--space-6) var(--space-8);
+    }
+
+    @media (min-width: 1024px) {
+      bottom: 260px;
+      width: 70%;
+    }
+  }
+
+  // ========================================
+  // Slide Indicators
+  // Matches hero-gallery__indicators positioning exactly
+  // ========================================
+
+  &__indicators {
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--space-2);
+    z-index: 15;
+
+    @media (min-width: 768px) {
+      bottom: 160px;
+      gap: var(--space-3);
+    }
+  }
+
+  // ========================================
+  // Wave Border (Decorative)
+  // Matches hero-gallery__wave positioning exactly
+  // ========================================
+
+  &__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 20;
+    pointer-events: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+}
+
+// ========================================
+// Responsive Adjustments
+// ========================================
+
+// Mobile optimizations (small screens)
+@media (max-width: 600px) {
+  .skeleton-hero {
+    height: 100vh; // Full height on mobile
+
+    &__text-overlay {
+      top: var(--space-6);
+      right: var(--space-4);
+      padding: var(--space-4);
+    }
+
+    &__title {
+      // Smaller title on mobile
+      tm-skeleton-box {
+        width: 150px !important;
+        height: 2rem !important;
+      }
+    }
+
+    &__tagline {
+      // Smaller tagline on mobile
+      tm-skeleton-box {
+        width: 200px !important;
+        height: 1.25rem !important;
+      }
+    }
+
+    &__quote-container {
+      bottom: 180px;
+      width: 95%;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    &__indicators {
+      bottom: 120px;
+      gap: var(--space-1);
+    }
+  }
+}
+
+// Tablet adjustments
+@media (min-width: 601px) and (max-width: 1023px) {
+  .skeleton-hero {
+    &__title {
+      tm-skeleton-box {
+        width: 250px !important;
+        height: 2.5rem !important;
+      }
+    }
+
+    &__tagline {
+      tm-skeleton-box {
+        width: 350px !important;
+      }
+    }
+  }
+}

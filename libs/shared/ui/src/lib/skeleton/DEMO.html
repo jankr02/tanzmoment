@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skeleton Components - Visual Preview</title>
+    <style>
+      /* Inline styles to simulate design tokens */
+      :root {
+        --color-neutral-extra-light: #fcf8f3;
+        --color-primary-light: #f2ece3;
+        --color-border: #e6ded7;
+        --color-primary-dark: #688b68;
+        --radius-sm: 0.5rem;
+        --radius-md: 0.75rem;
+        --radius-lg: 1.125rem;
+        --space-2: 0.5rem;
+        --space-4: 1rem;
+        --space-8: 2rem;
+        --transition-base: 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          sans-serif;
+        background: #fff;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: Georgia, serif;
+        color: #2e2a25;
+      }
+
+      .section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border);
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .demo-item {
+        padding: 1rem;
+        background: #fafafa;
+        border-radius: var(--radius-md);
+      }
+
+      .demo-item h4 {
+        margin: 0 0 1rem;
+        font-size: 0.875rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* Skeleton Box Simulation */
+      .skeleton-box {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        background-color: var(--color-neutral-extra-light);
+        border-radius: var(--radius-md);
+      }
+
+      .skeleton-box::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(230, 222, 215, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: skeleton-wave 2s ease-in-out infinite;
+      }
+
+      @keyframes skeleton-wave {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(200%);
+        }
+      }
+
+      /* Skeleton Text Simulation */
+      .skeleton-text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .skeleton-text__line {
+        height: 1.5rem;
+        background-color: var(--color-neutral-extra-light);
+        border-radius: var(--radius-sm);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skeleton-text__line::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(230, 222, 215, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: skeleton-wave 2s ease-in-out infinite;
+      }
+
+      .skeleton-text__line--last {
+        width: 60%;
+      }
+
+      /* Skeleton Circle Simulation */
+      .skeleton-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: var(--color-neutral-extra-light);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .skeleton-circle::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(230, 222, 215, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: skeleton-wave 2s ease-in-out infinite;
+      }
+
+      /* Hero Gallery Preview */
+      .hero-preview {
+        position: relative;
+        aspect-ratio: 16/9;
+        background: var(--color-neutral-extra-light);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        margin-top: 2rem;
+      }
+
+      .hero-preview__image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-preview__image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(230, 222, 215, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: skeleton-wave 2s ease-in-out infinite;
+      }
+
+      .hero-preview__text {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero-preview__controls {
+        position: absolute;
+        top: 50%;
+        left: 2rem;
+        right: 2rem;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .hero-preview__indicators {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .indicator-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--color-neutral-extra-light);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .indicator-dot::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(230, 222, 215, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        animation: skeleton-wave 2s ease-in-out infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎨 Skeleton Components - Visual Preview</h1>
+    <p>Preview of all skeleton primitive components with wave animation</p>
+
+    <!-- Skeleton Box -->
+    <div class="section">
+      <h2>Skeleton Box</h2>
+      <p>Universal rectangular placeholder with configurable dimensions</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Small Box</h4>
+          <div class="skeleton-box" style="width: 100%; height: 100px"></div>
+        </div>
+        <div class="demo-item">
+          <h4>Large Box</h4>
+          <div class="skeleton-box" style="width: 100%; height: 200px"></div>
+        </div>
+        <div class="demo-item">
+          <h4>Rounded Box</h4>
+          <div
+            class="skeleton-box"
+            style="width: 100%; height: 150px; border-radius: var(--radius-lg)"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skeleton Text -->
+    <div class="section">
+      <h2>Skeleton Text</h2>
+      <p>Multiple text line placeholders with last line shorter</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>3 Lines (Default)</h4>
+          <div class="skeleton-text">
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line skeleton-text__line--last"></div>
+          </div>
+        </div>
+        <div class="demo-item">
+          <h4>5 Lines</h4>
+          <div class="skeleton-text">
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line skeleton-text__line--last"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skeleton Circle -->
+    <div class="section">
+      <h2>Skeleton Circle</h2>
+      <p>Circular placeholders for avatars, icons, and indicators</p>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <h4>Small (12px) - Indicators</h4>
+          <div style="display: flex; gap: 0.5rem">
+            <div
+              class="skeleton-circle"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="skeleton-circle"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="skeleton-circle"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="skeleton-circle"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="skeleton-circle"
+              style="width: 12px; height: 12px"
+            ></div>
+          </div>
+        </div>
+        <div class="demo-item">
+          <h4>Medium (48px) - Icons/Buttons</h4>
+          <div class="skeleton-circle" style="width: 48px; height: 48px"></div>
+        </div>
+        <div class="demo-item">
+          <h4>Large (80px) - Illustrations</h4>
+          <div class="skeleton-circle" style="width: 80px; height: 80px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Gallery Preview -->
+    <div class="section">
+      <h2>Hero Gallery Skeleton (Composed Example)</h2>
+      <p>
+        Example of how primitive components combine to create a hero gallery
+        skeleton
+      </p>
+
+      <div class="hero-preview">
+        <!-- Background Image Skeleton -->
+        <div class="hero-preview__image"></div>
+
+        <!-- Text Overlay Skeleton -->
+        <div class="hero-preview__text">
+          <div
+            class="skeleton-box"
+            style="width: 200px; height: 3rem; border-radius: var(--radius-sm)"
+          ></div>
+          <div
+            class="skeleton-box"
+            style="
+              width: 300px;
+              height: 1.5rem;
+              border-radius: var(--radius-sm);
+            "
+          ></div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="hero-preview__controls">
+          <div class="skeleton-circle"></div>
+          <div class="skeleton-circle"></div>
+        </div>
+
+        <!-- Slide Indicators -->
+        <div class="hero-preview__indicators">
+          <div class="indicator-dot"></div>
+          <div class="indicator-dot"></div>
+          <div class="indicator-dot"></div>
+          <div class="indicator-dot"></div>
+          <div class="indicator-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Card Preview -->
+    <div class="section">
+      <h2>Feature Card Skeleton (Composed Example)</h2>
+      <p>Example of feature navigation card skeleton</p>
+
+      <div class="demo-grid">
+        <div class="demo-item" style="text-align: center">
+          <div style="margin: 0 auto 1rem; width: 80px; height: 80px">
+            <div
+              class="skeleton-circle"
+              style="width: 80px; height: 80px"
+            ></div>
+          </div>
+          <div class="skeleton-text">
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line skeleton-text__line--last"></div>
+          </div>
+        </div>
+        <div class="demo-item" style="text-align: center">
+          <div style="margin: 0 auto 1rem; width: 80px; height: 80px">
+            <div
+              class="skeleton-circle"
+              style="width: 80px; height: 80px"
+            ></div>
+          </div>
+          <div class="skeleton-text">
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line skeleton-text__line--last"></div>
+          </div>
+        </div>
+        <div class="demo-item" style="text-align: center">
+          <div style="margin: 0 auto 1rem; width: 80px; height: 80px">
+            <div
+              class="skeleton-circle"
+              style="width: 80px; height: 80px"
+            ></div>
+          </div>
+          <div class="skeleton-text">
+            <div class="skeleton-text__line"></div>
+            <div class="skeleton-text__line skeleton-text__line--last"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="
+        margin-top: 4rem;
+        padding: 2rem;
+        background: #f5f5f5;
+        border-radius: var(--radius-md);
+      "
+    >
+      <h3>✅ Phase 3.1 Complete - Primitive Components</h3>
+      <p>All four primitive skeleton components are ready:</p>
+      <ul>
+        <li>
+          <strong>SkeletonBox</strong> - Universal rectangular placeholder
+        </li>
+        <li><strong>SkeletonText</strong> - Multi-line text placeholder</li>
+        <li>
+          <strong>SkeletonImage</strong> - Image placeholder with aspect-ratio
+        </li>
+        <li><strong>SkeletonCircle</strong> - Circular placeholder</li>
+      </ul>
+      <p>
+        <strong>Next Step:</strong> Create Layout Components (SkeletonHero,
+        SkeletonCard) that compose these primitives
+      </p>
+    </div>
+  </body>
+</html>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 export interface FeatureCard {
   id: number;
   title: string;
+  desktopTitle: string;
   illustration: string;
   route: string;
   alt: string;
@@ -23,7 +24,7 @@ export interface FeatureCard {
 export class FeatureNavigationComponent {
   /**
    * Feature Navigation Component
-   * 
+   *
    * Features:
    * - Three clickable feature cards with illustrations
    * - Smooth hover animations with scale and shadow
@@ -41,24 +42,27 @@ export class FeatureNavigationComponent {
   features: FeatureCard[] = [
     {
       id: 1,
-      title: 'Meine Reise ins Tanzen',
+      title: 'Studio',
+      desktopTitle: 'Lerne unser Studio kennen',
       illustration: '/assets/illustrations/About Me.svg',
       route: '/about',
-      alt: 'About Me - Meine persönliche Tanzreise',
+      alt: 'Über unser Studio - Lerne uns kennen',
     },
     {
       id: 2,
-      title: 'Finde Dein Tanzmoment',
+      title: 'Kurse',
+      desktopTitle: 'Entdecke unsere Tanzkurse',
       illustration: '/assets/illustrations/Bird.svg',
       route: '/courses',
-      alt: 'Bird - Entdecke verschiedene Tanzkurse',
+      alt: 'Entdecke verschiedene Tanzkurse',
     },
     {
       id: 3,
-      title: 'Was bei Tanzmoment neu erblüht',
+      title: 'Neuigkeiten',
+      desktopTitle: 'Bleib auf dem Laufenden',
       illustration: '/assets/illustrations/flower.svg',
       route: '/news',
-      alt: 'Flower - Neuigkeiten und Updates',
+      alt: 'Neuigkeiten und Updates',
     },
   ];
 

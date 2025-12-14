@@ -1,4 +1,12 @@
-import { Injectable, Optional, Inject, inject, PLATFORM_ID, InjectionToken } from '@angular/core';
+import {
+  Injectable,
+  Optional,
+  Inject,
+  inject,
+  PLATFORM_ID,
+  InjectionToken,
+  NgZone,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import {
   Observable,
@@ -41,9 +49,9 @@ const DEFAULT_CONFIG: Required<ImagePreloadConfig> = {
 
 /**
  * InjectionToken for providing custom ImagePreloadService configuration
- * 
+ *
  * This token allows you to provide a custom configuration at module or component level:
- * 
+ *
  * @example
  * ```typescript
  * // In your module or component providers
@@ -77,6 +85,7 @@ export const IMAGE_PRELOAD_CONFIG = new InjectionToken<ImagePreloadConfig>(
  * - Real-time progress tracking via Observable
  * - Cache detection for instant image display
  * - Memory-efficient cleanup
+ * - NgZone integration for proper Angular change detection
  *
  * @example
  * ```typescript
@@ -101,6 +110,7 @@ export const IMAGE_PRELOAD_CONFIG = new InjectionToken<ImagePreloadConfig>(
 export class ImagePreloadService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
+  private readonly ngZone = inject(NgZone);
 
   /** Configuration for this service instance */
   private readonly config: Required<ImagePreloadConfig>;
@@ -136,12 +146,17 @@ export class ImagePreloadService {
   /** Development mode flag (for logging) */
   private readonly isDev = false; // Set via environment or config if needed
 
-  constructor(@Optional() @Inject(IMAGE_PRELOAD_CONFIG) config?: ImagePreloadConfig) {
+  constructor(
+    @Optional() @Inject(IMAGE_PRELOAD_CONFIG) config?: ImagePreloadConfig
+  ) {
     // Merge provided config with defaults
     this.config = { ...DEFAULT_CONFIG, ...config };
 
     if (this.isDev) {
-      console.log('[ImagePreloadService] Initialized with config:', this.config);
+      console.log(
+        '[ImagePreloadService] Initialized with config:',
+        this.config
+      );
     }
   }
 
@@ -177,7 +192,10 @@ export class ImagePreloadService {
     // Deduplication: If already loaded, return cached result immediately
     if (this.loadedUrls.has(url)) {
       if (this.isDev) {
-        console.log('[ImagePreloadService] Image already loaded (cached):', url);
+        console.log(
+          '[ImagePreloadService] Image already loaded (cached):',
+          url
+        );
       }
       return of({
         url,
@@ -207,13 +225,15 @@ export class ImagePreloadService {
           );
         }
 
-        observer.next({
-          url,
-          loaded: true,
-          loadTime,
-          fromCache,
+        this.ngZone.run(() => {
+          observer.next({
+            url,
+            loaded: true,
+            loadTime,
+            fromCache,
+          });
+          observer.complete();
         });
-        observer.complete();
       };
 
       // Error handler: Image failed to load
@@ -224,12 +244,14 @@ export class ImagePreloadService {
           console.error('[ImagePreloadService] Image load error:', url, error);
         }
 
-        observer.next({
-          url,
-          loaded: false,
-          error: error?.toString() || 'Unknown error',
+        this.ngZone.run(() => {
+          observer.next({
+            url,
+            loaded: false,
+            error: error?.toString() || 'Unknown error',
+          });
+          observer.complete();
         });
-        observer.complete();
       };
 
       // Attach event listeners
@@ -259,19 +281,6 @@ export class ImagePreloadService {
    *
    * @param requests - Array of image preload requests with strategies
    * @returns Observable that emits array of results when all preloads complete
-   *
-   * @example
-   * ```typescript
-   * const requests = [
-   *   { id: 'hero-1', url: '/hero-1.jpg', strategy: ImageLoadStrategy.EAGER },
-   *   { id: 'hero-2', url: '/hero-2.jpg', strategy: ImageLoadStrategy.PREFETCH, priority: 100 },
-   *   { id: 'hero-3', url: '/hero-3.jpg', strategy: ImageLoadStrategy.PREFETCH, priority: 50 },
-   * ];
-   *
-   * imagePreload.preloadImages(requests).subscribe(results => {
-   *   console.log('All images processed', results);
-   * });
-   * ```
    */
   public preloadImages(
     requests: ImagePreloadRequest[]
@@ -280,82 +289,79 @@ export class ImagePreloadService {
       return of([]);
     }
 
-    // Separate requests by strategy
-    const eagerRequests = requests.filter(
+    // Sort by priority (higher numbers first)
+    const sortedRequests = [...requests].sort(
+      (a, b) => (b.priority || 0) - (a.priority || 0)
+    );
+
+    // Group by strategy
+    const eagerRequests = sortedRequests.filter(
       (r) => r.strategy === ImageLoadStrategy.EAGER
     );
-    const prefetchRequests = requests.filter(
+    const prefetchRequests = sortedRequests.filter(
       (r) => r.strategy === ImageLoadStrategy.PREFETCH
     );
-    const lazyRequests = requests.filter(
+    const lazyRequests = sortedRequests.filter(
       (r) => r.strategy === ImageLoadStrategy.LAZY
     );
 
-    // Sort each group by priority (higher priority first)
-    const sortByPriority = (a: ImagePreloadRequest, b: ImagePreloadRequest) =>
-      (b.priority || 0) - (a.priority || 0);
+    // Create observables for each group
+    const observables: Observable<ImagePreloadResult[]>[] = [];
 
-    eagerRequests.sort(sortByPriority);
-    prefetchRequests.sort(sortByPriority);
-
-    if (this.isDev) {
-      console.log('[ImagePreloadService] Preload requests:', {
-        eager: eagerRequests.length,
-        prefetch: prefetchRequests.length,
-        lazy: lazyRequests.length,
-      });
+    // EAGER: Load immediately with concurrency
+    if (eagerRequests.length > 0) {
+      observables.push(
+        this.loadWithConcurrency(eagerRequests.map((r) => r.url))
+      );
     }
 
-    // Create observables for each strategy group
-    const eagerLoads$ = this.loadWithConcurrency(
-      eagerRequests.map((r) => r.url)
-    );
-    const prefetchLoads$ = this.config.useIdleCallback
-      ? this.loadWithIdleCallback(prefetchRequests.map((r) => r.url))
-      : this.loadWithConcurrency(prefetchRequests.map((r) => r.url));
+    // PREFETCH: Load with idle callback (or immediately if disabled)
+    if (prefetchRequests.length > 0) {
+      if (this.config.useIdleCallback) {
+        observables.push(
+          this.loadWithIdleCallback(prefetchRequests.map((r) => r.url))
+        );
+      } else {
+        observables.push(
+          this.loadWithConcurrency(prefetchRequests.map((r) => r.url))
+        );
+      }
+    }
 
-    // Lazy requests don't get loaded, just return pending results
-    const lazyResults$ = of(
-      lazyRequests.map(
-        (r): ImagePreloadResult => ({
-          url: r.url,
-          loaded: false,
-          error: 'Lazy load strategy (not preloaded)',
-        })
-      )
-    );
+    // LAZY: Don't load, return pending results
+    if (lazyRequests.length > 0) {
+      const lazyResults: ImagePreloadResult[] = lazyRequests.map((r) => ({
+        url: r.url,
+        loaded: false,
+        error: 'Lazy loading - not preloaded',
+      }));
+      observables.push(of(lazyResults));
+    }
 
     // Combine all results
-    return forkJoin([eagerLoads$, prefetchLoads$, lazyResults$]).pipe(
-      map(([eager, prefetch, lazy]) => [...eager, ...prefetch, ...lazy]),
-      tap(() => {
-        if (this.isDev) {
-          console.log('[ImagePreloadService] All preload operations complete');
-        }
+    if (observables.length === 0) {
+      return of([]);
+    }
+
+    return forkJoin(observables).pipe(
+      map((resultArrays) => resultArrays.flat()),
+      catchError((error) => {
+        console.error('[ImagePreloadService] Batch preload error:', error);
+        return of([]);
       })
     );
   }
 
   /**
-   * Smart preload for gallery navigation
+   * Preload images for a gallery with lookahead
    *
-   * This is the killer feature of ImagePreloadService. Given an array of image URLs
-   * and the user's current position, it intelligently determines which images to preload.
-   *
-   * Lookahead Logic:
-   * - Current image: Already loaded (or should be)
-   * - Next N images (based on lookaheadCount): PREFETCH with priority
-   * - All other images: LAZY (not preloaded)
-   *
-   * Priority decreases with distance from current index:
-   * - Next image: priority 100
-   * - Image after that: priority 90
-   * - Image after that: priority 80
-   * - etc.
+   * This is the recommended method for gallery/slideshow use cases.
+   * It automatically determines which images to preload based on the
+   * current position and the configured lookahead count.
    *
    * @param allImages - Complete array of image URLs in the gallery
-   * @param currentIndex - User's current position (0-based index)
-   * @returns Observable that emits results for preloaded images
+   * @param currentIndex - Current position in the gallery (0-based)
+   * @returns Observable that emits array of preload results
    *
    * @example
    * ```typescript
@@ -409,7 +415,10 @@ export class ImagePreloadService {
       console.log('[ImagePreloadService] Gallery lookahead:', {
         currentIndex,
         lookaheadCount: this.config.lookaheadCount,
-        prefetchUrls: requests.map((r) => ({ url: r.url, priority: r.priority })),
+        prefetchUrls: requests.map((r) => ({
+          url: r.url,
+          priority: r.priority,
+        })),
       });
     }
 
@@ -487,7 +496,9 @@ export class ImagePreloadService {
    * @param urls - Array of image URLs to load
    * @returns Observable that emits array of results
    */
-  private loadWithConcurrency(urls: string[]): Observable<ImagePreloadResult[]> {
+  private loadWithConcurrency(
+    urls: string[]
+  ): Observable<ImagePreloadResult[]> {
     if (urls.length === 0) {
       return of([]);
     }
@@ -534,9 +545,7 @@ export class ImagePreloadService {
     const loadObservables = urls.map((url) => this.scheduleIdleLoad(url));
 
     // Combine all observables with concurrency limit
-    return merge(...loadObservables, this.config.maxConcurrent).pipe(
-      toArray()
-    );
+    return merge(...loadObservables, this.config.maxConcurrent).pipe(toArray());
   }
 
   /**
@@ -550,6 +559,9 @@ export class ImagePreloadService {
    *
    * Falls back to setTimeout if requestIdleCallback is not available.
    *
+   * All callbacks are wrapped in NgZone.run() to ensure proper
+   * Angular change detection.
+   *
    * @param url - Image URL to load
    * @returns Observable that emits the load result
    */
@@ -562,9 +574,15 @@ export class ImagePreloadService {
         this.preloadImage(url)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
-            next: (result) => observer.next(result),
-            error: (error) => observer.error(error),
-            complete: () => observer.complete(),
+            next: (result) => {
+              this.ngZone.run(() => observer.next(result));
+            },
+            error: (error) => {
+              this.ngZone.run(() => observer.error(error));
+            },
+            complete: () => {
+              this.ngZone.run(() => observer.complete());
+            },
           });
       };
 
@@ -577,7 +595,7 @@ export class ImagePreloadService {
                 `[ImagePreloadService] Idle callback fired for ${url} (time remaining: ${deadline.timeRemaining()}ms)`
               );
             }
-            loadImage();
+            this.ngZone.run(() => loadImage());
           },
           { timeout: this.config.idleTimeout }
         );
@@ -589,13 +607,16 @@ export class ImagePreloadService {
           );
         }
         timeoutId = window.setTimeout(() => {
-          loadImage();
+          this.ngZone.run(() => loadImage());
         }, 100);
       }
 
       // Cleanup function
       return () => {
-        if (callbackId !== undefined && typeof cancelIdleCallback !== 'undefined') {
+        if (
+          callbackId !== undefined &&
+          typeof cancelIdleCallback !== 'undefined'
+        ) {
           cancelIdleCallback(callbackId);
         }
         if (timeoutId !== undefined) {

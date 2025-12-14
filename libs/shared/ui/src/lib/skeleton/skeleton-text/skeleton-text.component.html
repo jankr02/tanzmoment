@@ -1,0 +1,19 @@
+<!--
+  Skeleton Text Component Template
+  
+  Displays multiple text lines using SkeletonBox.
+  The last line has a configurable width to mimic natural text patterns.
+-->
+<div class="skeleton-text">
+  @for (lineIndex of lineArray; track lineIndex) {
+  <tm-skeleton-box
+    class="skeleton-text__line"
+    [width]="getLineWidth(lineIndex)"
+    [height]="lineHeight"
+    [borderRadius]="borderRadius"
+    [animation]="animation"
+    [variant]="variant"
+    [ariaLabel]="'Loading line ' + (lineIndex + 1) + ' of ' + lines"
+  ></tm-skeleton-box>
+  }
+</div>

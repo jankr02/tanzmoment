@@ -1,0 +1,73 @@
+// ============================================================================
+// SKELETON FEATURE GRID COMPONENT STYLES
+// ============================================================================
+//
+// This component exactly mirrors the feature-navigation component layout
+// to ensure visual consistency between skeleton and real content.
+// ============================================================================
+
+:host {
+  display: block;
+}
+
+.skeleton-feature-grid {
+  width: 100%;
+  padding: var(--space-12) var(--space-4);
+
+  @media (min-width: 768px) {
+    padding: var(--space-16) var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    padding: 3rem var(--space-12); // Adjusted for potential --space-20 equivalent
+  }
+
+  // ========================================
+  // Grid Layout
+  // Matches feature-navigation__grid exactly
+  // ========================================
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 1024px) {
+      gap: var(--space-8);
+    }
+  }
+}
+
+// ========================================
+// Responsive Adjustments
+// ========================================
+
+// Mobile: Stack cards vertically
+@media (max-width: 767px) {
+  .skeleton-feature-grid {
+    padding: var(--space-8) var(--space-4);
+
+    &__grid {
+      gap: var(--space-6);
+    }
+  }
+}
+
+// Tablet and Desktop: Grid layout
+@media (min-width: 768px) {
+  .skeleton-feature-grid {
+    &__grid {
+      // Ensure equal height cards
+      tm-skeleton-card {
+        height: 100%;
+      }
+    }
+  }
+}

@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npx vitest run)",
-      "Bash(npx nx:*)"
+      "Bash(npx nx:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

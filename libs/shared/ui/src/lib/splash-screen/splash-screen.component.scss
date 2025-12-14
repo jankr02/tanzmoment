@@ -1,5 +1,5 @@
 // ==============================================================================
-// Splash Screen Component - Styles
+// Splash Screen Component - Styles (Enhanced with Progress Bar)
 // ==============================================================================
 
 @use 'tokens' as *;
@@ -168,6 +168,18 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/**
+ * Progress bar shimmer animation
+ */
+@keyframes progress-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
   }
 }
 
@@ -340,7 +352,7 @@
   &__title {
     font-family: var(--font-body);
     font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.2;
     margin: 0 0 var(--space-4) 0;
 
@@ -353,14 +365,89 @@
   &__subtitle {
     font-family: var(--font-body);
     font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 500;
     line-height: 1.6;
     color: var(--color-text-secondary);
     margin: 0;
 
     &--delayed {
-      animation: fade-slide-up 800ms cubic-bezier(0.4, 0, 0.2, 1) 400ms
+      animation: title-delayed-enter 800ms cubic-bezier(0.4, 0, 0.2, 1) 100ms
         backwards;
     }
+  }
+
+  // ============================================================================
+  // Progress Bar
+  // ============================================================================
+
+  &__progress {
+    position: absolute;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(400px, 80vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+
+    animation: fade-slide-up 600ms cubic-bezier(0.4, 0, 0.2, 1) 400ms backwards;
+  }
+
+  &__progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(104, 139, 104, 0.15);
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      var(--color-brand-green) 0%,
+      var(--color-brand-green-dark) 100%
+    );
+    border-radius: var(--radius-full);
+    transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width;
+
+    // Subtle shimmer effect
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%
+      );
+      background-size: 200px 100%;
+      animation: progress-shimmer 2s linear infinite;
+    }
+  }
+
+  &__progress-text {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+
+    // Subtle glow effect
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
   }
 
   // ============================================================================
@@ -445,6 +532,19 @@
     &__text {
       min-height: 160px;
     }
+
+    &__progress {
+      bottom: var(--space-6);
+      width: min(300px, 85vw);
+    }
+
+    &__progress-track {
+      height: 4px;
+    }
+
+    &__progress-text {
+      font-size: 0.75rem;
+    }
   }
 }
 
@@ -479,6 +579,15 @@
     &__svg-container {
       animation: none;
       opacity: 1;
+    }
+
+    &__progress {
+      animation: none;
+      opacity: 1;
+    }
+
+    &__progress-fill::after {
+      animation: none;
     }
   }
 

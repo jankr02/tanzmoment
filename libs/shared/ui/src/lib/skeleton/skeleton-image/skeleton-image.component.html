@@ -1,0 +1,15 @@
+<!--
+  Skeleton Image Component Template
+  
+  Wrapper around SkeletonBox with aspect-ratio handling.
+  Maintains proper dimensions to prevent layout shift when image loads.
+-->
+<tm-skeleton-box
+  class="skeleton-image"
+  [width]="'100%'"
+  [height]="computedHeight || '100%'"
+  [borderRadius]="borderRadius"
+  [animation]="animation"
+  [variant]="variant"
+  [ariaLabel]="ariaLabel"
+></tm-skeleton-box>

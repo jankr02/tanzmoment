@@ -1,89 +1,261 @@
-@use 'tokens' as *;
+// ==============================================================================
+// LANDING PAGE COMPONENT - ORCHESTRATED STYLES (Phase 3.3 Step 3)
+// ==============================================================================
 
-// ============================================================================
-// Landing Page Container Component
-// ============================================================================
+@use 'tokens' as *;
+@use 'base' as *;
+
+// ==============================================================================
+// Animations
+// ==============================================================================
+
+/**
+ * Fade-in animation for main content
+ */
+@keyframes landing-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ==============================================================================
+// Component Container
+// ==============================================================================
 
 .landing-page {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--color-background);
 
-  // ========================================
-  // Header Section
-  // ========================================
+  // Smooth fade-in after splash
+  animation: landing-fade-in 600ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ==========================================================================
+  // Header
+  // ==========================================================================
 
   &__header {
-    flex-shrink: 0;
-    margin: 0; // Remove any default margins
-    padding: 0; // Remove any default padding
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
   }
 
-  // ========================================
-  // Main Content Area
-  // ========================================
+  // ==========================================================================
+  // Main Content
+  // ==========================================================================
 
   &__main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin: 0; // Remove any default margins
-    padding: 0; // Remove any default padding
   }
 
-  // ========================================
-  // Hero Gallery Section (Fullscreen)
-  // ========================================
+  // ==========================================================================
+  // Hero Section
+  // ==========================================================================
 
   &__hero {
-    // No padding, no height constraints, no margins
-    // Hero Gallery Component manages its own fullscreen layout
     position: relative;
-    margin: 0;
-    padding: 0;
+    width: 100%;
+
+    // Smooth transition when appearing
+    animation: landing-fade-in 800ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  // ========================================
-  // Features Navigation Section
-  // ========================================
+  // ==========================================================================
+  // Wave Divider (between Hero and Features)
+  // ==========================================================================
 
-  &__features {
-    padding: var(--space-8) var(--space-4);
-    background-color: var(--color-background);
+  &__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 8; // Above hero image, below quotes and indicators (z-index: 15)
 
-    @include respond-to('md') {
-      padding: var(--space-12) var(--space-6);
+    // Pointer events pass through (for any interactions below)
+    pointer-events: none;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      // Ensure smooth rendering
+      shape-rendering: geometricPrecision;
+
+      // Shadow only on top edge (follows the wave curve)
+      filter: drop-shadow(0 -3px 4px rgba(0, 0, 0, 0.08));
     }
 
-    @include respond-to('lg') {
-      padding: var(--space-16) var(--space-8);
+    // Adjust height on different viewports
+    @media (min-width: 768px) {
+      height: 80px;
+    }
+
+    @media (min-width: 1024px) {
+      height: 100px;
+    }
+  }
+
+  // ==========================================================================
+  // Features Section
+  // ==========================================================================
+
+  &__features {
+    position: relative;
+    padding: var(--space-8) var(--space-8) var(--space-16) var(--space-8);
+    background: transparent;
+
+    // Container styles
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  // ==========================================================================
+  // Footer
+  // ==========================================================================
+
+  &__footer {
+    margin-top: auto;
+  }
+}
+
+// ==============================================================================
+// Features Section
+// ==============================================================================
+
+.features-title {
+  font-family: var(--font-headline);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  text-align: center;
+  color: var(--color-text-primary);
+  margin: var(--space-8) 0 var(--space-12) 0;
+  margin: 0 0 var(--space-12) 0;
+  letter-spacing: 0.02em;
+}
+
+// ==============================================================================
+// Features Error State
+// ==============================================================================
+
+.features-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: var(--space-8);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    text-align: center;
+    max-width: 400px;
+
+    // Subtle background
+    padding: var(--space-8);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &__icon {
+    color: var(--color-error, #dc2626);
+    opacity: 0.8;
+  }
+
+  &__message {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &__retry {
+    padding: var(--space-3) var(--space-6);
+
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+
+    color: var(--color-white);
+    background: var(--color-brand-green);
+    border: 2px solid var(--color-brand-green);
+    border-radius: var(--radius-md);
+
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      background: var(--color-brand-green-dark);
+      border-color: var(--color-brand-green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(104, 139, 104, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand-green);
+      outline-offset: 4px;
+    }
+  }
+}
+
+// ==============================================================================
+// Responsive Breakpoints
+// ==============================================================================
+
+@media (max-width: 768px) {
+  .landing-page {
+    &__features {
+      padding: var(--space-12) var(--space-4);
     }
   }
 
   .features-title {
-    font-family: var(--font-headline);
-    font-size: var(--font-size-h2);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
-    text-align: center;
-    margin-bottom: var(--space-6);
-
-    @include respond-to('md') {
-      margin-bottom: var(--space-8);
-    }
-
-    @include respond-to('lg') {
-      margin-bottom: var(--space-12);
-    }
+    font-size: clamp(1.875rem, 7vw, 2.25rem);
+    margin-bottom: var(--space-8);
   }
 
-  // ========================================
-  // Footer Section
-  // ========================================
+  .features-error {
+    min-height: 300px;
+    padding: var(--space-4);
 
-  &__footer {
-    flex-shrink: 0;
-    margin-top: auto;
+    &__content {
+      padding: var(--space-6);
+    }
+
+    &__message {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ==============================================================================
+// Accessibility
+// ==============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page,
+  .landing-page__hero {
+    animation: none;
+    opacity: 1;
   }
 }

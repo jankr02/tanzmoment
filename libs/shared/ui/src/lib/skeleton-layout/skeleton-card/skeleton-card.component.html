@@ -1,0 +1,44 @@
+<!--
+  Skeleton Card Component Template
+  
+  Matches the exact structure of feature-card
+  Provides a pre-composed loading state for feature navigation cards.
+-->
+<div class="skeleton-card">
+  <!-- Illustration Container (Centered Circle) -->
+  <div class="skeleton-card__illustration">
+    <tm-skeleton-circle
+      [size]="illustrationSize"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading illustration'"
+    ></tm-skeleton-circle>
+  </div>
+
+  <!-- Title Skeleton (2 lines, centered) -->
+  <div class="skeleton-card__title">
+    <tm-skeleton-text
+      [lines]="2"
+      lastLineWidth="80%"
+      lineHeight="1.5rem"
+      [borderRadius]="'var(--radius-sm)'"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading title'"
+    ></tm-skeleton-text>
+  </div>
+
+  <!-- Decorative Border (Optional) -->
+  @if (showBorder) {
+  <div class="skeleton-card__border">
+    <tm-skeleton-box
+      width="100%"
+      height="4px"
+      [borderRadius]="'0 0 var(--radius-xl) var(--radius-xl)'"
+      [animation]="animation"
+      [variant]="variant"
+      [ariaLabel]="'Loading border decoration'"
+    ></tm-skeleton-box>
+  </div>
+  }
+</div>

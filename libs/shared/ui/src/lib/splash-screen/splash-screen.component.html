@@ -1,14 +1,3 @@
-<!--
-  Splash Screen Component Template
-
-  Full-screen intro sequence with organic illustration and brand messaging.
-  Features a two-phase text sequence and smooth fade animations.
-
-  Phase 1: Brand name appears (0ms)
-  Phase 2: Brand name fades out (1500ms)
-  Phase 3: Main message appears (1700ms)
--->
-
 @if (visible()) {
 <div
   class="splash-screen"
@@ -21,7 +10,7 @@
   <!-- Content Container -->
   <div class="splash-screen__content">
     <!-- Skip Button -->
-    @if (showSkipButton) {
+    @if (showSkipButton()) {
     <button
       class="splash-screen__skip"
       (click)="onSkip()"
@@ -88,6 +77,28 @@
       </p>
       }
     </div>
+
+    <!-- Progress Bar (shows during loading) -->
+    @if (showProgress() && !assetsReady()) {
+    <div
+      class="splash-screen__progress"
+      role="progressbar"
+      [attr.aria-valuenow]="loadingProgress()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-label]="'Loading ' + loadingProgress() + ' percent complete'"
+    >
+      <div class="splash-screen__progress-track">
+        <div
+          class="splash-screen__progress-fill"
+          [style.width.%]="loadingProgress()"
+        ></div>
+      </div>
+      <span class="splash-screen__progress-text" aria-hidden="true">
+        {{ loadingProgress() }}%
+      </span>
+    </div>
+    }
   </div>
 
   <!-- Background Shape (organic decoration) -->

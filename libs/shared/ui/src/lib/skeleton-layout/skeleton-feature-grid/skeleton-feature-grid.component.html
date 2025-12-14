@@ -1,0 +1,18 @@
+<!--
+  Skeleton Feature Grid Component Template
+  
+  Matches the exact structure of feature-navigation__grid
+  Provides a one-tag solution for feature navigation skeleton.
+-->
+<div class="skeleton-feature-grid">
+  <div class="skeleton-feature-grid__grid">
+    @for (index of cardArray; track index) {
+    <tm-skeleton-card
+      [animation]="animation"
+      [variant]="variant"
+      [showBorder]="showBorders"
+      [ariaLabel]="'Loading feature card ' + (index + 1) + ' of ' + cardCount"
+    ></tm-skeleton-card>
+    }
+  </div>
+</div>

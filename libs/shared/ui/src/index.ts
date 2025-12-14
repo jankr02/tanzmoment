@@ -13,3 +13,8 @@ export * from './/lib/header/header.types';
 export * from './lib/footer/footer.types';
 export * from './lib/icon/icon.types';
 export * from './lib/card/course-card.types';
+export * from './lib/splash-screen/splash-screen.types';
+
+// Skeleton Components
+export * from './lib/skeleton';
+export * from './lib/skeleton-layout';
