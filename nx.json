@@ -1,6 +1,12 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "master",
+  "nxCloudAccessToken": null,
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default"
+    }
+  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
