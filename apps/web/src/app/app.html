@@ -1,17 +1,2 @@
-<!-- Header -->
-<app-header
-  [navItems]="navItems"
-  [showNav]="true"
-  [showLoginButton]="true"
-  [showRegisterButton]="true"
-  [fixed]="true"
-  [shrinkOnScroll]="true"
-  [showSearch]="true"
-  (loginClicked)="onLoginClick()"
-  (registerClicked)="onRegisterClick()"
-></app-header>
-
-<!-- Main Content -->
-<main>
-  <router-outlet></router-outlet>
-</main>
+<!-- Main Application Container -->
+<router-outlet></router-outlet>

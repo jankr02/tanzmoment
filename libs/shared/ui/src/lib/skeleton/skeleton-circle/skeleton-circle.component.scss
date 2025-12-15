@@ -1,0 +1,32 @@
+// ============================================================================
+// SKELETON CIRCLE COMPONENT STYLES
+// ============================================================================
+
+:host {
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0; // Prevent circle from being squished in flex containers
+
+  // Ensure perfect circle even with content
+  overflow: hidden;
+}
+
+.skeleton-circle {
+  width: 100%;
+  height: 100%;
+
+  // Ensure skeleton fills container properly
+  display: block;
+
+  // Smooth transition when real content loads
+  transition: opacity var(--transition-base);
+}
+
+// ============================================================================
+// PERFECT CIRCLE GUARANTEE
+// ============================================================================
+
+// Ensure aspect ratio is always 1:1
+:host {
+  aspect-ratio: 1 / 1;
+}

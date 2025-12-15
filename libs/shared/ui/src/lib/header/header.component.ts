@@ -18,7 +18,7 @@ import { IconComponent } from '../icon/icon.component';
 import { HeaderConfig, NavItem, UserMenuData } from './header.types';
 
 @Component({
-  selector: 'app-header',
+  selector: 'tm-header',
   standalone: true,
   imports: [CommonModule, ButtonComponent, IconComponent],
   templateUrl: './header.component.html',

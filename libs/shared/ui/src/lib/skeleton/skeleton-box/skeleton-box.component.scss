@@ -1,0 +1,121 @@
+// ============================================================================
+// SKELETON BOX COMPONENT STYLES
+// ============================================================================
+
+:host {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.skeleton-box {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  // Base background color (light variant)
+  background-color: var(--color-neutral-extra-light);
+
+  // Smooth transitions for any style changes
+  transition: background-color var(--transition-base);
+
+  // ============================================================================
+  // WAVE ANIMATION (Organic, flowing shimmer)
+  // ============================================================================
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    // Gradient that creates the shimmer effect
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(230, 222, 215, 0.4) 50%,
+      // --color-border with opacity
+      transparent 100%
+    );
+
+    // Start off-screen to the left
+    transform: translateX(-100%);
+
+    // Initially hidden (no animation)
+    opacity: 0;
+  }
+}
+
+// ============================================================================
+// ANIMATION VARIANTS
+// ============================================================================
+
+// Wave Animation (flowing from left to right)
+:host(.skeleton-box--wave) .skeleton-box::after {
+  opacity: 1;
+  animation: skeleton-wave 2s ease-in-out infinite;
+}
+
+// Pulse Animation (subtle breathing effect)
+:host(.skeleton-box--pulse) .skeleton-box {
+  animation: skeleton-pulse 2s ease-in-out infinite;
+}
+
+// ============================================================================
+// COLOR VARIANTS
+// ============================================================================
+
+// Dark Variant (for contrast areas)
+:host(.skeleton-box--dark) .skeleton-box {
+  background-color: var(--color-primary-light);
+
+  &::after {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(104, 139, 104, 0.15) 50%,
+      // --color-primary-dark with low opacity
+      transparent 100%
+    );
+  }
+}
+
+// ============================================================================
+// KEYFRAME ANIMATIONS
+// ============================================================================
+
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// ============================================================================
+// ACCESSIBILITY: Reduced Motion Support
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.skeleton-box--wave) .skeleton-box::after,
+  :host(.skeleton-box--pulse) .skeleton-box {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -15,7 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@tanzmoment/shared/ui": ["libs/shared/ui/src/index.ts"]
+      "@tanzmoment/shared/ui": ["libs/shared/ui/src/index.ts"],
+      "@tanzmoment/web/features/landing": [
+        "libs/web/features/landing/src/index.ts"
+      ],
+      "@tanzmoment/shared/services": ["libs/shared/services/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

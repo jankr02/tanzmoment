@@ -1,0 +1,335 @@
+@use 'tokens' as *;
+
+// ============================================================================
+// Hero Gallery Component - Fullscreen Design with Smooth Animations
+// ============================================================================
+
+.hero-gallery {
+  position: relative;
+  width: 100%;
+  height: 65vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+
+  @include respond-to('md') {
+    height: 80vh;
+  }
+
+  @include respond-to('lg') {
+    height: 90vh;
+  }
+
+  // ========================================
+  // Background Image with Ken Burns Effect
+  // ========================================
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+    // Ken Burns Effect - Subtle zoom and pan for cinematic feel
+    animation: kenBurns 12s ease-in-out infinite alternate;
+
+    &--active {
+      opacity: 1;
+    }
+  }
+
+  // Overlay for better text readability
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  // ========================================
+  // Illustrations
+  // ========================================
+
+  &__illustration {
+    position: absolute;
+    z-index: 5;
+    display: none;
+
+    @include respond-to('lg') {
+      display: block;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    &--wind {
+      top: 20%;
+      left: var(--space-8);
+      width: 180px;
+
+      @include respond-to('xl') {
+        width: 220px;
+        left: var(--space-12);
+      }
+    }
+
+    &--right {
+      bottom: 15%;
+      right: var(--space-8);
+      width: 200px;
+
+      @include respond-to('xl') {
+        width: 250px;
+        right: var(--space-12);
+      }
+    }
+  }
+
+  &__illustration-leafs {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    width: 140%;
+    z-index: 1;
+  }
+
+  &__illustration-silhouette {
+    position: relative;
+    z-index: 2;
+  }
+
+  // ========================================
+  // Navigation Buttons
+  // ========================================
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+
+    // Dunkler Glasmorphism - dezent und universell sichtbar
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-fast);
+
+    // Icon drop-shadow für Kontrast auf allen Hintergründen
+    svg {
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    }
+
+    @include respond-to('md') {
+      width: 56px;
+      height: 56px;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-soft-accent);
+      outline-offset: 2px;
+    }
+
+    &--prev {
+      left: var(--space-4);
+
+      @include respond-to('md') {
+        left: var(--space-6);
+      }
+    }
+
+    &--next {
+      right: var(--space-4);
+
+      @include respond-to('md') {
+        right: var(--space-6);
+      }
+    }
+  }
+
+  // ========================================
+  // Quote Section - Fade + Slide-Up Animation
+  // ========================================
+
+  &__quote-container {
+    position: absolute;
+    bottom: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 15;
+    animation: fadeSlideUp 0.8s ease-out;
+
+    @include respond-to('md') {
+      bottom: 240px;
+      width: 80%;
+    }
+
+    @include respond-to('lg') {
+      bottom: 260px;
+      width: 70%;
+    }
+  }
+
+  &__quote {
+    font-family: var(--font-headline);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-style: italic;
+    color: white;
+    text-align: center;
+    line-height: var(--line-height-body);
+    margin: 0;
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-md);
+    // Multi-layered text shadow for perfect readability
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.7),
+      0 0 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+    min-height: 3em;
+
+    @include respond-to('md') {
+      font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+      padding: var(--space-6) var(--space-8);
+    }
+  }
+
+  // ========================================
+  // Slide Indicators
+  // ========================================
+
+  &__indicators {
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--space-2);
+    z-index: 15;
+
+    @include respond-to('md') {
+      bottom: 160px;
+      gap: var(--space-3);
+    }
+  }
+
+  &__indicator {
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.2);
+    }
+
+    &--active {
+      background-color: white;
+      transform: scale(1.3);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-soft-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  // ========================================
+  // Wave Border
+  // ========================================
+
+  &__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 20;
+    pointer-events: none;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+}
+
+// ========================================
+// Animations
+// ========================================
+
+// Ken Burns Effect - Subtle zoom and pan
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-2%, -1%);
+  }
+}
+
+// Fade + Slide Up for quotes
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+// Simple Fade In
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

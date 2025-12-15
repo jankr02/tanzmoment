@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "module": "esnext",
+    "types": ["vitest", "node"],
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true
+  },
+  "files": [
+    "src/lib/preload/preload.types.ts",
+    "src/lib/preload/preload.service.ts",
+    "src/lib/preload/preload.service.spec.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ]
+}

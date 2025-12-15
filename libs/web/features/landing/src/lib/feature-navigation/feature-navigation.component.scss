@@ -1,0 +1,320 @@
+@use 'tokens' as *;
+
+// ============================================================================
+// Feature Navigation Component - Organic Card Design
+// ============================================================================
+
+.feature-navigation {
+  width: 100%;
+  padding: var(--space-8) var(--space-4);
+
+  @include respond-to('md') {
+    padding: var(--space-16) var(--space-8);
+  }
+
+  @include respond-to('lg') {
+    padding: var(--space-20) var(--space-12);
+  }
+
+  // ========================================
+  // Grid Layout
+  // ========================================
+
+  &__grid {
+    display: grid;
+    // Mobile: 1 column (horizontal cards)
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @include respond-to('md') {
+      // Desktop: 3 columns (vertical cards)
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    @include respond-to('lg') {
+      gap: var(--space-8);
+    }
+  }
+}
+
+// ========================================
+// Feature Card - Organic & Interactive
+// ========================================
+
+.feature-card {
+  position: relative;
+  // Mobile: subtle background for card appearance
+  background: rgba(255, 255, 255, 0.6);
+  // Mobile: more rounded corners for softer look
+  border-radius: var(--radius-lg);
+  // Mobile: horizontal layout with compact padding
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  overflow: hidden;
+
+  // Smoother, bolder border on mobile
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  // Mobile: Horizontal layout (illustration left, text right)
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-4);
+
+  @include respond-to('sm') {
+    padding: var(--space-4) var(--space-5);
+    gap: var(--space-5);
+  }
+
+  // Desktop: Vertical layout
+  @include respond-to('md') {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  // ========================================
+  // Hover & Focus States
+  // ========================================
+
+  // Mobile: subtle tap feedback
+  &:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  // Desktop: full hover effects
+  @include respond-to('md') {
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    &:active {
+      transform: translateY(-4px) scale(1.01);
+      background: transparent;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 2px;
+
+    @include respond-to('md') {
+      outline: 3px solid var(--color-soft-accent);
+      outline-offset: 4px;
+    }
+  }
+
+  // ========================================
+  // Illustration Container
+  // ========================================
+
+  &__illustration {
+    // Mobile: Larger fixed size for horizontal layout
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    @include respond-to('sm') {
+      width: 100px;
+      height: 100px;
+    }
+
+    // Desktop: Full width vertical layout
+    @include respond-to('md') {
+      width: 100%;
+      height: 420px;
+      flex: 1;
+      flex-shrink: 1;
+      align-items: flex-end;
+    }
+
+    @include respond-to('lg') {
+      height: 500px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      // Mobile: no extra scaling
+      transform: scale(1);
+
+      @include respond-to('md') {
+        transform: scale(1.25);
+      }
+    }
+  }
+
+  // Subtle illustration scale on hover (desktop only)
+  @include respond-to('md') {
+    &:hover &__illustration img {
+      transform: scale(1.35);
+    }
+  }
+
+  // ========================================
+  // Title
+  // ========================================
+
+  &__title {
+    font-family: var(--font-headline);
+    // Mobile: larger size for single-word titles
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    // Mobile: left-aligned for horizontal layout
+    text-align: left;
+    margin: 0;
+    line-height: 1.4;
+    transition: color var(--transition-fast);
+    // Take remaining space in horizontal layout
+    flex: 1;
+
+    @include respond-to('sm') {
+      font-size: 1.25rem;
+    }
+
+    // Desktop: centered vertical layout
+    @include respond-to('md') {
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      text-align: center;
+      margin-top: var(--space-8);
+      min-height: 3.5em;
+      line-height: var(--line-height-heading);
+      flex: none;
+    }
+
+    // Mobile title variant (short text)
+    &--mobile {
+      display: inline;
+
+      @include respond-to('md') {
+        display: none;
+      }
+    }
+
+    // Desktop title variant (descriptive text)
+    &--desktop {
+      display: none;
+
+      @include respond-to('md') {
+        display: inline;
+      }
+    }
+  }
+
+  // Hover effect (desktop only)
+  @include respond-to('md') {
+    &:hover &__title {
+      color: var(--color-brand);
+    }
+  }
+
+  // ========================================
+  // Arrow Icon (Mobile only)
+  // ========================================
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: var(--color-text-secondary);
+    transition: transform var(--transition-fast), color var(--transition-fast);
+    // Reduce gap between title and arrow
+    margin-left: calc(var(--space-4) * -1 + var(--space-1));
+
+    @include respond-to('sm') {
+      margin-left: calc(var(--space-5) * -1 + var(--space-2));
+    }
+
+    @include respond-to('md') {
+      display: none;
+    }
+  }
+
+  // Arrow hover effect on mobile
+  &:active &__arrow {
+    transform: translateX(4px);
+    color: var(--color-brand);
+  }
+
+  // ========================================
+  // Decorative Border (Optional Wave)
+  // ========================================
+
+  &__border {
+    // Hidden on mobile
+    display: none;
+
+    @include respond-to('md') {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--color-soft-accent) 0%,
+        var(--color-brand) 50%,
+        var(--color-soft-accent) 100%
+      );
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    }
+  }
+
+  @include respond-to('md') {
+    &:hover &__border {
+      transform: scaleX(1);
+    }
+  }
+}
+
+// ========================================
+// Accessibility - Keyboard Navigation
+// ========================================
+
+.feature-card:focus-visible {
+  // Enhanced focus state for keyboard users
+  box-shadow: 0 0 0 4px var(--color-soft-accent);
+}
+
+// ========================================
+// Responsive Adjustments
+// ========================================
+
+@include respond-to('md') {
+  .feature-card {
+    // Desktop: equal height cards in grid layout
+    min-height: 360px;
+  }
+}

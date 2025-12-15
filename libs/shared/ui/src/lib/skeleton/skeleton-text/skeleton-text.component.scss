@@ -1,0 +1,33 @@
+// ============================================================================
+// SKELETON TEXT COMPONENT STYLES
+// ============================================================================
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2); // Default gap, can be overridden by input
+  width: 100%;
+
+  &__line {
+    // Smooth transitions when switching between lines
+    transition: width var(--transition-base);
+  }
+}
+
+// ============================================================================
+// CUSTOM GAP OVERRIDE
+// ============================================================================
+
+// Host can accept custom gap via CSS variable
+:host {
+  --skeleton-text-gap: var(--space-2);
+}
+
+.skeleton-text {
+  gap: var(--skeleton-text-gap);
+}
