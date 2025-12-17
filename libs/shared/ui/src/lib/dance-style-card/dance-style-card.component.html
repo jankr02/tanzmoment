@@ -1,0 +1,78 @@
+<!-- ============================================================================
+     DANCE STYLE CARD TEMPLATE - V2 (Organic Design)
+     ============================================================================
+     Horizontales Layout: Illustration links, Content rechts
+     Die organische Form wird über border-radius erreicht
+     ============================================================================ -->
+
+<div
+  class="dance-style-card"
+  [style.--card-bg]="colorScheme.background"
+  [style.--card-border]="colorScheme.border"
+  [style.--card-shadow]="colorScheme.shadowColor"
+  [style.--card-text]="colorScheme.text"
+  [style.--card-text-secondary]="colorScheme.textSecondary"
+>
+  <!-- Illustration (links) -->
+  <div class="dance-style-card__illustration">
+    @if (hasIllustration) {
+    <img
+      [src]="data.illustrationUrl"
+      [alt]="''"
+      class="dance-style-card__illustration-img"
+      loading="lazy"
+      aria-hidden="true"
+    />
+    } @else {
+    <!-- Fallback: Abstrakte Tanzfigur -->
+    <svg
+      class="dance-style-card__illustration-fallback"
+      viewBox="0 0 100 140"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <circle
+        cx="50"
+        cy="20"
+        r="12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        fill="none"
+      />
+      <path d="M50 32 L50 70" stroke="currentColor" stroke-width="1.5" />
+      <path
+        d="M50 45 L30 60 M50 45 L70 55"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+      <path
+        d="M50 70 L35 110 M50 70 L65 105"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </svg>
+    }
+  </div>
+
+  <!-- Content (rechts) -->
+  <div class="dance-style-card__content">
+    <!-- Label -->
+    <h3 class="dance-style-card__label">{{ data.label }}</h3>
+
+    <!-- Description -->
+    <p class="dance-style-card__description">{{ data.description }}</p>
+
+    <!-- CTA Button -->
+    <app-button
+      variant="custom"
+      size="large"
+      [color]="colorScheme.buttonBg"
+      [textColor]="colorScheme.buttonText ?? '#ffffff'"
+    >
+      {{ ctaText }}
+    </app-button>
+  </div>
+</div>

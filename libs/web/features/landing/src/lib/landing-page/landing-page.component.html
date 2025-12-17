@@ -10,11 +10,7 @@
 @if (!showSplash()) {
 <div class="landing-page" [@fadeIn]>
   <header class="landing-page__header">
-    <tm-header
-      [navItems]="navItems"
-      [showNav]="true"
-      [shrinkOnScroll]="true"
-    ></tm-header>
+    <tm-header [shrinkOnScroll]="true" />
   </header>
 
   <main class="landing-page__main">

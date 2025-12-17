@@ -65,35 +65,41 @@ model Instructor {
 // ============================================================================
 
 model Course {
-  id                      String       @id @default(cuid())
-  title                   String
-  slug                    String       @unique
-  
-  // Neu: Für Kursliste
-  catchPhrase             String?
-  shortDescription        String       @db.Text  
-  danceStyle              String                
-  targetGroup             String                 
-  isMarkedAsHighlighted   Boolean      @default(false)
-  
-  // Bestehend: Für Details
-  description             String       @db.Text 
-  level                   CourseLevel
-  maxParticipants         Int
-  priceInCents            Int
-  duration                Int         
-  imageUrl                String?
-  
-  isPublished             Boolean      @default(false)
-  
-  instructorId            String
-  instructor              Instructor   @relation(fields: [instructorId], references: [id], onDelete: Cascade)
-  
-  createdAt               DateTime     @default(now())
-  updatedAt               DateTime     @updatedAt
-  
-  sessions                Session[]
-  
+  id                    String           @id @default(cuid())
+  title                 String
+  slug                  String           @unique
+
+  // For course list
+  catchPhrase           String?
+  shortDescription      String           @db.Text
+  danceStyle            String
+  targetGroup           String
+  isMarkedAsHighlighted Boolean          @default(false)
+
+  // For details
+  description           String           @db.Text
+  level                 CourseLevel
+  maxParticipants       Int
+  priceInCents          Int
+  duration              Int
+  imageUrl              String?
+
+  // Status & visibility
+  status                CourseStatus     @default(DRAFT)
+  visibility            CourseVisibility @default(PUBLIC)
+  isPublished           Boolean          @default(false)
+
+  instructorId          String
+  instructor            Instructor       @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+
+  sessions              Session[]
+
+  @@index([status])
+  @@index([visibility])
+  @@index([danceStyle])
   @@map("courses")
 }
 
@@ -125,8 +131,26 @@ model Session {
 
 enum SessionStatus {
   SCHEDULED
-  CANCELLED
+  IN_PROGRESS
   COMPLETED
+  CANCELLED
+  POSTPONED
+}
+
+enum CourseStatus {
+  DRAFT
+  ACTIVE
+  FULL
+  PAUSED
+  COMPLETED
+  ARCHIVED
+  CANCELLED
+}
+
+enum CourseVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
 }
 
 // ============================================================================
@@ -134,22 +158,29 @@ enum SessionStatus {
 // ============================================================================
 
 model Booking {
-  id              String        @id @default(cuid())
-  
-  userId          String
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  sessionId       String
-  session         Session       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  
-  status          BookingStatus @default(PENDING)
-  
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  
-  payment         Payment?
-  
+  id                 String              @id @default(cuid())
+
+  userId             String
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sessionId          String
+  session            Session             @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  status             BookingStatus       @default(PENDING)
+  waitlistPosition   Int?
+  cancellationReason CancellationReason?
+  notes              String?             @db.Text
+
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  cancelledAt        DateTime?
+
+  payment            Payment?
+
   @@unique([userId, sessionId])
+  @@index([userId])
+  @@index([sessionId])
+  @@index([status])
   @@map("bookings")
 }
 
@@ -160,36 +191,73 @@ enum BookingStatus {
   WAITLISTED
   ATTENDED
   NO_SHOW
+  COMPLETED
+  REJECTED
+}
+
+enum CancellationReason {
+  USER_REQUEST
+  STUDIO_CANCELLED
+  COURSE_CANCELLED
+  PAYMENT_FAILED
+  OTHER
 }
 
 model Payment {
-  id                String        @id @default(cuid())
-  
-  bookingId         String        @unique
-  booking           Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-  
-  userId            String
-  user              User          @relation(fields: [userId], references: [id])
-  
-  amountInCents     Int
-  currency          String        @default("EUR")
-  
-  stripePaymentId   String?       @unique
-  stripeStatus      String?
-  
-  status            PaymentStatus @default(PENDING)
-  
-  paidAt            DateTime?
-  
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  
+  id                    String         @id @default(cuid())
+
+  bookingId             String         @unique
+  booking               Booking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  userId                String
+  user                  User           @relation(fields: [userId], references: [id])
+
+  amountInCents         Int
+  currency              Currency       @default(EUR)
+  method                PaymentMethod?
+
+  stripePaymentId       String?        @unique
+  stripeStatus          String?
+  externalTransactionId String?
+
+  status                PaymentStatus  @default(PENDING)
+  refundedAmount        Int?
+  notes                 String?        @db.Text
+
+  paidAt                DateTime?
+  refundedAt            DateTime?
+
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  @@index([status])
+  @@index([method])
   @@map("payments")
 }
 
 enum PaymentStatus {
   PENDING
+  PROCESSING
   SUCCEEDED
+  PAID
   FAILED
   REFUNDED
+  PARTIAL_REFUND
+  CANCELLED
+  EXPIRED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CASH
+  PAYPAL
+  CREDIT_CARD
+  SEPA_DEBIT
+  VOUCHER
+  FREE
+}
+
+enum Currency {
+  EUR
+  CHF
 }

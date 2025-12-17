@@ -8,5 +8,47 @@ export const appRoutes: Route[] = [
         (m) => m.LandingPageComponent
       ),
   },
-  // Add more routes here as needed
+  {
+    path: 'courses',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/courses').then(
+        (m) => m.CourseOverviewComponent
+      ),
+  },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/about').then(
+        (m) => m.AboutPageComponent
+      ),
+  },
+  // Target Group Pages
+  {
+    path: 'fuer-muetter',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/target-groups').then(
+        (m) => m.MothersPageComponent
+      ),
+  },
+  {
+    path: 'fuer-kinder',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/target-groups').then(
+        (m) => m.ChildrenPageComponent
+      ),
+  },
+  {
+    path: 'barrierefreier-tanz',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/target-groups').then(
+        (m) => m.AccessiblePageComponent
+      ),
+  },
+  {
+    path: 'ausdruckstanz',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/target-groups').then(
+        (m) => m.ExpressivePageComponent
+      ),
+  },
 ];

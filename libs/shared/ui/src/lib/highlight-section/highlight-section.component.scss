@@ -1,0 +1,192 @@
+// ============================================================================
+// HIGHLIGHT SECTION STYLES
+// ============================================================================
+// Horizontal scroll section for highlighted courses
+// ============================================================================
+
+.highlight-section {
+  // Extra padding-top to account for overlapping dance style card
+  padding: 120px 0 var(--space-12);
+  background: var(--color-surface);
+  overflow: visible;
+
+  @media (min-width: 1400px) {
+    padding-top: 140px;
+  }
+
+  @media (max-width: 1023px) {
+    padding-top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0 var(--space-8);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HEADER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.highlight-section__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+  padding: 0 var(--space-4);
+
+  @media (max-width: 768px) {
+    margin-bottom: var(--space-6);
+  }
+}
+
+.highlight-section__headline {
+  font-family: var(--font-headline);
+  font-size: 2.9rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+.highlight-section__subheadline {
+  font-family: var(--font-body);
+  font-size: 1.425rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+.highlight-section__content {
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.highlight-section__scroll-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: var(--space-4) 0;
+  margin: calc(-1 * var(--space-4)) 0;
+
+  // Custom scrollbar styling
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+  }
+}
+
+.highlight-section__courses {
+  display: flex;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  min-width: min-content;
+
+  @media (max-width: 768px) {
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+  }
+}
+
+.highlight-section__course-wrapper {
+  flex-shrink: 0;
+
+  // Match visual size of course list grid cards
+  app-course-card {
+    transform: scale(1.7);
+    transform-origin: center center;
+
+    @media (min-width: 1400px) {
+      transform: scale(1.9);
+    }
+
+    @media (max-width: 1200px) {
+      transform: scale(1.55);
+    }
+
+    @media (max-width: 900px) {
+      transform: scale(1.4);
+    }
+
+    @media (max-width: 768px) {
+      transform: scale(1.25);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOADING STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+.highlight-section__loading {
+  display: flex;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  justify-content: center;
+}
+
+.highlight-section__skeleton {
+  width: 600px;
+  height: 340px;
+  background: linear-gradient(
+    90deg,
+    var(--color-neutral-l) 25%,
+    var(--color-neutral-xl) 50%,
+    var(--color-neutral-l) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-lg);
+  animation: shimmer 1.5s infinite;
+
+  @media (max-width: 768px) {
+    width: 450px;
+    height: 255px;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .highlight-section__skeleton {
+    animation: none;
+  }
+
+  .highlight-section__scroll-container {
+    scroll-behavior: auto;
+  }
+}

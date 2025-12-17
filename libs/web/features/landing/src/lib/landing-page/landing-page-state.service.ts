@@ -2,7 +2,7 @@
 // LANDING PAGE STATE SERVICE
 // ============================================================================
 
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, isDevMode } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 
 /**
@@ -375,6 +375,8 @@ export class LandingPageStateService {
    * Log message in dev mode
    */
   private log(message: string, data?: unknown): void {
-    console.log(`[LandingPageState] ${message}`, data ?? '');
+    if (isDevMode()) {
+      console.log(`[LandingPageState] ${message}`, data ?? '');
+    }
   }
 }

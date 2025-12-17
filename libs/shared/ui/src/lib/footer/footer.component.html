@@ -244,8 +244,8 @@
             
             @if (contactInfo.address) {
               <div class="footer__contact-item">
-                <app-icon name="mail" size="sm" color="text-secondary" />
-                <a 
+                <app-icon name="map-pin" size="sm" color="text-secondary" />
+                <a
                   [href]="contactInfo.mapUrl || '#'"
                   [target]="contactInfo.mapUrl ? '_blank' : '_self'"
                   class="footer__contact-link"
@@ -270,8 +270,8 @@
             
             @if (contactInfo.phone) {
               <div class="footer__contact-item">
-                <app-icon name="bell" size="sm" color="text-secondary" />
-                <a 
+                <app-icon name="phone" size="sm" color="text-secondary" />
+                <a
                   [href]="'tel:' + contactInfo.phone"
                   class="footer__contact-link"
                 >
@@ -318,13 +318,11 @@
      ============================================================================ -->
 
 @if (showScrollTop && showScrollTopButton()) {
-  <button 
+  <button
     class="footer__scroll-top"
     (click)="scrollToTop()"
     [attr.aria-label]="'Nach oben scrollen'"
   >
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <polyline points="18 15 12 9 6 15"/>
-    </svg>
+    <app-icon name="chevron-up" size="lg" color="current" />
   </button>
 }

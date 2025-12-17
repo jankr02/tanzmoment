@@ -1,3 +1,9 @@
+/**
+ * Courses Module
+ *
+ * NestJS module for course-related functionality.
+ */
+
 import { Module } from '@nestjs/common';
 import { CoursesController } from './courses.controller';
 import { CoursesService } from './courses.service';

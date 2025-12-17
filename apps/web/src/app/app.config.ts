@@ -4,7 +4,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -15,11 +15,14 @@ import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Client Hydration nur in Production aktivieren für schnellere Dev-Experience
+    // Only enable client hydration in production for faster dev experience
     ...(isDevMode() ? [] : [provideClientHydration(withEventReplay())]),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes),
+    provideRouter(
+      appRoutes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' })
+    ),
     provideHttpClient(),
     provideAnimations(),
   ],

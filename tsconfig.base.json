@@ -19,7 +19,13 @@
       "@tanzmoment/web/features/landing": [
         "libs/web/features/landing/src/index.ts"
       ],
-      "@tanzmoment/shared/services": ["libs/shared/services/src/index.ts"]
+      "@tanzmoment/web/features/courses": [
+        "libs/web/features/courses/src/index.ts"
+      ],
+      "@tanzmoment/shared/services": ["libs/shared/services/src/index.ts"],
+      "@tanzmoment/shared/types": ["libs/shared/types/src/index.ts"],
+      "@tanzmoment/web/features/about": ["libs/web/features/about/src/index.ts"],
+      "@tanzmoment/web/features/target-groups": ["libs/web/features/target-groups/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

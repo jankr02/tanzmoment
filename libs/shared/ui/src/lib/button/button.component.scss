@@ -70,9 +70,13 @@
   }
 
   &--large {
-    min-width: 200px;
-    height: 48px;
-    font-size: 1.125rem;
+    min-width: 220px;
+    height: 56px;
+    font-size: 1.0625rem;
+
+    .tm-button__content {
+      padding: 0 var(--space-6);
+    }
   }
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -146,6 +150,29 @@
       .tm-button__path {
         fill: var(--color-primary-light);
       }
+    }
+  }
+
+  // Custom (User-defined colors via CSS variables)
+  &--custom {
+    color: var(--btn-custom-text, #ffffff);
+
+    .tm-button__path {
+      fill: var(--btn-custom-bg, var(--color-brand));
+      stroke: var(--btn-custom-bg, var(--color-brand));
+    }
+
+    &:hover:not(.tm-button--disabled) {
+      transform: translateY(-2px);
+
+      .tm-button__path {
+        fill: color-mix(in oklab, var(--btn-custom-bg, var(--color-brand)) 85%, black 15%);
+        stroke: color-mix(in oklab, var(--btn-custom-bg, var(--color-brand)) 85%, black 15%);
+      }
+    }
+
+    &:active:not(.tm-button--disabled) {
+      transform: translateY(0);
     }
   }
 

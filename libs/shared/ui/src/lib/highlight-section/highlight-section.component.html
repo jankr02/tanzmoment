@@ -1,0 +1,37 @@
+<!-- ============================================================================
+     HIGHLIGHT SECTION TEMPLATE
+     ============================================================================
+     Horizontale Scroll-Section für hervorgehobene Kurse
+     ============================================================================ -->
+
+<section class="highlight-section" *ngIf="courses.length > 0 || loading">
+  <!-- Header -->
+  <header class="highlight-section__header">
+    <h2 class="highlight-section__headline">{{ headline }}</h2>
+    <p class="highlight-section__subheadline">{{ subheadline }}</p>
+  </header>
+
+  <!-- Content -->
+  <div class="highlight-section__content">
+    @if (loading) {
+      <div class="highlight-section__loading">
+        <div class="highlight-section__skeleton"></div>
+        <div class="highlight-section__skeleton"></div>
+      </div>
+    } @else {
+      <div class="highlight-section__scroll-container">
+        <div class="highlight-section__courses">
+          @for (course of courses; track trackByCourse($index, course)) {
+            <div class="highlight-section__course-wrapper">
+              <app-course-card
+                [course]="course"
+                (cardClicked)="onCourseClick($event)"
+                (registerClicked)="onRegisterClick($event)"
+              />
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npx vitest run)",
       "Bash(npx nx:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

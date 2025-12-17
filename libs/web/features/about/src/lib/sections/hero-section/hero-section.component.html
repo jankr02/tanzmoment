@@ -1,0 +1,27 @@
+<section class="hero-section">
+  <div class="hero-section__container">
+    <div class="hero-section__content">
+      <!-- Portrait -->
+      <div class="hero-section__portrait-container">
+        <div class="hero-section__portrait-shape">
+          <img
+            [src]="data.portraitImage"
+            [alt]="'Portrait von ' + data.name"
+            class="hero-section__portrait-image"
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <!-- Text Content -->
+      <div class="hero-section__text-content">
+        <h1 class="hero-section__name">{{ data.name }}</h1>
+        <p class="hero-section__title">{{ data.title }}</p>
+        <blockquote class="hero-section__quote">
+          "{{ data.quote }}"
+        </blockquote>
+        <p class="hero-section__description">{{ data.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

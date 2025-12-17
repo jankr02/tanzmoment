@@ -1,0 +1,124 @@
+.faq-section {
+  padding: var(--space-24) 0;
+  background-color: var(--color-background);
+
+  &__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    color: var(--color-text-primary);
+    text-align: center;
+    margin: 0 0 var(--space-16);
+  }
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.faq-item {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base);
+
+  &--open {
+    box-shadow: var(--shadow-md);
+  }
+
+  &__question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color var(--transition-base);
+
+    &:hover {
+      background-color: var(--color-background);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-soft-accent);
+      outline-offset: -2px;
+    }
+  }
+
+  &__question-text {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    padding-right: var(--space-4);
+    line-height: var(--line-height-body);
+  }
+
+  &__toggle-icon {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-bold);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__answer {
+    padding: 0 var(--space-6) var(--space-6);
+    animation: slideDown 0.3s ease;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-secondary);
+
+    p {
+      margin: 0 0 var(--space-3);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-bold);
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    ul, ol {
+      margin: var(--space-3) 0;
+      padding-left: var(--space-6);
+    }
+
+    li {
+      margin-bottom: var(--space-2);
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

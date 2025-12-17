@@ -1,0 +1,15 @@
+<section class="empathy-section">
+  <div class="empathy-section__container">
+    <h2 class="empathy-section__headline">{{ data.headline }}</h2>
+
+    <div class="empathy-section__content">
+      @for (paragraph of data.paragraphs; track $index) {
+        <p class="empathy-section__paragraph" [innerHTML]="paragraph"></p>
+      }
+
+      @if (data.highlightQuote) {
+        <blockquote class="empathy-section__quote" [innerHTML]="data.highlightQuote"></blockquote>
+      }
+    </div>
+  </div>
+</section>

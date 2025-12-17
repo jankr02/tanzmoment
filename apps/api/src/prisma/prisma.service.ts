@@ -1,23 +1,56 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+/**
+ * Prisma Service
+ *
+ * Injectable service that extends PrismaClient for NestJS integration.
+ * Handles database connection lifecycle.
+ */
+
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(PrismaService.name);
-
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   constructor() {
     super({
-      log: ['warn', 'error'],
+      log:
+        process.env.NODE_ENV === 'development'
+          ? ['query', 'info', 'warn', 'error']
+          : ['error'],
     });
   }
 
   async onModuleInit() {
     await this.$connect();
-    this.logger.log('✅ Prisma connected to database');
   }
 
   async onModuleDestroy() {
     await this.$disconnect();
-    this.logger.log('🔌 Prisma disconnected from database');
+  }
+
+  /**
+   * Clean database (for testing only!)
+   * Deletes all data in reverse order of dependencies
+   */
+  async cleanDatabase() {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('Cannot clean database in production!');
+    }
+
+    const tablenames = await this.$queryRaw<
+      Array<{ tablename: string }>
+    >`SELECT tablename FROM pg_tables WHERE schemaname='public'`;
+
+    const tables = tablenames
+      .map(({ tablename }) => tablename)
+      .filter((name) => name !== '_prisma_migrations')
+      .map((name) => `"public"."${name}"`)
+      .join(', ');
+
+    if (tables.length > 0) {
+      await this.$executeRawUnsafe(`TRUNCATE TABLE ${tables} CASCADE;`);
+    }
   }
 }

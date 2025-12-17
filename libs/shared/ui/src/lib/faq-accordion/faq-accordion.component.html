@@ -1,0 +1,40 @@
+<section class="faq-section">
+  <div class="faq-section__container">
+    <h2 class="faq-section__headline">{{ data.headline }}</h2>
+
+    <div class="faq-list">
+      @for (item of data.items; track item.id) {
+        <div
+          class="faq-item"
+          [class.faq-item--open]="isOpen(item.id)"
+        >
+          <button
+            class="faq-item__question"
+            (click)="toggleItem(item.id)"
+            [attr.aria-expanded]="isOpen(item.id)"
+            [attr.aria-controls]="'faq-answer-' + item.id"
+            type="button"
+          >
+            <span class="faq-item__question-text">{{ item.question }}</span>
+            <span
+              class="faq-item__toggle-icon"
+              [style.color]="data.accentColor ? 'var(' + data.accentColor + ')' : 'var(--color-brand)'"
+            >
+              {{ isOpen(item.id) ? '−' : '+' }}
+            </span>
+          </button>
+
+          @if (isOpen(item.id)) {
+            <div
+              class="faq-item__answer"
+              [id]="'faq-answer-' + item.id"
+              role="region"
+              [innerHTML]="item.answer"
+            >
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

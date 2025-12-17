@@ -1,0 +1,77 @@
+<!-- ============================================================================
+EMPTY STATE COMPONENT TEMPLATE
+============================================================================ -->
+
+<div [ngClass]="cssClasses()">
+  <!-- Illustration -->
+  @if (showIllustration()) {
+  <div class="empty-state__illustration">
+    <img
+      [src]="illustrationPath()"
+      [alt]="config().title"
+      class="empty-state__illustration-img"
+      loading="lazy"
+    />
+  </div>
+  }
+
+  <!-- Content -->
+  <div class="empty-state__content">
+    <!-- Title -->
+    @if (config().title) {
+    <h3 class="empty-state__title">
+      {{ config().title }}
+    </h3>
+    }
+
+    <!-- Message -->
+    @if (config().message) {
+    <p class="empty-state__message">
+      {{ config().message }}
+    </p>
+    }
+
+    <!-- Filter Count Info -->
+    @if (activeFilterCount() > 0 && variant() === 'no-results') {
+    <p class="empty-state__filter-info">
+      <app-icon name="filter" size="sm" />
+      <span>
+        {{ activeFilterCount() }}
+        {{ activeFilterCount() === 1 ? 'Filter aktiv' : 'Filter aktiv' }}
+      </span>
+    </p>
+    }
+  </div>
+
+  <!-- Actions -->
+  @if (config().actions && config().actions!.length > 0) {
+  <div class="empty-state__actions">
+    @for (action of config().actions; track action.label) { @if
+    (isHomeAction(action)) {
+    <!-- Home Link -->
+    <a routerLink="/" class="empty-state__action-link">
+      <app-button
+        [variant]="getButtonVariant(action)"
+        size="medium"
+      >
+        {{ action.label }}
+      </app-button>
+    </a>
+    } @else {
+    <!-- Action Button -->
+    <app-button
+      [variant]="getButtonVariant(action)"
+      size="medium"
+      (clicked)="onActionClick(action)"
+    >
+      {{ action.label }}
+    </app-button>
+    } }
+  </div>
+  }
+
+  <!-- Slot for custom content -->
+  <div class="empty-state__custom">
+    <ng-content />
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<section class="methodology-section">
+  <!-- Wave Border am oberen Rand -->
+  <div class="methodology-section__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+
+  <div class="methodology-section__container">
+    <h2 class="methodology-section__headline">{{ data.headline }}</h2>
+    <p class="methodology-section__intro">{{ data.intro }}</p>
+
+    <div class="methodology-grid">
+      @for (point of data.points; track point.title) {
+        <div class="methodology-card">
+          <h3 class="methodology-card__title">{{ point.title }}</h3>
+          <p class="methodology-card__description" [innerHTML]="point.description"></p>
+        </div>
+      }
+    </div>
+
+    <div class="methodology-section__qualification">
+      <p [innerHTML]="data.qualificationNote"></p>
+    </div>
+  </div>
+</section>

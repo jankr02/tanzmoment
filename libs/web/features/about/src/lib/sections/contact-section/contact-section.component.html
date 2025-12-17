@@ -1,0 +1,54 @@
+<section class="contact-section">
+  <div class="contact-section__container">
+    <div class="contact-section__content">
+      <!-- Text Content -->
+      <div class="contact-section__text">
+        <h2 class="contact-section__headline">{{ data.headline }}</h2>
+        @if (data.subheadline) {
+          <p class="contact-section__subheadline">{{ data.subheadline }}</p>
+        }
+      </div>
+
+      <!-- Contact Info -->
+      <div class="contact-section__info">
+        <div class="contact-section__info-item">
+          <div class="contact-section__icon-wrapper">
+            <app-icon name="map-pin" size="lg" color="primary" />
+          </div>
+          <span class="contact-section__label">Adresse</span>
+          <address class="contact-section__value">
+            {{ data.address.street }}<br />
+            {{ data.address.postalCode }} {{ data.address.city }}
+          </address>
+        </div>
+
+        <div class="contact-section__info-item">
+          <div class="contact-section__icon-wrapper">
+            <app-icon name="mail" size="lg" color="primary" />
+          </div>
+          <span class="contact-section__label">E-Mail</span>
+          <a [href]="mailtoLink" class="contact-section__value contact-section__link">
+            {{ data.email }}
+          </a>
+        </div>
+
+        @if (data.phone) {
+          <div class="contact-section__info-item">
+            <div class="contact-section__icon-wrapper">
+              <app-icon name="phone" size="lg" color="primary" />
+            </div>
+            <span class="contact-section__label">Telefon</span>
+            <a [href]="'tel:' + data.phone" class="contact-section__value contact-section__link">
+              {{ data.phone }}
+            </a>
+          </div>
+        }
+      </div>
+
+      <!-- CTA Button -->
+      <a [href]="data.ctaLink" class="contact-section__cta">
+        {{ data.ctaText }}
+      </a>
+    </div>
+  </div>
+</section>

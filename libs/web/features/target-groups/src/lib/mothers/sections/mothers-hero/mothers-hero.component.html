@@ -1,0 +1,38 @@
+<section class="mothers-hero">
+  <div class="mothers-hero__background">
+    <img
+      [src]="data.backgroundImage"
+      alt="Mutter beim Tanzen"
+      class="mothers-hero__image"
+    />
+    <div class="mothers-hero__overlay"></div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="mothers-hero__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="mothers-hero__content">
+    <div class="mothers-hero__container">
+      <h1 class="mothers-hero__headline">{{ data.headline }}</h1>
+      <p class="mothers-hero__subheadline">{{ data.subheadline }}</p>
+      <app-button
+        variant="primary"
+        size="large"
+        (clicked)="onCtaClick()"
+      >
+        {{ data.ctaText }}
+      </app-button>
+    </div>
+  </div>
+</section>

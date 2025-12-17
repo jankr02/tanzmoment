@@ -1,0 +1,590 @@
+// ============================================================================
+// COURSE OVERVIEW PAGE STYLES
+// ============================================================================
+// Layout und Styling für die Kursübersichtsseite
+// Responsive Design mit Sidebar-Layout auf Desktop
+// ============================================================================
+
+// Note: CSS Custom Properties (var(--...)) sind global verfügbar
+// SCSS-only Variables werden lokal definiert
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VARIABLES
+// ─────────────────────────────────────────────────────────────────────────────
+
+$sidebar-width: 220px;
+$sidebar-gap: 24px;
+$container-max: 1400px;
+$content-padding: 24px;
+
+// Breakpoints
+$bp-sidebar: 1024px;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HEADER (Sticky)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BASE LAYOUT
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview {
+  min-height: 100vh;
+  background: var(--color-surface);
+
+  // Padding-top für fixed Header
+  padding-top: 90px;
+
+  @media (min-width: 768px) {
+    padding-top: 110px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-top: 115px;
+  }
+}
+
+.course-overview__container {
+  max-width: $container-max;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HERO SECTION (Dance Styles)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__hero {
+  background: linear-gradient(
+    to bottom,
+    var(--color-neutral-xl) 0%,
+    var(--color-surface) 100%
+  );
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0 var(--space-6);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HIGHLIGHTS SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__highlights {
+  background: var(--color-surface);
+  padding: var(--space-4) 0;
+
+  @media (max-width: 768px) {
+    padding: var(--space-2) 0;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__filters {
+  // No extra padding needed - section header above provides spacing
+  padding-top: 0;
+}
+
+.course-overview__filter-section {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+
+  // Subtle shadow when sticky
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0);
+  transition: box-shadow 0.2s ease;
+
+  &.is-sticky {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.course-overview__result-count {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: var(--space-3) 0 0;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SECTION HEADER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__section-header {
+  text-align: center;
+  padding: var(--space-8) var(--space-4) var(--space-6);
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: var(--space-6) var(--space-4) var(--space-4);
+  }
+}
+
+.course-overview__section-title {
+  font-family: var(--font-headline);
+  font-size: 2.9rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN CONTENT LAYOUT
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__main {
+  padding: 0 0 var(--space-8);
+  // Extra margin-top to prevent scaled cards from overlapping filter bar
+  margin-top: 60px;
+  overflow: visible; // Wichtig für Illustrationen
+
+  @media (min-width: 1400px) {
+    margin-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 0 var(--space-6);
+    margin-top: 40px;
+  }
+
+  // Container mit Sidebar + Content Grid
+  > .course-overview__container {
+    display: grid;
+    gap: $sidebar-gap;
+    overflow: visible; // Wichtig für Illustrationen
+
+    // Desktop: Sidebar + Content
+    @media (min-width: $bp-sidebar) {
+      grid-template-columns: $sidebar-width 1fr;
+    }
+
+    // Mobile: Only Content
+    @media (max-width: calc($bp-sidebar - 1px)) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.course-overview__layout {
+  display: grid;
+  gap: $sidebar-gap;
+
+  // Desktop: Sidebar + Content
+  @media (min-width: $bp-sidebar) {
+    grid-template-columns: $sidebar-width 1fr;
+  }
+
+  // Mobile: Only Content
+  @media (max-width: calc($bp-sidebar - 1px)) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SIDEBAR
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__sidebar {
+  // Hidden on mobile
+  @media (max-width: calc($bp-sidebar - 1px)) {
+    display: none;
+  }
+
+  // Sticky positioning handled by FilterSidebarComponent
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT AREA
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__content {
+  min-width: 0; // Prevent grid blowout
+  overflow: visible; // Wichtig für Illustrationen außerhalb der Cards
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COURSE GRID
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  overflow: visible; // Wichtig für Illustrationen
+
+  // Ausgleich für Sidebar, um Cards im Viewport zu zentrieren
+  // (Sidebar-Breite + Gap) / 2 nach links verschieben
+  margin-left: calc((-#{$sidebar-width} - #{$sidebar-gap}) / 2);
+
+  @media (max-width: calc($bp-sidebar - 1px)) {
+    margin-left: 0; // Kein Ausgleich wenn Sidebar versteckt
+  }
+
+  // Cards größer skalieren
+  app-course-card {
+    transform: scale(1.15);
+    transform-origin: center center;
+
+    @media (min-width: 1400px) {
+      transform: scale(1.25);
+    }
+
+    @media (max-width: 1200px) {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 900px) {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+      transform: scale(0.85);
+    }
+  }
+
+  @media (min-width: 1400px) {
+    gap: 100px;
+  }
+
+  @media (max-width: 768px) {
+    gap: 40px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CARD WRAPPER WITH ILLUSTRATIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__card-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Stacking Animation - initial state
+  opacity: 0;
+  transform: translateY(40px);
+
+  // Animation triggers when --animation-delay is set
+  &.is-animated {
+    animation: cardStackIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--animation-delay, 0ms);
+  }
+}
+
+// Stacking Animation Keyframes
+@keyframes cardStackIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ILLUSTRATION STYLES
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__illustration {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0.75;
+  z-index: 0;
+
+  // Sanfte Animation beim Laden
+  animation: illustrationFadeIn 0.8s ease-out;
+
+  // Positionierung links (unter Sidebar)
+  &--left {
+    right: calc(100% + 140px);
+    top: 50%;
+    transform: translateY(-40%);
+
+    @media (min-width: 1400px) {
+      right: calc(100% + 180px);
+    }
+
+    @media (max-width: 1200px) {
+      right: calc(100% + 100px);
+    }
+  }
+
+  // Positionierung rechts
+  &--right {
+    left: calc(100% + 140px);
+    top: 50%;
+    transform: translateY(-40%);
+
+    @media (min-width: 1400px) {
+      left: calc(100% + 180px);
+    }
+
+    @media (max-width: 1200px) {
+      left: calc(100% + 100px);
+    }
+  }
+
+  // Verstecke Illustrationen auf kleineren Bildschirmen
+  @media (max-width: 1023px) {
+    display: none;
+  }
+}
+
+// Figur-Größen
+.course-overview__illustration--figure {
+  &.course-overview__illustration--dog .course-overview__illustration-figure {
+    width: 160px;
+    height: auto;
+
+    @media (min-width: 1400px) {
+      width: 200px;
+    }
+
+    @media (max-width: 1200px) {
+      width: 130px;
+    }
+  }
+
+  &.course-overview__illustration--silhouette
+    .course-overview__illustration-figure {
+    width: 120px;
+    height: auto;
+
+    @media (min-width: 1400px) {
+      width: 150px;
+    }
+
+    @media (max-width: 1200px) {
+      width: 100px;
+    }
+  }
+}
+
+// Footprints-Größen und Positionierung
+.course-overview__illustration--footprints {
+  // Footprints deutlich nach unten versetzt
+  top: 75% !important;
+  transform: translateY(-20%) !important;
+
+  &.course-overview__illustration--dog
+    .course-overview__illustration-footprints {
+    width: 120px;
+    height: auto;
+
+    @media (min-width: 1400px) {
+      width: 150px;
+    }
+
+    @media (max-width: 1200px) {
+      width: 95px;
+    }
+  }
+
+  &.course-overview__illustration--silhouette
+    .course-overview__illustration-footprints {
+    width: 90px;
+    height: auto;
+
+    @media (min-width: 1400px) {
+      width: 110px;
+    }
+
+    @media (max-width: 1200px) {
+      width: 75px;
+    }
+  }
+}
+
+.course-overview__illustration-figure,
+.course-overview__illustration-footprints {
+  display: block;
+  max-width: none;
+  height: auto;
+}
+
+// Animation für Illustrationen
+@keyframes illustrationFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 0.75;
+    transform: translateY(0);
+  }
+}
+
+// Reduced Motion Support
+@media (prefers-reduced-motion: reduce) {
+  .course-overview__illustration {
+    animation: none;
+  }
+}
+
+.course-overview__list {
+  display: grid;
+  gap: var(--space-6);
+
+  // Single column layout for course cards
+  grid-template-columns: 1fr;
+
+  @media (max-width: 768px) {
+    gap: var(--space-4);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOAD MORE
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-8);
+
+  @media (max-width: 768px) {
+    margin-top: var(--space-6);
+
+    ui-button {
+      width: 100%;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPER SECTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__helper {
+  padding: var(--space-12) 0;
+  background: var(--color-neutral-xl);
+  margin-top: var(--space-8);
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0;
+    margin-top: var(--space-6);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BACK TO TOP BUTTON
+// ─────────────────────────────────────────────────────────────────────────────
+
+.course-overview__back-to-top {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 50;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+
+  background: var(--color-brand);
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  // Animation
+  animation: fadeInUp 0.3s ease-out;
+
+  &:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    width: 44px;
+    height: 44px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ANIMATIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .course-overview__back-to-top {
+    animation: none;
+    transition: none;
+  }
+
+  .course-overview__card-wrapper {
+    // Bei reduced motion: sofort sichtbar ohne Animation
+    opacity: 1;
+    transform: none;
+
+    &.is-animated {
+      animation: none;
+    }
+  }
+}

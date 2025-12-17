@@ -1,0 +1,547 @@
+// ============================================================================
+// DANCE STYLES SECTION STYLES - V2 (Asymmetric Layout)
+// ============================================================================
+// Asymmetric layout with background image
+// Cards are absolutely positioned for floating effect
+// ============================================================================
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VARIABLES
+// ─────────────────────────────────────────────────────────────────────────────
+
+$section-min-height: 900px;
+$content-max-width: 1480px;
+
+// Card widths (Desktop) - Larger cards for better space utilization
+$card-width-small: 540px;
+$card-width-large: 600px;
+$card-width-xl: 700px;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SECTION CONTAINER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 0;
+  overflow: visible;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HEADER ZONE (Title + top wave)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__header {
+  position: relative;
+  padding-top: 48px;
+  z-index: 3;
+
+  // Background only up to the wave (not below)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px; // Leave out wave height
+    background: var(--color-surface);
+    z-index: -1;
+  }
+}
+
+.dance-styles-section__header-content {
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: 0 48px;
+  text-align: center;
+}
+
+.dance-styles-section__title {
+  font-family: var(--font-headline);
+  font-size: 2.9rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+.dance-styles-section__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.425rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.dance-styles-section__wave-top {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  margin-top: 32px;
+  margin-bottom: -80px; // Wave extends over the image
+  z-index: 2; // Above image (0), below cards (3)
+  pointer-events: none;
+  // Clip shadow from above (only visible below)
+  overflow: hidden;
+  padding-bottom: 12px; // Space for shadow below
+  margin-bottom: -92px; // Compensates padding
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 80px; // Fixed height instead of 100%
+    // Shadow downward onto the image
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT WRAPPER (Bild + Karten Container)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__content {
+  position: relative;
+  min-height: $section-min-height;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BACKGROUND IMAGE
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.dance-styles-section__background-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.dance-styles-section__background-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 248, 243, 0.05) 0%,
+    rgba(253, 248, 243, 0) 30%,
+    rgba(253, 248, 243, 0) 70%,
+    rgba(253, 248, 243, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WAVE BORDER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__wave {
+  position: absolute;
+  bottom: -1px; // Slight overlap to prevent gap
+  left: 0;
+  width: 100%;
+  height: 92px; // 80px SVG + 12px for shadow upwards
+  z-index: 1; // Above background (0), below cards (2)
+  pointer-events: none;
+  // Clip shadow from below (only visible above)
+  overflow: hidden;
+
+  svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 80px;
+    // Shadow upwards onto background image
+    filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.08))
+      drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.04));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CARDS CONTAINER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__cards {
+  position: relative;
+  z-index: 3; // Above wave-top (2) and bottom wave (1)
+  width: 100%;
+  max-width: $content-max-width;
+  height: $section-min-height;
+  margin: 0 auto;
+  padding: 40px 48px 0;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FLOATING ANIMATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--card-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(var(--card-rotation, 0deg));
+  }
+}
+
+@keyframes float-subtle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--card-rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-5px) rotate(var(--card-rotation, 0deg));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INDIVIDUAL CARD POSITIONING
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__card {
+  position: absolute;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease;
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+
+  // Enhanced shadow for floating effect
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.12))
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+
+  &:hover {
+    z-index: 10;
+    animation-play-state: paused;
+    filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.18))
+      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+  }
+}
+
+// Kids Card - Top Left
+.dance-styles-section__card--kids {
+  --card-rotation: -1.5deg;
+  top: 30px;
+  left: 0;
+  width: $card-width-small;
+  animation-delay: 0s;
+  animation-duration: 5.5s;
+
+  &:hover {
+    transform: translateY(-12px) rotate(-1.5deg) scale(1.01);
+  }
+}
+
+// Accessible Card - Top Right (offset downward)
+.dance-styles-section__card--accessible {
+  --card-rotation: 1deg;
+  top: 120px;
+  right: 0;
+  width: $card-width-large;
+  animation-delay: -1.5s;
+  animation-duration: 6.5s;
+
+  &:hover {
+    transform: translateY(-12px) rotate(1deg) scale(1.01);
+  }
+}
+
+// Mothers Card - Middle Left
+.dance-styles-section__card--mothers {
+  --card-rotation: 1.5deg;
+  top: 360px;
+  left: 30px;
+  width: $card-width-small;
+  animation-delay: -3s;
+  animation-duration: 5s;
+
+  &:hover {
+    transform: translateY(-12px) rotate(1.5deg) scale(1.01);
+  }
+}
+
+// Expressive Card - Bottom Right (extends beyond image)
+.dance-styles-section__card--expressive {
+  --card-rotation: -0.8deg;
+  bottom: -50px;
+  right: -10px;
+  width: $card-width-xl;
+  animation-delay: -4.5s;
+  animation-duration: 7s;
+
+  &:hover {
+    transform: translateY(-12px) rotate(-0.8deg) scale(1.01);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSIVE - Large Desktop (1400px+)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (min-width: 1400px) {
+  .dance-styles-section__content {
+    min-height: 1000px;
+  }
+
+  .dance-styles-section__header {
+    padding-top: 64px;
+
+    &::before {
+      bottom: 100px; // Wave height on large desktop
+    }
+  }
+
+  .dance-styles-section__header-content {
+    padding: 0 72px;
+  }
+
+  .dance-styles-section__wave-top {
+    height: 100px;
+    margin-top: 40px;
+    margin-bottom: -100px;
+  }
+
+  .dance-styles-section__background {
+    max-height: none;
+  }
+
+  .dance-styles-section__wave {
+    height: 112px; // 100px SVG + 12px for shadow
+
+    svg {
+      height: 100px;
+    }
+  }
+
+  .dance-styles-section__cards {
+    height: 1000px;
+    padding: 60px 72px 0;
+  }
+
+  .dance-styles-section__card--kids {
+    width: 600px;
+  }
+
+  .dance-styles-section__card--accessible {
+    top: 140px;
+    width: 660px;
+  }
+
+  .dance-styles-section__card--mothers {
+    top: 420px;
+    width: 600px;
+  }
+
+  .dance-styles-section__card--expressive {
+    width: 780px;
+    right: 30px;
+    bottom: -60px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSIVE - Tablet (768px - 1023px)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (max-width: 1023px) {
+  .dance-styles-section {
+    padding: 0 0 60px;
+  }
+
+  .dance-styles-section__content {
+    min-height: 920px;
+  }
+
+  .dance-styles-section__header {
+    padding-top: 32px;
+
+    &::before {
+      bottom: 60px; // Wave height on tablet
+    }
+  }
+
+  .dance-styles-section__header-content {
+    padding: 0 28px;
+  }
+
+  .dance-styles-section__wave-top {
+    height: 60px;
+    margin-top: 24px;
+    margin-bottom: -60px;
+  }
+
+  .dance-styles-section__background {
+    height: 100%;
+    max-height: none;
+    top: 0;
+  }
+
+  .dance-styles-section__wave {
+    height: 72px; // 60px SVG + 12px for shadow
+
+    svg {
+      height: 60px;
+    }
+  }
+
+  .dance-styles-section__cards {
+    height: 920px;
+    padding: 0 28px;
+  }
+
+  .dance-styles-section__card--kids {
+    width: 400px;
+  }
+
+  .dance-styles-section__card--accessible {
+    top: 100px;
+    width: 440px;
+  }
+
+  .dance-styles-section__card--mothers {
+    top: 360px;
+    left: 15px;
+    width: 400px;
+  }
+
+  .dance-styles-section__card--expressive {
+    width: 480px;
+    right: 15px;
+    bottom: -20px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSIVE - Mobile (below 768px)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (max-width: 767px) {
+  .dance-styles-section {
+    padding: 0 16px 40px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .dance-styles-section__content {
+    min-height: auto;
+  }
+
+  .dance-styles-section__header {
+    padding-top: 24px;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    &::before {
+      bottom: 0; // No wave on mobile
+    }
+  }
+
+  .dance-styles-section__header-content {
+    padding: 0;
+  }
+
+  // Hide wave on mobile (layout is different)
+  .dance-styles-section__wave-top,
+  .dance-styles-section__wave {
+    display: none;
+  }
+
+  // Background image centered at top
+  .dance-styles-section__background {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 4/3;
+    margin-top: 24px;
+    margin-bottom: -60px;
+    border-radius: 16px;
+  }
+
+  // Cards stacked vertically (stack layout)
+  .dance-styles-section__cards {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: auto;
+    padding: 0;
+  }
+
+  .dance-styles-section__card {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    transform: none !important;
+    animation: none;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+
+    &:hover {
+      transform: translateY(-2px) !important;
+      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+    }
+  }
+
+  // First card overlaps the image
+  .dance-styles-section__card--kids {
+    z-index: 4;
+  }
+
+  .dance-styles-section__card--accessible {
+    z-index: 3;
+  }
+
+  .dance-styles-section__card--mothers {
+    z-index: 2;
+  }
+
+  .dance-styles-section__card--expressive {
+    z-index: 1;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .dance-styles-section__card {
+    transition: none;
+    animation: none;
+
+    &:hover {
+      transform: none !important;
+    }
+  }
+}

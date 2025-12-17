@@ -25,14 +25,14 @@ export class CourseCardComponent {
    * Get color scheme for the dance style
    */
   get colorScheme() {
-    return DANCE_STYLE_COLORS[this.course.danceStyle] || DANCE_STYLE_COLORS['Contemporary'];
+    return DANCE_STYLE_COLORS[this.course.danceStyle] || DANCE_STYLE_COLORS['expressive'];
   }
 
   /**
    * Get icon path for the dance style
    */
   get danceStyleIcon(): string {
-    return DANCE_STYLE_ICONS[this.course.danceStyle] || DANCE_STYLE_ICONS['Contemporary'];
+    return DANCE_STYLE_ICONS[this.course.danceStyle] || DANCE_STYLE_ICONS['expressive'];
   }
 
   /**
@@ -42,7 +42,11 @@ export class CourseCardComponent {
     return {
       '--card-bg-color': this.colorScheme.bg,
       '--card-border-color': this.colorScheme.border,
+      '--card-accent-color': this.colorScheme.accent,
       '--card-text-color': this.colorScheme.text,
+      '--card-text-secondary': this.colorScheme.textSecondary,
+      '--card-button-bg': this.colorScheme.buttonBg,
+      '--card-shadow-color': this.colorScheme.shadowColor,
     };
   }
 

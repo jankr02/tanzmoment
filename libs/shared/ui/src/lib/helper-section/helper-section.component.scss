@@ -1,0 +1,169 @@
+// ============================================================================
+// HELPER SECTION STYLES
+//
+// Design notes:
+// - Full-width section with centered content
+// - Responsive 3-column grid (1 column on mobile)
+// - Stagger animation for cards
+// - Optional muted background variant
+// ============================================================================
+
+@use 'tokens' as *;
+
+// ============================================================================
+// HOST ELEMENT
+// ============================================================================
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ============================================================================
+// SECTION CONTAINER
+// ============================================================================
+
+.helper-section__container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-12) var(--container-padding);
+}
+
+// ============================================================================
+// SECTION HEADER
+// ============================================================================
+
+.helper-section__header {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.helper-section__headline {
+  font-family: var(--font-headline);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-h2);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2);
+}
+
+.helper-section__subheadline {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-l);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+// ============================================================================
+// CARDS GRID
+// ============================================================================
+
+.helper-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  justify-items: center;
+
+  // Medium screens: 2 columns
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  // Large screens: 3 columns
+  @include respond-to('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ============================================================================
+// CARD WRAPPER (for animations)
+// ============================================================================
+
+.helper-section__card-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  // Stagger animation
+  animation: helper-card-enter 0.5s ease-out forwards;
+  animation-delay: calc(var(--card-index, 0) * 0.1s);
+  opacity: 0;
+}
+
+// ============================================================================
+// VARIANTS
+// ============================================================================
+
+// Muted background variant
+.helper-section--muted {
+  background: var(--color-neutral-extra-light);
+
+  .helper-section__container {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+}
+
+// Compact variant (horizontal cards)
+.helper-section--compact {
+  .helper-section__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .helper-section__card-wrapper {
+    width: 100%;
+  }
+}
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+@keyframes helper-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
+// REDUCED MOTION
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .helper-section__card-wrapper {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================================================
+
+@include respond-to('md') {
+  .helper-section__container {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+
+  .helper-section__headline {
+    font-size: calc(var(--font-size-h2) * 1.1);
+  }
+}
+
+@include respond-to('lg') {
+  .helper-section__header {
+    margin-bottom: var(--space-12);
+  }
+}

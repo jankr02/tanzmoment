@@ -1,0 +1,6 @@
+.about-page {
+  // Sections haben vertikalen Abstand
+  > * + * {
+    margin-top: 0; // Sections haben eigenes Padding
+  }
+}

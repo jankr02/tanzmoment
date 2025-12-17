@@ -1,0 +1,107 @@
+@use 'tokens' as *;
+
+.hero-section {
+  padding: var(--space-16) 0;
+  background-color: var(--color-background);
+
+  &__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: center;
+
+    @include respond-to('lg') {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  // Portrait
+  &__portrait-container {
+    display: flex;
+    justify-content: center;
+    order: -1;
+
+    @include respond-to('lg') {
+      order: 0;
+    }
+  }
+
+  &__portrait-shape {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 3 / 4;
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+
+    @include respond-to('lg') {
+      max-width: 400px;
+    }
+  }
+
+  &__portrait-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Text Content
+  &__text-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    text-align: center;
+
+    @include respond-to('lg') {
+      text-align: left;
+    }
+  }
+
+  &__name {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-h1);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__title {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    color: var(--color-brand);
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__quote {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h3);
+    font-style: italic;
+    color: var(--color-accent-dark);
+    margin: var(--space-6) 0;
+    padding-left: var(--space-6);
+    border-left: 3px solid var(--color-brand);
+    line-height: var(--line-height-h3);
+
+    @include respond-to('lg') {
+      font-size: var(--font-size-h2);
+    }
+  }
+
+  &__description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}

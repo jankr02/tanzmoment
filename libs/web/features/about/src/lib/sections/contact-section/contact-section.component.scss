@@ -1,0 +1,122 @@
+@use 'tokens' as *;
+
+.contact-section {
+  // Full viewport width for seamless wave connection
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: var(--space-24) 0 var(--space-16);
+  background-color: var(--color-surface);
+
+  &__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-8);
+  }
+
+  // Text
+  &__text {
+    max-width: 600px;
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    line-height: var(--line-height-h2);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4);
+  }
+
+  &__subheadline {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    line-height: var(--line-height-body);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  // Contact Info
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+
+    @include respond-to('md') {
+      flex-direction: row;
+      gap: var(--space-12);
+    }
+  }
+
+  &__info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  &__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-primary-light);
+    border-radius: 50%;
+    margin-bottom: var(--space-2);
+  }
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-brand);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__value {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-primary);
+    font-style: normal;
+  }
+
+  &__link {
+    text-decoration: none;
+    transition: color var(--transition-fast);
+
+    &:hover {
+      color: var(--color-brand);
+      text-decoration: underline;
+    }
+  }
+
+  // CTA Button
+  &__cta {
+    display: inline-block;
+    font-family: var(--font-cta);
+    font-size: var(--font-size-cta);
+    font-weight: var(--font-weight-medium);
+    color: white;
+    background-color: var(--color-brand);
+    padding: var(--space-4) var(--space-8);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    margin-top: var(--space-4);
+
+    &:hover {
+      background-color: var(--color-text-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+  }
+}

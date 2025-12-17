@@ -1,0 +1,282 @@
+<!-- ============================================================================
+  FILTER SIDEBAR TEMPLATE
+
+  Structure:
+  - Sticky container with fade-in animation
+  - Collapsible filter sections
+  - Active filter count badge
+  - Clear all button
+  - Collapse/expand toggle for entire sidebar
+============================================================================ -->
+
+<aside class="filter-sidebar__container">
+  <!-- Collapsed State: Only show toggle button -->
+  @if (isCollapsed()) {
+    <button
+      type="button"
+      class="filter-sidebar__expand-btn"
+      (click)="toggleCollapse()"
+      aria-label="Filter einblenden"
+      [attr.aria-expanded]="false"
+    >
+      <span class="filter-sidebar__expand-icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+      </span>
+      <span class="filter-sidebar__expand-label">Filter</span>
+      @if (activeFilterCount() > 0) {
+        <span class="filter-sidebar__badge">
+          {{ activeFilterCount() }}
+        </span>
+      }
+      <span class="filter-sidebar__expand-arrow" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </span>
+    </button>
+  } @else {
+  <!-- Header with Active Count -->
+  <header class="filter-sidebar__header">
+    <h3 class="filter-sidebar__title">
+      Filter @if (activeFilterCount() > 0) {
+      <span class="filter-sidebar__badge">
+        {{ activeFilterCount() }}
+      </span>
+      }
+    </h3>
+
+    <div class="filter-sidebar__header-actions">
+      @if (hasFilters()) {
+      <button
+        type="button"
+        class="filter-sidebar__clear-btn"
+        [disabled]="disabled()"
+        (click)="onClearAll()"
+        aria-label="Alle Filter zurücksetzen"
+      >
+        Zurücksetzen
+      </button>
+      }
+      <button
+        type="button"
+        class="filter-sidebar__collapse-btn"
+        (click)="toggleCollapse()"
+        aria-label="Filter minimieren"
+        [attr.aria-expanded]="true"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Loading Indicator -->
+  @if (loading()) {
+  <div class="filter-sidebar__loading" aria-live="polite">
+    <div class="filter-sidebar__loading-bar"></div>
+  </div>
+  }
+
+  <!-- Filter Sections -->
+  <div class="filter-sidebar__sections">
+    <!-- Dance Style Section -->
+    <section class="filter-sidebar__section">
+      <button
+        type="button"
+        class="filter-sidebar__section-header"
+        [class.filter-sidebar__section-header--collapsed]="
+          isSectionCollapsed('danceStyle')
+        "
+        [attr.aria-expanded]="!isSectionCollapsed('danceStyle')"
+        aria-controls="filter-dance-style"
+        (click)="toggleSection('danceStyle')"
+      >
+        <span class="filter-sidebar__section-title">Tanzart</span>
+        <span class="filter-sidebar__section-icon" aria-hidden="true">
+          {{ isSectionCollapsed('danceStyle') ? '+' : '−' }}
+        </span>
+      </button>
+
+      <div
+        id="filter-dance-style"
+        class="filter-sidebar__section-content"
+        [class.filter-sidebar__section-content--collapsed]="
+          isSectionCollapsed('danceStyle')
+        "
+        role="group"
+        aria-label="Tanzart Filter"
+      >
+        <ul class="filter-sidebar__option-list" role="listbox">
+          @for (style of danceStyleOptions; track style.id) {
+          <li class="filter-sidebar__option-item">
+            <button
+              type="button"
+              class="filter-sidebar__option"
+              [class.filter-sidebar__option--selected]="
+                isDanceStyleSelected(style.id)
+              "
+              [disabled]="disabled()"
+              [attr.aria-selected]="isDanceStyleSelected(style.id)"
+              role="option"
+              (click)="setDanceStyle(style.id)"
+            >
+              <span
+                class="filter-sidebar__option-dot"
+                [style.background-color]="style.color"
+                aria-hidden="true"
+              ></span>
+              <span class="filter-sidebar__option-label">{{
+                style.label
+              }}</span>
+              @if (isDanceStyleSelected(style.id)) {
+              <span class="filter-sidebar__option-check" aria-hidden="true"
+                >✓</span
+              >
+              }
+            </button>
+          </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="filter-sidebar__section">
+      <button
+        type="button"
+        class="filter-sidebar__section-header"
+        [class.filter-sidebar__section-header--collapsed]="
+          isSectionCollapsed('location')
+        "
+        [attr.aria-expanded]="!isSectionCollapsed('location')"
+        aria-controls="filter-location"
+        (click)="toggleSection('location')"
+      >
+        <span class="filter-sidebar__section-title">Standort</span>
+        <span class="filter-sidebar__section-icon" aria-hidden="true">
+          {{ isSectionCollapsed('location') ? '+' : '−' }}
+        </span>
+      </button>
+
+      <div
+        id="filter-location"
+        class="filter-sidebar__section-content"
+        [class.filter-sidebar__section-content--collapsed]="
+          isSectionCollapsed('location')
+        "
+        role="group"
+        aria-label="Standort Filter"
+      >
+        <ul class="filter-sidebar__option-list" role="listbox">
+          @for (location of locationOptions; track location.id) {
+          <li class="filter-sidebar__option-item">
+            <button
+              type="button"
+              class="filter-sidebar__option"
+              [class.filter-sidebar__option--selected]="
+                isLocationSelected(location.id)
+              "
+              [disabled]="disabled()"
+              [attr.aria-selected]="isLocationSelected(location.id)"
+              role="option"
+              (click)="setLocation(location.id)"
+            >
+              <span class="filter-sidebar__option-label">{{
+                location.label
+              }}</span>
+              @if (isLocationSelected(location.id)) {
+              <span class="filter-sidebar__option-check" aria-hidden="true"
+                >✓</span
+              >
+              }
+            </button>
+          </li>
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- Date Range Section -->
+    <section class="filter-sidebar__section">
+      <button
+        type="button"
+        class="filter-sidebar__section-header"
+        [class.filter-sidebar__section-header--collapsed]="
+          isSectionCollapsed('dateRange')
+        "
+        [attr.aria-expanded]="!isSectionCollapsed('dateRange')"
+        aria-controls="filter-date-range"
+        (click)="toggleSection('dateRange')"
+      >
+        <span class="filter-sidebar__section-title">
+          Zeitspanne
+          @if (hasDateFilter) {
+            <span class="filter-sidebar__section-active-hint">{{ dateRangeLabel }}</span>
+          }
+        </span>
+        <span class="filter-sidebar__section-icon" aria-hidden="true">
+          {{ isSectionCollapsed('dateRange') ? '+' : '−' }}
+        </span>
+      </button>
+
+      <div
+        id="filter-date-range"
+        class="filter-sidebar__section-content"
+        [class.filter-sidebar__section-content--collapsed]="
+          isSectionCollapsed('dateRange')
+        "
+        role="group"
+        aria-label="Zeitspanne Filter"
+      >
+        <div class="filter-sidebar__date-inputs">
+          <!-- Date From -->
+          <div class="filter-sidebar__date-field">
+            <label class="filter-sidebar__date-label" for="sidebar-date-from">Von</label>
+            <div class="filter-sidebar__date-input-wrapper">
+              <input
+                #sidebarDateFromInput
+                id="sidebar-date-from"
+                type="text"
+                class="filter-sidebar__date-input"
+                placeholder="Startdatum"
+                [disabled]="disabled()"
+              />
+            </div>
+          </div>
+
+          <!-- Date To -->
+          <div class="filter-sidebar__date-field">
+            <label class="filter-sidebar__date-label" for="sidebar-date-to">Bis</label>
+            <div class="filter-sidebar__date-input-wrapper">
+              <input
+                #sidebarDateToInput
+                id="sidebar-date-to"
+                type="text"
+                class="filter-sidebar__date-input"
+                placeholder="Enddatum"
+                [disabled]="disabled()"
+              />
+            </div>
+          </div>
+
+          <!-- Clear Button -->
+          @if (hasDateFilter) {
+            <button
+              type="button"
+              class="filter-sidebar__date-clear"
+              [disabled]="disabled()"
+              (click)="clearDateRange()"
+              aria-label="Zeitspanne zurücksetzen"
+            >
+              Zurücksetzen
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+  }
+</aside>

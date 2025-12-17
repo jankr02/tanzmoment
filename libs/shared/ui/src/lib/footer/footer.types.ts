@@ -87,11 +87,11 @@ export interface LegalLink {
   external?: boolean;
 }
 
-export type FooterVariant = 
-  | 'wave'           // Wellenförmige Oberkante
-  | 'curve'          // Asymmetrische Kurve (wie Header)
-  | 'hills'          // Hügel-Landschaft
-  | 'simple';        // Einfach ohne Form
+export type FooterVariant =
+  | 'wave'           // Wave-shaped top edge
+  | 'curve'          // Asymmetric curve (like Header)
+  | 'hills'          // Hills landscape
+  | 'simple';        // Simple without shape
 
 // ============================================================================
 // DEFAULT CONFIGURATIONS

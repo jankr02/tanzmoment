@@ -1,0 +1,287 @@
+<!-- ============================================================================
+     FILTER BAR TEMPLATE
+     ============================================================================
+     Desktop: Horizontale Leiste mit Dropdowns
+     Mobile: Kompakter Button der Modal öffnet
+     ============================================================================ -->
+
+<!-- Desktop Filter Bar -->
+<div
+  class="filter-bar"
+  [class.filter-bar--disabled]="disabled"
+  [class.filter-bar--loading]="loading"
+>
+  <!-- Filter Controls -->
+  <div class="filter-bar__controls">
+    <!-- Dance Style Dropdown -->
+    <div
+      class="filter-bar__dropdown"
+      [class.filter-bar__dropdown--open]="danceStyleDropdownOpen()"
+    >
+      <button
+        type="button"
+        class="filter-bar__dropdown-trigger"
+        [attr.aria-expanded]="danceStyleDropdownOpen()"
+        aria-haspopup="listbox"
+        (click)="toggleDanceStyleDropdown()"
+        [disabled]="disabled"
+      >
+        <span class="filter-bar__dropdown-label">{{
+          selectedDanceStyleLabel()
+        }}</span>
+        <svg
+          class="filter-bar__dropdown-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      @if (danceStyleDropdownOpen()) {
+      <ul class="filter-bar__dropdown-menu" role="listbox">
+        <!-- "Alle" Option -->
+        <li
+          class="filter-bar__dropdown-item"
+          [class.filter-bar__dropdown-item--selected]="
+            !filterState().danceStyle
+          "
+          role="option"
+          [attr.aria-selected]="!filterState().danceStyle"
+          (click)="selectDanceStyle(null)"
+        >
+          Alle Tanzstile
+        </li>
+
+        @for (option of danceStyleOptions; track option.id) {
+        <li
+          class="filter-bar__dropdown-item"
+          [class.filter-bar__dropdown-item--selected]="
+            isDanceStyleSelected(option.id)
+          "
+          role="option"
+          [attr.aria-selected]="isDanceStyleSelected(option.id)"
+          (click)="selectDanceStyle(option.id)"
+        >
+          {{ option.label }}
+        </li>
+        }
+      </ul>
+      }
+    </div>
+
+    <!-- Location Dropdown -->
+    <div
+      class="filter-bar__dropdown"
+      [class.filter-bar__dropdown--open]="locationDropdownOpen()"
+    >
+      <button
+        type="button"
+        class="filter-bar__dropdown-trigger"
+        [attr.aria-expanded]="locationDropdownOpen()"
+        aria-haspopup="listbox"
+        (click)="toggleLocationDropdown()"
+        [disabled]="disabled"
+      >
+        <span class="filter-bar__dropdown-label">{{
+          selectedLocationLabel()
+        }}</span>
+        <svg
+          class="filter-bar__dropdown-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      @if (locationDropdownOpen()) {
+      <ul class="filter-bar__dropdown-menu" role="listbox">
+        <!-- "Alle" Option -->
+        <li
+          class="filter-bar__dropdown-item"
+          [class.filter-bar__dropdown-item--selected]="!filterState().location"
+          role="option"
+          [attr.aria-selected]="!filterState().location"
+          (click)="selectLocation(null)"
+        >
+          Alle Standorte
+        </li>
+
+        @for (option of locationOptions; track option.id) {
+        <li
+          class="filter-bar__dropdown-item"
+          [class.filter-bar__dropdown-item--selected]="
+            isLocationSelected(option.id)
+          "
+          role="option"
+          [attr.aria-selected]="isLocationSelected(option.id)"
+          (click)="selectLocation(option.id)"
+        >
+          {{ option.label }}
+        </li>
+        }
+      </ul>
+      }
+    </div>
+
+    <!-- Date Range Dropdown -->
+    <div
+      class="filter-bar__dropdown"
+      [class.filter-bar__dropdown--open]="dateRangeDropdownOpen()"
+    >
+      <button
+        type="button"
+        class="filter-bar__dropdown-trigger"
+        [class.filter-bar__dropdown-trigger--active]="filterState().dateFrom || filterState().dateTo"
+        [attr.aria-expanded]="dateRangeDropdownOpen()"
+        aria-haspopup="dialog"
+        (click)="toggleDateRangeDropdown()"
+        [disabled]="disabled"
+      >
+        <svg
+          class="filter-bar__dropdown-icon filter-bar__dropdown-icon--left"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <span class="filter-bar__dropdown-label">{{
+          selectedDateRangeLabel()
+        }}</span>
+        <svg
+          class="filter-bar__dropdown-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      @if (dateRangeDropdownOpen()) {
+      <div class="filter-bar__dropdown-menu filter-bar__dropdown-menu--date" role="dialog" aria-label="Zeitspanne wählen">
+        <div class="filter-bar__date-inputs">
+          <div class="filter-bar__date-field">
+            <label class="filter-bar__date-label" for="date-from">Von</label>
+            <input
+              #dateFromInput
+              type="text"
+              id="date-from"
+              class="filter-bar__date-input"
+              placeholder="Datum wählen"
+              readonly
+            />
+          </div>
+          <div class="filter-bar__date-field">
+            <label class="filter-bar__date-label" for="date-to">Bis</label>
+            <input
+              #dateToInput
+              type="text"
+              id="date-to"
+              class="filter-bar__date-input"
+              placeholder="Datum wählen"
+              readonly
+            />
+          </div>
+        </div>
+        @if (filterState().dateFrom || filterState().dateTo) {
+        <button
+          type="button"
+          class="filter-bar__date-clear"
+          (click)="clearDateRange()"
+        >
+          Zeitspanne löschen
+        </button>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Active Filter Tags -->
+  @if (hasFilters()) {
+  <div class="filter-bar__tags">
+    @for (tag of activeTags(); track tag.type) {
+    <span class="filter-bar__tag">
+      <span class="filter-bar__tag-label">{{ tag.label }}</span>
+      <button
+        type="button"
+        class="filter-bar__tag-remove"
+        [attr.aria-label]="'Filter entfernen: ' + tag.label"
+        (click)="removeFilter(tag.type)"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </span>
+    }
+
+    <!-- Clear All Button -->
+    <button
+      type="button"
+      class="filter-bar__clear-all"
+      (click)="clearAllFilters()"
+    >
+      Alle Filter löschen
+    </button>
+  </div>
+  }
+</div>
+
+<!-- Mobile Filter Button -->
+<button
+  type="button"
+  class="filter-bar-mobile"
+  [class.filter-bar-mobile--active]="hasFilters()"
+  [disabled]="disabled"
+  (click)="onMobileFilterClick()"
+>
+  <svg
+    class="filter-bar-mobile__icon"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden="true"
+  >
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+  </svg>
+  <span class="filter-bar-mobile__label">Filter</span>
+  @if (filterCount() > 0) {
+  <span class="filter-bar-mobile__badge">{{ filterCount() }}</span>
+  }
+</button>

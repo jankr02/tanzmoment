@@ -8,6 +8,7 @@ import {
   computed,
   inject,
   NgZone,
+  isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -165,7 +166,9 @@ export class HeroGalleryComponent implements OnInit, OnDestroy {
 
     // Check if first image was already preloaded
     if (this.imagePreloadService.isImageCached(firstImageUrl)) {
-      console.log('[HeroGallery] First image already cached, instant display');
+      if (isDevMode()) {
+        console.log('[HeroGallery] First image already cached, instant display');
+      }
 
       this.ngZone.run(() => {
         this.markImageAsLoaded(firstImageUrl);
@@ -178,7 +181,9 @@ export class HeroGalleryComponent implements OnInit, OnDestroy {
         this.preloadAllSlides();
       });
     } else {
-      console.log('[HeroGallery] First image not cached, loading now');
+      if (isDevMode()) {
+        console.log('[HeroGallery] First image not cached, loading now');
+      }
 
       // Load first image
       this.imagePreloadService.preloadImage(firstImageUrl).subscribe({
@@ -186,9 +191,11 @@ export class HeroGalleryComponent implements OnInit, OnDestroy {
           if (result.loaded) {
             // Run inside Angular zone to trigger change detection
             this.ngZone.run(() => {
-              console.log(
-                `[HeroGallery] First image loaded in ${result.loadTime}ms`
-              );
+              if (isDevMode()) {
+                console.log(
+                  `[HeroGallery] First image loaded in ${result.loadTime}ms`
+                );
+              }
               this.markImageAsLoaded(firstImageUrl);
               this.isFirstImageLoading.set(false);
               this.isReady.set(true);
@@ -245,14 +252,18 @@ export class HeroGalleryComponent implements OnInit, OnDestroy {
             if (result.loaded) {
               this.ngZone.run(() => {
                 this.markImageAsLoaded(result.url);
-                console.log(
-                  `[HeroGallery] Preloaded: ${result.url} (${result.loadTime}ms)`
-                );
+                if (isDevMode()) {
+                  console.log(
+                    `[HeroGallery] Preloaded: ${result.url} (${result.loadTime}ms)`
+                  );
+                }
               });
             }
           },
           error: (error) => {
-            console.warn(`[HeroGallery] Failed to preload ${url}:`, error);
+            if (isDevMode()) {
+              console.warn(`[HeroGallery] Failed to preload ${url}:`, error);
+            }
           },
         });
       } else {

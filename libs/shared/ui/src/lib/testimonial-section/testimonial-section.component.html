@@ -1,0 +1,31 @@
+<section class="testimonials-section">
+  <div class="testimonials-section__container">
+    <h2 class="testimonials-section__headline">{{ data.headline }}</h2>
+
+    <div class="testimonials-grid">
+      @for (testimonial of data.testimonials; track testimonial.id) {
+        <div class="testimonial-card">
+          @if (testimonial.imageUrl) {
+            <img
+              [src]="testimonial.imageUrl"
+              [alt]="testimonial.author"
+              class="testimonial-card__image"
+            />
+          }
+          <blockquote
+            class="testimonial-card__quote"
+            [style.border-color]="data.accentColor ? 'var(' + data.accentColor + ')' : 'var(--color-brand)'"
+          >
+            "{{ testimonial.quote }}"
+          </blockquote>
+          <div class="testimonial-card__author">
+            <p class="testimonial-card__name">{{ testimonial.author }}</p>
+            @if (testimonial.context) {
+              <p class="testimonial-card__context">{{ testimonial.context }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
