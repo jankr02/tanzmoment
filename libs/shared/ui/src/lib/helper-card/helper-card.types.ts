@@ -91,7 +91,7 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     illustration: '/assets/illustrations/helper-card/message.svg',
     alt: 'Kontakt Illustration - Hände mit Nachricht',
     actionType: 'route',
-    target: '/contact',
+    target: '/kontakt',
     ctaText: 'Nachricht senden',
   },
   {

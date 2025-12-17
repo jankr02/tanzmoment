@@ -1,0 +1,167 @@
+<div class="contact-form">
+  <h2 class="contact-form__title">Schreib uns</h2>
+
+  <!-- Success Message -->
+  @if (submitSuccess()) {
+    <div class="contact-form__success" role="alert">
+      <svg
+        class="contact-form__success-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <div class="contact-form__success-content">
+        <strong>Vielen Dank für deine Nachricht!</strong>
+        <p>Wir haben deine Anfrage erhalten und melden uns schnellstmöglich bei dir.</p>
+      </div>
+    </div>
+  }
+
+  <!-- Error Message -->
+  @if (submitError()) {
+    <div class="contact-form__error" role="alert">
+      <svg
+        class="contact-form__error-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span>{{ submitError() }}</span>
+    </div>
+  }
+
+  <form
+    [formGroup]="contactForm"
+    (ngSubmit)="onSubmit()"
+    class="contact-form__form"
+    novalidate
+  >
+    <!-- Name Field -->
+    <div class="contact-form__field">
+      <app-input
+        formControlName="name"
+        label="Name"
+        placeholder="Dein vollständiger Name"
+        [required]="true"
+        [hasError]="hasError('name')"
+        [errorMessage]="getErrorMessage('name')"
+        [fullWidth]="true"
+        autocomplete="name"
+      />
+    </div>
+
+    <!-- Email Field -->
+    <div class="contact-form__field">
+      <app-input
+        formControlName="email"
+        type="email"
+        label="E-Mail"
+        placeholder="deine@email.de"
+        [required]="true"
+        [hasError]="hasError('email')"
+        [errorMessage]="getErrorMessage('email')"
+        [fullWidth]="true"
+        autocomplete="email"
+      />
+    </div>
+
+    <!-- Phone Field (Optional) -->
+    <div class="contact-form__field">
+      <app-input
+        formControlName="phone"
+        type="tel"
+        label="Telefon (optional)"
+        placeholder="+49 123 4567890"
+        [hasError]="hasError('phone')"
+        [errorMessage]="getErrorMessage('phone')"
+        [fullWidth]="true"
+        autocomplete="tel"
+      />
+    </div>
+
+    <!-- Subject Field -->
+    <div class="contact-form__field">
+      <app-select
+        formControlName="subject"
+        label="Betreff"
+        placeholder="Bitte auswählen"
+        [options]="subjectOptions"
+        [required]="true"
+        [hasError]="hasError('subject')"
+        [errorMessage]="getErrorMessage('subject')"
+        [fullWidth]="true"
+      />
+    </div>
+
+    <!-- Message Field -->
+    <div class="contact-form__field">
+      <app-textarea
+        formControlName="message"
+        label="Nachricht"
+        placeholder="Wie können wir dir helfen?"
+        [required]="true"
+        [rows]="5"
+        [maxLength]="500"
+        [showCharCounter]="true"
+        [hasError]="hasError('message')"
+        [errorMessage]="getErrorMessage('message')"
+        [fullWidth]="true"
+      />
+    </div>
+
+    <!-- Privacy Checkbox -->
+    <div class="contact-form__field contact-form__field--checkbox">
+      <app-checkbox
+        formControlName="privacyAccepted"
+        [required]="true"
+        [hasError]="hasError('privacyAccepted')"
+        [errorMessage]="getErrorMessage('privacyAccepted')"
+      >
+      </app-checkbox>
+      <label class="contact-form__privacy-label">
+        Ich habe die
+        <a href="/datenschutz" class="contact-form__link">Datenschutzerklärung</a>
+        gelesen und bin mit der Verarbeitung meiner Daten einverstanden.
+        <span class="contact-form__required">*</span>
+      </label>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="contact-form__actions">
+      <app-button
+        type="submit"
+        variant="primary"
+        [fullWidth]="true"
+        [disabled]="isSubmitting()"
+        [loading]="isSubmitting()"
+      >
+        @if (isSubmitting()) {
+          Wird gesendet...
+        } @else {
+          Nachricht senden
+        }
+      </app-button>
+    </div>
+
+    <p class="contact-form__required-hint">
+      <span class="contact-form__required">*</span> Pflichtfelder
+    </p>
+  </form>
+</div>

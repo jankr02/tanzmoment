@@ -1,0 +1,256 @@
+// ============================================================================
+// TEXTAREA COMPONENT – Organic Design Style
+// ============================================================================
+
+.textarea {
+  display: inline-block;
+  position: relative;
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // LABEL
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 14px;
+    color: var(--color-text-primary);
+  }
+
+  &__required-indicator {
+    color: var(--color-danger);
+    margin-left: 2px;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // CONTAINER
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__container {
+    position: relative;
+    width: 100%;
+    min-height: 100px;
+    cursor: text;
+  }
+
+  &__bg-shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    transition: all 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // HOVER STATE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__container:hover {
+    .textarea__bg-shape {
+      transform: translateY(-1px);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+    }
+  }
+
+  // Don't apply hover when focused
+  &--focused &__container:hover {
+    .textarea__bg-shape {
+      transform: none;
+    }
+  }
+
+  // Don't apply hover when disabled
+  &--disabled &__container {
+    cursor: not-allowed;
+
+    &:hover {
+      .textarea__bg-shape {
+        transform: none;
+        filter: none;
+      }
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // TEXTAREA FIELD
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__field {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    resize: vertical;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--color-text-secondary);
+      opacity: 0.5;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // BOTTOM ROW (Helper Text + Character Counter)
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: var(--space-2);
+  }
+
+  &__helper-text {
+    flex: 1;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+
+    &--error {
+      color: var(--color-danger);
+    }
+
+    &--success {
+      color: var(--color-success);
+    }
+  }
+
+  &__char-counter {
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+    transition: color 150ms ease;
+
+    &--warning {
+      color: var(--color-warning);
+      opacity: 1;
+    }
+
+    &--error {
+      color: var(--color-danger);
+      opacity: 1;
+      font-weight: 500;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // SIZES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &--small {
+    .textarea__container {
+      min-height: 80px;
+    }
+
+    .textarea__field {
+      padding: 10px;
+      font-size: 13px;
+    }
+  }
+
+  &--large {
+    .textarea__container {
+      min-height: 140px;
+    }
+
+    .textarea__field {
+      padding: 14px;
+      font-size: 16px;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // STATES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &--focused {
+    .textarea__bg-shape {
+      filter: drop-shadow(0 0 0 2px var(--color-brand));
+    }
+  }
+
+  &--error {
+    .textarea__bg-shape rect {
+      stroke: var(--color-danger);
+    }
+  }
+
+  &--success {
+    .textarea__bg-shape rect {
+      stroke: var(--color-success);
+    }
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    .textarea__container {
+      cursor: not-allowed;
+    }
+
+    .textarea__field {
+      cursor: not-allowed;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // AUTO-RESIZE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &--auto-resize {
+    .textarea__field {
+      overflow: hidden;
+      resize: none;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // FULL WIDTH
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &--full-width {
+    width: 100%;
+    display: block;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // REDUCED MOTION
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @media (prefers-reduced-motion: reduce) {
+    .textarea__container:hover {
+      .textarea__bg-shape {
+        transform: none;
+      }
+    }
+  }
+}

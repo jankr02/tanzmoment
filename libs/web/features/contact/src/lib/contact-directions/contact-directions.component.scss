@@ -1,0 +1,228 @@
+// ============================================================================
+// CONTACT DIRECTIONS COMPONENT
+// ============================================================================
+
+.directions {
+  // ──────────────────────────────────────────────────────────────────────────
+  // TITLE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-8);
+    text-align: center;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // GRID
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__grid {
+    display: grid;
+    gap: var(--space-6);
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // CARD
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    @media (min-width: 768px) {
+      padding: var(--space-8);
+    }
+  }
+
+  &__card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-4);
+    color: white;
+
+    &--parking {
+      background: var(--color-brand);
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(var(--color-brand-rgb, 139, 90, 43), 0.25);
+    }
+
+    &--transport {
+      background: var(--color-success);
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.25);
+    }
+
+    &--accessibility {
+      background: var(--color-info, #3b82f6);
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    }
+  }
+
+  &__card-content {
+    flex: 1;
+  }
+
+  &__card-title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  &__card-description {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 var(--space-4);
+  }
+
+  &__card-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+
+    li {
+      position: relative;
+      padding-left: var(--space-4);
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-1);
+
+      &::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--color-brand);
+      }
+    }
+
+    &--features {
+      li {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        padding-left: 0;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__check-icon {
+    flex-shrink: 0;
+    color: var(--color-success);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // CONNECTIONS
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__connections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  &__connection {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: left;
+  }
+
+  &__connection-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    padding: var(--space-1) var(--space-2);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    color: white;
+    border-radius: var(--radius-sm);
+
+    &--bus {
+      background: #4caf50;
+    }
+
+    &--train {
+      background: #2196f3;
+    }
+
+    &--tram {
+      background: #ff9800;
+    }
+  }
+
+  &__connection-info {
+    font-size: 13px;
+    color: var(--color-text-primary);
+  }
+
+  &__connection-walk {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // ADDITIONAL INFO
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__additional {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    padding: var(--space-4);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-brand);
+  }
+
+  &__additional-icon {
+    flex-shrink: 0;
+    color: var(--color-brand);
+    margin-top: 2px;
+  }
+
+  &__additional p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.5;
+  }
+}

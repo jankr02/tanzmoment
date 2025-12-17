@@ -46,9 +46,15 @@
       </div>
 
       <!-- CTA Button -->
-      <a [href]="data.ctaLink" class="contact-section__cta">
-        {{ data.ctaText }}
-      </a>
+      @if (isExternalLink) {
+        <a [href]="data.ctaLink" class="contact-section__cta">
+          {{ data.ctaText }}
+        </a>
+      } @else {
+        <a [routerLink]="data.ctaLink" class="contact-section__cta">
+          {{ data.ctaText }}
+        </a>
+      }
     </div>
   </div>
 </section>

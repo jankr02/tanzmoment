@@ -1,0 +1,103 @@
+<div [class]="containerClasses.join(' ')">
+  <!-- Label -->
+  @if (label) {
+    <label
+      [for]="id || name"
+      class="textarea__label"
+      [class.textarea__label--required]="required"
+    >
+      {{ label }}
+      @if (required) {
+        <span class="textarea__required-indicator">*</span>
+      }
+    </label>
+  }
+
+  <!-- Textarea Container with Organic Shape -->
+  <div class="textarea__container">
+    <!-- Organic SVG Background (Rounded Rectangle) -->
+    <svg
+      class="textarea__bg-shape"
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <rect
+        x="1"
+        y="1"
+        width="98"
+        height="98"
+        rx="12"
+        ry="12"
+        [attr.fill]="'var(--color-surface)'"
+        [attr.stroke]="
+          hasError
+            ? 'var(--color-danger)'
+            : isFocused
+              ? 'var(--color-brand)'
+              : 'var(--color-border)'
+        "
+        stroke-width="2"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>
+
+    <!-- Textarea Element -->
+    <textarea
+      #textareaRef
+      [id]="id || name"
+      [name]="name"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [required]="required"
+      [rows]="rows"
+      [attr.minlength]="minLength"
+      [attr.maxlength]="maxLength"
+      [attr.aria-describedby]="
+        shouldShowHelperText ? (id || name) + '-helper' : null
+      "
+      [attr.aria-invalid]="hasError ? 'true' : null"
+      [style.resize]="resizeStyle"
+      [style.minHeight]="minHeight"
+      [style.maxHeight]="maxHeight"
+      (input)="onTextareaChange($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      class="textarea__field"
+    ></textarea>
+  </div>
+
+  <!-- Bottom Row: Helper Text & Character Counter -->
+  <div class="textarea__bottom">
+    <!-- Helper/Error Text -->
+    @if (shouldShowHelperText) {
+      <p
+        [id]="(id || name) + '-helper'"
+        class="textarea__helper-text"
+        [class.textarea__helper-text--error]="hasError"
+        [class.textarea__helper-text--success]="hasSuccess"
+        role="alert"
+        [attr.aria-live]="hasError ? 'assertive' : 'polite'"
+      >
+        {{ displayText }}
+      </p>
+    }
+
+    <!-- Character Counter -->
+    @if (shouldShowCharCounter) {
+      <span
+        class="textarea__char-counter"
+        [class.textarea__char-counter--warning]="isCharCountWarning"
+        [class.textarea__char-counter--error]="isCharCountError"
+        [attr.aria-label]="
+          'Zeichenanzahl: ' + value.length + ' von ' + maxLength
+        "
+      >
+        {{ charCountText }}
+      </span>
+    }
+  </div>
+</div>
