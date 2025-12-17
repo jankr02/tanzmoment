@@ -22,6 +22,14 @@ export const appRoutes: Route[] = [
         (m) => m.AboutPageComponent
       ),
   },
+  {
+    path: 'kontakt',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/contact').then(
+        (m) => m.ContactPageComponent
+      ),
+    title: 'Kontakt | Tanzmoment',
+  },
   // Target Group Pages
   {
     path: 'fuer-muetter',

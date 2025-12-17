@@ -118,7 +118,7 @@ export const DEFAULT_NAV_ITEMS: NavItem[] = [
   },
   {
     label: 'Kontakt',
-    route: '/contact',
+    route: '/kontakt',
     iconName: 'mail',
   },
 ];

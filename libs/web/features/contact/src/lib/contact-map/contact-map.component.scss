@@ -1,0 +1,118 @@
+// ============================================================================
+// CONTACT MAP COMPONENT
+// ============================================================================
+
+.contact-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 300px;
+  max-height: 450px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-neutral-extra-light);
+
+  @media (min-width: 768px) {
+    aspect-ratio: 21 / 9;
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // IFRAME
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    opacity: 0;
+    transition: opacity 300ms ease;
+
+    &--loaded {
+      opacity: 1;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // LOADING STATE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+
+  &__spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-brand);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // ERROR STATE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+    padding: var(--space-6);
+
+    svg {
+      color: var(--color-text-secondary);
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  &__fallback-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-brand);
+    text-decoration: none;
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    transition: all 150ms ease;
+
+    &:hover {
+      background: var(--color-brand);
+      color: white;
+    }
+  }
+}

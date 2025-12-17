@@ -332,7 +332,7 @@ export class MothersPageComponent {
       {
         text: 'Ich habe noch Fragen',
         variant: 'secondary',
-        externalLink: 'mailto:tanzmoment@web.de',
+        route: '/kontakt',
       },
     ],
   });

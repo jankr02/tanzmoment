@@ -1,0 +1,77 @@
+<tm-header />
+
+<main class="contact-page">
+  <!-- Hero Section -->
+  <section class="contact-page__hero">
+    <div class="container">
+      <h1 class="contact-page__title">Wir freuen uns auf deine Nachricht</h1>
+      <p class="contact-page__subtitle">
+        Hast du Fragen zu unseren Kursen oder möchtest dich anmelden? Schreib
+        uns – wir melden uns schnellstmöglich zurück.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content: Form + Info -->
+  <section class="contact-page__content">
+    <div class="container">
+      <div class="contact-page__grid">
+        <tm-contact-form
+          class="contact-page__form"
+          (formSubmitted)="onFormSubmitted($event)"
+        />
+        <tm-contact-info
+          class="contact-page__info"
+          [contactInfo]="contactInfo()"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Directions Section -->
+  <section class="contact-page__directions">
+    <!-- Wave Border von Content Section -->
+    <div class="contact-page__wave contact-page__wave--top" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--color-background)"
+        />
+      </svg>
+    </div>
+    <div class="container">
+      <tm-contact-directions [directions]="directionsInfo()" />
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="contact-page__map-section">
+    <!-- Wave Border von Directions Section -->
+    <div class="contact-page__wave contact-page__wave--top" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--color-neutral-extra-light)"
+        />
+      </svg>
+    </div>
+    <div class="container">
+      <h2 class="contact-page__map-title">So findest du uns</h2>
+      <tm-contact-map
+        [lat]="mapCoordinates().lat"
+        [lng]="mapCoordinates().lng"
+        [zoom]="mapCoordinates().zoom"
+      />
+    </div>
+  </section>
+</main>
+
+<tm-footer />

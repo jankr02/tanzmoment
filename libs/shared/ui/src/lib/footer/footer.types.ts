@@ -113,7 +113,7 @@ export const DEFAULT_FOOTER_NAV: FooterNavColumn[] = [
       },
       {
         label: 'Kontakt',
-        route: '/contact',
+        route: '/kontakt',
         iconName: 'mail',
       },
     ],

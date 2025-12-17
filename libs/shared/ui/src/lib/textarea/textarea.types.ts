@@ -1,40 +1,40 @@
 // ============================================================================
-// INPUT COMPONENT TYPES
+// TEXTAREA COMPONENT TYPES
 // ============================================================================
 
-export type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number';
-export type InputSize = 'small' | 'medium' | 'large';
-export type InputState = 'default' | 'focus' | 'error' | 'success' | 'disabled';
+export type TextareaSize = 'small' | 'medium' | 'large';
+export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
 
-export interface InputConfig {
+export interface TextareaConfig {
   // Basic
   id?: string;
   name?: string;
-  type?: InputType;
-  size?: InputSize;
-  
+  size?: TextareaSize;
+
   // Content
   value?: string;
   placeholder?: string;
   label?: string;
   helperText?: string;
   errorMessage?: string;
-  
+
   // State
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
-  
+
+  // Textarea specific
+  rows?: number;
+  minHeight?: string;
+  maxHeight?: string;
+  autoResize?: boolean;
+  resize?: TextareaResize;
+
   // Validation
   minLength?: number;
   maxLength?: number;
-  pattern?: string;
-  
-  // Icons
-  iconLeft?: string;
-  iconRight?: string;
-  
+  showCharCounter?: boolean;
+
   // Styling
   fullWidth?: boolean;
 }
-

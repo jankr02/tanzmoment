@@ -77,8 +77,8 @@ export class AboutPageComponent {
     },
     email: 'tanzmoment@web.de',
     phone: '+49 123 4567890',
-    ctaText: 'Schreib uns eine Nachricht',
-    ctaLink: 'mailto:tanzmoment@web.de',
+    ctaText: 'Zum Kontaktformular',
+    ctaLink: '/kontakt',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

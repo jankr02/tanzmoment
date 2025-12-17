@@ -1,0 +1,183 @@
+<div [class]="containerClasses.join(' ')">
+  <!-- Label -->
+  @if (label) {
+    <label
+      [for]="id || name"
+      class="select__label"
+      [class.select__label--required]="required"
+    >
+      {{ label }}
+      @if (required) {
+        <span class="select__required-indicator">*</span>
+      }
+    </label>
+  }
+
+  <!-- Select Trigger -->
+  <div class="select__container">
+    <!-- Organic SVG Background -->
+    <svg
+      class="select__bg-shape"
+      viewBox="0 0 231 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0.8 10C0.8 4.47715 5.27716 0 10.8 0H213.096C220.768 0 225.582 8.28271 221.785 14.9492L218.938 19.9492C217.159 23.0718 213.842 25 210.248 25H10.8C5.27715 25 0.8 20.5228 0.8 15V10Z"
+        [attr.fill]="'var(--color-surface)'"
+        [attr.stroke]="
+          hasError
+            ? 'var(--color-danger)'
+            : isOpen || isFocused
+              ? 'var(--color-brand)'
+              : 'var(--color-border)'
+        "
+        stroke-width="2"
+      />
+    </svg>
+
+    <!-- Trigger Button -->
+    <button
+      #triggerRef
+      type="button"
+      [id]="id || name"
+      class="select__trigger"
+      [disabled]="disabled"
+      [attr.aria-haspopup]="'listbox'"
+      [attr.aria-expanded]="isOpen"
+      [attr.aria-labelledby]="label ? (id || name) + '-label' : null"
+      [attr.aria-describedby]="
+        shouldShowHelperText ? (id || name) + '-helper' : null
+      "
+      [attr.aria-invalid]="hasError ? 'true' : null"
+      (click)="toggleDropdown()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    >
+      <span
+        class="select__value"
+        [class.select__value--placeholder]="!selectedOption"
+      >
+        {{ displayText }}
+      </span>
+
+      <!-- Chevron Icon -->
+      <svg
+        class="select__chevron"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Dropdown Panel -->
+  @if (isOpen) {
+    <div
+      class="select__dropdown"
+      role="listbox"
+      [attr.aria-labelledby]="label ? (id || name) + '-label' : null"
+    >
+      <!-- Search Input -->
+      @if (searchable) {
+        <div class="select__search">
+          <input
+            #searchInputRef
+            type="text"
+            class="select__search-input"
+            placeholder="Suchen..."
+            [value]="searchQuery"
+            (input)="onSearchChange($event)"
+            aria-label="Optionen durchsuchen"
+          />
+          <svg
+            class="select__search-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </div>
+      }
+
+      <!-- Options List -->
+      <ul class="select__options" role="listbox">
+        @for (option of filteredOptions; track option.value; let i = $index) {
+          <li
+            class="select__option"
+            [class.select__option--selected]="option.value === value"
+            [class.select__option--highlighted]="i === highlightedIndex"
+            [class.select__option--disabled]="option.disabled"
+            role="option"
+            [attr.aria-selected]="option.value === value"
+            [attr.aria-disabled]="option.disabled"
+            (click)="selectOption(option)"
+            (mouseenter)="highlightedIndex = i"
+          >
+            @if (option.icon) {
+              <span class="select__option-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path [attr.d]="option.icon"></path>
+                </svg>
+              </span>
+            }
+            <span class="select__option-label">{{ option.label }}</span>
+
+            <!-- Selected Checkmark -->
+            @if (option.value === value) {
+              <svg
+                class="select__option-check"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            }
+          </li>
+        } @empty {
+          <li class="select__empty">Keine Optionen gefunden</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <!-- Helper/Error Text -->
+  @if (shouldShowHelperText) {
+    <p
+      [id]="(id || name) + '-helper'"
+      class="select__helper-text"
+      [class.select__helper-text--error]="hasError"
+      role="alert"
+      [attr.aria-live]="hasError ? 'assertive' : 'polite'"
+    >
+      {{ helperDisplayText }}
+    </p>
+  }
+</div>

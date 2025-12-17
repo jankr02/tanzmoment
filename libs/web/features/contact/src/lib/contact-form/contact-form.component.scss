@@ -1,0 +1,148 @@
+// ============================================================================
+// CONTACT FORM COMPONENT
+// ============================================================================
+
+.contact-form {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+
+  @media (min-width: 768px) {
+    padding: var(--space-8);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // TITLE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-6);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // SUCCESS & ERROR MESSAGES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__success,
+  &__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+    animation: fadeIn 200ms ease-out;
+  }
+
+  &__success {
+    background: color-mix(in oklab, var(--color-success) 10%, transparent 90%);
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+  }
+
+  &__success-icon,
+  &__error-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &__success-content {
+    strong {
+      display: block;
+      margin-bottom: var(--space-1);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  }
+
+  &__error {
+    background: color-mix(in oklab, var(--color-danger) 10%, transparent 90%);
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // FORM
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  &__field {
+    &--checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // PRIVACY LABEL
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__privacy-label {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+
+  &__link {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 150ms ease;
+
+    &:hover {
+      color: var(--color-brand-dark);
+    }
+  }
+
+  &__required {
+    color: var(--color-danger);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // ACTIONS
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__actions {
+    margin-top: var(--space-4);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // REQUIRED HINT
+  // ──────────────────────────────────────────────────────────────────────────
+
+  &__required-hint {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin: var(--space-4) 0 0;
+    text-align: right;
+  }
+}

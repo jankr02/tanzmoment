@@ -1,0 +1,51 @@
+<div class="contact-map">
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="contact-map__loading">
+      <div class="contact-map__spinner"></div>
+      <span>Karte wird geladen...</span>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (hasError()) {
+    <div class="contact-map__error">
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      <p>Die Karte konnte nicht geladen werden.</p>
+      <a
+        href="https://maps.google.com/?q={{ lat }},{{ lng }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="contact-map__fallback-link"
+      >
+        In Google Maps öffnen
+      </a>
+    </div>
+  }
+
+  <!-- Map iframe -->
+  @if (!hasError() && mapUrl()) {
+    <iframe
+      class="contact-map__iframe"
+      [class.contact-map__iframe--loaded]="!isLoading()"
+      [src]="mapUrl()"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Standort auf Google Maps"
+      (load)="onMapLoad()"
+      (error)="onMapError()"
+    ></iframe>
+  }
+</div>

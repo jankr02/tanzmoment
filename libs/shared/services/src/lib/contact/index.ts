@@ -1,7 +1,6 @@
 // ============================================================================
-// SHARED SERVICES - BARREL EXPORT
+// CONTACT SERVICE - BARREL EXPORT
 // ============================================================================
 
-export * from './lib/contact';
-export * from './lib/preload';
-export * from './lib/image-preload';
+export * from './contact.service';
+export * from './contact.types';
