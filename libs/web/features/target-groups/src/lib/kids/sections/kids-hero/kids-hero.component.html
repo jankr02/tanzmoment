@@ -1,0 +1,49 @@
+<section class="kids-hero">
+  <div class="kids-hero__background">
+    <img
+      [src]="data.backgroundImage"
+      alt="Kinder beim Tanzen"
+      class="kids-hero__image"
+    />
+    <div class="kids-hero__overlay"></div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="kids-hero__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="kids-hero__content">
+    <div class="kids-hero__container">
+      <h1 class="kids-hero__headline">{{ data.headline }}</h1>
+      <p class="kids-hero__subheadline">{{ data.subheadline }}</p>
+      <div class="kids-hero__buttons">
+        <app-button
+          variant="primary"
+          size="large"
+          (clicked)="onCtaClick()"
+        >
+          {{ data.ctaText }}
+        </app-button>
+        @if (data.secondaryCtaText && data.secondaryCtaRoute) {
+          <app-button
+            variant="secondary"
+            size="large"
+            (clicked)="onSecondaryCtaClick()"
+          >
+            {{ data.secondaryCtaText }}
+          </app-button>
+        }
+      </div>
+    </div>
+  </div>
+</section>

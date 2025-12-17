@@ -1,0 +1,38 @@
+<section class="safety-section">
+  <div class="safety-section__container">
+    <!-- Safety Part -->
+    <div class="safety-section__safety">
+      <h2 class="safety-section__headline">{{ data.headline }}</h2>
+      <p class="safety-section__intro">{{ data.intro }}</p>
+
+      <div class="safety-grid">
+        @for (point of data.safetyPoints; track point.title) {
+          <div class="safety-card">
+            <div class="safety-card__icon">{{ point.icon }}</div>
+            <h3 class="safety-card__title">{{ point.title }}</h3>
+            <p class="safety-card__description">{{ point.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Methodology Part -->
+    <div class="safety-section__methodology">
+      <h2 class="safety-section__headline">{{ data.methodologyHeadline }}</h2>
+      <p class="safety-section__intro">{{ data.methodologyIntro }}</p>
+
+      <div class="methodology-grid">
+        @for (point of data.methodologyPoints; track point.title) {
+          <div class="methodology-card">
+            <h3 class="methodology-card__title">{{ point.title }}</h3>
+            <p class="methodology-card__description" [innerHTML]="point.description"></p>
+          </div>
+        }
+      </div>
+
+      @if (data.certificationNote) {
+        <p class="safety-section__note" [innerHTML]="data.certificationNote"></p>
+      }
+    </div>
+  </div>
+</section>

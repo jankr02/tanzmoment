@@ -1,0 +1,45 @@
+<section class="what-to-expect-section">
+  <div class="what-to-expect-section__container">
+    <h2 class="what-to-expect-section__headline">{{ data.headline }}</h2>
+    <p class="what-to-expect-section__intro">{{ data.intro }}</p>
+
+    <div class="course-flow">
+      <h3 class="course-flow__headline">{{ data.courseFlow.headline }}</h3>
+      <ol class="course-flow__steps">
+        @for (step of data.courseFlow.steps; track step.phase) {
+          <li class="course-flow__step">
+            <span class="course-flow__phase">{{ step.phase }}</span>
+            <span class="course-flow__duration">{{ step.duration }}</span>
+            <span class="course-flow__description">{{ step.description }}</span>
+          </li>
+        }
+      </ol>
+    </div>
+
+    <div class="details-grid">
+      @for (detail of data.details; track detail.title) {
+        <div class="detail-card">
+          <div class="detail-card__icon">
+            <span>{{ detail.icon }}</span>
+          </div>
+          <h4 class="detail-card__title">{{ detail.title }}</h4>
+          <p class="detail-card__description">{{ detail.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="what-to-expect-section__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+</section>

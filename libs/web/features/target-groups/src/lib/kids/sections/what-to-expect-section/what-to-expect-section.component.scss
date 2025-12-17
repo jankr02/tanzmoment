@@ -1,0 +1,182 @@
+.what-to-expect-section {
+  position: relative;
+  padding: var(--space-24) 0;
+  background-color: var(--color-surface);
+
+  &__wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    pointer-events: none;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 80px;
+    }
+
+    @media (max-width: 768px) {
+      height: 60px;
+
+      svg {
+        height: 60px;
+      }
+    }
+  }
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    color: var(--color-text-primary);
+    text-align: center;
+    margin: 0 0 var(--space-4);
+  }
+
+  &__intro {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto var(--space-16);
+    line-height: var(--line-height-body);
+  }
+}
+
+.course-flow {
+  background-color: var(--color-background);
+  padding: var(--space-10);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-16);
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h3);
+    color: var(--color-brand);
+    margin: 0 0 var(--space-6);
+    text-align: center;
+  }
+
+  &__steps {
+    list-style: none;
+    counter-reset: step-counter;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  &__step {
+    counter-increment: step-counter;
+    position: relative;
+    padding-left: var(--space-16);
+    margin-bottom: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+
+    &::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 32px;
+      height: 32px;
+      background-color: var(--color-kids-accent);
+      color: var(--color-surface);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-small);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__phase {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-body-l);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  &__duration {
+    font-family: var(--font-body);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: #5a8999;
+    background-color: rgba(137, 169, 181, 0.2);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  &__description {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-1);
+  }
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-8);
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-6);
+  background-color: var(--color-background);
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &__icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-body-l);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-2);
+  }
+
+  &__description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    margin: 0;
+  }
+}

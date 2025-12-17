@@ -42,7 +42,7 @@ export const appRoutes: Route[] = [
     path: 'fuer-kinder',
     loadComponent: () =>
       import('@tanzmoment/web/features/target-groups').then(
-        (m) => m.ChildrenPageComponent
+        (m) => m.KidsPageComponent
       ),
   },
   {

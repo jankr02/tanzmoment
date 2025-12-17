@@ -1,0 +1,51 @@
+<section class="benefits-section">
+  <!-- Wave Border am oberen Rand -->
+  <div class="benefits-section__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="benefits-section__container">
+    <h2 class="benefits-section__headline">{{ data.headline }}</h2>
+    <p class="benefits-section__subheadline">{{ data.subheadline }}</p>
+
+    <div class="benefits-grid">
+      @for (benefit of data.benefits; track benefit.title) {
+        <div class="benefit-card" [attr.data-category]="benefit.category">
+          <span class="benefit-card__category">
+            @switch (benefit.category) {
+              @case ('physical') { Körperlich }
+              @case ('emotional') { Emotional }
+              @case ('social') { Sozial }
+            }
+          </span>
+          <div class="benefit-card__icon">{{ benefit.icon }}</div>
+          <h3 class="benefit-card__title">{{ benefit.title }}</h3>
+          <p class="benefit-card__description" [innerHTML]="benefit.description"></p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="benefits-section__wave-bottom" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+</section>

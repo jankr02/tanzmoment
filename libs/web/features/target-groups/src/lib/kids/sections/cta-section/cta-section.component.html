@@ -1,0 +1,32 @@
+<section class="cta-section">
+  <!-- Wave Border am oberen Rand -->
+  <div class="cta-section__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="cta-section__container">
+    <h2 class="cta-section__headline">{{ data.headline }}</h2>
+    <p class="cta-section__subheadline">{{ data.subheadline }}</p>
+
+    <div class="cta-section__buttons">
+      @for (button of data.buttons; track button.text) {
+        <app-button
+          [variant]="button.variant"
+          size="large"
+          (clicked)="onButtonClick(button)"
+        >
+          {{ button.text }}
+        </app-button>
+      }
+    </div>
+  </div>
+</section>

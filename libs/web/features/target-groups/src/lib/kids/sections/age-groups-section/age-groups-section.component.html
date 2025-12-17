@@ -1,0 +1,50 @@
+<section class="age-groups-section">
+  <!-- Wave Border am oberen Rand -->
+  <div class="age-groups-section__wave-top" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,0 480,120 720,60 C960,0 1200,120 1440,60 L1440,0 L0,0 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="age-groups-section__container">
+    <h2 class="age-groups-section__headline">{{ data.headline }}</h2>
+    <p class="age-groups-section__subheadline">{{ data.subheadline }}</p>
+
+    <div class="age-groups-section__grid">
+      @for (group of data.groups; track group.id) {
+        <article class="age-group-card" [attr.data-group]="group.id">
+          <div class="age-group-card__icon">{{ group.icon }}</div>
+          <h3 class="age-group-card__name">{{ group.name }}</h3>
+          <span class="age-group-card__age">{{ group.ageRange }}</span>
+          <p class="age-group-card__description">{{ group.description }}</p>
+          <ul class="age-group-card__highlights">
+            @for (highlight of group.highlights; track $index) {
+              <li class="age-group-card__highlight">{{ highlight }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="age-groups-section__wave-bottom" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+</section>

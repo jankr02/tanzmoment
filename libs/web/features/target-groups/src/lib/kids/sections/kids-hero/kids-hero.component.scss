@@ -1,0 +1,124 @@
+.kids-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+
+  @media (max-width: 768px) {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.45)
+    );
+  }
+
+  &__wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 92px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+
+    svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 80px;
+    }
+
+    @media (max-width: 768px) {
+      height: 72px;
+
+      svg {
+        height: 60px;
+      }
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 var(--space-6);
+  }
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--color-surface);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-regular);
+    margin: 0 0 var(--space-4) 0;
+    color: var(--color-kids-accent);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-h2);
+    }
+  }
+
+  &__subheadline {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    line-height: var(--line-height-body);
+    margin: 0 0 var(--space-8) 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-body);
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+  }
+}
