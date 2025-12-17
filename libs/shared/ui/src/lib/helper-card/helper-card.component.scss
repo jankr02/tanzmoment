@@ -1,0 +1,329 @@
+// ============================================================================
+// HELPER CARD STYLES
+//
+// Design notes:
+// - Organic, curved card shape matching Tanzmoment brand
+// - Soft shadows and hover animations
+// - Accessible focus states
+// - Responsive layout (vertical stack)
+// ============================================================================
+
+@use 'tokens' as *;
+
+// ============================================================================
+// HOST ELEMENT
+// ============================================================================
+
+:host {
+  display: block;
+}
+
+// ============================================================================
+// HELPER CARD CONTAINER
+// ============================================================================
+
+.helper-card {
+  // Layout
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  // Sizing
+  width: 100%;
+  max-width: 280px;
+  min-height: 280px;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+
+  // Visual
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+
+  // Interaction
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+
+  // Transitions
+  transition: transform var(--transition-base),
+    box-shadow var(--transition-base);
+
+  // ========================================
+  // Hover State
+  // ========================================
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+
+    .helper-card__image {
+      transform: scale(1.05);
+    }
+
+    .helper-card__title {
+      color: var(--color-brand);
+    }
+
+    .helper-card__border {
+      transform: scaleX(1);
+    }
+
+    .helper-card__cta {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // ========================================
+  // Focus State (Accessibility)
+  // ========================================
+
+  &:focus-visible {
+    box-shadow: var(--shadow-md), 0 0 0 3px var(--color-soft-accent);
+
+    .helper-card__border {
+      transform: scaleX(1);
+    }
+  }
+
+  // ========================================
+  // Active State
+  // ========================================
+
+  &:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+}
+
+// ============================================================================
+// ILLUSTRATION
+// ============================================================================
+
+.helper-card__illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Sizing
+  width: 140px;
+  height: 140px;
+  margin-bottom: var(--space-4);
+
+  // Visual
+  border-radius: 50%;
+  background: var(--color-neutral-extra-light);
+  overflow: hidden;
+}
+
+.helper-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-2);
+
+  // Animation
+  transition: transform var(--transition-base);
+}
+
+// ============================================================================
+// TEXT CONTENT
+// ============================================================================
+
+.helper-card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+}
+
+.helper-card__title {
+  font-family: var(--font-headline);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-h3);
+  color: var(--color-text-primary);
+  margin: 0;
+
+  // Animation
+  transition: color var(--transition-fast);
+}
+
+.helper-card__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-small);
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 200px;
+}
+
+// ============================================================================
+// CTA TEXT
+// ============================================================================
+
+.helper-card__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  // Positioning
+  position: absolute;
+  bottom: var(--space-4);
+
+  // Typography
+  font-family: var(--font-cta);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-brand);
+
+  // Initial state (hidden)
+  opacity: 0;
+  transform: translateY(8px);
+
+  // Animation
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.helper-card__cta-arrow {
+  display: inline-block;
+  transition: transform var(--transition-fast);
+
+  .helper-card:hover & {
+    transform: translateX(4px);
+  }
+}
+
+// ============================================================================
+// DECORATIVE BORDER
+// ============================================================================
+
+.helper-card__border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  // Gradient
+  background: linear-gradient(
+    90deg,
+    var(--color-soft-accent) 0%,
+    var(--color-brand) 50%,
+    var(--color-soft-accent) 100%
+  );
+
+  // Initial state
+  transform: scaleX(0);
+  transform-origin: center;
+
+  // Border radius (match card)
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+
+  // Animation
+  transition: transform var(--transition-base) ease-out;
+}
+
+// ============================================================================
+// COMPACT VARIANT (Mobile)
+// ============================================================================
+
+.helper-card--compact {
+  flex-direction: row;
+  gap: var(--space-4);
+
+  max-width: 100%;
+  min-height: auto;
+  padding: var(--space-4);
+
+  .helper-card__container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .helper-card__illustration {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .helper-card__content {
+    align-items: flex-start;
+    text-align: left;
+    flex: 1;
+  }
+
+  .helper-card__title {
+    font-size: var(--font-size-body-l);
+  }
+
+  .helper-card__subtitle {
+    font-size: var(--font-size-small);
+  }
+
+  .helper-card__cta {
+    position: static;
+    opacity: 1;
+    transform: none;
+    margin-top: var(--space-2);
+  }
+}
+
+// ============================================================================
+// REDUCED MOTION
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .helper-card,
+  .helper-card__image,
+  .helper-card__cta,
+  .helper-card__border,
+  .helper-card__cta-arrow {
+    transition: none;
+  }
+
+  .helper-card:hover {
+    transform: none;
+
+    .helper-card__image {
+      transform: none;
+    }
+
+    .helper-card__cta-arrow {
+      transform: none;
+    }
+  }
+}
+
+// ============================================================================
+// RESPONSIVE ADJUSTMENTS
+// ============================================================================
+
+@include respond-to('md') {
+  .helper-card {
+    max-width: 300px;
+    min-height: 320px;
+    padding: var(--space-8) var(--space-6) var(--space-10);
+  }
+
+  .helper-card__illustration {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@include respond-to('lg') {
+  .helper-card {
+    max-width: 340px;
+    min-height: 360px;
+  }
+
+  .helper-card__illustration {
+    width: 180px;
+    height: 180px;
+  }
+}

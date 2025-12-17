@@ -1,0 +1,23 @@
+<tm-header />
+
+<main class="about-page">
+  <!-- Hero Section: Persönliche Vorstellung -->
+  <tm-hero-section [data]="heroData()" />
+
+  <!-- Mission & Vision Section -->
+  <tm-mission-vision-section [data]="missionVisionData()" />
+
+  <!-- Dance Styles Section (mit Navigation zu Unterseiten) -->
+  <ui-dance-styles-section
+    headline="Für wen ist Tanzmoment?"
+    subheadline="Entdecke, ob unsere Kurse zu deiner Lebenssituation passen"
+    [danceStyles]="danceStyles()"
+    [navigationMode]="'navigate'"
+    [showCourseCounts]="false"
+  />
+
+  <!-- Kontakt Section -->
+  <tm-contact-section [data]="contactData()" />
+</main>
+
+<tm-footer />

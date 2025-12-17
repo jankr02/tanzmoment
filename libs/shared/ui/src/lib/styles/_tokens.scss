@@ -14,21 +14,21 @@
   // COLORS
   // ──────────────────────────────────────────────────────────────────────────
 
-  // Primary (Natur, Ruhe)
+  // Primary (nature, calm)
   --color-primary-dark: #688b68;
   --color-primary: #fbd8cf;
   --color-primary-light: #f2ece3;
 
-  // Secondary (Wärme, Handwerk)
+  // Secondary (warmth, craft)
   --color-secondary-dark: #d0a373;
   --color-secondary: #e6b854;
 
-  // Accent (Energie, UI-Flächen)
+  // Accent (energy, UI surfaces)
   --color-accent-dark: #c08969;
   --color-accent: #fdf8f3;
   --color-soft-accent: #a9cdd4;
 
-  // Neutral (Hintergründe, Karten, Texte)
+  // Neutral (backgrounds, cards, text)
   --color-neutral-extra-light: #fcf8f3;
   --color-neutral-xl: #fcf3f3;
   --color-surface: #ffffff;
@@ -45,6 +45,9 @@
   --color-warning: var(--color-secondary);
   --color-danger: #b85c4a;
   --color-info: var(--color-soft-accent);
+
+  // Target Group Accent Colors
+  --color-mothers-accent: #F5D592;  // Warm ochre for mothers
 
   // ──────────────────────────────────────────────────────────────────────────
   // TYPOGRAPHY

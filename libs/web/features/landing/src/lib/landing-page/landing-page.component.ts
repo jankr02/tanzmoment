@@ -6,6 +6,7 @@ import {
   effect,
   OnInit,
   NgZone,
+  isDevMode,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -20,7 +21,6 @@ import {
   SPLASH_ASSET_PRIORITY,
   AssetType,
   SkeletonFeatureGridComponent,
-  NavItem,
 } from '@tanzmoment/shared/ui';
 import { HeroGalleryComponent } from '../hero-gallery/hero-gallery.component';
 import { FeatureNavigationComponent } from '../feature-navigation/feature-navigation.component';
@@ -96,26 +96,6 @@ export class LandingPageComponent implements OnInit {
 
   /** Whether features had error */
   featuresError = signal(false);
-
-  // ==========================================================================
-  // Header Navigation
-  // ==========================================================================
-
-  /** Navigation items for the header */
-  navItems: NavItem[] = [
-    {
-      label: 'Kurse',
-      route: '/courses',
-    },
-    {
-      label: 'Über uns',
-      route: '/about',
-    },
-    {
-      label: 'Kontakt',
-      route: '/contact',
-    },
-  ];
 
   // ==========================================================================
   // State Management - Analytics
@@ -408,10 +388,12 @@ export class LandingPageComponent implements OnInit {
   // ==========================================================================
 
   /**
-   * Log message with context
+   * Log message with context (dev mode only)
    */
   private log(message: string, data?: unknown): void {
-    console.log(`[LandingPage] ${message}`, data ?? '');
+    if (isDevMode()) {
+      console.log(`[LandingPage] ${message}`, data ?? '');
+    }
   }
 
   /**

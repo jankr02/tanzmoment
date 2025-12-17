@@ -1,0 +1,42 @@
+<!-- ============================================================================
+  HELPER CARD TEMPLATE
+  
+  Structure:
+  - Illustration container with centered SVG
+  - Text content with title and optional subtitle
+  - Decorative border animation on hover
+============================================================================ -->
+
+<div class="helper-card__container">
+  <!-- Illustration -->
+  <div class="helper-card__illustration">
+    <img
+      [src]="card().illustration"
+      [alt]="card().alt"
+      class="helper-card__image"
+      loading="lazy"
+    />
+  </div>
+
+  <!-- Text Content -->
+  <div class="helper-card__content">
+    <h3 class="helper-card__title">
+      {{ card().title }}
+    </h3>
+
+    @if (showSubtitle() && card().subtitle) {
+    <p class="helper-card__subtitle">
+      {{ card().subtitle }}
+    </p>
+    }
+  </div>
+
+  <!-- CTA Text (visible on hover/focus) -->
+  <span class="helper-card__cta">
+    {{ ctaText }}
+    <span class="helper-card__cta-arrow" aria-hidden="true">→</span>
+  </span>
+
+  <!-- Decorative Border -->
+  <div class="helper-card__border" aria-hidden="true"></div>
+</div>

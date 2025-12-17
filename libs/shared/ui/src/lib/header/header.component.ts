@@ -1,9 +1,9 @@
-import { 
-  Component, 
-  Input, 
-  Output, 
-  EventEmitter, 
-  OnInit, 
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
   OnDestroy,
   HostListener,
   signal,
@@ -13,9 +13,12 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../button/button.component';
 import { IconComponent } from '../icon/icon.component';
-import { HeaderConfig, NavItem, UserMenuData } from './header.types';
+import { HeaderConfig, NavItem, UserMenuData, DEFAULT_NAV_ITEMS } from './header.types';
 
 @Component({
   selector: 'tm-header',
@@ -29,20 +32,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // ============================================================================
   // PLATFORM CHECK (SSR-Safe)
   // ============================================================================
-  
+
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
-  
+  private router = inject(Router);
+  private routerSubscription?: Subscription;
+
   // ============================================================================
   // CONFIGURATION
   // ============================================================================
-  
+
   @Input() config?: HeaderConfig;
-  
+
   // Navigation
   @Input() showNav = true;
-  @Input() navItems: NavItem[] = [];
+  @Input() navItems: NavItem[] = DEFAULT_NAV_ITEMS;
   @Input() activeRoute?: string;
+
+  /** Automatically detected current route */
+  currentRoute = signal<string>('');
   
   // CTA Buttons
   @Input() showLoginButton = true;
@@ -149,17 +157,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.lastScrollY.set(window.scrollY);
     }
-    
+
     if (this.config) {
       this.applyConfig(this.config);
     }
+
+    // Set initial route and subscribe to route changes
+    this.currentRoute.set(this.router.url);
+    this.routerSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.currentRoute.set((event as NavigationEnd).urlAfterRedirects);
+      });
   }
-  
+
   ngOnDestroy(): void {
     // ✅ SSR-Safe: Only access document in browser
     if (this.isBrowser) {
       document.body.style.overflow = '';
     }
+
+    // Cleanup router subscription
+    this.routerSubscription?.unsubscribe();
   }
   
   // ============================================================================
@@ -267,10 +286,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // ============================================================================
   // NAVIGATION
   // ============================================================================
-  
+
   isActiveRoute(item: NavItem): boolean {
-    if (!this.activeRoute) return false;
-    return this.activeRoute === (item.route || item.url);
+    // Use manually set activeRoute if provided, otherwise use auto-detected route
+    const route = this.activeRoute || this.currentRoute();
+    if (!route) return false;
+
+    const itemRoute = item.route || item.url;
+    if (!itemRoute) return false;
+
+    // Check if current route starts with the nav item route
+    // This handles sub-routes like /courses/123 matching /courses
+    return route === itemRoute || route.startsWith(itemRoute + '/');
   }
   
   onNavItemClick(item: NavItem): void {

@@ -30,10 +30,10 @@ import {
 
 /**
  * Footer Component V1
- * 
+ *
  * Organic footer with newsletter signup, contact info, and scroll-to-top.
  * Features multiple SVG shape variants for experimentation.
- * 
+ *
  * Usage:
  * <app-footer
  *   [variant]="'curve'"
@@ -144,7 +144,6 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // Cleanup if needed
-    console.log('[FooterComponent] Destroyed');
   }
 
   // ============================================================================
@@ -196,7 +195,9 @@ export class FooterComponent implements OnInit, OnDestroy {
         this.newsletterSuccess.set(false);
       }, 3000);
     } catch (error) {
-      this.newsletterError.set('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+      this.newsletterError.set(
+        'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.'
+      );
     } finally {
       this.newsletterLoading.set(false);
     }
@@ -208,7 +209,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // ============================================================================
@@ -252,24 +253,34 @@ export class FooterComponent implements OnInit, OnDestroy {
 
     if (config.navColumns) this.navColumns = config.navColumns;
 
-    if (config.showNewsletter !== undefined) this.showNewsletter = config.showNewsletter;
+    if (config.showNewsletter !== undefined)
+      this.showNewsletter = config.showNewsletter;
     if (config.newsletterTitle) this.newsletterTitle = config.newsletterTitle;
-    if (config.newsletterSubtitle) this.newsletterSubtitle = config.newsletterSubtitle;
-    if (config.newsletterPlaceholder) this.newsletterPlaceholder = config.newsletterPlaceholder;
-    if (config.newsletterButtonText) this.newsletterButtonText = config.newsletterButtonText;
+    if (config.newsletterSubtitle)
+      this.newsletterSubtitle = config.newsletterSubtitle;
+    if (config.newsletterPlaceholder)
+      this.newsletterPlaceholder = config.newsletterPlaceholder;
+    if (config.newsletterButtonText)
+      this.newsletterButtonText = config.newsletterButtonText;
 
-    if (config.showContactInfo !== undefined) this.showContactInfo = config.showContactInfo;
-    if (config.contactInfo) this.contactInfo = { ...DEFAULT_CONTACT_INFO, ...config.contactInfo };
+    if (config.showContactInfo !== undefined)
+      this.showContactInfo = config.showContactInfo;
+    if (config.contactInfo)
+      this.contactInfo = { ...DEFAULT_CONTACT_INFO, ...config.contactInfo };
 
     if (config.socialLinks) this.socialLinks = config.socialLinks;
 
     if (config.copyrightText) this.copyrightText = config.copyrightText;
     if (config.legalLinks) this.legalLinks = config.legalLinks;
-    if (config.showLanguageSelector !== undefined) this.showLanguageSelector = config.showLanguageSelector;
-    if (config.showThemeToggle !== undefined) this.showThemeToggle = config.showThemeToggle;
+    if (config.showLanguageSelector !== undefined)
+      this.showLanguageSelector = config.showLanguageSelector;
+    if (config.showThemeToggle !== undefined)
+      this.showThemeToggle = config.showThemeToggle;
 
-    if (config.showScrollTop !== undefined) this.showScrollTop = config.showScrollTop;
-    if (config.scrollTopThreshold) this.scrollTopThreshold = config.scrollTopThreshold;
+    if (config.showScrollTop !== undefined)
+      this.showScrollTop = config.showScrollTop;
+    if (config.scrollTopThreshold)
+      this.scrollTopThreshold = config.scrollTopThreshold;
 
     if (config.bgColor) this.bgColor = config.bgColor;
     if (config.variant) this.variant = config.variant;

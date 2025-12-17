@@ -1,0 +1,6 @@
+.mothers-page {
+  // Sections have their own vertical padding
+  > * + * {
+    margin-top: 0;
+  }
+}

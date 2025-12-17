@@ -1,0 +1,150 @@
+<!-- ============================================================================
+     FILTER MODAL TEMPLATE
+     ============================================================================
+     Fullscreen Mobile Modal für Filter-Auswahl
+     Features: Slide-in, Filter Groups, Apply/Reset Actions
+     ============================================================================ -->
+
+@if (isOpen) {
+<div
+  class="filter-modal__backdrop"
+  [class.filter-modal__backdrop--closing]="isClosing()"
+  (click)="onBackdropClick($event)"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="filter-modal-title"
+>
+  <div class="filter-modal" [class.filter-modal--closing]="isClosing()">
+    <!-- Header -->
+    <header class="filter-modal__header">
+      <h2 id="filter-modal-title" class="filter-modal__title">Filter</h2>
+
+      <button
+        type="button"
+        class="filter-modal__close"
+        aria-label="Filter schließen"
+        (click)="onCloseClick()"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Content -->
+    <div class="filter-modal__content">
+      <!-- Dance Style Filter Group -->
+      <div class="filter-modal__group">
+        <h3 class="filter-modal__group-title">Tanzstil</h3>
+
+        <div class="filter-modal__options">
+          @for (option of danceStyleOptions; track option.id) {
+          <button
+            type="button"
+            class="filter-modal__option"
+            [class.filter-modal__option--selected]="
+              isDanceStyleSelected(option.id)
+            "
+            [attr.aria-pressed]="isDanceStyleSelected(option.id)"
+            (click)="selectDanceStyle(option.id)"
+          >
+            <span class="filter-modal__option-check">
+              @if (isDanceStyleSelected(option.id)) {
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              }
+            </span>
+            <span class="filter-modal__option-label">{{ option.label }}</span>
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Location Filter Group -->
+      <div class="filter-modal__group">
+        <h3 class="filter-modal__group-title">Standort</h3>
+
+        <div class="filter-modal__options">
+          @for (option of locationOptions; track option.id) {
+          <button
+            type="button"
+            class="filter-modal__option"
+            [class.filter-modal__option--selected]="
+              isLocationSelected(option.id)
+            "
+            [attr.aria-pressed]="isLocationSelected(option.id)"
+            (click)="selectLocation(option.id)"
+          >
+            <span class="filter-modal__option-check">
+              @if (isLocationSelected(option.id)) {
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              }
+            </span>
+            <span class="filter-modal__option-label">{{ option.label }}</span>
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Placeholder für Datum-Filter (Future) -->
+      <!--
+        <div class="filter-modal__group">
+          <h3 class="filter-modal__group-title">Zeitraum</h3>
+          <div class="filter-modal__date-inputs">
+            Date picker inputs here
+          </div>
+        </div>
+        -->
+    </div>
+
+    <!-- Footer Actions -->
+    <footer class="filter-modal__footer">
+      <button
+        type="button"
+        class="filter-modal__reset"
+        [disabled]="!hasLocalFilters()"
+        (click)="resetFilters()"
+      >
+        Zurücksetzen
+      </button>
+
+      <button
+        type="button"
+        class="filter-modal__apply"
+        (click)="onApplyClick()"
+      >
+        @if (localFilterCount() > 0) {
+        <span>{{ localFilterCount() }} Filter anwenden</span>
+        } @else {
+        <span>Ergebnisse anzeigen</span>
+        }
+      </button>
+    </footer>
+  </div>
+</div>
+}

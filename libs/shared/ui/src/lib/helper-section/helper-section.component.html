@@ -1,0 +1,44 @@
+<!-- ============================================================================
+  HELPER SECTION TEMPLATE
+  
+  Structure:
+  - Section header with headline and optional subheadline
+  - Responsive grid of helper cards
+  - Stagger animation on cards
+============================================================================ -->
+
+<section
+  class="helper-section__container"
+  aria-labelledby="helper-section-headline"
+>
+  <!-- Section Header -->
+  <header class="helper-section__header">
+    <h2 id="helper-section-headline" class="helper-section__headline">
+      {{ headline() }}
+    </h2>
+
+    @if (hasSubheadline()) {
+    <p class="helper-section__subheadline">
+      {{ subheadline() }}
+    </p>
+    }
+  </header>
+
+  <!-- Cards Grid -->
+  <div class="helper-section__grid" role="list" aria-label="Hilfreiche Links">
+    @for (card of cards(); track trackByCardId($index, card); let i = $index) {
+    <div
+      class="helper-section__card-wrapper"
+      role="listitem"
+      [style.--card-index]="i"
+    >
+      <ui-helper-card
+        [card]="card"
+        [compact]="compact()"
+        [showSubtitle]="showSubtitles()"
+        (cardClick)="onCardClick($event)"
+      />
+    </div>
+    }
+  </div>
+</section>

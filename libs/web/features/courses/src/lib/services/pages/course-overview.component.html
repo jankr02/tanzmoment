@@ -1,0 +1,148 @@
+<!-- ============================================================================
+COURSE OVERVIEW PAGE TEMPLATE
+============================================================================ -->
+
+<!-- Header (Sticky) -->
+<header class="course-overview__header">
+  <tm-header [shrinkOnScroll]="true" />
+</header>
+
+<main class="course-overview">
+  <!-- Dance Styles Hero -->
+  <section class="course-overview__hero">
+    <ui-dance-styles-section
+      headline="Unsere Tanzwelten"
+      subheadline="Entdecke den Tanzstil, der zu dir passt"
+      [showCourseCounts]="true"
+      navigationMode="navigate"
+    />
+  </section>
+
+  <!-- Highlight Section -->
+  <section class="course-overview__highlights">
+    <ui-highlight-section
+      [courses]="highlightedCourses()"
+      [loading]="highlightedLoading()"
+      headline="Empfehlungen für Dich"
+      subheadline="Was Tanzmoment aktuell bewegt"
+    />
+  </section>
+
+  <!-- Section Header for Course List -->
+  <header class="course-overview__section-header">
+    <h2 class="course-overview__section-title">Finde Deinen Stil</h2>
+  </header>
+
+  <!-- Filter Bar -->
+  <section class="course-overview__filters" #filterBarSection>
+    <div class="course-overview__container">
+      <ui-filter-bar
+        [initialFilter]="filterState()"
+        [loading]="isLoading()"
+        (filterChange)="onFilterChange($event)"
+        (openMobileFilter)="openFilterModal()"
+      />
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="course-overview__main">
+    <div class="course-overview__container">
+      <!-- Sidebar for Desktop -->
+      <aside class="course-overview__sidebar">
+        <ui-filter-sidebar
+          [filterState]="filterState()"
+          [loading]="isLoading()"
+          [triggerElement]="filterBarSection"
+          (filterChange)="onFilterChange($event)"
+        />
+      </aside>
+
+      <!-- Course Grid -->
+      <div class="course-overview__content">
+        @if (isLoading()) {
+          <div class="course-overview__loading">
+            <p>Kurse werden geladen...</p>
+          </div>
+        } @else if (courses().length === 0) {
+          <ui-empty-state
+            title="Keine Kurse gefunden"
+            description="Versuche andere Filtereinstellungen"
+            (actionClick)="clearFilters()"
+          />
+        } @else {
+          <div class="course-overview__grid">
+            @for (course of courses(); track course.id; let i = $index) {
+              @let illustration = getIllustration(course.id);
+              <div
+                class="course-overview__card-wrapper"
+                [class.course-overview__card-wrapper--has-illustration]="illustration"
+                [class.course-overview__card-wrapper--left]="illustration?.side === 'left'"
+                [class.course-overview__card-wrapper--right]="illustration?.side === 'right'"
+                [class.is-animated]="shouldAnimateCards()"
+                [style.--animation-delay]="(i * 100) + 'ms'"
+              >
+                <!-- Illustration: Figur auf einer Seite -->
+                @if (illustration) {
+                  <div
+                    class="course-overview__illustration course-overview__illustration--figure"
+                    [class.course-overview__illustration--left]="illustration.side === 'left'"
+                    [class.course-overview__illustration--right]="illustration.side === 'right'"
+                    [class.course-overview__illustration--dog]="illustration.type === 'dog'"
+                    [class.course-overview__illustration--silhouette]="illustration.type === 'silhouette'"
+                  >
+                    <img
+                      [src]="illustration.figureSrc"
+                      [alt]="illustration.type === 'dog' ? 'Tanzender Hund' : 'Tanzende Silhouette'"
+                      class="course-overview__illustration-figure"
+                      loading="lazy"
+                    />
+                  </div>
+                  <!-- Footprints auf der gegenüberliegenden Seite -->
+                  <div
+                    class="course-overview__illustration course-overview__illustration--footprints"
+                    [class.course-overview__illustration--left]="illustration.side === 'right'"
+                    [class.course-overview__illustration--right]="illustration.side === 'left'"
+                    [class.course-overview__illustration--dog]="illustration.type === 'dog'"
+                    [class.course-overview__illustration--silhouette]="illustration.type === 'silhouette'"
+                  >
+                    <img
+                      [src]="illustration.footprintsSrc"
+                      [alt]="'Tanzschritte'"
+                      class="course-overview__illustration-footprints"
+                      loading="lazy"
+                    />
+                  </div>
+                }
+
+                <!-- Course Card -->
+                <app-course-card [course]="course" />
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Helper Section -->
+  <section class="course-overview__helper">
+    <ui-helper-section
+      headline="Noch Fragen?"
+      subheadline="Wir sind für dich da"
+      variant="muted"
+      (cardClick)="onHelperCardClick($event)"
+    />
+  </section>
+</main>
+
+<!-- Filter Modal for Mobile -->
+<ui-filter-modal
+  [isOpen]="isFilterModalOpen()"
+  [currentFilter]="filterState()"
+  (closeModal)="closeFilterModal()"
+  (applyFilter)="onFilterChange($event)"
+/>
+
+<!-- Footer -->
+<tm-footer />

@@ -1,0 +1,106 @@
+<!-- ============================================================================
+     DANCE STYLES SECTION TEMPLATE - V2 (Asymmetric Layout)
+     ============================================================================
+     Asymmetrisches Layout mit Hintergrundbild
+     4 Karten schwebend über dem Bild positioniert
+     Header-Zone mit invertierter Wave für Titel
+     ============================================================================ -->
+
+<section class="dance-styles-section">
+  <!-- Header Zone mit Titel -->
+  <header class="dance-styles-section__header">
+    <div class="dance-styles-section__header-content">
+      <h2 class="dance-styles-section__title">{{ headline }}</h2>
+      @if (subheadline) {
+        <p class="dance-styles-section__subtitle">{{ subheadline }}</p>
+      }
+    </div>
+    <!-- Wave Übergang nach unten zum Bild -->
+    <div class="dance-styles-section__wave-top" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--color-surface)"
+        />
+      </svg>
+    </div>
+  </header>
+
+  <!-- Content Wrapper (Bild + Karten zusammen positioniert) -->
+  <div class="dance-styles-section__content">
+    <!-- Background Image Container -->
+    <div class="dance-styles-section__background">
+      <img
+        [src]="backgroundImageUrl"
+        [alt]="backgroundImageAlt"
+        class="dance-styles-section__background-img"
+        loading="eager"
+      />
+      <div
+        class="dance-styles-section__background-overlay"
+        aria-hidden="true"
+      ></div>
+    </div>
+
+    <!-- Wave Border (between background and cards) -->
+    <div class="dance-styles-section__wave" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+          fill="var(--color-surface)"
+        />
+      </svg>
+    </div>
+
+    <!-- Cards Container -->
+    <div class="dance-styles-section__cards">
+    <!-- Kids Card (oben links) -->
+    <div class="dance-styles-section__card dance-styles-section__card--kids">
+      <ui-dance-style-card
+        [data]="getStyleData('kids')"
+        [navigationMode]="navigationMode"
+        (cardClick)="onCardClick($event)"
+      />
+    </div>
+
+    <!-- Accessible Card (oben rechts, versetzt) -->
+    <div
+      class="dance-styles-section__card dance-styles-section__card--accessible"
+    >
+      <ui-dance-style-card
+        [data]="getStyleData('accessible')"
+        [navigationMode]="navigationMode"
+        (cardClick)="onCardClick($event)"
+      />
+    </div>
+
+    <!-- Mothers Card (mitte links) -->
+    <div class="dance-styles-section__card dance-styles-section__card--mothers">
+      <ui-dance-style-card
+        [data]="getStyleData('mothers')"
+        [navigationMode]="navigationMode"
+        (cardClick)="onCardClick($event)"
+      />
+    </div>
+
+    <!-- Expressive Card (unten rechts, ragt hinaus) -->
+    <div
+      class="dance-styles-section__card dance-styles-section__card--expressive"
+    >
+      <ui-dance-style-card
+        [data]="getStyleData('expressive')"
+        [navigationMode]="navigationMode"
+        (cardClick)="onCardClick($event)"
+      />
+    </div>
+    </div>
+  </div>
+</section>

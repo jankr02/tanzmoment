@@ -1,0 +1,488 @@
+// ============================================================================
+// FILTER BAR STYLES
+// ============================================================================
+// Desktop: Horizontale Leiste mit Dropdowns und Active Tags
+// Mobile: Versteckt, zeigt nur compact Button
+// ============================================================================
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DESKTOP FILTER BAR
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4, 16px);
+  padding: var(--space-4, 16px) var(--space-6, 24px);
+  background-color: var(--color-surface, #ffffff);
+  border-radius: var(--radius-lg, 18px);
+  box-shadow: var(--shadow-sm, 0 2px 6px rgba(0, 0, 0, 0.06));
+
+  // Disabled State
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  // Loading State
+  &--loading {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--color-primary-dark, #688b68),
+        transparent
+      );
+      animation: loadingBar 1.5s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER CONTROLS (Dropdowns Container)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DROPDOWN
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar__dropdown {
+  position: relative;
+}
+
+.filter-bar__dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  background-color: var(--color-primary-light, #f2ece3);
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: var(--radius-md, 12px);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #2e2a25);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-neutral-xl, #fcf3f3);
+    border-color: var(--color-primary-dark, #688b68);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.filter-bar__dropdown-label {
+  white-space: nowrap;
+}
+
+.filter-bar__dropdown-icon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  .filter-bar__dropdown--open & {
+    transform: rotate(180deg);
+  }
+
+  &--left {
+    margin-right: var(--space-1, 4px);
+
+    .filter-bar__dropdown--open & {
+      transform: none;
+    }
+  }
+}
+
+.filter-bar__dropdown-trigger--active {
+  background-color: var(--color-soft-accent, #a9cdd4);
+  border-color: var(--color-soft-accent, #a9cdd4);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DROPDOWN MENU
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 200px;
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-2, 8px) 0;
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-md, 0 6px 16px rgba(0, 0, 0, 0.08));
+  list-style: none;
+
+  // Animation
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-bar__dropdown-item {
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary, #2e2a25);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-primary-light, #f2ece3);
+  }
+
+  &--selected {
+    background-color: var(--color-primary-light, #f2ece3);
+    font-weight: 600;
+
+    &::before {
+      content: '✓';
+      margin-right: var(--space-2, 8px);
+      color: var(--color-primary-dark, #688b68);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATE RANGE DROPDOWN
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar__dropdown-menu--date {
+  padding: var(--space-4, 16px);
+  min-width: 280px;
+}
+
+.filter-bar__date-inputs {
+  display: flex;
+  gap: var(--space-3, 12px);
+}
+
+.filter-bar__date-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+
+.filter-bar__date-label {
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #5e5a55);
+}
+
+.filter-bar__date-input {
+  // Hide original input (Flatpickr creates altInput)
+  &[readonly] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+// Style Flatpickr's altInput (the visible input)
+.filter-bar__date-field {
+  position: relative;
+
+  // Calendar icon (right-aligned)
+  &::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e5a55' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  // Flatpickr altInput styling
+  .flatpickr-input {
+    width: 100%;
+    padding: var(--space-2, 8px) 36px var(--space-2, 8px) var(--space-3, 12px);
+    background-color: var(--color-primary-light, #f2ece3);
+    border: 1px solid var(--color-border, #e6ded7);
+    border-radius: var(--radius-sm, 8px);
+    font-family: var(--font-body, 'Nunito', sans-serif);
+    font-size: 0.875rem;
+    color: var(--color-text-primary, #2e2a25);
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-primary-dark, #688b68);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary-dark, #688b68);
+      box-shadow: 0 0 0 2px rgba(104, 139, 104, 0.2);
+    }
+
+    &::placeholder {
+      color: var(--color-text-secondary, #5e5a55);
+      opacity: 0.7;
+    }
+  }
+}
+
+.filter-bar__date-clear {
+  width: 100%;
+  margin-top: var(--space-3, 12px);
+  padding: var(--space-2, 8px);
+  background: transparent;
+  border: none;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #5e5a55);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-danger, #b85c4a);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ACTIVE FILTER TAGS
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  margin-left: auto;
+}
+
+.filter-bar__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+  padding: var(--space-1, 4px) var(--space-2, 8px) var(--space-1, 4px)
+    var(--space-3, 12px);
+  background-color: var(--color-soft-accent, #a9cdd4);
+  border-radius: 100px;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #2e2a25);
+}
+
+.filter-bar__tag-label {
+  white-space: nowrap;
+}
+
+.filter-bar__tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-secondary, #5e5a55);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--color-text-primary, #2e2a25);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-dark, #688b68);
+    outline-offset: 1px;
+  }
+}
+
+.filter-bar__clear-all {
+  padding: var(--space-1, 4px) var(--space-3, 12px);
+  background: transparent;
+  border: none;
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #5e5a55);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-danger, #b85c4a);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MOBILE FILTER BUTTON
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-bar-mobile {
+  display: none; // Hidden on Desktop
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: var(--radius-md, 12px);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary, #2e2a25);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm, 0 2px 6px rgba(0, 0, 0, 0.06));
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-primary-light, #f2ece3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: var(--color-primary-dark, #688b68);
+    background-color: var(--color-primary-light, #f2ece3);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.filter-bar-mobile__icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #5e5a55);
+}
+
+.filter-bar-mobile__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background-color: var(--color-primary-dark, #688b68);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSIVE: TABLET (< 1024px)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (max-width: 1023px) {
+  .filter-bar {
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+  }
+
+  .filter-bar__tags {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--space-2, 8px);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RESPONSIVE: MOBILE (< 768px)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (max-width: 767px) {
+  .filter-bar {
+    display: none; // Hide desktop bar on mobile
+  }
+
+  .filter-bar-mobile {
+    display: inline-flex; // Show mobile button
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-bar__dropdown-menu {
+    animation: none;
+  }
+
+  .filter-bar__dropdown-icon {
+    transition: none;
+  }
+
+  .filter-bar--loading::after {
+    animation: none;
+  }
+}

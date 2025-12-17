@@ -1,0 +1,356 @@
+// ============================================================================
+// FILTER MODAL STYLES
+// ============================================================================
+// Fullscreen Mobile Modal mit Slide-in Animation
+// Touch-optimierte Targets, Body Scroll Lock kompatibel
+// ============================================================================
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BACKDROP
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end; // Modal slides from bottom
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: backdropFadeIn 0.25s ease-out;
+
+  &--closing {
+    animation: backdropFadeOut 0.25s ease-out forwards;
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MODAL CONTAINER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  max-height: 90dvh; // Dynamic viewport height for mobile
+  background-color: var(--color-surface, #ffffff);
+  border-radius: var(--radius-lg, 18px) var(--radius-lg, 18px) 0 0;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  &--closing {
+    animation: modalSlideOut 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HEADER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4, 16px) var(--space-6, 24px);
+  border-bottom: 1px solid var(--color-border, #e6ded7);
+  flex-shrink: 0;
+}
+
+.filter-modal__title {
+  margin: 0;
+  font-family: var(--font-headline, 'DM Serif Display', serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--color-text-primary, #2e2a25);
+}
+
+.filter-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-secondary, #5e5a55);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-primary-light, #f2ece3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT (Scrollable)
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6, 24px);
+
+  // Smooth scrolling
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER GROUP
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__group {
+  margin-bottom: var(--space-8, 32px);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.filter-modal__group-title {
+  margin: 0 0 var(--space-4, 16px);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #5e5a55);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER OPTIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+}
+
+.filter-modal__option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  width: 100%;
+  min-height: 52px; // Touch-friendly
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: var(--color-neutral-xl, #fcf3f3);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md, 12px);
+  font-family: var(--font-body, 'Nunito', sans-serif);
+  font-size: 1rem;
+  text-align: left;
+  color: var(--color-text-primary, #2e2a25);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-primary-light, #f2ece3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+
+  &--selected {
+    background-color: var(--color-primary-light, #f2ece3);
+    border-color: var(--color-primary-dark, #688b68);
+
+    .filter-modal__option-check {
+      background-color: var(--color-primary-dark, #688b68);
+      border-color: var(--color-primary-dark, #688b68);
+    }
+  }
+}
+
+.filter-modal__option-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  background-color: var(--color-surface, #ffffff);
+  border: 2px solid var(--color-border, #e6ded7);
+  border-radius: 6px;
+  color: #ffffff;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-modal__option-label {
+  flex: 1;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FOOTER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.filter-modal__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-4, 16px) var(--space-6, 24px);
+  padding-bottom: calc(var(--space-4, 16px) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border, #e6ded7);
+  background-color: var(--color-surface, #ffffff);
+  flex-shrink: 0;
+}
+
+.filter-modal__reset {
+  flex: 1;
+  min-height: 48px;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: transparent;
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: var(--radius-md, 12px);
+  font-family: var(--font-cta, 'Rubik', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #5e5a55);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-light, #f2ece3);
+    border-color: var(--color-text-secondary, #5e5a55);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.filter-modal__apply {
+  flex: 2;
+  min-height: 48px;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background-color: var(--color-primary-dark, #688b68);
+  border: none;
+  border-radius: var(--radius-md, 12px);
+  font-family: var(--font-cta, 'Rubik', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary-dark, #688b68) 90%,
+      black
+    );
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent, #a9cdd4);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TABLET+ (Modal centered, nicht fullwidth)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (min-width: 768px) {
+  .filter-modal__backdrop {
+    align-items: center;
+  }
+
+  .filter-modal {
+    max-height: 80vh;
+    border-radius: var(--radius-lg, 18px);
+    box-shadow: var(--shadow-lg, 0 12px 24px rgba(0, 0, 0, 0.1));
+  }
+
+  .filter-modal__footer {
+    padding-bottom: var(--space-4, 16px);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-modal__backdrop,
+  .filter-modal {
+    animation: none;
+  }
+
+  .filter-modal__backdrop--closing,
+  .filter-modal--closing {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GLOBAL: Body scroll lock class
+// ─────────────────────────────────────────────────────────────────────────────
+// Note: This should be in a global stylesheet, added here for reference
+// :global(.modal-open) {
+//   overflow: hidden !important;
+//   position: fixed;
+//   width: 100%;
+// }

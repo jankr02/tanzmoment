@@ -1,0 +1,6 @@
+/**
+ * Prisma - Public API
+ */
+
+export { PrismaModule } from './prisma.module';
+export { PrismaService } from './prisma.service';
