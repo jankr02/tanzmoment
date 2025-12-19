@@ -302,11 +302,15 @@ export class FilterBarComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Schließt Dropdowns bei Klick außerhalb
+   * Ignoriert Klicks auf Flatpickr-Kalender
    */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.filter-bar__dropdown')) {
+    const isDropdownClick = target.closest('.filter-bar__dropdown');
+    const isCalendarClick = target.closest('.flatpickr-calendar');
+
+    if (!isDropdownClick && !isCalendarClick) {
       this.closeAllDropdowns();
     }
   }

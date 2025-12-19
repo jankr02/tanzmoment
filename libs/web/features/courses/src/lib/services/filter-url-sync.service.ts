@@ -228,9 +228,13 @@ export class FilterUrlSyncService {
 
   /**
    * Aktualisiert die URL basierend auf State
+   * Behält die aktuelle Scroll-Position
    */
   private updateUrl(state: CourseFilterState): void {
     this.isUpdatingFromState = true;
+
+    // Aktuelle Scroll-Position speichern
+    const scrollY = this.isBrowser ? window.scrollY : 0;
 
     const params = this.stateToParams(state);
 
@@ -241,9 +245,13 @@ export class FilterUrlSyncService {
       replaceUrl: true, // Kein neuer History-Eintrag
     });
 
+    // Scroll-Position nach Navigation wiederherstellen
     setTimeout(() => {
+      if (this.isBrowser) {
+        window.scrollTo(0, scrollY);
+      }
       this.isUpdatingFromState = false;
-    }, 100);
+    }, 0);
   }
 
   // ───────────────────────────────────────────────────────────────────────────

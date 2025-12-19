@@ -34,14 +34,14 @@
         </filter>
       </defs>
       <g filter="url(#footer-shadow-curve)">
-        <path 
+        <path
           d="M0 60 Q 360 20, 720 40 T 1440 60 L 1440 120 L 0 120 Z"
-          [attr.fill]="bgColor"
+          fill="var(--color-accent)"
         />
       </g>
     </svg>
   }
-  
+
   <!-- VARIANT: WAVE (wellenförmig) -->
   @if (variant === 'wave') {
     <svg 
@@ -65,14 +65,14 @@
         </filter>
       </defs>
       <g filter="url(#footer-shadow-wave)">
-        <path 
+        <path
           d="M0 30 Q 180 0, 360 30 T 720 30 Q 900 0, 1080 30 T 1440 30 L 1440 100 L 0 100 Z"
-          [attr.fill]="bgColor"
+          fill="var(--color-accent)"
         />
       </g>
     </svg>
   }
-  
+
   <!-- VARIANT: HILLS (hügelige Landschaft) -->
   @if (variant === 'hills') {
     <svg 
@@ -96,14 +96,14 @@
         </filter>
       </defs>
       <g filter="url(#footer-shadow-hills)">
-        <path 
+        <path
           d="M0 60 Q 200 20, 400 50 Q 600 10, 800 45 Q 1000 25, 1200 55 Q 1320 40, 1440 60 L 1440 120 L 0 120 Z"
-          [attr.fill]="bgColor"
+          fill="var(--color-accent)"
         />
       </g>
     </svg>
   }
-  
+
   <!-- VARIANT: SIMPLE (kein organischer Shape, nur Divider) -->
   @if (variant === 'simple') {
     <div class="footer__simple-divider"></div>

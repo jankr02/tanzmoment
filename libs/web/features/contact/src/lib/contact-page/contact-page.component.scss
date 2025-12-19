@@ -3,6 +3,7 @@
 // ============================================================================
 
 .contact-page {
+  padding-top: var(--space-20);
   min-height: 100vh;
   background: var(--color-background);
 
@@ -26,11 +27,11 @@
 
   &__hero {
     background: var(--color-neutral-extra-light);
-    padding: var(--space-16) 0 var(--space-12);
+    padding: 0 0 var(--space-12);
     text-align: center;
 
     @media (min-width: 768px) {
-      padding: var(--space-20) 0 var(--space-16);
+      padding: 0 0 var(--space-16);
     }
   }
 
@@ -136,6 +137,7 @@
     position: relative;
     padding: calc(var(--space-12) + 40px) 0 var(--space-12);
     background: var(--color-neutral-extra-light);
+    --wave-top-fill: var(--color-background);
 
     @media (min-width: 768px) {
       padding: calc(var(--space-16) + 60px) 0 var(--space-16);
@@ -150,6 +152,8 @@
     position: relative;
     padding: calc(var(--space-12) + 40px) 0 var(--space-16);
     background: var(--color-surface);
+    --wave-top-fill: var(--color-neutral-extra-light);
+    --wave-fill-color: var(--color-surface);
 
     @media (min-width: 768px) {
       padding: calc(var(--space-16) + 60px) 0 var(--space-20);

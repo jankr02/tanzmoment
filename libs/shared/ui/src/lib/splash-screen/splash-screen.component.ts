@@ -261,14 +261,15 @@ export class SplashScreenComponent implements OnInit, OnDestroy, AfterViewInit {
   // ==========================================================================
 
   /**
-   * Initialize visit tracking from LocalStorage.
-   * Determines if user is first-time or returning visitor.
+   * Initialize visit tracking from SessionStorage.
+   * Determines if user has seen the splash screen in this session.
+   * Uses sessionStorage so the splash screen reappears after browser/tab is closed.
    */
   private initializeVisitTracking(): void {
     if (!this.isBrowser) return;
 
     try {
-      const stored = localStorage.getItem(this.config.storageKey);
+      const stored = sessionStorage.getItem(this.config.storageKey);
       const now = new Date().toISOString();
 
       if (stored) {
@@ -276,9 +277,9 @@ export class SplashScreenComponent implements OnInit, OnDestroy, AfterViewInit {
         data.lastVisit = now;
         data.visitCount += 1;
         this.visitData.set(data);
-        localStorage.setItem(this.config.storageKey, JSON.stringify(data));
+        sessionStorage.setItem(this.config.storageKey, JSON.stringify(data));
 
-        this.log('Returning visitor detected', data);
+        this.log('User already saw splash in this session', data);
       } else {
         const newData: SplashScreenVisitData = {
           hasVisited: true,
@@ -287,12 +288,12 @@ export class SplashScreenComponent implements OnInit, OnDestroy, AfterViewInit {
           visitCount: 1,
         };
         this.visitData.set(newData);
-        localStorage.setItem(this.config.storageKey, JSON.stringify(newData));
+        sessionStorage.setItem(this.config.storageKey, JSON.stringify(newData));
 
-        this.log('First-time visitor');
+        this.log('First splash screen of this session');
       }
     } catch (error) {
-      console.warn('Failed to access localStorage for visit tracking:', error);
+      console.warn('Failed to access sessionStorage for visit tracking:', error);
     }
   }
 

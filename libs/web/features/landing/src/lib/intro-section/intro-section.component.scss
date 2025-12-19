@@ -1,0 +1,65 @@
+/**
+ * Landing Page Introduction Section Styles
+ *
+ * Minimalist text-only section with headline and paragraphs.
+ * Uses design tokens for consistency with the landing page design system.
+ */
+
+.landing-intro {
+  padding: var(--space-24) 0 var(--space-20);
+  background-color: var(--color-neutral-xl);
+
+  /**
+   * Container - Centered with max-width for optimal readability
+   */
+  &__container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
+  }
+
+  /**
+   * Headline - Large, centered typography (matches .features-title)
+   */
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--color-text-primary);
+    text-align: center;
+    margin: 0 0 var(--space-12);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  /**
+   * Content wrapper - Flex column for paragraph spacing
+   */
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /**
+   * Paragraphs - Body text with comfortable line-height
+   */
+  &__paragraph {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-body);
+      line-height: 1.7;
+    }
+  }
+}

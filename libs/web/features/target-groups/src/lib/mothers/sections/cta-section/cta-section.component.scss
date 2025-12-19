@@ -3,6 +3,8 @@
   padding: var(--space-24) 0;
   padding-top: calc(var(--space-24) + 60px);
   background-color: var(--color-surface);
+  --wave-top-fill: var(--color-background);
+  --wave-fill-color: var(--color-surface);
 
   &__wave {
     position: absolute;

@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
+  --wave-fill-color: var(--color-background);
 
   @media (max-width: 768px) {
     height: 60vh;

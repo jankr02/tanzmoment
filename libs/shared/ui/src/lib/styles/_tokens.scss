@@ -39,6 +39,11 @@
   // Background
   --color-background: var(--color-neutral-extra-light);
 
+  // Wave Divider Colors (default values)
+  --wave-fill-color: var(--color-background);
+  --wave-top-fill: var(--color-background);
+  --wave-bottom-fill: var(--color-background);
+
   // Semantic Colors
   --color-brand: var(--color-primary-dark);
   --color-success: #378a5c;

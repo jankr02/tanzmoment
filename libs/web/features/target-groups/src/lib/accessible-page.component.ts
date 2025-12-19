@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
+import { AuthStateService } from '@tanzmoment/web/features/landing';
 
 @Component({
   selector: 'tm-accessible-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterLink ],
   template: `
-    <tm-header />
     <main class="placeholder-page">
       <div class="placeholder-page__container">
         <h1 class="placeholder-page__title">Tanzen mit Behinderung</h1>
@@ -23,7 +22,6 @@ import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
         </a>
       </div>
     </main>
-    <tm-footer />
   `,
   styles: `
     .placeholder-page {
@@ -81,4 +79,10 @@ import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccessiblePageComponent {}
+export class AccessiblePageComponent {
+  protected readonly authState = inject(AuthStateService);
+
+  onLoginClicked(): void {
+    this.authState.login(0);
+  }
+}

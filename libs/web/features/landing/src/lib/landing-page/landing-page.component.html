@@ -9,10 +9,6 @@
 
 @if (!showSplash()) {
 <div class="landing-page" [@fadeIn]>
-  <header class="landing-page__header">
-    <tm-header [shrinkOnScroll]="true" />
-  </header>
-
   <main class="landing-page__main">
     @if (showHero()) {
     <section class="landing-page__hero">
@@ -28,7 +24,7 @@
         >
           <path
             d="M0 48C289 90 782.5 0 1140 59V100H0V48Z"
-            fill="#fcf3f3"
+            fill="var(--color-neutral-xl, #fcf3f3)"
           />
         </svg>
 
@@ -36,6 +32,12 @@
     </section>
     }
 
+    <!-- Introduction Section -->
+    @if (showHero()) {
+      <tm-landing-intro-section [data]="introData()" />
+    }
+
+    <!-- Features Section -->
     <section class="landing-page__features">
       <h2 class="features-title">Was dich bei Tanzmoment erwartet</h2>
 
@@ -101,9 +103,5 @@
       }
     </section>
   </main>
-
-  <footer class="landing-page__footer">
-    <tm-footer></tm-footer>
-  </footer>
 </div>
 }

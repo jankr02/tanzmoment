@@ -11,8 +11,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import {
-  HeaderComponent,
-  FooterComponent,
   SplashScreenComponent,
   SplashScreenConfig,
   SplashScreenStrategy,
@@ -24,10 +22,13 @@ import {
 } from '@tanzmoment/shared/ui';
 import { HeroGalleryComponent } from '../hero-gallery/hero-gallery.component';
 import { FeatureNavigationComponent } from '../feature-navigation/feature-navigation.component';
+import { LandingIntroSectionComponent } from '../intro-section/intro-section.component';
+import { IntroSectionData } from '../intro-section/intro-section.types';
 import {
   LandingPageStateService,
   LandingPageSection,
 } from './landing-page-state.service';
+import { SplashScreenVisibilityService } from '../services/splash-screen-visibility.service';
 
 @Component({
   selector: 'tm-landing-page',
@@ -35,9 +36,8 @@ import {
   imports: [
     CommonModule,
     SplashScreenComponent,
-    HeaderComponent,
-    FooterComponent,
     HeroGalleryComponent,
+    LandingIntroSectionComponent,
     FeatureNavigationComponent,
     SkeletonFeatureGridComponent,
   ],
@@ -77,6 +77,7 @@ export class LandingPageComponent implements OnInit {
 
   private readonly landingPageState = inject(LandingPageStateService);
   private readonly ngZone = inject(NgZone);
+  private readonly splashScreenVisibility = inject(SplashScreenVisibilityService);
 
   // ==========================================================================
   // State Management - Visibility
@@ -96,6 +97,16 @@ export class LandingPageComponent implements OnInit {
 
   /** Whether features had error */
   featuresError = signal(false);
+
+  /** Introduction section data */
+  readonly introData = signal<IntroSectionData>({
+    headline: 'Willkommen bei Tanzmoment',
+    paragraphs: [
+      'Tanzmoment ist mehr als nur eine Tanzschule. Hier finden Sie einen Raum, in dem Bewegung zur Sprache wird – ohne Druck, ohne Bewertung, mit viel Herz.',
+      'Ob Sie nach einer neuen Aktivität für Ihr Kind suchen, selbst wieder tanzen möchten oder einen Weg zur körperlichen Regeneration suchen: Bei uns sind Sie richtig.',
+      'Wir glauben daran, dass Tanzen für jeden zugänglich sein sollte. Deshalb bieten wir Kurse für unterschiedliche Altersgruppen und Bedürfnisse – von Kindertanz über Erwachsenenkurse bis hin zu spezialisierten Programmen für besondere Lebenslagen.',
+    ],
+  });
 
   // ==========================================================================
   // State Management - Analytics
@@ -188,6 +199,11 @@ export class LandingPageComponent implements OnInit {
   // ==========================================================================
 
   constructor() {
+    // Effect: Sync splash screen visibility with global service
+    effect(() => {
+      this.splashScreenVisibility.setSplashVisible(this.showSplash());
+    });
+
     // Effect: Watch for hero ready, then load features
     effect(() => {
       // Must read the signal directly for Angular to track the dependency
@@ -221,8 +237,50 @@ export class LandingPageComponent implements OnInit {
       // TODO: Send to analytics service (Google Analytics, Mixpanel, etc.)
     });
 
+    // Check if user has visited before and skip splash screen if they have
+    this.checkVisitHistory();
+
     // Mark splash as loading
     this.landingPageState.setSectionLoading(LandingPageSection.SPLASH);
+  }
+
+  // ==========================================================================
+  // Visit History Tracking
+  // ==========================================================================
+
+  /**
+   * Check if user has visited before in this session and skip splash screen if they have.
+   * Uses sessionStorage to reset the splash screen on each new browser session.
+   * The splash screen will reappear when the browser/tab is closed and reopened.
+   */
+  private checkVisitHistory(): void {
+    if (typeof window === 'undefined' || !window.sessionStorage) {
+      this.log('sessionStorage not available, showing splash screen');
+      return;
+    }
+
+    try {
+      const stored = sessionStorage.getItem(this.splashConfig.storageKey);
+      if (stored) {
+        const visitData = JSON.parse(stored);
+        if (visitData?.hasVisited) {
+          this.log('User already saw splash in this session, skipping splash screen', visitData);
+          this.showSplash.set(false);
+          this.showHero.set(true);
+          this.landingPageState.setSectionReady(LandingPageSection.SPLASH, {
+            completionType: 'skip',
+            assetsLoaded: 0,
+            assetsFailed: 0,
+            isReturningVisitor: true,
+          });
+          this.loadFeatures();
+          return;
+        }
+      }
+      this.log('First visit in this session, showing splash screen');
+    } catch (error) {
+      this.log('Error checking visit history, showing splash screen', error);
+    }
   }
 
   // ==========================================================================

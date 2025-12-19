@@ -1,6 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
 
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { ContactInfoComponent } from '../contact-info/contact-info.component';
@@ -14,8 +13,6 @@ import { DirectionsInfo } from '../contact-directions/contact-directions.types';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     ContactFormComponent,
     ContactInfoComponent,
     ContactMapComponent,

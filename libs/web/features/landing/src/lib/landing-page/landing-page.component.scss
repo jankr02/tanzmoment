@@ -29,6 +29,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-neutral-xl);
 
   // Smooth fade-in after splash
   animation: landing-fade-in 600ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,6 +94,10 @@
 
       // Shadow only on top edge (follows the wave curve)
       filter: drop-shadow(0 -3px 4px rgba(0, 0, 0, 0.08));
+
+      path {
+        fill: var(--wave-fill-color, var(--color-neutral-xl));
+      }
     }
 
     // Adjust height on different viewports
@@ -112,7 +117,8 @@
   &__features {
     position: relative;
     padding: var(--space-8) var(--space-8) var(--space-16) var(--space-8);
-    background: transparent;
+    --wave-fill-color: var(--color-neutral-xl);
+    background-color: var(--color-neutral-xl);
 
     // Container styles
     max-width: 1200px;

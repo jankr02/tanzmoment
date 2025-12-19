@@ -11,8 +11,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../button/button.component';
-import { InputComponent } from '../input/input.component';
 import { IconComponent } from '../icon/icon.component';
 import {
   FooterConfig,
@@ -47,8 +45,6 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    ButtonComponent,
-    InputComponent,
     IconComponent,
   ],
   templateUrl: './footer.component.html',

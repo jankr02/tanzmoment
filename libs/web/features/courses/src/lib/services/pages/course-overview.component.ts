@@ -35,8 +35,6 @@ interface CourseIllustration {
 
 // Shared UI Components
 import {
-  HeaderComponent,
-  FooterComponent,
   CourseCardComponent,
   CourseCardData,
   DanceStylesSectionComponent,
@@ -59,9 +57,6 @@ import { FilterUrlSyncService } from '../../services/filter-url-sync.service';
   standalone: true,
   imports: [
     CommonModule,
-    // Layout
-    HeaderComponent,
-    FooterComponent,
     // UI Components
     CourseCardComponent,
     DanceStylesSectionComponent,

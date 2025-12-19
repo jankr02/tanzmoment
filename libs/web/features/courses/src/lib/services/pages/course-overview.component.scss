@@ -39,17 +39,6 @@ $bp-sidebar: 1024px;
 .course-overview {
   min-height: 100vh;
   background: var(--color-surface);
-
-  // Padding-top für fixed Header
-  padding-top: 90px;
-
-  @media (min-width: 768px) {
-    padding-top: 110px;
-  }
-
-  @media (min-width: 1024px) {
-    padding-top: 115px;
-  }
 }
 
 .course-overview__container {
@@ -73,7 +62,7 @@ $bp-sidebar: 1024px;
   );
 
   @media (max-width: 768px) {
-    padding: var(--space-8) 0 var(--space-6);
+    padding: 0 0 var(--space-6);
   }
 }
 
@@ -490,13 +479,40 @@ $bp-sidebar: 1024px;
 // ─────────────────────────────────────────────────────────────────────────────
 
 .course-overview__helper {
-  padding: var(--space-12) 0;
+  position: relative;
   background: var(--color-neutral-xl);
   margin-top: var(--space-8);
+  --wave-fill-color: var(--color-neutral-xl);
+  --wave-top-fill: var(--color-surface);
 
   @media (max-width: 768px) {
     padding: var(--space-8) 0;
+    padding-top: calc(var(--space-8) + 40px);
     margin-top: var(--space-6);
+  }
+
+  &__wave-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    pointer-events: none;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 80px;
+    }
+
+    @media (max-width: 768px) {
+      height: 60px;
+
+      svg {
+        height: 60px;
+      }
+    }
   }
 }
 

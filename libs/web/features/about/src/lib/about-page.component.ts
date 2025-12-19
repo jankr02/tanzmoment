@@ -4,8 +4,6 @@ import {
   DanceStylesSectionComponent,
   DanceStyleCardData,
   DEFAULT_DANCE_STYLES,
-  HeaderComponent,
-  FooterComponent,
 } from '@tanzmoment/shared/ui';
 
 import { HeroSectionComponent } from './sections/hero-section/hero-section.component';
@@ -20,8 +18,6 @@ import { ContactSectionData } from './sections/contact-section/contact-section.t
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     HeroSectionComponent,
     MissionVisionSectionComponent,
     ContactSectionComponent,
@@ -32,6 +28,7 @@ import { ContactSectionData } from './sections/contact-section/contact-section.t
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutPageComponent {
+
   // ───────────────────────────────────────────────────────────────────────────
   // HERO DATA (Mock)
   // ───────────────────────────────────────────────────────────────────────────
@@ -86,4 +83,5 @@ export class AboutPageComponent {
   // ───────────────────────────────────────────────────────────────────────────
 
   readonly danceStyles = signal<DanceStyleCardData[]>(DEFAULT_DANCE_STYLES);
+
 }

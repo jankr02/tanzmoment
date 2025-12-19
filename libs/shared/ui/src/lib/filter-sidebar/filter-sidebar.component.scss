@@ -498,6 +498,8 @@
 
 .filter-sidebar__date-input-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
 
   // Calendar icon (right-aligned, vertically centered)
   &::after {
@@ -513,6 +515,13 @@
     background-size: contain;
     pointer-events: none;
     z-index: 1;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+  }
+
+  // Hover state - enhance icon
+  &:hover::after {
+    opacity: 0.85;
   }
 
   // Flatpickr calendar positioning - force above input with absolute positioning
@@ -533,6 +542,7 @@
 
   font-family: var(--font-body);
   font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
 
   background: var(--color-surface);
@@ -540,7 +550,7 @@
   border-radius: var(--radius-sm);
 
   cursor: pointer;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: all var(--transition-fast);
 
   &::placeholder {
     color: var(--color-text-secondary);
@@ -549,11 +559,14 @@
 
   &:hover:not(:disabled) {
     border-color: var(--color-brand);
+    background: var(--color-neutral-extra-light);
   }
 
-  &:focus {
+  &:focus,
+  &:focus-visible {
     outline: none;
     border-color: var(--color-brand);
+    background: var(--color-surface);
     box-shadow: 0 0 0 2px rgba(104, 139, 104, 0.15);
   }
 
@@ -561,6 +574,12 @@
     opacity: 0.5;
     cursor: not-allowed;
     background: var(--color-neutral-extra-light);
+  }
+
+  // When has value
+  &:not(:placeholder-shown) {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-brand);
   }
 }
 
@@ -571,6 +590,7 @@
 
   font-family: var(--font-body);
   font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
 
   background: var(--color-surface);
@@ -578,7 +598,7 @@
   border-radius: var(--radius-sm);
 
   cursor: pointer;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: all var(--transition-fast);
 
   &::placeholder {
     color: var(--color-text-secondary);
@@ -587,12 +607,27 @@
 
   &:hover:not(:disabled) {
     border-color: var(--color-brand);
+    background: var(--color-neutral-extra-light);
   }
 
-  &:focus {
+  &:focus,
+  &:focus-visible {
     outline: none;
     border-color: var(--color-brand);
+    background: var(--color-surface);
     box-shadow: 0 0 0 2px rgba(104, 139, 104, 0.15);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--color-neutral-extra-light);
+  }
+
+  // When has value
+  &:not(:placeholder-shown) {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-brand);
   }
 }
 

@@ -2,11 +2,6 @@
 COURSE OVERVIEW PAGE TEMPLATE
 ============================================================================ -->
 
-<!-- Header (Sticky) -->
-<header class="course-overview__header">
-  <tm-header [shrinkOnScroll]="true" />
-</header>
-
 <main class="course-overview">
   <!-- Dance Styles Hero -->
   <section class="course-overview__hero">
@@ -127,6 +122,20 @@ COURSE OVERVIEW PAGE TEMPLATE
 
   <!-- Helper Section -->
   <section class="course-overview__helper">
+    <!-- Wave Border am oberen Rand -->
+    <div class="course-overview__wave-top" aria-hidden="true">
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--wave-top-fill)"
+        />
+      </svg>
+    </div>
+
     <ui-helper-section
       headline="Noch Fragen?"
       subheadline="Wir sind für dich da"
@@ -143,6 +152,3 @@ COURSE OVERVIEW PAGE TEMPLATE
   (closeModal)="closeFilterModal()"
   (applyFilter)="onFilterChange($event)"
 />
-
-<!-- Footer -->
-<tm-footer />
