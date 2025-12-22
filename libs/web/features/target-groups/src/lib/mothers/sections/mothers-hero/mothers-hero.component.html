@@ -8,20 +8,6 @@
     <div class="mothers-hero__overlay"></div>
   </div>
 
-  <!-- Wave Border am unteren Rand -->
-  <div class="mothers-hero__wave" aria-hidden="true">
-    <svg
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-        fill="var(--wave-fill-color)"
-      />
-    </svg>
-  </div>
-
   <div class="mothers-hero__content">
     <div class="mothers-hero__container">
       <h1 class="mothers-hero__headline">{{ data.headline }}</h1>
@@ -35,4 +21,20 @@
       </app-button>
     </div>
   </div>
+
+  <!--
+    Wave Divider (Transition from Hero Image to Background Section)
+    - overlay=true: Positioned absolutely at bottom of hero
+    - from="transparent": No visible background over hero images
+    - to="background": Next section has background color
+    - height="lg": Responsive Höhe (100px desktop, 60px mobile)
+    - direction="down": Wave curves downward
+  -->
+  <tm-wave-divider
+    from="transparent"
+    to="background"
+    height="lg"
+    direction="down"
+    [overlay]="true"
+  />
 </section>

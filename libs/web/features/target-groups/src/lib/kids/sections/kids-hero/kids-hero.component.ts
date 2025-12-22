@@ -1,13 +1,13 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ButtonComponent } from '@tanzmoment/shared/ui';
+import { ButtonComponent, WaveDividerComponent } from '@tanzmoment/shared/ui';
 import { KidsHeroData } from './kids-hero.types';
 
 @Component({
   selector: 'tm-kids-hero',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, WaveDividerComponent],
   templateUrl: './kids-hero.component.html',
   styleUrl: './kids-hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

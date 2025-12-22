@@ -122,19 +122,19 @@ COURSE OVERVIEW PAGE TEMPLATE
 
   <!-- Helper Section -->
   <section class="course-overview__helper">
-    <!-- Wave Border am oberen Rand -->
-    <div class="course-overview__wave-top" aria-hidden="true">
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-          fill="var(--wave-top-fill)"
-        />
-      </svg>
-    </div>
+    <!--
+      Wave Divider (Transition from Course Grid to Helper Section)
+      - from="surface": Course Grid hat white surface background
+      - to="neutral": Helper Section hat neutral background
+      - height="md": Responsive Höhe (80px desktop, 60px mobile)
+      - direction="down": Wave curves downward
+    -->
+    <tm-wave-divider
+      from="surface"
+      to="neutral"
+      height="md"
+      direction="down"
+    />
 
     <ui-helper-section
       headline="Noch Fragen?"

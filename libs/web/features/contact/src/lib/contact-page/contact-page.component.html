@@ -28,19 +28,19 @@
 
   <!-- Directions Section -->
   <section class="contact-page__directions">
-    <!-- Wave Border von Content Section -->
-    <div class="contact-page__wave contact-page__wave--top" aria-hidden="true">
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-          fill="var(--wave-top-fill)"
-        />
-      </svg>
-    </div>
+    <!--
+      Wave Divider (Transition from Content to Directions Section)
+      - from="background": Content Section hat background color
+      - to="var(--color-neutral-extra-light)": Directions Section hat neutral-extra-light
+      - height="md": Responsive Höhe (80px desktop, 60px mobile)
+      - direction="down": Wave curves downward
+    -->
+    <tm-wave-divider
+      from="background"
+      to="var(--color-neutral-extra-light)"
+      height="md"
+      direction="down"
+    />
     <div class="container">
       <tm-contact-directions [directions]="directionsInfo()" />
     </div>
@@ -48,19 +48,19 @@
 
   <!-- Map Section -->
   <section class="contact-page__map-section">
-    <!-- Wave Border von Directions Section -->
-    <div class="contact-page__wave contact-page__wave--top" aria-hidden="true">
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-          fill="var(--wave-top-fill)"
-        />
-      </svg>
-    </div>
+    <!--
+      Wave Divider (Transition from Directions to Map Section)
+      - from="var(--color-neutral-extra-light)": Directions Section hat neutral-extra-light
+      - to="surface": Map Section hat white surface background
+      - height="md": Responsive Höhe (80px desktop, 60px mobile)
+      - direction="down": Wave curves downward
+    -->
+    <tm-wave-divider
+      from="var(--color-neutral-extra-light)"
+      to="surface"
+      height="md"
+      direction="down"
+    />
     <div class="container">
       <h2 class="contact-page__map-title">So findest du uns</h2>
       <tm-contact-map

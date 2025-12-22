@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
-  --wave-fill-color: var(--color-background);
 
   @media (max-width: 768px) {
     height: 60vh;
@@ -41,34 +40,6 @@
       rgba(0, 0, 0, 0.3),
       rgba(0, 0, 0, 0.5)
     );
-  }
-
-  &__wave {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 92px;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-
-    svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      display: block;
-      width: 100%;
-      height: 80px;
-    }
-
-    @media (max-width: 768px) {
-      height: 72px;
-
-      svg {
-        height: 60px;
-      }
-    }
   }
 
   &__content {
@@ -109,4 +80,18 @@
       font-size: var(--font-size-body);
     }
   }
+}
+
+/**
+ * Wave Divider Styling
+ * Der Wave Divider wird mit overlay=true absolut positioniert,
+ * daher muss er explizit aus dem Flex-Flow entfernt werden
+ */
+.mothers-hero tm-wave-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
