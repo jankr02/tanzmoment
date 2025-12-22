@@ -46,6 +46,7 @@ import {
   HighlightSectionComponent,
   DanceStyleId,
   CourseFilterState,
+  WaveDividerComponent,
 } from '@tanzmoment/shared/ui';
 
 // Feature Services (relative imports to avoid circular dependency)
@@ -66,6 +67,7 @@ import { FilterUrlSyncService } from '../../services/filter-url-sync.service';
     HelperSectionComponent,
     EmptyStateComponent,
     HighlightSectionComponent,
+    WaveDividerComponent,
   ],
   templateUrl: './course-overview.component.html',
   styleUrl: './course-overview.component.scss',
