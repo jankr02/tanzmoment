@@ -1,9 +1,7 @@
 @use 'tokens' as *;
 
 .hero-section {
-  padding: var(--space-20) 0;
   background-color: var(--color-background);
-  --wave-fill-color: var(--color-surface);
   position: relative;
 
   &__container {
@@ -29,6 +27,7 @@
     display: flex;
     justify-content: center;
     order: -1;
+    padding-bottom: var(--space-6);
 
     @include respond-to('lg') {
       order: 0;
@@ -105,33 +104,5 @@
     line-height: var(--line-height-body);
     color: var(--color-text-secondary);
     margin: 0;
-  }
-
-  // Wave Divider
-  &__wave {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 92px;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-
-    svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      display: block;
-      width: 100%;
-      height: 80px;
-    }
-
-    @media (max-width: 768px) {
-      height: 72px;
-      svg {
-        height: 60px;
-      }
-    }
   }
 }
