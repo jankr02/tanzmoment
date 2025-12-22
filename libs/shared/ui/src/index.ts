@@ -41,3 +41,6 @@ export * from './lib/textarea/textarea.types';
 // Skeleton Components
 export * from './lib/skeleton';
 export * from './lib/skeleton-layout';
+
+// Wave Divider
+export * from './lib/wave-divider';
