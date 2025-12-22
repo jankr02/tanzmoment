@@ -8,22 +8,6 @@
     <div class="kids-hero__overlay"></div>
   </div>
 
-  <!--
-    Wave Divider (Transition from Hero Image to Background Section)
-    - overlay=true: Positioned absolutely at bottom of hero
-    - from="transparent": No visible background over hero images
-    - to="background": Next section has background color
-    - height="lg": Responsive Höhe (100px desktop, 60px mobile)
-    - direction="down": Wave curves downward
-  -->
-  <tm-wave-divider
-    from="transparent"
-    to="background"
-    height="lg"
-    direction="down"
-    [overlay]="true"
-  />
-
   <div class="kids-hero__content">
     <div class="kids-hero__container">
       <h1 class="kids-hero__headline">{{ data.headline }}</h1>
@@ -48,4 +32,20 @@
       </div>
     </div>
   </div>
+
+  <!--
+    Wave Divider (Transition from Hero Image to Background Section)
+    - overlay=true: Positioned absolutely at bottom of hero
+    - from="transparent": No visible background over hero images
+    - to="background": Next section has background color
+    - height="lg": Responsive Höhe (100px desktop, 60px mobile)
+    - direction="down": Wave curves downward
+  -->
+  <tm-wave-divider
+    from="transparent"
+    to="background"
+    height="lg"
+    direction="down"
+    [overlay]="true"
+  />
 </section>
