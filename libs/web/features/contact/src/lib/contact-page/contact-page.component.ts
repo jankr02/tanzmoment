@@ -1,5 +1,6 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WaveDividerComponent } from '@tanzmoment/shared/ui';
 
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { ContactInfoComponent } from '../contact-info/contact-info.component';
@@ -17,6 +18,7 @@ import { DirectionsInfo } from '../contact-directions/contact-directions.types';
     ContactInfoComponent,
     ContactMapComponent,
     ContactDirectionsComponent,
+    WaveDividerComponent,
   ],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss',
