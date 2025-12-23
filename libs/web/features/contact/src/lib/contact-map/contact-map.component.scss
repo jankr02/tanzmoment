@@ -11,6 +11,7 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-neutral-extra-light);
+  --last-section-bg: var(--color-surface);
 
   @media (min-width: 768px) {
     aspect-ratio: 21 / 9;

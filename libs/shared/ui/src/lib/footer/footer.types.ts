@@ -3,6 +3,7 @@
 // ============================================================================
 
 import { IconName } from '../icon/icon.types';
+import { WaveVariant, WaveHeight, WaveDirection } from '../wave-divider/wave-divider.types';
 
 export interface FooterConfig {
   // Branding
@@ -37,10 +38,14 @@ export interface FooterConfig {
   // Scroll-to-Top
   showScrollTop?: boolean;
   scrollTopThreshold?: number;
-  
-  // Styling
-  bgColor?: string;
-  variant?: FooterVariant;
+
+  // Wave Configuration
+  waveVariant?: WaveVariant;
+  waveHeight?: WaveHeight;
+  waveFrom?: string;
+  waveTo?: string;
+  waveDirection?: WaveDirection;
+  waveShadow?: boolean;
 }
 
 export interface FooterNavColumn {
@@ -86,12 +91,6 @@ export interface LegalLink {
   url?: string;
   external?: boolean;
 }
-
-export type FooterVariant =
-  | 'wave'           // Wave-shaped top edge
-  | 'curve'          // Asymmetric curve (like Header)
-  | 'hills'          // Hills landscape
-  | 'simple';        // Simple without shape
 
 // ============================================================================
 // DEFAULT CONFIGURATIONS

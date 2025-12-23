@@ -30,6 +30,16 @@ main {
 }
 
 // ============================================================================
+// CSS VARIABLE BRIDGE: Last Section Background
+// ============================================================================
+// Used by footer to match pre-wave background to last section color.
+// Individual sections override this with their actual background.
+
+:root {
+  --last-section-bg: var(--color-surface); // Default: white (most common)
+}
+
+// ============================================================================
 // CUSTOM SCROLLBAR (Optional – for modern browsers)
 // ============================================================================
 

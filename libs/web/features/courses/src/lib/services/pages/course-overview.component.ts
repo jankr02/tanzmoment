@@ -52,6 +52,7 @@ import {
 // Feature Services (relative imports to avoid circular dependency)
 import { CourseFilterService } from '../../services/course-filter.service';
 import { FilterUrlSyncService } from '../../services/filter-url-sync.service';
+import { CourseOverviewColorService } from '../course-overview-color.service';
 
 @Component({
   selector: 'app-course-overview',
@@ -80,6 +81,7 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
 
   readonly filterService = inject(CourseFilterService);
   private readonly urlSyncService = inject(FilterUrlSyncService);
+  private readonly colorService = inject(CourseOverviewColorService);
   private readonly platformId = inject(PLATFORM_ID);
 
   /** Nur im Browser ausführen */
@@ -282,6 +284,9 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
   // ───────────────────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
+    // Set the footer wave pre-color to match this page's last section
+    this.colorService.setCourseOverviewColor();
+
     // URL-Sync aktivieren (liest Filter aus URL oder triggert Initial Load)
     this.urlSyncService.activate();
 
@@ -293,6 +298,9 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Reset to default color when leaving this page
+    this.colorService.resetToDefault();
+
     this.urlSyncService.deactivate();
     this.removeScrollListener();
   }

@@ -10,6 +10,8 @@ import {
   inject,
   NgZone,
   isDevMode,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -40,6 +42,7 @@ import {
 } from './landing-page-state.service';
 
 import { SplashScreenVisibilityService } from '../services/splash-screen-visibility.service';
+import { LandingPageColorService } from '../services/landing-page-color.service';
 
 @Component({
   selector: 'tm-landing-page',
@@ -64,7 +67,7 @@ import { SplashScreenVisibilityService } from '../services/splash-screen-visibil
     ]),
   ],
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit, OnDestroy {
   /**
    * Landing Page Container Component with Orchestration
    *
@@ -79,6 +82,7 @@ export class LandingPageComponent {
    * - Error handling with skeleton fallbacks
    * - Progress tracking and analytics
    * - Smooth transitions between states
+   * - Footer Wave color synchronization
    *
    * This component orchestrates the layout and composition of:
    * - Splash Screen (with asset preloading)
@@ -95,6 +99,7 @@ export class LandingPageComponent {
   private readonly stateService = inject(LandingPageStateService);
   private readonly ngZone = inject(NgZone);
   private readonly splashVisibility = inject(SplashScreenVisibilityService);
+  private readonly colorService = inject(LandingPageColorService);
 
   // ==========================================================================
   // Splash Screen Configuration
@@ -156,6 +161,20 @@ export class LandingPageComponent {
       'Bei Tanzmoment findest du einen Raum, in dem du dich entfalten kannst, unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen.',
     ],
   });
+
+  // ==========================================================================
+  // LIFECYCLE
+  // ==========================================================================
+
+  ngOnInit(): void {
+    // Set the footer wave pre-color to match this page's last section
+    this.colorService.setLandingPageColor();
+  }
+
+  ngOnDestroy(): void {
+    // Reset to default color when leaving this page
+    this.colorService.resetToDefault();
+  }
 
   // ==========================================================================
   // Splash Screen Handlers

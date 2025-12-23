@@ -17,6 +17,12 @@
 :host {
   display: block;
   width: 100%;
+  --last-section-bg: transparent;
+}
+
+// Muted variant sets its background
+:host(.helper-section--muted) {
+  --last-section-bg: var(--color-neutral-extra-light);
 }
 
 // ============================================================================

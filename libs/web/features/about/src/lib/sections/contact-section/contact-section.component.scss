@@ -6,7 +6,7 @@
   margin-left: calc(-50vw + 50%);
   padding: var(--space-24) 0 var(--space-16);
   background-color: var(--color-surface);
-  --wave-fill-color: var(--color-surface);
+  --last-section-bg: var(--color-surface);
 
   &__container {
     max-width: var(--container-max-width);
