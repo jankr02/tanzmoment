@@ -18,12 +18,13 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../button/button.component';
 import { IconComponent } from '../icon/icon.component';
+import { AvatarComponent } from '../avatar/avatar.component';
 import { HeaderConfig, NavItem, UserMenuData, DEFAULT_NAV_ITEMS } from './header.types';
 
 @Component({
   selector: 'tm-header',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, IconComponent],
+  imports: [CommonModule, ButtonComponent, IconComponent, AvatarComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

@@ -2,11 +2,6 @@
 COURSE OVERVIEW PAGE TEMPLATE
 ============================================================================ -->
 
-<!-- Header (Sticky) -->
-<header class="course-overview__header">
-  <tm-header [shrinkOnScroll]="true" />
-</header>
-
 <main class="course-overview">
   <!-- Dance Styles Hero -->
   <section class="course-overview__hero">
@@ -127,6 +122,20 @@ COURSE OVERVIEW PAGE TEMPLATE
 
   <!-- Helper Section -->
   <section class="course-overview__helper">
+    <!--
+      Wave Divider (Transition from Course Grid to Helper Section)
+      - from="surface": Course Grid hat white surface background
+      - to="neutral": Helper Section hat neutral background
+      - height="md": Responsive Höhe (80px desktop, 60px mobile)
+      - direction="down": Wave curves downward
+    -->
+    <tm-wave-divider
+      from="surface"
+      to="neutral"
+      height="md"
+      direction="down"
+    />
+
     <ui-helper-section
       headline="Noch Fragen?"
       subheadline="Wir sind für dich da"
@@ -143,6 +152,3 @@ COURSE OVERVIEW PAGE TEMPLATE
   (closeModal)="closeFilterModal()"
   (applyFilter)="onFilterChange($event)"
 />
-
-<!-- Footer -->
-<tm-footer />

@@ -5,7 +5,18 @@
       "Bash(npx nx:*)",
       "Bash(npx tsc:*)",
       "Bash(find:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node --version)",
+      "Bash(npm:*)",
+      "Bash(powershell -Command \"Stop-Process -Name node -Force -ErrorAction SilentlyContinue; Write-Host ''All Node processes stopped''\")",
+      "Bash(powershell -Command \"Stop-Process -Name node -Force -ErrorAction SilentlyContinue; Write-Host ''Node processes stopped''\")",
+      "Bash(docker-compose down:*)",
+      "Bash(dir:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(grep:*)",
+      "Bash(taskkill:*)"
     ],
     "deny": [],
     "ask": []

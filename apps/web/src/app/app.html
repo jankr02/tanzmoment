@@ -1,2 +1,18 @@
+<!-- Global Header (hidden during splash screen on landing page) -->
+@if (shouldShowHeaderFooter()) {
+  <tm-header
+    [isAuthenticated]="authState.isAuthenticated()"
+    [userData]="authState.userMenuData()"
+    (loginClicked)="onLoginClicked()"
+  />
+}
+
 <!-- Main Application Container -->
-<router-outlet></router-outlet>
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Global Footer (hidden during splash screen on landing page) -->
+@if (shouldShowHeaderFooter()) {
+  <tm-footer />
+}

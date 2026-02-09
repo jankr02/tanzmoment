@@ -9,6 +9,7 @@ export type IconName =
   // Navigation & UI
   | 'calendar'
   | 'heart'
+  | 'lighthouse'
   | 'mail'
   | 'phone'
   | 'map-pin'

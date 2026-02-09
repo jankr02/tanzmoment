@@ -36,6 +36,20 @@
     gap: var(--space-4);
   }
 
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  &__icon-wrapper {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &__headline {
     font-family: var(--font-headline);
     font-size: var(--font-size-h3);

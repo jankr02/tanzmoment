@@ -1,8 +1,8 @@
 @use 'tokens' as *;
 
 .hero-section {
-  padding: var(--space-16) 0;
   background-color: var(--color-background);
+  position: relative;
 
   &__container {
     max-width: var(--container-max-width);
@@ -27,6 +27,7 @@
     display: flex;
     justify-content: center;
     order: -1;
+    padding-bottom: var(--space-6);
 
     @include respond-to('lg') {
       order: 0;

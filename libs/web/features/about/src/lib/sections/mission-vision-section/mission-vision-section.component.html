@@ -5,13 +5,23 @@
     <div class="mission-vision-section__content-grid">
       <!-- Mission -->
       <div class="mission-vision-section__block">
-        <h3 class="mission-vision-section__headline">{{ data.mission.headline }}</h3>
+        <div class="mission-vision-section__header">
+          <div class="mission-vision-section__icon-wrapper">
+            <app-icon name="heart" size="xl" color="primary" [ariaLabel]="'Mission Icon'" />
+          </div>
+          <h3 class="mission-vision-section__headline">{{ data.mission.headline }}</h3>
+        </div>
         <p class="mission-vision-section__text">{{ data.mission.text }}</p>
       </div>
 
       <!-- Vision -->
       <div class="mission-vision-section__block">
-        <h3 class="mission-vision-section__headline">{{ data.vision.headline }}</h3>
+        <div class="mission-vision-section__header">
+          <div class="mission-vision-section__icon-wrapper">
+            <app-icon name="lighthouse" size="xl" color="primary" [ariaLabel]="'Vision Icon'" />
+          </div>
+          <h3 class="mission-vision-section__headline">{{ data.vision.headline }}</h3>
+        </div>
         <p class="mission-vision-section__text">{{ data.vision.text }}</p>
       </div>
     </div>

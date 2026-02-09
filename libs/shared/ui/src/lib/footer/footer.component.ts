@@ -11,9 +11,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../button/button.component';
-import { InputComponent } from '../input/input.component';
 import { IconComponent } from '../icon/icon.component';
+import { WaveDividerComponent } from '../wave-divider/wave-divider.component';
+import { WaveVariant, WaveHeight, WaveDirection } from '../wave-divider/wave-divider.types';
 import {
   FooterConfig,
   FooterNavColumn,
@@ -21,7 +21,6 @@ import {
   ContactInfo,
   SocialLink,
   LegalLink,
-  FooterVariant,
   DEFAULT_FOOTER_NAV,
   DEFAULT_SOCIAL_LINKS,
   DEFAULT_LEGAL_LINKS,
@@ -47,9 +46,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    ButtonComponent,
-    InputComponent,
     IconComponent,
+    WaveDividerComponent,
   ],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
@@ -94,9 +92,13 @@ export class FooterComponent implements OnInit, OnDestroy {
   @Input() showScrollTop = true;
   @Input() scrollTopThreshold = 300;
 
-  // Styling
-  @Input() bgColor = '#FDF8F3';
-  @Input() variant: FooterVariant = 'curve';
+  // Wave Configuration
+  @Input() waveVariant: WaveVariant = 'default';
+  @Input() waveHeight: WaveHeight = 'lg';
+  @Input() waveFrom = 'var(--last-section-bg, var(--color-surface))';
+  @Input() waveTo = 'var(--color-accent)';
+  @Input() waveDirection: WaveDirection = 'down';
+  @Input() waveShadow = false;
 
   // ============================================================================
   // EVENTS
@@ -122,7 +124,7 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   // Computed Classes
   footerClasses = computed(() => {
-    const classes = ['footer', `footer--${this.variant}`];
+    const classes = ['footer'];
     if (this.showScrollTopButton()) classes.push('footer--scrollable');
     return classes.join(' ');
   });
@@ -282,7 +284,11 @@ export class FooterComponent implements OnInit, OnDestroy {
     if (config.scrollTopThreshold)
       this.scrollTopThreshold = config.scrollTopThreshold;
 
-    if (config.bgColor) this.bgColor = config.bgColor;
-    if (config.variant) this.variant = config.variant;
+    if (config.waveVariant) this.waveVariant = config.waveVariant;
+    if (config.waveHeight) this.waveHeight = config.waveHeight;
+    if (config.waveFrom) this.waveFrom = config.waveFrom;
+    if (config.waveTo) this.waveTo = config.waveTo;
+    if (config.waveDirection) this.waveDirection = config.waveDirection;
+    if (config.waveShadow !== undefined) this.waveShadow = config.waveShadow;
   }
 }

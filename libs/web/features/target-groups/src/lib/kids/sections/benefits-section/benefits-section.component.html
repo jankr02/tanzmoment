@@ -1,17 +1,4 @@
 <section class="benefits-section">
-  <!-- Wave Border am oberen Rand -->
-  <div class="benefits-section__wave" aria-hidden="true">
-    <svg
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-        fill="var(--color-background)"
-      />
-    </svg>
-  </div>
 
   <div class="benefits-section__container">
     <h2 class="benefits-section__headline">{{ data.headline }}</h2>
@@ -35,17 +22,17 @@
     </div>
   </div>
 
-  <!-- Wave Border am unteren Rand -->
-  <div class="benefits-section__wave-bottom" aria-hidden="true">
-    <svg
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-        fill="var(--color-background)"
-      />
-    </svg>
-  </div>
+  <!--
+    Wave Divider (Transition from Benefits to Safety Section)
+    - from="surface": Benefits Section has white surface background
+    - to="background": Safety Section has background color
+    - height="md": Responsive Höhe (80px desktop, 60px mobile)
+    - direction="down": Wave curves downward
+  -->
+  <tm-wave-divider
+    from="surface"
+    to="background"
+    height="md"
+    direction="down"
+  />
 </section>

@@ -1,8 +1,6 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  HeaderComponent,
-  FooterComponent,
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
@@ -29,8 +27,6 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     MothersHeroComponent,
     EmpathySectionComponent,
     WhatToExpectSectionComponent,
@@ -336,4 +332,5 @@ export class MothersPageComponent {
       },
     ],
   });
+
 }

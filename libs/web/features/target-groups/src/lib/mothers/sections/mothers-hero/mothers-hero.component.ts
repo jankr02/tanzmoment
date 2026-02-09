@@ -1,13 +1,13 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ButtonComponent } from '@tanzmoment/shared/ui';
+import { ButtonComponent, WaveDividerComponent } from '@tanzmoment/shared/ui';
 import { MothersHeroData } from './mothers-hero.types';
 
 @Component({
   selector: 'tm-mothers-hero',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, WaveDividerComponent],
   templateUrl: './mothers-hero.component.html',
   styleUrl: './mothers-hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

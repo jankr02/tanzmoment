@@ -11,6 +11,7 @@
   transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1),
               transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, height;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 
   @include respond-to('md') {
     height: 110px;
@@ -30,6 +31,7 @@
     pointer-events: none;
     z-index: 0;
     @include transition(opacity);
+    display: block;
   }
 
   // Content Container
@@ -878,6 +880,7 @@
     left: 0;
     right: 0;
     z-index: 1000;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
   }
 
   // Transparent
@@ -885,6 +888,9 @@
     .header__bg-shape {
       opacity: 0;
     }
+
+    // Keep box-shadow visible even when transparent
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12) !important;
   }
 
   // Scrolled State
@@ -892,6 +898,9 @@
     .header__bg-shape {
       opacity: 1;
     }
+
+    // Ensure shadow is visible
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
   }
 
   // Shrink on Scroll

@@ -1,0 +1,14 @@
+<section class="landing-intro">
+  <div class="landing-intro__container">
+    <!-- Section headline -->
+    <h2 class="landing-intro__headline">{{ data.headline }}</h2>
+
+    <!-- Content paragraphs -->
+    <div class="landing-intro__content">
+      @for (paragraph of data.paragraphs; track $index) {
+        <p class="landing-intro__paragraph">{{ paragraph }}</p>
+      }
+    </div>
+  </div>
+</section>
+

@@ -5,7 +5,7 @@
   <!-- Background Shape -->
   <svg
     class="header__bg-shape"
-    viewBox="0 0 1148 82"
+    viewBox="0 0 1148 74"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
@@ -116,24 +116,19 @@
       <!-- User Menu (Authenticated) -->
       @if (isAuthenticated && userData) {
         <div class="header__user-menu">
-          <button 
+          <button
             class="header__user-btn"
             (click)="toggleUserMenu()"
             [attr.aria-expanded]="userMenuOpen()"
             [attr.aria-label]="'Benutzermenü öffnen'"
           >
-            @if (userData.avatar) {
-              <img 
-                [src]="userData.avatar" 
-                [alt]="userData.name"
-                class="header__user-avatar"
-              />
-            } @else {
-              <div class="header__user-avatar header__user-avatar--placeholder">
-                {{ userData.name.charAt(0).toUpperCase() }}
-              </div>
-            }
-            
+            <ui-avatar
+              [name]="userData.name"
+              [imageUrl]="userData.avatar"
+              size="sm"
+              class="header__user-avatar"
+            />
+
             <app-icon name="chevron-down" size="xs" class="header__user-chevron" />
           </button>
           
@@ -288,18 +283,13 @@
     @if (isAuthenticated && userData && userData.menuItems) {
       <div class="header__mobile-user">
         <div class="header__mobile-user-info">
-          @if (userData.avatar) {
-            <img 
-              [src]="userData.avatar" 
-              [alt]="userData.name"
-              class="header__mobile-user-avatar"
-            />
-          } @else {
-            <div class="header__mobile-user-avatar header__mobile-user-avatar--placeholder">
-              {{ userData.name.charAt(0).toUpperCase() }}
-            </div>
-          }
-          
+          <ui-avatar
+            [name]="userData.name"
+            [imageUrl]="userData.avatar"
+            size="md"
+            class="header__mobile-user-avatar"
+          />
+
           <div>
             <p class="header__mobile-user-name">{{ userData.name }}</p>
             @if (userData.email) {

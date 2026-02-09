@@ -1,3 +1,10 @@
+<!-- ============================================================================
+     LANDING PAGE TEMPLATE (Migriert zu Wave-Divider)
+     ============================================================================
+     Die manuelle Wave-SVG wurde durch die tm-wave-divider Komponente ersetzt.
+     Dies vereinfacht die Wartung und sorgt für konsistente Wave-Übergänge.
+     ============================================================================ -->
+
 @if (showSplash()) {
 <tm-splash-screen
   [config]="splashConfig"
@@ -9,33 +16,52 @@
 
 @if (!showSplash()) {
 <div class="landing-page" [@fadeIn]>
-  <header class="landing-page__header">
-    <tm-header [shrinkOnScroll]="true" />
-  </header>
-
   <main class="landing-page__main">
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         HERO SECTION
+         Hintergrund: Bilder (keine feste Farbe)
+         ───────────────────────────────────────────────────────────────────── -->
     @if (showHero()) {
     <section class="landing-page__hero">
-      <tm-hero-gallery (ready)="onHeroReady()" (error)="onHeroError($event)" />
+      <tm-hero-gallery (ready)="onHeroReady()" (loadError)="onHeroError($event)" />
 
-      <!-- Wave Divider (inside hero for correct positioning) -->
-      <div class="landing-page__wave" aria-hidden="true">
-        <svg
-          viewBox="0 0 1140 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 48C289 90 782.5 0 1140 59V100H0V48Z"
-            fill="#fcf3f3"
-          />
-        </svg>
+      <!--
+        Wave Divider im Overlay-Modus
+        - overlay=true: Positioniert sich absolut am unteren Rand der Hero-Section
+        - from="transparent": Kein sichtbarer Hintergrund über den Hero-Bildern
+        - to="neutral": Übergang zur neutral-farbigen Intro-Section
+        - variant="hero": Verwendet den originalen Landing-Page Wave-Pfad
+        - shadow=true: Subtiler Schatten für Tiefe
+        - height="lg": Responsive Höhen (100px desktop, 60px mobile)
 
-      </div>
+        Note: Wave Divider wird am Ende der Section positioniert, um Layout-Verschiebungen zu vermeiden.
+        Mit [overlay]="true" wird es absolut positioniert und beeinflusst nicht den Document Flow.
+      -->
+      <tm-wave-divider
+        from="transparent"
+        to="neutral"
+        variant="hero"
+        height="lg"
+        [overlay]="true"
+        [shadow]="true"
+      />
     </section>
     }
 
+    <!-- ─────────────────────────────────────────────────────────────────────
+         INTRO SECTION
+         Hintergrund: neutral (--color-neutral-xl)
+         ───────────────────────────────────────────────────────────────────── -->
+    @if (showHero()) {
+      <tm-landing-intro-section [data]="introData()" />
+    }
+
+    <!-- ─────────────────────────────────────────────────────────────────────
+         FEATURES SECTION
+         Hintergrund: neutral (--color-neutral-xl)
+         Keine Wave nötig, da gleiche Farbe wie Intro Section
+         ───────────────────────────────────────────────────────────────────── -->
     <section class="landing-page__features">
       <h2 class="features-title">Was dich bei Tanzmoment erwartet</h2>
 
@@ -100,10 +126,7 @@
       <tm-skeleton-feature-grid />
       }
     </section>
-  </main>
 
-  <footer class="landing-page__footer">
-    <tm-footer></tm-footer>
-  </footer>
+  </main>
 </div>
 }

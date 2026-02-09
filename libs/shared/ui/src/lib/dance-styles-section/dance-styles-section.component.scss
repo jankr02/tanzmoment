@@ -27,6 +27,8 @@ $card-width-xl: 700px;
   margin-left: calc(-50vw + 50%);
   padding: 0;
   overflow: visible;
+  --wave-top-fill: var(--color-surface);
+  --wave-bottom-fill: var(--color-surface);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -286,7 +288,7 @@ $card-width-xl: 700px;
 // Expressive Card - Bottom Right (extends beyond image)
 .dance-styles-section__card--expressive {
   --card-rotation: -0.8deg;
-  bottom: -50px;
+  top: 700px;
   right: -10px;
   width: $card-width-xl;
   animation-delay: -4.5s;
