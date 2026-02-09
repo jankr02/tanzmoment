@@ -1,0 +1,92 @@
+.accessibility-features {
+  padding: var(--space-24) 0;
+  background-color: var(--color-surface);
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: var(--space-16);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4);
+  }
+
+  &__subheadline {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    color: var(--color-text-secondary);
+    margin: 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-body);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    background-color: var(--color-background);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--space-4);
+    background-color: var(--color-accessible-accent, var(--color-brand));
+    border-radius: var(--radius-full);
+    font-size: 1.75rem;
+    opacity: 0.9;
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h4);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-3);
+  }
+
+  &__description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}

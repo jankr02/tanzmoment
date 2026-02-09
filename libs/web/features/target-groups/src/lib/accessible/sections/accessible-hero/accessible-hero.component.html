@@ -1,0 +1,62 @@
+<section class="accessible-hero">
+  <div class="accessible-hero__background">
+    <img
+      [src]="data.backgroundImage"
+      alt="Menschen mit verschiedenen Fähigkeiten beim gemeinsamen Tanzen"
+      class="accessible-hero__image"
+    />
+    <div class="accessible-hero__overlay"></div>
+  </div>
+
+  <!-- Wave Border am unteren Rand -->
+  <div class="accessible-hero__wave" aria-hidden="true">
+    <svg
+      viewBox="0 0 1440 120"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-background)"
+      />
+    </svg>
+  </div>
+
+  <div class="accessible-hero__content">
+    <div class="accessible-hero__container">
+      <h1 class="accessible-hero__headline">{{ data.headline }}</h1>
+      <p class="accessible-hero__subheadline">{{ data.subheadline }}</p>
+
+      <!-- Accessibility Highlights -->
+      @if (data.highlights.length > 0) {
+        <div class="accessible-hero__highlights">
+          @for (highlight of data.highlights; track $index) {
+            <div class="accessible-hero__highlight">
+              <span class="accessible-hero__highlight-icon" aria-hidden="true">{{ highlight.icon }}</span>
+              <span class="accessible-hero__highlight-text">{{ highlight.text }}</span>
+            </div>
+          }
+        </div>
+      }
+
+      <div class="accessible-hero__buttons">
+        <app-button
+          variant="primary"
+          size="large"
+          (clicked)="onCtaClick()"
+        >
+          {{ data.ctaText }}
+        </app-button>
+        @if (data.secondaryCtaText && data.secondaryCtaRoute) {
+          <app-button
+            variant="secondary"
+            size="large"
+            (clicked)="onSecondaryCtaClick()"
+          >
+            {{ data.secondaryCtaText }}
+          </app-button>
+        }
+      </div>
+    </div>
+  </div>
+</section>

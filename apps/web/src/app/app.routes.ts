@@ -46,11 +46,12 @@ export const appRoutes: Route[] = [
       ),
   },
   {
-    path: 'barrierefreier-tanz',
+    path: 'fuer-alle',
     loadComponent: () =>
       import('@tanzmoment/web/features/target-groups').then(
         (m) => m.AccessiblePageComponent
       ),
+    title: 'Tanz für alle | Tanzmoment',
   },
   {
     path: 'ausdruckstanz',

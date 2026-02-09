@@ -1,0 +1,24 @@
+<section class="instructors-section">
+  <div class="instructors-section__container">
+    <header class="instructors-section__header">
+      <h2 class="instructors-section__headline">{{ data.headline }}</h2>
+      <p class="instructors-section__intro">{{ data.intro }}</p>
+    </header>
+
+    <div class="instructors-section__grid">
+      @for (qualification of data.qualifications; track qualification.title) {
+        <article class="instructors-section__card">
+          <span class="instructors-section__icon" aria-hidden="true">{{ qualification.icon }}</span>
+          <h3 class="instructors-section__title">{{ qualification.title }}</h3>
+          <p class="instructors-section__description" [innerHTML]="qualification.description"></p>
+        </article>
+      }
+    </div>
+
+    @if (data.certificationNote) {
+      <div class="instructors-section__certification">
+        <p [innerHTML]="data.certificationNote"></p>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<section class="accessibility-features">
+  <div class="accessibility-features__container">
+    <header class="accessibility-features__header">
+      <h2 class="accessibility-features__headline">{{ data.headline }}</h2>
+      <p class="accessibility-features__subheadline">{{ data.subheadline }}</p>
+    </header>
+
+    <div class="accessibility-features__grid">
+      @for (feature of data.features; track feature.title) {
+        <article class="accessibility-features__card">
+          <span class="accessibility-features__icon" aria-hidden="true">{{ feature.icon }}</span>
+          <h3 class="accessibility-features__title">{{ feature.title }}</h3>
+          <p class="accessibility-features__description">{{ feature.description }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
