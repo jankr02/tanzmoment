@@ -89,6 +89,12 @@ export interface CourseDetailDescriptionContent {
   };
   /** Feature highlights list */
   highlights?: CourseHighlight[];
+  /** Atmospheric image URL shown beside the description text */
+  imageUrl?: string;
+  /** Alt text for the atmospheric image */
+  imageAlt?: string;
+  /** Image position relative to text. Default: 'right' */
+  imagePosition?: 'left' | 'right';
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

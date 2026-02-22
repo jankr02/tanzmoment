@@ -1,7 +1,8 @@
 // ============================================================================
 // COURSE FLOW SECTION STYLES
 // ============================================================================
-// Vertical timeline with numbered steps and connecting lines.
+// Vertical timeline with themed step numbers, animated connector lines,
+// and staggered ScrollReveal animations.
 // ============================================================================
 
 @use 'tokens' as *;
@@ -63,14 +64,6 @@
     display: flex;
     gap: var(--space-5);
     align-items: stretch;
-
-    &:last-child .course-flow__step-line {
-      display: none;
-    }
-
-    &:last-child .course-flow__step-content {
-      padding-bottom: 0;
-    }
   }
 
   // ─── Marker (Number + Line) ─────────────────────────────────────────────
@@ -89,20 +82,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--detail-accent);
-    color: var(--detail-text);
+    background: var(--detail-button-bg);
+    color: var(--detail-button-text, #fff);
     font-family: var(--font-body);
     font-weight: 700;
     font-size: var(--font-size-sm);
     border-radius: 50%;
     flex-shrink: 0;
+    // Double ring effect
+    box-shadow:
+      0 0 0 4px var(--detail-bg),
+      0 0 0 6px var(--detail-accent);
   }
 
   &__step-line {
     width: 2px;
     flex: 1;
-    background: var(--detail-border);
+    background: var(--detail-accent);
     margin: var(--space-2) 0;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .tm-scroll-reveal--visible & {
+      transform: scaleY(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transform: scaleY(1);
+      transition: none;
+    }
   }
 
   // ─── Step Content ───────────────────────────────────────────────────────
@@ -133,11 +142,12 @@
   }
 
   &__step-duration {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: var(--space-1) var(--space-3);
     background: var(--color-surface);
     border: 1px solid var(--detail-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-full);
     font-family: var(--font-body);
     font-size: var(--font-size-xs);
     color: var(--detail-text-secondary);

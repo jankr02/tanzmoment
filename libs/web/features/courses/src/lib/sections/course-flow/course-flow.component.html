@@ -9,13 +9,19 @@
 
     @if (hasSteps) {
       <ol class="course-flow__steps" role="list">
-        @for (step of steps; track step.phase; let i = $index) {
-          <li class="course-flow__step">
+        @for (step of steps; track step.phase; let i = $index; let last = $last) {
+          <li
+            class="course-flow__step"
+            tmScrollReveal="up"
+            [revealDelay]="i * 150"
+          >
 
             <!-- Number + connecting line -->
             <div class="course-flow__step-marker" aria-hidden="true">
               <span class="course-flow__step-number">{{ i + 1 }}</span>
-              <div class="course-flow__step-line"></div>
+              @if (!last) {
+                <div class="course-flow__step-line"></div>
+              }
             </div>
 
             <!-- Content -->

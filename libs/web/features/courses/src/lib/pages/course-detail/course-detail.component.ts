@@ -47,7 +47,7 @@ import { FaqSectionComponent } from '../../sections/faq-section/faq-section.comp
 import { StickyBookingBarComponent } from '../../sections/sticky-booking-bar/sticky-booking-bar.component';
 
 // Shared UI
-import { ButtonComponent } from '@tanzmoment/shared/ui';
+import { ButtonComponent, ScrollRevealDirective } from '@tanzmoment/shared/ui';
 
 @Component({
   selector: 'app-course-detail',
@@ -55,6 +55,7 @@ import { ButtonComponent } from '@tanzmoment/shared/ui';
   imports: [
     CommonModule,
     ButtonComponent,
+    ScrollRevealDirective,
     DetailHeroComponent,
     QuickFactsComponent,
     CourseDescriptionComponent,

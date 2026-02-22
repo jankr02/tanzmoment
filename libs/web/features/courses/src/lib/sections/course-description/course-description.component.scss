@@ -1,11 +1,17 @@
 // ============================================================================
 // COURSE DESCRIPTION SECTION STYLES
 // ============================================================================
-// Centered text column for optimal readability.
-// Highlights as feature list with accent color.
+// Split layout: text (60%) + optional atmospheric image (40%) on desktop.
+// Stacked single column on mobile.
 // ============================================================================
 
 @use 'tokens' as *;
+
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
 
 .course-description {
   background: var(--color-surface);
@@ -18,7 +24,9 @@
   // ─── Container ────────────────────────────────────────────────────────
 
   &__container {
-    max-width: 800px;
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-6);
 
@@ -27,7 +35,37 @@
     }
   }
 
-  // ─── Headline ─────────────────────────────────────────────────────────
+  // ─── Split Layout ─────────────────────────────────────────────────────
+
+  &__split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+    margin-bottom: var(--space-10);
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-12);
+    }
+
+    // Variant: image on the left
+    &--image-left {
+      @media (min-width: 1024px) {
+        grid-template-columns: 2fr 3fr;
+
+        .course-description__image-column {
+          order: -1;
+        }
+      }
+    }
+  }
+
+  // ─── Text Column ──────────────────────────────────────────────────────
+
+  &__text {
+    min-width: 0;
+  }
 
   &__headline {
     font-family: var(--font-headline);
@@ -38,15 +76,12 @@
     line-height: 1.2;
   }
 
-  // ─── Body ─────────────────────────────────────────────────────────────
-
   &__body {
     font-family: var(--font-body);
     font-size: var(--font-size-body-l, 1.125rem);
     line-height: 1.75;
     color: var(--detail-text-secondary);
 
-    // Markdown-rendered elements
     p {
       margin: 0 0 var(--space-4);
 
@@ -59,37 +94,6 @@
       color: var(--detail-text);
       font-weight: 700;
     }
-  }
-
-  // ─── Highlights ───────────────────────────────────────────────────────
-
-  &__highlights {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    margin: var(--space-8) 0;
-    padding: var(--space-6);
-    background: var(--detail-bg);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--detail-border);
-  }
-
-  &__highlight-item {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    font-family: var(--font-body);
-    font-size: var(--font-size-body, 1rem);
-    color: var(--detail-text);
-    line-height: 1.5;
-  }
-
-  &__highlight-icon {
-    color: var(--color-success);
-    font-weight: 700;
-    font-size: 1.1em;
-    flex-shrink: 0;
-    margin-top: 2px;
   }
 
   // ─── Target Audience ──────────────────────────────────────────────────
@@ -126,5 +130,68 @@
     strong {
       color: var(--detail-text);
     }
+  }
+
+  // ─── Image Column ─────────────────────────────────────────────────────
+
+  &__image-column {
+    @media (max-width: 1023px) {
+      max-height: 350px;
+      overflow: hidden;
+      border-radius: 24px 40px 24px 40px;
+    }
+  }
+
+  &__image-wrapper {
+    border-radius: 24px 40px 24px 40px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+    @media (min-width: 1024px) {
+      position: sticky;
+      top: calc(var(--header-height, 80px) + var(--space-6));
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  // ─── Highlights ───────────────────────────────────────────────────────
+
+  &__highlights {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    background: var(--detail-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--detail-border);
+  }
+
+  &__highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body, 1rem);
+    color: var(--detail-text);
+    line-height: 1.5;
+  }
+
+  &__highlight-icon {
+    color: var(--color-success);
+    font-weight: 700;
+    font-size: 1.1em;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 }

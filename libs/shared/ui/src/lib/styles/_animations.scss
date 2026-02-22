@@ -1,0 +1,45 @@
+// ============================================================================
+// SCROLL REVEAL ANIMATIONS
+// ============================================================================
+// Global animation utilities for the tmScrollReveal directive.
+// Import in apps/web/src/styles.scss.
+// ============================================================================
+
+.tm-scroll-reveal {
+  opacity: 0;
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) var(--reveal-delay, 0ms),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+
+  &--up {
+    transform: translateY(32px);
+  }
+
+  &--down {
+    transform: translateY(-32px);
+  }
+
+  &--left {
+    transform: translateX(32px);
+  }
+
+  &--right {
+    transform: translateX(-32px);
+  }
+
+  &--fade {
+    transform: none;
+  }
+
+  &--visible {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

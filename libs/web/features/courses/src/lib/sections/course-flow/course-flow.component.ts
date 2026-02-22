@@ -11,7 +11,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconComponent } from '@tanzmoment/shared/ui';
+import { IconComponent, ScrollRevealDirective } from '@tanzmoment/shared/ui';
 
 import {
   CourseDetailData,
@@ -22,7 +22,7 @@ import {
 @Component({
   selector: 'app-course-flow',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [CommonModule, IconComponent, ScrollRevealDirective],
   templateUrl: './course-flow.component.html',
   styleUrl: './course-flow.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

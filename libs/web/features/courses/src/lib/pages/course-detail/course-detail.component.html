@@ -44,6 +44,7 @@
 
     <!-- 2. Quick Facts (Quick qualification) -->
     <app-quick-facts
+      tmScrollReveal="up"
       [course]="c"
       [content]="detailContent().quickFacts"
     />
@@ -60,6 +61,7 @@
 
     <!-- 3. Course Description (Interest) -->
     <app-course-description
+      tmScrollReveal="up"
       [course]="c"
       [content]="detailContent().description"
     />
@@ -77,6 +79,7 @@
       </div>
 
       <app-course-flow
+        tmScrollReveal="up"
         [course]="c"
         [content]="detailContent().courseFlow"
       />
@@ -95,6 +98,7 @@
       </div>
 
       <app-testimonials-section
+        tmScrollReveal="up"
         [course]="c"
         [content]="detailContent().socialProof"
       />
@@ -113,6 +117,7 @@
       </div>
 
       <app-instructor-section
+        tmScrollReveal="up"
         [instructor]="instr"
         [content]="detailContent().instructor"
       />
@@ -129,7 +134,7 @@
     }
 
     <!-- 7. Schedule & Availability (Decision) -->
-    <section id="schedule-section">
+    <section id="schedule-section" tmScrollReveal="up">
       <app-schedule-section
         [sessions]="sessions()"
         [course]="c"
@@ -151,6 +156,7 @@
       </div>
 
       <app-faq-section
+        tmScrollReveal="up"
         [course]="c"
         [content]="detailContent().faq"
       />

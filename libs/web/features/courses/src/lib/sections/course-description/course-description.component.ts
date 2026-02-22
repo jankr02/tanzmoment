@@ -3,6 +3,7 @@
 // ============================================================================
 // Detailed course description with markdown support,
 // feature highlights, and optional target audience block.
+// Supports a split layout (text + atmospheric image) when imageUrl is provided.
 // ============================================================================
 
 import {
@@ -12,6 +13,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { DecorativeBlobComponent } from '@tanzmoment/shared/ui';
 import {
   CourseDetailData,
   CourseDetailDescriptionContent,
@@ -21,7 +23,7 @@ import { CourseHighlight } from '@tanzmoment/shared/types';
 @Component({
   selector: 'app-course-description',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DecorativeBlobComponent],
   templateUrl: './course-description.component.html',
   styleUrl: './course-description.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -61,25 +63,31 @@ export class CourseDescriptionComponent {
     return this.highlights.length > 0;
   }
 
+  get imageUrl(): string | null {
+    return this.content?.imageUrl ?? null;
+  }
+
+  get imageAlt(): string {
+    return this.content?.imageAlt ?? `${this.course.title} – Atmosphere`;
+  }
+
+  get imagePosition(): 'left' | 'right' {
+    return this.content?.imagePosition ?? 'right';
+  }
+
   // ─── Helpers ────────────────────────────────────────────────────────────
 
   /**
    * Simple markdown to HTML conversion.
    * Supports: **bold**, paragraphs (\n\n), line breaks (\n).
-   *
-   * For more complex markdown: add marked.js as dependency.
    */
   private simpleMarkdownToHtml(text: string): string {
     if (!text) return '';
 
     return text
-      // Bold: **text** → <strong>text</strong>
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      // Paragraphs: Double line break
       .replace(/\n\n/g, '</p><p>')
-      // Simple line break
       .replace(/\n/g, '<br>')
-      // Wrap in paragraph
       .replace(/^(.+)$/, '<p>$1</p>');
   }
 }
