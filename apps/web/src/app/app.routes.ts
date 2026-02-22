@@ -16,6 +16,14 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'courses/:slug',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/courses').then(
+        (m) => m.CourseDetailComponent
+      ),
+    title: 'Kursdetail | Tanzmoment',
+  },
+  {
     path: 'about',
     loadComponent: () =>
       import('@tanzmoment/web/features/about').then(
