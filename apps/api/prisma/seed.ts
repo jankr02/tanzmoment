@@ -45,19 +45,23 @@ const DETAIL_CONTENT = {
     quickFacts: {
       customFacts: [
         { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 12 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '90 Minuten' },
       ],
     },
     description: {
       headline: 'Bewegung, die berührt',
-      body: 'Ausdruckstanz ist mehr als Choreografie – es ist eine Reise zu dir selbst.\n\nIn diesem Kurs lernst du, Emotionen in Bewegung umzusetzen. Jede Stunde beginnt mit sanftem Aufwärmen, gefolgt von Improvisation und angeleiteten Sequenzen.\n\n**Kein Schritt ist falsch.** Hier geht es nicht um Perfektion, sondern um Ausdruck.',
+      body: 'Ausdruckstanz ist mehr als Choreografie – es ist eine Reise zu dir selbst.\n\nIn diesem Kurs lernst du, Emotionen in Bewegung umzusetzen. Jede Stunde beginnt mit sanftem Aufwärmen, gefolgt von Improvisation und angeleiteten Sequenzen.\n\n**Kein Schritt ist falsch.** Hier geht es nicht um Perfektion, sondern um Ausdruck.\n\nDu wirst lernen, Spannungen loszulassen, deinen Atem bewusst einzusetzen und deinen Körper als Werkzeug des Ausdrucks zu entdecken – in einem sicheren, wertungsfreien Raum.',
       targetAudience: {
         headline: 'Für wen ist der Kurs?',
-        body: 'Für alle, die ihren Körper als Ausdrucksmittel entdecken wollen – unabhängig von Alter, Vorerfahrung oder Fitnesslevel.',
+        body: 'Für alle, die ihren Körper als Ausdrucksmittel entdecken wollen – unabhängig von Alter, Vorerfahrung oder Fitnesslevel. Ob du gerade erst anfängst oder schon Erfahrung mitbringst: In diesem Kurs findest du deinen eigenen Rhythmus.',
       },
       highlights: [
-        { text: 'Keine Vorkenntnisse nötig' },
-        { text: 'Kleine Gruppen (max. 12 Teilnehmer)' },
-        { text: 'Persönliche Betreuung durch erfahrene Tanzpädagogin' },
+        { icon: 'sparkle', text: 'Keine Vorkenntnisse nötig' },
+        { icon: 'group', text: 'Kleine Gruppen (max. 12 Teilnehmer)' },
+        { icon: 'star', text: 'Persönliche Betreuung durch erfahrene Tanzpädagogin' },
+        { icon: 'music', text: 'Musik aus verschiedenen Genres als Inspiration' },
+        { icon: 'heart', text: 'Wertungsfreier Raum für echten Ausdruck' },
       ],
     },
     instructor: {
@@ -66,17 +70,19 @@ const DETAIL_CONTENT = {
       qualifications: [
         'Dipl. Tanzpädagogin',
         'Laban-Bewegungsanalyse',
-        '15 Jahre Erfahrung',
+        '15 Jahre Unterrichtserfahrung',
+        'Ausbildung in Somatics & Body-Mind Centering',
       ],
     },
     schedule: {
+      headline: 'Termine & Verfügbarkeit',
       infoText:
-        'Du kannst jederzeit einsteigen – ein fortlaufender Kurs ohne festen Starttermin.',
+        'Du kannst jederzeit einsteigen – ein fortlaufender Kurs ohne festen Starttermin. Einzelstunden oder Monatskarte möglich.',
     },
     booking: {
       ctaText: 'Platz sichern',
       priceNote: 'pro Einzelstunde',
-      includes: ['Materialien', 'Wasser & Tee', 'Umkleide'],
+      includes: ['Materialien inklusive', 'Wasser & Tee', 'Umkleideraum', 'Kostenloses Erstgespräch'],
       notice: 'Kostenlose Stornierung bis 24h vor Kursbeginn.',
     },
   },
@@ -85,22 +91,49 @@ const DETAIL_CONTENT = {
     hero: {
       subHeadline: 'Geh tiefer – entdecke neue Ebenen deines Ausdrucks.',
     },
+    quickFacts: {
+      customFacts: [
+        { icon: 'level', label: 'Level', value: 'Fortgeschrittene' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 10 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '90 Minuten' },
+        { icon: 'check', label: 'Voraussetzung', value: 'Grundkurs oder Erfahrung' },
+      ],
+    },
     description: {
       headline: 'Tiefer eintauchen',
-      body: 'Für alle, die bereits erste Erfahrungen im Ausdruckstanz haben und ihre Praxis vertiefen wollen.\n\nWir arbeiten an fortgeschrittenen Improvisationstechniken, choreografischen Elementen und Performance-Vorbereitung.',
+      body: 'Für alle, die bereits erste Erfahrungen im Ausdruckstanz haben und ihre Praxis vertiefen wollen.\n\nWir arbeiten an fortgeschrittenen Improvisationstechniken, choreografischen Elementen und Performance-Vorbereitung.\n\n**Was dich erwartet:** Wir erkunden Themen wie Raumgestaltung, Dynamik, Timing und die Verbindung zwischen innerer Haltung und äußerem Ausdruck. Optional bereiten wir gemeinsame Performances für Studio-Abende vor.',
+      targetAudience: {
+        headline: 'Für wen ist dieser Aufbaukurs?',
+        body: 'Für alle, die den Grundkurs „Ausdruckstanz – frei & verbunden" abgeschlossen haben oder vergleichbare Vorerfahrung im freien Tanz mitbringen. Du solltest Freude daran haben, dich intensiver mit Bewegung und Ausdruck auseinanderzusetzen.',
+      },
       highlights: [
-        { text: 'Aufbaukurs mit Grundkurs-Voraussetzung' },
-        { text: 'Intensivere Übungen & längere Sequenzen' },
-        { text: 'Performance-Vorbereitung' },
+        { icon: 'sparkle', text: 'Aufbaukurs – Grundkenntnisse vorausgesetzt' },
+        { icon: 'fire', text: 'Intensivere Übungen & längere Sequenzen' },
+        { icon: 'stage', text: 'Performance-Vorbereitung für Studio-Abende' },
+        { icon: 'group', text: 'Exklusive Kleingruppe (max. 10 Teilnehmer)' },
+        { icon: 'explore', text: 'Choreografische Gestaltung und Raumarbeit' },
       ],
     },
     instructor: {
       quote:
         'Vertiefung bedeutet nicht Perfektion – sondern Ehrlichkeit in der Bewegung.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Laban-Bewegungsanalyse',
+        'Performance & Stage Work',
+        'Choreografie und Komposition',
+      ],
+    },
+    schedule: {
+      headline: 'Termine & Verfügbarkeit',
+      infoText:
+        'Dieser Kurs läuft in festen Semestern (10 Einheiten). Einstieg zu Semesterbeginn – Einzeltermine auf Anfrage.',
     },
     booking: {
       ctaText: 'Platz sichern',
       priceNote: 'pro Einzelstunde',
+      includes: ['Materialien inklusive', 'Wasser & Tee', 'Umkleideraum'],
+      notice: 'Voraussetzung: Grundkurs oder vergleichbare Erfahrung. Bei Unsicherheit meld dich gerne vorab.',
     },
   },
 
@@ -109,21 +142,49 @@ const DETAIL_CONTENT = {
       subHeadline:
         'Spielerisch bewegen, Rhythmus entdecken, Spaß haben!',
     },
+    quickFacts: {
+      customFacts: [
+        { icon: 'child', label: 'Altersgruppe', value: '4–6 Jahre' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 12 Kinder' },
+        { icon: 'clock', label: 'Kursdauer', value: '45 Minuten' },
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+      ],
+    },
     description: {
       headline: 'Tanz-Abenteuer für kleine Entdecker',
-      body: 'Kinder lernen am besten, wenn sie Spaß haben. In unserem Tanzkurs verbinden wir spielerische Bewegung mit kreativen Geschichten und Musik.',
+      body: 'Kinder lernen am besten, wenn sie Spaß haben. In unserem Tanzkurs verbinden wir spielerische Bewegung mit kreativen Geschichten und altersgerechter Musik.\n\nJede Stunde ist ein kleines Abenteuer: Mal sind wir tanzende Tiere, mal reisen wir in fremde Länder – immer begleitet von fröhlicher Musik und viel Gelächter.\n\nDie Kinder entwickeln ganz nebenbei Koordination, Rhythmusgefühl und Selbstbewusstsein.',
       targetAudience: {
-        headline: 'Altersgruppe',
-        body: 'Für Kinder von 4–6 Jahren. Keine Vorkenntnisse nötig – nur Freude an Bewegung!',
+        headline: 'Altersgruppe & Voraussetzungen',
+        body: 'Für Kinder von 4–6 Jahren. Keine Vorkenntnisse nötig – nur Freude an Bewegung und Neugier auf Neues! Die erste Stunde kann als kostenlose Schnupperstunde gebucht werden.',
       },
       highlights: [
-        { text: 'Altersgerechte Musik und Geschichten' },
-        { text: 'Kleine Gruppen (max. 12 Kinder)' },
-        { text: 'Schnupperstunde kostenlos' },
+        { icon: 'music', text: 'Altersgerechte Musik und bewegte Geschichten' },
+        { icon: 'group', text: 'Kleine Gruppen (max. 12 Kinder)' },
+        { icon: 'sparkle', text: 'Erste Schnupperstunde kostenlos' },
+        { icon: 'heart', text: 'Spielerische Förderung von Koordination & Rhythmus' },
+        { icon: 'star', text: 'Liebevolle, erfahrene Kursleitung' },
       ],
+    },
+    instructor: {
+      bioOverride:
+        'Sarah liebt es, Kindern die Freude an Bewegung zu schenken. Ihre Stunden sind kreativ, laut und voller Lachen – jedes Kind darf sein, wie es ist.',
+      quote:
+        'Wenn Kinder tanzen, leuchten ihre Augen. Diesen Moment liebe ich.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Kindertanzausbildung (ADTV)',
+        'Rhythmik & Elementare Musikpädagogik',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText:
+        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – wir empfehlen den Start zu Semesterbeginn.',
     },
     booking: {
       ctaText: 'Kind anmelden',
+      priceNote: 'pro Monat (4 Einheiten)',
+      includes: ['Tanzraum & Musik', 'Erste Schnupperstunde gratis', 'Kleine Abschlussvorführung im Semester'],
       notice: 'Eltern können bei der ersten Stunde zuschauen.',
     },
   },
@@ -133,17 +194,50 @@ const DETAIL_CONTENT = {
       subHeadline:
         'Erste echte Schritte, coole Choreografien, jede Menge Spaß!',
     },
-    description: {
-      headline: 'Werden zum Tanzfuchs',
-      body: 'Die Tanzfüchse lernen bereits erste echte Tanzschritte und arbeiten an kleinen Choreografien – mit viel Teamgeist und Selbstbewusstsein.',
-      highlights: [
-        { text: 'Grundlegende Tanztechniken' },
-        { text: 'Teamwork und Gruppenübungen' },
-        { text: 'Aufführungsvorbereitung' },
+    quickFacts: {
+      customFacts: [
+        { icon: 'child', label: 'Altersgruppe', value: '7–10 Jahre' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 14 Kinder' },
+        { icon: 'clock', label: 'Kursdauer', value: '60 Minuten' },
+        { icon: 'level', label: 'Level', value: 'Einsteiger' },
       ],
+    },
+    description: {
+      headline: 'Werde zum Tanzfuchs',
+      body: 'Die Tanzfüchse lernen bereits erste echte Tanzschritte und arbeiten an kleinen Choreografien – mit viel Teamgeist und Selbstbewusstsein.\n\nWir tanzen zu aktueller Musik und lernen Grundlagen aus Hip Hop, Jazz Dance und freier Improvisation. Am Ende jedes Semesters gibt es eine kleine Aufführung, auf die sich alle gemeinsam vorbereiten.\n\n**Wichtig:** Der Fokus liegt auf Spaß und Gemeinschaft – nicht auf Perfektion.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Kinder von 7–10 Jahren mit oder ohne Vorerfahrung. Wer schon die Tanzmäuse besucht hat, ist bestens vorbereitet – aber auch absolute Newcomer sind herzlich willkommen!',
+      },
+      highlights: [
+        { icon: 'dance', text: 'Grundlegende Tanztechniken aus verschiedenen Stilen' },
+        { icon: 'group', text: 'Teamwork und Gruppenübungen' },
+        { icon: 'star', text: 'Aufführungsvorbereitung am Semesterende' },
+        { icon: 'music', text: 'Aktuelle und kindgerechte Musik' },
+        { icon: 'heart', text: 'Selbstbewusstsein und Ausdruckskraft stärken' },
+      ],
+    },
+    instructor: {
+      bioOverride:
+        'Sarah bringt Kindern bei, sich in ihrer eigenen Haut wohlzufühlen – durch Bewegung, Musik und gemeinsames Erleben. Ihre Kurse sind energiegeladen und immer mit einem Lächeln.',
+      quote:
+        'Tanzen macht stark – im Körper und im Kopf.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Kindertanzausbildung (ADTV)',
+        'Jazz Dance & Hip Hop Grundlagen',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText:
+        'Wöchentlicher Kurs mit fester Gruppenzugehörigkeit. Einstieg zu Semesterbeginn empfohlen.',
     },
     booking: {
       ctaText: 'Kind anmelden',
+      priceNote: 'pro Monat (4 Einheiten)',
+      includes: ['Tanzraum & Musik', 'Semesterabschluss-Aufführung', 'Tanzskript & Choreografie-Notizen'],
+      notice: 'Erste Schnupperstunde auf Anfrage möglich.',
     },
   },
 
@@ -151,18 +245,50 @@ const DETAIL_CONTENT = {
     hero: {
       subHeadline: 'Einfach mal ausprobieren – der perfekte Einstieg für alle!',
     },
+    quickFacts: {
+      customFacts: [
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+        { icon: 'group', label: 'Altersgruppe', value: 'Alle Altersgruppen' },
+        { icon: 'clock', label: 'Kursdauer', value: '60 Minuten' },
+        { icon: 'heart', label: 'Atmosphäre', value: 'Entspannt & offen' },
+      ],
+    },
     description: {
       headline: 'Dein erster Tanzschritt',
-      body: 'Du wolltest schon immer mal tanzen, hast dich aber nie getraut? Dieser Schnupperkurs ist deine Chance! In entspannter Atmosphäre lernst du verschiedene Tanzstile kennen.',
+      body: 'Du wolltest schon immer mal tanzen, hast dich aber nie getraut? Dieser Schnupperkurs ist deine Chance!\n\nIn entspannter Atmosphäre lernst du verschiedene Tanzstile kennen – von sanften Bewegungen bis hin zu rhythmischem Ausdruckstanz. Kein Leistungsdruck, kein Wettbewerb – einfach ausprobieren.\n\n**Und das Beste:** Du entscheidest danach, ob und welcher Kurs zu dir passt. Wir helfen dir dabei.',
+      targetAudience: {
+        headline: 'Wer ist eingeladen?',
+        body: 'Dieser Kurs ist wirklich für alle – Kinder, Erwachsene, Senioren, Menschen mit oder ohne Vorerfahrung. Ob 8 oder 80: Wenn du neugierig auf Tanz bist, bist du hier genau richtig.',
+      },
       highlights: [
-        { text: 'Keine Vorkenntnisse nötig' },
-        { text: 'Verschiedene Tanzstile ausprobieren' },
-        { text: 'Entspannte Atmosphäre' },
+        { icon: 'sparkle', text: 'Keine Vorkenntnisse nötig' },
+        { icon: 'dance', text: 'Verschiedene Tanzstile kennenlernen' },
+        { icon: 'heart', text: 'Entspannte Atmosphäre ohne Leistungsdruck' },
+        { icon: 'group', text: 'Alle Altersgruppen willkommen' },
+        { icon: 'star', text: 'Direkte Kursempfehlung im Anschluss' },
       ],
+    },
+    instructor: {
+      bioOverride:
+        'Sarah gestaltet den Schnupperkurs so, dass sich wirklich jeder wohlfühlt – egal wie viel oder wenig Erfahrung jemand mitbringt. Ihr Ziel: dass du nach der Stunde mit einem Lächeln nach Hause gehst.',
+      quote:
+        'Der erste Schritt ist immer der mutigste – und meistens der schönste.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        '15 Jahre Unterrichtserfahrung',
+        'Erfahrung mit allen Altersgruppen',
+      ],
+    },
+    schedule: {
+      headline: 'Schnupperstunden',
+      infoText:
+        'Schnupperkurse finden regelmäßig statt – keine Anmeldung für feste Termine nötig. Einfach vorbeikommen!',
     },
     booking: {
       ctaText: 'Schnuppern',
-      notice: 'Komm wie du bist – bequeme Kleidung reicht!',
+      priceNote: 'Einmalig – kein Abo',
+      includes: ['Einblick in mehrere Tanzstile', 'Persönliche Kursberatung', 'Wasser & Tee'],
+      notice: 'Komm wie du bist – bequeme Kleidung reicht! Keine Tanzklamotten nötig.',
     },
   },
 
@@ -182,34 +308,56 @@ const DETAIL_CONTENT = {
           label: 'Inklusion',
           value: 'Mit & ohne Behinderung',
         },
+        {
+          icon: 'group',
+          label: 'Gruppengröße',
+          value: 'Max. 10 Personen',
+        },
+        {
+          icon: 'clock',
+          label: 'Kursdauer',
+          value: '60 Minuten',
+        },
       ],
     },
     description: {
       headline: 'Gemeinsam in Bewegung',
-      body: 'Inklusiver Tanz bedeutet, dass jeder Mensch teilnehmen kann – unabhängig von körperlichen oder geistigen Voraussetzungen.\n\nWir passen jede Übung individuell an und schaffen einen sicheren Raum, in dem Bewegung Freude bringt.',
+      body: 'Inklusiver Tanz bedeutet, dass jeder Mensch teilnehmen kann – unabhängig von körperlichen oder geistigen Voraussetzungen.\n\nWir passen jede Übung individuell an und schaffen einen sicheren Raum, in dem Bewegung Freude bringt.\n\nIm Tanzkreis erleben wir Gemeinschaft durch Bewegung: Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Begleitpersonen und Assistenzen sind herzlich willkommen.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Menschen mit und ohne Behinderung. Der Kurs ist für Rollstuhlfahrer:innen, Menschen mit Lernschwierigkeiten, Sehbehinderung, psychischen Erkrankungen und alle anderen zugänglich. Begleitpersonen sind ebenfalls willkommen.',
+      },
       highlights: [
-        { text: 'Barrierefreier Zugang zum Studio' },
-        { text: 'Individuelle Anpassung jeder Übung' },
-        { text: 'Erfahrung mit verschiedenen Behinderungsformen' },
-        { text: 'Begleitpersonen willkommen' },
+        { icon: 'wheelchair', text: 'Barrierefreier Zugang zum Studio' },
+        { icon: 'heart', text: 'Individuelle Anpassung jeder Übung' },
+        { icon: 'star', text: 'Erfahrung mit verschiedenen Behinderungsformen' },
+        { icon: 'group', text: 'Begleitpersonen und Assistenzen willkommen' },
+        { icon: 'sparkle', text: 'Inklusion als gelebte Praxis – nicht nur als Konzept' },
       ],
     },
     instructor: {
       bioOverride:
-        'Sarah hat über 10 Jahre Erfahrung im inklusiven Tanz und arbeitet eng mit Therapeut:innen zusammen.',
+        'Sarah hat über 10 Jahre Erfahrung im inklusiven Tanz und arbeitet eng mit Therapeut:innen, Heimen und Schulen zusammen. Ihr DanceAbility-Zertifikat und ihre Ausbildung in Tanztherapie befähigen sie, auf jede Teilnehmerin individuell einzugehen.',
       quote:
         'Jeder Körper kann tanzen – auf seine eigene, einzigartige Weise.',
       qualifications: [
-        'Inklusionspädagogik',
-        'Tanztherapie',
         'DanceAbility-Zertifikat',
+        'Tanztherapie (Grundausbildung)',
+        'Inklusionspädagogik',
+        '10+ Jahre Erfahrung im inklusiven Tanz',
       ],
+    },
+    schedule: {
+      headline: 'Termine & Verfügbarkeit',
+      infoText:
+        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – wir nehmen uns Zeit, um dich und deine Bedürfnisse kennenzulernen.',
     },
     booking: {
       ctaText: 'Jetzt anmelden',
       priceNote: 'Ermäßigung auf Anfrage möglich',
+      includes: ['Vollständig barrierefreier Zugang', 'Individuelle Betreuung', 'Begleitperson kostenfrei'],
       notice:
-        'Bei Fragen zur Barrierefreiheit kontaktiere uns gerne vorab.',
+        'Bei Fragen zur Barrierefreiheit oder besonderen Bedürfnissen kontaktiere uns gerne vorab – wir planen gemeinsam, wie wir es für dich möglich machen.',
     },
   },
 
@@ -224,24 +372,60 @@ const DETAIL_CONTENT = {
           label: 'Barrierefreiheit',
           value: 'Vollständig barrierefrei',
         },
+        {
+          icon: 'group',
+          label: 'Gruppengröße',
+          value: 'Max. 8 Personen',
+        },
+        {
+          icon: 'clock',
+          label: 'Kursdauer',
+          value: '75 Minuten',
+        },
+        {
+          icon: 'sparkle',
+          label: 'Rollstuhl',
+          value: 'Eigen oder Leih',
+        },
       ],
     },
     description: {
       headline: 'Tanz auf Rädern',
-      body: 'Rollstuhltanz ist eine anerkannte Tanzsportdisziplin, die Eleganz und Ausdruck mit Mobilität verbindet.\n\nDer Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen als Tanzpartner:innen geeignet.',
+      body: 'Rollstuhltanz ist eine anerkannte Tanzsportdisziplin, die Eleganz und Ausdruck mit Mobilität verbindet.\n\nDer Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen als Tanzpartner:innen geeignet – so entstehen wunderschöne Duette und Gruppenformationen.\n\n**Was wir lernen:** Grundbewegungen und Drehungen im Rollstuhl, Partnerwork mit und ohne Rollstuhl sowie verschiedene Musikstile von Walzer bis Contemporary.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Rollstuhlfahrer:innen jedes Alters und ihre Tanzpartner:innen (Fußgänger:innen). Keine Tanzvorkenntnisse nötig. Leih-Rollstühle sind vorhanden – du musst keinen eigenen mitbringen.',
+      },
       highlights: [
-        { text: 'Grundlagen des Rollstuhltanzes' },
-        { text: 'Partnerübungen (optional)' },
-        { text: 'Verschiedene Musikstile' },
+        { icon: 'wheelchair', text: 'Grundlagen des Rollstuhltanzes' },
+        { icon: 'heart', text: 'Partnerübungen für Rollstuhl & Fußgänger (optional)' },
+        { icon: 'music', text: 'Verschiedene Musikstile: Walzer, Tango, Contemporary' },
+        { icon: 'sparkle', text: 'Leih-Rollstühle vorhanden' },
+        { icon: 'star', text: 'Vollständig barrierefreies Studio' },
       ],
     },
     instructor: {
+      bioOverride:
+        'Sarah hat sich in ihrer Ausbildung intensiv mit Rollstuhltanz als Tanzsportdisziplin beschäftigt und unterrichtet diesen Kurs mit großer Leidenschaft. Sie sieht den Rollstuhl nicht als Einschränkung, sondern als Teil des tänzerischen Ausdrucks.',
       quote: 'Im Tanz gibt es keine Einschränkungen – nur Möglichkeiten.',
+      qualifications: [
+        'DanceAbility-Zertifikat',
+        'Rollstuhltanz – Grundausbildung',
+        'Inklusiver Tanzsport',
+        'Tanztherapie (Grundausbildung)',
+      ],
+    },
+    schedule: {
+      headline: 'Termine & Verfügbarkeit',
+      infoText:
+        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – meld dich gerne vorab an, damit wir ggf. einen Leih-Rollstuhl für dich bereitstellen können.',
     },
     booking: {
       ctaText: 'Jetzt anmelden',
+      priceNote: 'pro Einheit',
+      includes: ['Barrierefreier Zugang', 'Leih-Rollstuhl auf Anfrage', 'Wasser & Tee'],
       notice:
-        'Eigener Rollstuhl oder Leih-Rollstuhl verfügbar.',
+        'Eigener Rollstuhl oder Leih-Rollstuhl verfügbar – bitte bei Anmeldung angeben.',
     },
   },
 
@@ -249,22 +433,51 @@ const DETAIL_CONTENT = {
     hero: {
       subHeadline: 'Zeit für dich – Bewegung, die Kraft gibt.',
     },
+    quickFacts: {
+      customFacts: [
+        { icon: 'heart', label: 'Zielgruppe', value: 'Mütter (alle Phasen)' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 10 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '75 Minuten' },
+        { icon: 'child', label: 'Kinderbetreuung', value: 'Vor Ort möglich' },
+      ],
+    },
     description: {
       headline: 'Eine Auszeit vom Alltag',
-      body: 'Dieser Kurs ist speziell für Mütter gestaltet – ein Raum, in dem du den Alltag hinter dir lassen und dich ganz auf dich selbst konzentrieren kannst.\n\nDurch sanfte Bewegungen findest du neue Energie und Leichtigkeit.',
+      body: 'Dieser Kurs ist speziell für Mütter gestaltet – ein Raum, in dem du den Alltag hinter dir lassen und dich ganz auf dich selbst konzentrieren kannst.\n\nDurch sanfte bis dynamische Bewegungen findest du neue Energie und Leichtigkeit. Keine Choreografie, die du auswendig lernen musst – sondern intuitive Bewegung, die gut tut.\n\n**Du musst nicht perfekt sein.** Du musst nur kommen.',
+      targetAudience: {
+        headline: 'Für welche Mütter ist dieser Kurs?',
+        body: 'Für alle Mütter – egal ob Frischgebackene oder erfahrene Mamas, ob dein Kind 3 Monate oder 15 Jahre alt ist. Babys können schlafend im Kinderwagen mitgebracht werden. Kinderbetreuung vor Ort ist auf Anfrage buchbar.',
+      },
       highlights: [
-        { text: 'Kinderbetreuung vor Ort möglich' },
-        { text: 'Flexible Terminwahl' },
-        { text: 'Rückbildungsfreundliche Übungen' },
+        { icon: 'child', text: 'Kinderbetreuung vor Ort buchbar' },
+        { icon: 'heart', text: 'Rückbildungsfreundliche Übungen für alle Phasen' },
+        { icon: 'sparkle', text: 'Flexible Terminwahl ohne Semesterbindung' },
+        { icon: 'group', text: 'Austausch mit anderen Müttern' },
+        { icon: 'star', text: 'Stressabbau durch achtsame Bewegung' },
       ],
     },
     instructor: {
+      bioOverride:
+        'Sarah ist selbst Mutter und weiß genau, wie wertvoll eine Stunde nur für sich selbst ist. In ihren Mütter-Kursen schafft sie eine Atmosphäre, in der sich jede Frau wohlfühlt und ihren eigenen Rhythmus findet.',
       quote:
         'Als Mutter weiß ich, wie wertvoll eine Stunde nur für sich selbst ist.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Rückbildungsgymnastik (Grundkenntnisse)',
+        'Achtsamkeit & Somatische Arbeit',
+        '15 Jahre Erfahrung',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText:
+        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – flexibel ohne Semesterbindung.',
     },
     booking: {
       ctaText: 'Auszeit buchen',
-      priceNote: 'inkl. Kinderbetreuung',
+      priceNote: 'pro Einheit',
+      includes: ['75 Min. Tanz & Bewegung', 'Wasser & Tee', 'Raum zum Austausch'],
+      notice: 'Kinderbetreuung vor Ort auf Anfrage zubuchbar. Babys im Kinderwagen jederzeit willkommen.',
     },
   },
 
@@ -273,18 +486,51 @@ const DETAIL_CONTENT = {
       subHeadline:
         'Gemeinsam von Anfang an – Bindung durch Bewegung.',
     },
+    quickFacts: {
+      customFacts: [
+        { icon: 'child', label: 'Babys', value: '3–12 Monate' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 8 Paare' },
+        { icon: 'clock', label: 'Kursdauer', value: '60 Minuten' },
+        { icon: 'heart', label: 'Stillen & Wickeln', value: 'Jederzeit möglich' },
+      ],
+    },
     description: {
       headline: 'Tanzen mit deinem Baby',
-      body: 'Dieser Kurs verbindet sanfte Bewegung mit wertvoller Bindungszeit zwischen dir und deinem Baby.\n\nGeeignet für Babys von 3–12 Monaten. Stillen und Wickeln jederzeit möglich.',
+      body: 'Dieser Kurs verbindet sanfte Bewegung mit wertvoller Bindungszeit zwischen dir und deinem Baby.\n\nGeeignet für Babys von 3–12 Monaten. Stillen und Wickeln sind jederzeit möglich – hier ist alles willkommen, was dazugehört.\n\nWir bewegen uns zur Musik, singen, schaukeln und erkunden gemeinsam, was Tanz für euch als Paar bedeutet. Eine besondere Erfahrung, die du und dein Baby nie vergessen werden.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Mütter mit Babys im Alter von 3–12 Monaten. Keine Tanzvorkenntnisse nötig. Der Kurs ist rückbildungsfreundlich gestaltet und berücksichtigt die körperlichen Veränderungen nach der Geburt.',
+      },
       highlights: [
-        { text: 'Babytragen-freundliche Choreografien' },
-        { text: 'Beckenbodenfreundliche Übungen' },
-        { text: 'Entspannungseinheiten' },
+        { icon: 'heart', text: 'Babytragen-freundliche Bewegungen & Choreografien' },
+        { icon: 'sparkle', text: 'Beckenbodenfreundliche Übungen' },
+        { icon: 'music', text: 'Singen, Schaukeln und Bewegungslieder' },
+        { icon: 'star', text: 'Entspannungseinheiten für Mama & Baby' },
+        { icon: 'group', text: 'Vernetzung mit anderen Mamas in ähnlicher Lebenslage' },
       ],
+    },
+    instructor: {
+      bioOverride:
+        'Sarah liebt es, Mütter und ihre Babys in dieser besonderen Zeit zu begleiten. Ihr Kurs ist ein warmer, offener Raum, in dem Tränen, Lachen und alles dazwischen willkommen sind.',
+      quote:
+        'Dieser Tanz zwischen Mutter und Kind ist der älteste der Welt.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Baby-Tanz & Musikale Früherziehung',
+        'Rückbildungsgymnastik (Grundkenntnisse)',
+        'Achtsame Eltern-Kind-Begleitung',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText:
+        'Der Kurs läuft in Blöcken (8 Einheiten). Einstieg zu Blockbeginn – flexible Einzeltermine auf Anfrage.',
     },
     booking: {
       ctaText: 'Gemeinsam anmelden',
-      notice: 'Stillen und Wickeln jederzeit möglich.',
+      priceNote: 'pro Einheit',
+      includes: ['Wickelmöglichkeit vor Ort', 'Krabbelmatten & Hilfsmittel', 'Wasser & Tee für Mama'],
+      notice: 'Stillen und Wickeln jederzeit möglich – Baby und Mama kommen so wie sie sind.',
     },
   },
 };
@@ -704,17 +950,21 @@ async function seedCourses(instructorId: string) {
 
   for (const courseData of allCourses) {
     const detailMap = COURSE_DETAIL_MAP[courseData.slug];
-    const course = await prisma.course.upsert({
-      where: { slug: courseData.slug },
-      update: {},
-      create: {
-        ...courseData,
-        instructorId,
-        ...(detailMap && {
+    const detailFields = detailMap
+      ? {
           detailContent: DETAIL_CONTENT[detailMap.content],
           metaTitle: detailMap.metaTitle,
           metaDescription: detailMap.metaDescription,
-        }),
+        }
+      : {};
+
+    const course = await prisma.course.upsert({
+      where: { slug: courseData.slug },
+      update: detailFields,
+      create: {
+        ...courseData,
+        instructorId,
+        ...detailFields,
       },
     });
     createdCount++;

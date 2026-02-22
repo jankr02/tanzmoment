@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ButtonComponent } from '@tanzmoment/shared/ui';
+import { ButtonComponent, IconComponent } from '@tanzmoment/shared/ui';
 import {
   CourseDetailData,
   CourseDetailSession,
@@ -24,7 +24,7 @@ import {
 @Component({
   selector: 'app-schedule-section',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, IconComponent],
   templateUrl: './schedule-section.component.html',
   styleUrl: './schedule-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

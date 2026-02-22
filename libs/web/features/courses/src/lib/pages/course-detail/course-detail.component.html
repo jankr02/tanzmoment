@@ -66,21 +66,35 @@
 
     <!-- 4. Instructor (Trust) -->
     @if (instructor(); as instr) {
+
+      <!-- Wave Divider: Description → Instructor -->
+      <!-- bg = detail-bg (instructor), fill = color-surface (description) -->
+      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--color-surface)"
+          />
+        </svg>
+      </div>
+
       <app-instructor-section
         [instructor]="instr"
         [content]="detailContent().instructor"
       />
-    }
 
-    <!-- Wave Divider: Instructor → Schedule -->
-    <div class="course-detail__wave course-detail__wave--inverted" aria-hidden="true">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-        <path
-          d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-          fill="var(--color-surface)"
-        />
-      </svg>
-    </div>
+      <!-- Wave Divider: Instructor → Schedule -->
+      <!-- bg = detail-bg (instructor), fill = color-surface (schedule) -->
+      <div class="course-detail__wave course-detail__wave--inverted" style="background: var(--detail-bg)" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+            fill="var(--color-surface)"
+          />
+        </svg>
+      </div>
+
+    }
 
     <!-- 5. Schedule & Availability (Decision) -->
     <section id="schedule-section">

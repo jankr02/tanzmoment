@@ -11,6 +11,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IconComponent } from '@tanzmoment/shared/ui';
 
 import {
   CourseDetailData,
@@ -23,7 +24,7 @@ import { QuickFactType, CustomFact } from '@tanzmoment/shared/types';
 interface QuickFactDisplay {
   /** Fact type (for sorting/filtering) */
   type: QuickFactType | 'custom';
-  /** Icon name (for future IconComponent integration) */
+  /** Icon name from the shared IconComponent registry */
   icon: string;
   /** Label above the value */
   label: string;
@@ -34,16 +35,16 @@ interface QuickFactDisplay {
 // ─── Level-Label Mapping ──────────────────────────────────────────────────────
 
 const LEVEL_LABELS: Record<string, string> = {
-  BEGINNER: 'Beginner',
-  INTERMEDIATE: 'Intermediate',
-  ADVANCED: 'Advanced',
-  ALL_LEVELS: 'All Levels',
+  BEGINNER: 'Anfänger',
+  INTERMEDIATE: 'Fortgeschritten',
+  ADVANCED: 'Profi',
+  ALL_LEVELS: 'Alle Levels',
 };
 
 @Component({
   selector: 'app-quick-facts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './quick-facts.component.html',
   styleUrl: './quick-facts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,37 +66,37 @@ export class QuickFactsComponent {
       {
         type: 'price',
         icon: 'euro',
-        label: 'Price',
+        label: 'Preis',
         value: this.course.priceFormatted,
       },
       {
         type: 'duration',
         icon: 'clock',
-        label: 'Duration',
-        value: `${this.course.duration} min.`,
+        label: 'Dauer',
+        value: `${this.course.duration} Min.`,
       },
       {
         type: 'level',
         icon: 'bar-chart',
-        label: 'Level',
+        label: 'Niveau',
         value: LEVEL_LABELS[this.course.level] ?? this.course.level,
       },
       {
         type: 'location',
         icon: 'map-pin',
-        label: 'Location',
+        label: 'Ort',
         value: this.course.sessions[0]?.location ?? '–',
       },
       {
         type: 'nextDate',
         icon: 'calendar',
-        label: 'Next Session',
-        value: this.course.sessions[0]?.formattedDate ?? 'No dates',
+        label: 'Nächster Termin',
+        value: this.course.sessions[0]?.formattedDate ?? 'Keine Termine',
       },
       {
         type: 'spotsAvailable',
         icon: 'users',
-        label: 'Spots Available',
+        label: 'Freie Plätze',
         value: `${this.course.availableSpots} / ${this.course.maxParticipants}`,
       },
     ];

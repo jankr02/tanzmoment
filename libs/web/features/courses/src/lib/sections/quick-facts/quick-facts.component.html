@@ -4,21 +4,7 @@
       <div class="quick-facts__item">
         <!-- Icon -->
         <div class="quick-facts__icon" aria-hidden="true">
-          <span class="quick-facts__icon-symbol">
-            @switch (fact.icon) {
-              @case ('euro')      { € }
-              @case ('clock')     { ⏱ }
-              @case ('bar-chart') { 📊 }
-              @case ('map-pin')   { 📍 }
-              @case ('calendar')  { 📅 }
-              @case ('users')     { 👥 }
-              @case ('wheelchair'){ ♿ }
-              @case ('heart')     { ❤️ }
-              @case ('sparkle')   { ✨ }
-              @case ('music')     { 🎵 }
-              @default            { ℹ }
-            }
-          </span>
+          <app-icon [name]="$any(fact.icon)" size="sm" color="text-secondary" />
         </div>
 
         <!-- Text -->
