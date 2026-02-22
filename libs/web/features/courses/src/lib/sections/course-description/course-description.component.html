@@ -1,40 +1,62 @@
 <section class="course-description" aria-label="Course description">
+  <!-- Decorative blobs -->
+  <tm-decorative-blob variant="organic-1" position="top-left" [size]="350" [opacity]="0.06" />
+  <tm-decorative-blob variant="organic-3" position="bottom-right" [size]="280" [opacity]="0.05" />
+
   <div class="course-description__container">
 
-    <!-- Headline -->
-    <h2 class="course-description__headline">{{ headline }}</h2>
-
-    <!-- Main Body (HTML from Markdown) -->
+    <!-- Split layout: text (60%) + optional image (40%) -->
     <div
-      class="course-description__body"
-      [innerHTML]="bodyHtml"
-    ></div>
+      class="course-description__split"
+      [class.course-description__split--image-left]="imagePosition === 'left'"
+    >
 
-    <!-- Highlights -->
+      <!-- Text column -->
+      <div class="course-description__text">
+        <h2 class="course-description__headline">{{ headline }}</h2>
+
+        <div
+          class="course-description__body"
+          [innerHTML]="bodyHtml"
+        ></div>
+
+        <!-- Target Audience (optional) -->
+        @if (targetAudience; as ta) {
+          <div class="course-description__target">
+            <h3 class="course-description__target-headline">{{ ta.headline }}</h3>
+            <div
+              class="course-description__target-body"
+              [innerHTML]="ta.body"
+            ></div>
+          </div>
+        }
+      </div>
+
+      <!-- Image column (only when imageUrl is provided) -->
+      @if (imageUrl) {
+        <div class="course-description__image-column">
+          <div class="course-description__image-wrapper">
+            <img
+              [src]="imageUrl"
+              [alt]="imageAlt"
+              class="course-description__image"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <!-- Highlights — full width below the split -->
     @if (hasHighlights) {
       <div class="course-description__highlights" role="list">
         @for (highlight of highlights; track highlight.text) {
           <div class="course-description__highlight-item" role="listitem">
-            <span
-              class="course-description__highlight-icon"
-              aria-hidden="true"
-            >✓</span>
+            <span class="course-description__highlight-icon" aria-hidden="true">✓</span>
             <span>{{ highlight.text }}</span>
           </div>
         }
-      </div>
-    }
-
-    <!-- Target Audience (optional) -->
-    @if (targetAudience; as ta) {
-      <div class="course-description__target">
-        <h3 class="course-description__target-headline">
-          {{ ta.headline }}
-        </h3>
-        <div
-          class="course-description__target-body"
-          [innerHTML]="ta.body"
-        ></div>
       </div>
     }
 

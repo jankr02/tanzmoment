@@ -1,7 +1,7 @@
 // ============================================================================
 // TESTIMONIALS SECTION STYLES
 // ============================================================================
-// Responsive card grid for participant testimonials with star ratings.
+// Horizontal CSS Scroll-Snap carousel with quote cards and star ratings.
 // ============================================================================
 
 @use 'tokens' as *;
@@ -19,11 +19,6 @@
   &__container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 var(--space-6);
-
-    @media (max-width: 768px) {
-      padding: 0 var(--space-4);
-    }
   }
 
   // ─── Headline ───────────────────────────────────────────────────────────
@@ -36,26 +31,50 @@
     margin: 0 0 var(--space-8);
     text-align: center;
     line-height: 1.2;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
   }
 
-  // ─── Grid ───────────────────────────────────────────────────────────────
+  // ─── Carousel Wrapper ───────────────────────────────────────────────────
 
-  &__grid {
+  &__carousel {
+    overflow: hidden;
+  }
+
+  // ─── Scrollable Track ───────────────────────────────────────────────────
+
+  &__track {
     list-style: none;
     margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding: var(--space-2) var(--space-6) var(--space-4);
+    display: flex;
     gap: var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-left: var(--space-6);
 
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
+    // Hide scrollbar visually (remains functional)
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      padding: var(--space-2) var(--space-4) var(--space-4);
+      scroll-padding-left: var(--space-4);
     }
   }
 
   // ─── Card ───────────────────────────────────────────────────────────────
 
   &__card {
+    flex: 0 0 min(340px, 80vw);
+    scroll-snap-align: start;
     background: var(--detail-bg);
     border: 1px solid var(--detail-border);
     border-radius: var(--radius-lg);
@@ -68,7 +87,7 @@
                 box-shadow 0.25s cubic-bezier(.2, .7, .2, 1);
 
     &:hover {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
       box-shadow: 0 6px 24px var(--detail-shadow);
     }
   }
@@ -161,9 +180,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
 
-// ─── Reduced Motion ──────────────────────────────────────────────────────────
+  // ─── Scroll Indicators ──────────────────────────────────────────────────
+
+  &__indicators {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+    padding: 0 var(--space-6);
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--detail-accent);
+    opacity: 0.4;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .testimonials-section__card {

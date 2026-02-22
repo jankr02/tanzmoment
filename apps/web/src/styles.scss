@@ -11,7 +11,10 @@
 // 3. Utility Classes (Flexbox, Spacing, Text, etc.)
 @use 'utilities';
 
-// 4. Flatpickr Base Styles
+// 4. Animation Utilities (ScrollReveal, etc.)
+@use 'animations';
+
+// 5. Flatpickr Base Styles
 @import 'flatpickr/dist/flatpickr.min.css';
 
 // ============================================================================

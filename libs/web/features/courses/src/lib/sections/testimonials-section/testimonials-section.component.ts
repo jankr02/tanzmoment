@@ -11,6 +11,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollRevealDirective } from '@tanzmoment/shared/ui';
 
 import {
   CourseDetailData,
@@ -21,7 +22,7 @@ import {
 @Component({
   selector: 'app-testimonials-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScrollRevealDirective],
   templateUrl: './testimonials-section.component.html',
   styleUrl: './testimonials-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

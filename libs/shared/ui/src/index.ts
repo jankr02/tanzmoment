@@ -44,3 +44,9 @@ export * from './lib/skeleton-layout';
 
 // Wave Divider
 export * from './lib/wave-divider';
+
+// Directives
+export * from './lib/directives/scroll-reveal/scroll-reveal.directive';
+
+// Decorative Components
+export * from './lib/decorative-blob/decorative-blob.component';
