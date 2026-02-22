@@ -1,0 +1,208 @@
+// ============================================================================
+// SCHEDULE SECTION STYLES
+// ============================================================================
+// Session list as cards with availability indicator.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.schedule-section {
+  background: var(--color-surface);
+  padding: var(--space-12) 0;
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0;
+  }
+
+  // ─── Container ────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
+  }
+
+  // ─── Headline ─────────────────────────────────────────────────────────
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4);
+    line-height: 1.2;
+  }
+
+  // ─── Info Text ────────────────────────────────────────────────────────
+
+  &__info {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body, 1rem);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-6);
+    line-height: 1.6;
+  }
+
+  // ─── Empty State ──────────────────────────────────────────────────────
+
+  &__empty {
+    padding: var(--space-8);
+    text-align: center;
+    background: var(--color-neutral-xl);
+    border-radius: var(--radius-lg);
+
+    p {
+      font-family: var(--font-body);
+      color: var(--color-text-secondary);
+      margin: 0 0 var(--space-2);
+      &:last-child { margin-bottom: 0; }
+    }
+  }
+
+  // ─── List ─────────────────────────────────────────────────────────────
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SESSION CARD
+// ─────────────────────────────────────────────────────────────────────────────
+
+.schedule-session {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover:not(.schedule-session--booked) {
+    border-color: var(--detail-accent);
+    box-shadow: 0 2px 12px var(--detail-shadow);
+  }
+
+  &--booked {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  // ─── Mobile: Stacked ──────────────────────────────────────────────────
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-4);
+  }
+
+  // ─── Date & Time ──────────────────────────────────────────────────────
+
+  &__datetime {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+
+    @media (max-width: 768px) {
+      min-width: auto;
+    }
+  }
+
+  &__date {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-body, 1rem);
+    color: var(--color-text-primary);
+  }
+
+  &__time {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-secondary);
+  }
+
+  // ─── Location ─────────────────────────────────────────────────────────
+
+  &__location {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body, 1rem);
+    color: var(--color-text-secondary);
+    flex: 1;
+  }
+
+  &__location-icon {
+    font-size: 0.9em;
+  }
+
+  // ─── Label ────────────────────────────────────────────────────────────
+
+  &__label {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--detail-accent);
+    color: var(--detail-text);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-cta);
+    font-size: var(--font-size-xs, 0.75rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  // ─── Action Area ──────────────────────────────────────────────────────
+
+  &__action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: space-between;
+      margin-top: var(--space-2);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--color-border);
+    }
+  }
+
+  // ─── Spots Indicator ──────────────────────────────────────────────────
+
+  &__spots {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: 600;
+    white-space: nowrap;
+
+    &--available {
+      color: var(--color-success);
+    }
+
+    &--low {
+      color: var(--color-warning);
+    }
+
+    &--full {
+      color: var(--color-danger);
+    }
+  }
+}
+
+// ─── Reduced Motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .schedule-session {
+    transition: none;
+  }
+}

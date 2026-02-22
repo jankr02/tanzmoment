@@ -1,0 +1,76 @@
+<section class="schedule-section" aria-label="Termine und Verfügbarkeit">
+  <div class="schedule-section__container">
+
+    <!-- Headline -->
+    <h2 class="schedule-section__headline">{{ headline }}</h2>
+
+    <!-- Info Text (optional) -->
+    @if (infoText) {
+      <p class="schedule-section__info">{{ infoText }}</p>
+    }
+
+    <!-- Empty State -->
+    @if (!hasSessions) {
+      <div class="schedule-section__empty">
+        <p>Aktuell sind keine Termine geplant.</p>
+        <p>Schau bald wieder vorbei oder kontaktiere uns für weitere Infos.</p>
+      </div>
+    }
+
+    <!-- Session List -->
+    @else {
+      <div class="schedule-section__list" role="list">
+        @for (session of sessions; track session.id) {
+          <div
+            class="schedule-session"
+            [class.schedule-session--booked]="session.isFullyBooked"
+            role="listitem"
+          >
+            <!-- Date & Time -->
+            <div class="schedule-session__datetime">
+              <span class="schedule-session__date">
+                {{ session.formattedDate }}
+              </span>
+              <span class="schedule-session__time">
+                {{ session.formattedTime }}
+              </span>
+            </div>
+
+            <!-- Location -->
+            <div class="schedule-session__location">
+              <span class="schedule-session__location-icon" aria-hidden="true">📍</span>
+              <span>{{ session.location }}</span>
+            </div>
+
+            <!-- Label (optional, e.g. "Schnupperstunde") -->
+            @if (getSessionLabel(session.id); as label) {
+              <span class="schedule-session__label">{{ label }}</span>
+            }
+
+            <!-- Availability + CTA -->
+            <div class="schedule-session__action">
+              <span
+                class="schedule-session__spots"
+                [class]="getSpotsClass(session)"
+              >
+                {{ getSpotsText(session) }}
+              </span>
+
+              @if (!session.isFullyBooked) {
+                <app-button
+                  variant="primary"
+                  size="small"
+                  (clicked)="onBook(session.id)"
+                  [attr.aria-label]="'Session am ' + session.formattedDate + ' buchen'"
+                >
+                  Buchen
+                </app-button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</section>
