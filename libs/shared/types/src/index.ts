@@ -156,3 +156,31 @@ export {
   isPaymentRefundable,
   getAllowedPaymentTransitions,
 } from './lib/payment.types';
+
+// =============================================================================
+// COURSE DETAIL CONTENT
+// =============================================================================
+export {
+  // Root
+  type CourseDetailContent,
+  // Section types
+  type CourseDetailHeroContent,
+  type CourseDetailQuickFactsContent,
+  type CourseDetailDescriptionContent,
+  type CourseDetailInstructorContent,
+  type CourseDetailScheduleContent,
+  type CourseDetailBookingContent,
+  // V2 types (prepared)
+  type CourseDetailCourseFlowContent,
+  type CourseDetailSocialProofContent,
+  type CourseDetailFaqContent,
+  // Sub-types
+  type QuickFactType,
+  type CustomFact,
+  type CourseHighlight,
+  type CourseFlowStep,
+  type Testimonial,
+  type FaqItem,
+  // Constants
+  EMPTY_COURSE_DETAIL_CONTENT,
+} from './lib/course-detail-content.types';
