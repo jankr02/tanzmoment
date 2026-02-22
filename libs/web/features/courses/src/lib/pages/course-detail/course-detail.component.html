@@ -1,0 +1,104 @@
+<!-- ============================================================================
+     COURSE DETAIL PAGE TEMPLATE
+     ============================================================================
+     Orchestrates all sections of the course detail page.
+     Each section receives only the data it needs (Single Responsibility).
+     ============================================================================ -->
+
+<main class="course-detail">
+
+  <!-- ─── LOADING STATE ──────────────────────────────────────────────── -->
+  @if (loading()) {
+    <div class="course-detail__loading" aria-live="polite" aria-busy="true">
+      <div class="course-detail__loading-content">
+        <div class="course-detail__loading-spinner" aria-hidden="true"></div>
+        <p>Course is loading...</p>
+      </div>
+    </div>
+  }
+
+  <!-- ─── ERROR STATE ────────────────────────────────────────────────── -->
+  @else if (error()) {
+    <div class="course-detail__error">
+      @if (isNotFound()) {
+        <h2>Course not found</h2>
+        <p>The requested course does not exist or has been removed.</p>
+      } @else {
+        <h2>Something went wrong</h2>
+        <p>The course could not be loaded. Please try again.</p>
+      }
+      <app-button variant="primary" (click)="router.navigate(['/courses'])">
+        Back to course overview
+      </app-button>
+    </div>
+  }
+
+  <!-- ─── CONTENT ────────────────────────────────────────────────────── -->
+  @else if (course(); as c) {
+
+    <!-- 1. Hero Section (Attention) -->
+    <app-detail-hero
+      [course]="c"
+      [content]="detailContent().hero"
+    />
+
+    <!-- 2. Quick Facts (Quick qualification) -->
+    <app-quick-facts
+      [course]="c"
+      [content]="detailContent().quickFacts"
+    />
+
+    <!-- Wave Divider: Quick Facts → Description -->
+    <div class="course-detail__wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--detail-wave-fill)"
+        />
+      </svg>
+    </div>
+
+    <!-- 3. Course Description (Interest) -->
+    <app-course-description
+      [course]="c"
+      [content]="detailContent().description"
+    />
+
+    <!-- 4. Instructor (Trust) -->
+    @if (instructor(); as instr) {
+      <app-instructor-section
+        [instructor]="instr"
+        [content]="detailContent().instructor"
+      />
+    }
+
+    <!-- Wave Divider: Instructor → Schedule -->
+    <div class="course-detail__wave course-detail__wave--inverted" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+          fill="var(--color-surface)"
+        />
+      </svg>
+    </div>
+
+    <!-- 5. Schedule & Availability (Decision) -->
+    <section id="schedule-section">
+      <app-schedule-section
+        [sessions]="sessions()"
+        [course]="c"
+        [content]="detailContent().schedule"
+        (bookSession)="onBookSession($event)"
+      />
+    </section>
+
+    <!-- 6. Sticky Booking Bar (permanent CTA) -->
+    <app-sticky-booking-bar
+      [course]="c"
+      [content]="detailContent().booking"
+      (bookClick)="onBookCourse()"
+    />
+
+  }
+
+</main>
