@@ -1,0 +1,129 @@
+// ============================================================================
+// QUICK FACTS SECTION STYLES
+// ============================================================================
+// Horizontal fact bar with cards. Desktop = Flex, Mobile = 2-Col Grid.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.quick-facts {
+  background: var(--detail-bg);
+  padding: var(--space-8) 0;
+
+  @media (max-width: 768px) {
+    padding: var(--space-6) 0;
+  }
+
+  // ─── Container ────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    // Desktop: horizontal row
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: center;
+
+    // Mobile: 2-column grid
+    @media (max-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      padding: 0 var(--space-4);
+    }
+
+    // Small mobile: 1 column
+    @media (max-width: 400px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // ─── Fact Card ────────────────────────────────────────────────────────
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--detail-border);
+    box-shadow: 0 2px 6px var(--detail-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--detail-shadow);
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+      padding: var(--space-4);
+      gap: var(--space-2);
+    }
+  }
+
+  // ─── Icon ─────────────────────────────────────────────────────────────
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--detail-accent);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+
+    @media (max-width: 768px) {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  &__icon-symbol {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  // ─── Text ─────────────────────────────────────────────────────────────
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--detail-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  &__value {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body, 1rem);
+    font-weight: 700;
+    color: var(--detail-text);
+    white-space: nowrap;
+  }
+}
+
+// ─── Reduced Motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-facts__item {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
