@@ -18,6 +18,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ILLUSTRATION TYPES
@@ -83,6 +84,7 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
   private readonly urlSyncService = inject(FilterUrlSyncService);
   private readonly colorService = inject(CourseOverviewColorService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
 
   /** Nur im Browser ausführen */
   private get isBrowser(): boolean {
@@ -384,6 +386,17 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
       case 'contact':
         // Navigate to contact
         break;
+    }
+  }
+
+  /**
+   * Navigate to course detail page
+   */
+  navigateToCourse(courseId: string): void {
+    const course = this.courses().find((c) => c.id === courseId)
+      ?? this.highlightedCourses().find((c) => c.id === courseId);
+    if (course?.slug) {
+      this.router.navigate(['/courses', course.slug]);
     }
   }
 

@@ -20,6 +20,8 @@ COURSE OVERVIEW PAGE TEMPLATE
       [loading]="highlightedLoading()"
       headline="Empfehlungen für Dich"
       subheadline="Was Tanzmoment aktuell bewegt"
+      (courseClicked)="navigateToCourse($event)"
+      (registerClicked)="navigateToCourse($event)"
     />
   </section>
 
@@ -111,7 +113,11 @@ COURSE OVERVIEW PAGE TEMPLATE
                 }
 
                 <!-- Course Card -->
-                <app-course-card [course]="course" />
+                <app-course-card
+                  [course]="course"
+                  (cardClicked)="navigateToCourse($event)"
+                  (registerClicked)="navigateToCourse($event)"
+                />
               </div>
             }
           </div>
