@@ -84,6 +84,14 @@ model Course {
   duration              Int
   imageUrl              String?
 
+  // CMS Detail Content (JSON)
+  detailContent         Json?            @db.JsonB
+
+  // SEO
+  metaTitle             String?
+  metaDescription       String?          @db.Text
+  ogImageUrl            String?
+
   // Status & visibility
   status                CourseStatus     @default(DRAFT)
   visibility            CourseVisibility @default(PUBLIC)

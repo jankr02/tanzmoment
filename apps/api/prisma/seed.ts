@@ -33,6 +33,328 @@ const CourseLevel = {
 } as const;
 
 // =============================================================================
+// DETAIL CONTENT (CMS JSON per dance style)
+// =============================================================================
+
+const DETAIL_CONTENT = {
+  expressiveFrei: {
+    hero: {
+      subHeadline:
+        'Dein Körper erzählt die Geschichte – lass sie tanzen.',
+    },
+    quickFacts: {
+      customFacts: [
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+      ],
+    },
+    description: {
+      headline: 'Bewegung, die berührt',
+      body: 'Ausdruckstanz ist mehr als Choreografie – es ist eine Reise zu dir selbst.\n\nIn diesem Kurs lernst du, Emotionen in Bewegung umzusetzen. Jede Stunde beginnt mit sanftem Aufwärmen, gefolgt von Improvisation und angeleiteten Sequenzen.\n\n**Kein Schritt ist falsch.** Hier geht es nicht um Perfektion, sondern um Ausdruck.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für alle, die ihren Körper als Ausdrucksmittel entdecken wollen – unabhängig von Alter, Vorerfahrung oder Fitnesslevel.',
+      },
+      highlights: [
+        { text: 'Keine Vorkenntnisse nötig' },
+        { text: 'Kleine Gruppen (max. 12 Teilnehmer)' },
+        { text: 'Persönliche Betreuung durch erfahrene Tanzpädagogin' },
+      ],
+    },
+    instructor: {
+      quote:
+        'Tanz ist die Sprache, die jeder versteht – auch ohne Worte.',
+      qualifications: [
+        'Dipl. Tanzpädagogin',
+        'Laban-Bewegungsanalyse',
+        '15 Jahre Erfahrung',
+      ],
+    },
+    schedule: {
+      infoText:
+        'Du kannst jederzeit einsteigen – ein fortlaufender Kurs ohne festen Starttermin.',
+    },
+    booking: {
+      ctaText: 'Platz sichern',
+      priceNote: 'pro Einzelstunde',
+      includes: ['Materialien', 'Wasser & Tee', 'Umkleide'],
+      notice: 'Kostenlose Stornierung bis 24h vor Kursbeginn.',
+    },
+  },
+
+  expressiveVertiefung: {
+    hero: {
+      subHeadline: 'Geh tiefer – entdecke neue Ebenen deines Ausdrucks.',
+    },
+    description: {
+      headline: 'Tiefer eintauchen',
+      body: 'Für alle, die bereits erste Erfahrungen im Ausdruckstanz haben und ihre Praxis vertiefen wollen.\n\nWir arbeiten an fortgeschrittenen Improvisationstechniken, choreografischen Elementen und Performance-Vorbereitung.',
+      highlights: [
+        { text: 'Aufbaukurs mit Grundkurs-Voraussetzung' },
+        { text: 'Intensivere Übungen & längere Sequenzen' },
+        { text: 'Performance-Vorbereitung' },
+      ],
+    },
+    instructor: {
+      quote:
+        'Vertiefung bedeutet nicht Perfektion – sondern Ehrlichkeit in der Bewegung.',
+    },
+    booking: {
+      ctaText: 'Platz sichern',
+      priceNote: 'pro Einzelstunde',
+    },
+  },
+
+  tanzmaeuse: {
+    hero: {
+      subHeadline:
+        'Spielerisch bewegen, Rhythmus entdecken, Spaß haben!',
+    },
+    description: {
+      headline: 'Tanz-Abenteuer für kleine Entdecker',
+      body: 'Kinder lernen am besten, wenn sie Spaß haben. In unserem Tanzkurs verbinden wir spielerische Bewegung mit kreativen Geschichten und Musik.',
+      targetAudience: {
+        headline: 'Altersgruppe',
+        body: 'Für Kinder von 4–6 Jahren. Keine Vorkenntnisse nötig – nur Freude an Bewegung!',
+      },
+      highlights: [
+        { text: 'Altersgerechte Musik und Geschichten' },
+        { text: 'Kleine Gruppen (max. 12 Kinder)' },
+        { text: 'Schnupperstunde kostenlos' },
+      ],
+    },
+    booking: {
+      ctaText: 'Kind anmelden',
+      notice: 'Eltern können bei der ersten Stunde zuschauen.',
+    },
+  },
+
+  tanzfuechse: {
+    hero: {
+      subHeadline:
+        'Erste echte Schritte, coole Choreografien, jede Menge Spaß!',
+    },
+    description: {
+      headline: 'Werden zum Tanzfuchs',
+      body: 'Die Tanzfüchse lernen bereits erste echte Tanzschritte und arbeiten an kleinen Choreografien – mit viel Teamgeist und Selbstbewusstsein.',
+      highlights: [
+        { text: 'Grundlegende Tanztechniken' },
+        { text: 'Teamwork und Gruppenübungen' },
+        { text: 'Aufführungsvorbereitung' },
+      ],
+    },
+    booking: {
+      ctaText: 'Kind anmelden',
+    },
+  },
+
+  schnupperkurs: {
+    hero: {
+      subHeadline: 'Einfach mal ausprobieren – der perfekte Einstieg für alle!',
+    },
+    description: {
+      headline: 'Dein erster Tanzschritt',
+      body: 'Du wolltest schon immer mal tanzen, hast dich aber nie getraut? Dieser Schnupperkurs ist deine Chance! In entspannter Atmosphäre lernst du verschiedene Tanzstile kennen.',
+      highlights: [
+        { text: 'Keine Vorkenntnisse nötig' },
+        { text: 'Verschiedene Tanzstile ausprobieren' },
+        { text: 'Entspannte Atmosphäre' },
+      ],
+    },
+    booking: {
+      ctaText: 'Schnuppern',
+      notice: 'Komm wie du bist – bequeme Kleidung reicht!',
+    },
+  },
+
+  inklusiverTanzkreis: {
+    hero: {
+      subHeadline: 'Tanz kennt keine Grenzen – Bewegung für alle.',
+    },
+    quickFacts: {
+      customFacts: [
+        {
+          icon: 'wheelchair',
+          label: 'Barrierefreiheit',
+          value: 'Vollständig barrierefrei',
+        },
+        {
+          icon: 'heart',
+          label: 'Inklusion',
+          value: 'Mit & ohne Behinderung',
+        },
+      ],
+    },
+    description: {
+      headline: 'Gemeinsam in Bewegung',
+      body: 'Inklusiver Tanz bedeutet, dass jeder Mensch teilnehmen kann – unabhängig von körperlichen oder geistigen Voraussetzungen.\n\nWir passen jede Übung individuell an und schaffen einen sicheren Raum, in dem Bewegung Freude bringt.',
+      highlights: [
+        { text: 'Barrierefreier Zugang zum Studio' },
+        { text: 'Individuelle Anpassung jeder Übung' },
+        { text: 'Erfahrung mit verschiedenen Behinderungsformen' },
+        { text: 'Begleitpersonen willkommen' },
+      ],
+    },
+    instructor: {
+      bioOverride:
+        'Sarah hat über 10 Jahre Erfahrung im inklusiven Tanz und arbeitet eng mit Therapeut:innen zusammen.',
+      quote:
+        'Jeder Körper kann tanzen – auf seine eigene, einzigartige Weise.',
+      qualifications: [
+        'Inklusionspädagogik',
+        'Tanztherapie',
+        'DanceAbility-Zertifikat',
+      ],
+    },
+    booking: {
+      ctaText: 'Jetzt anmelden',
+      priceNote: 'Ermäßigung auf Anfrage möglich',
+      notice:
+        'Bei Fragen zur Barrierefreiheit kontaktiere uns gerne vorab.',
+    },
+  },
+
+  rollstuhltanz: {
+    hero: {
+      subHeadline: 'Elegante Bewegungen auf Rädern – Tanz ohne Grenzen.',
+    },
+    quickFacts: {
+      customFacts: [
+        {
+          icon: 'wheelchair',
+          label: 'Barrierefreiheit',
+          value: 'Vollständig barrierefrei',
+        },
+      ],
+    },
+    description: {
+      headline: 'Tanz auf Rädern',
+      body: 'Rollstuhltanz ist eine anerkannte Tanzsportdisziplin, die Eleganz und Ausdruck mit Mobilität verbindet.\n\nDer Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen als Tanzpartner:innen geeignet.',
+      highlights: [
+        { text: 'Grundlagen des Rollstuhltanzes' },
+        { text: 'Partnerübungen (optional)' },
+        { text: 'Verschiedene Musikstile' },
+      ],
+    },
+    instructor: {
+      quote: 'Im Tanz gibt es keine Einschränkungen – nur Möglichkeiten.',
+    },
+    booking: {
+      ctaText: 'Jetzt anmelden',
+      notice:
+        'Eigener Rollstuhl oder Leih-Rollstuhl verfügbar.',
+    },
+  },
+
+  mamaTanzt: {
+    hero: {
+      subHeadline: 'Zeit für dich – Bewegung, die Kraft gibt.',
+    },
+    description: {
+      headline: 'Eine Auszeit vom Alltag',
+      body: 'Dieser Kurs ist speziell für Mütter gestaltet – ein Raum, in dem du den Alltag hinter dir lassen und dich ganz auf dich selbst konzentrieren kannst.\n\nDurch sanfte Bewegungen findest du neue Energie und Leichtigkeit.',
+      highlights: [
+        { text: 'Kinderbetreuung vor Ort möglich' },
+        { text: 'Flexible Terminwahl' },
+        { text: 'Rückbildungsfreundliche Übungen' },
+      ],
+    },
+    instructor: {
+      quote:
+        'Als Mutter weiß ich, wie wertvoll eine Stunde nur für sich selbst ist.',
+    },
+    booking: {
+      ctaText: 'Auszeit buchen',
+      priceNote: 'inkl. Kinderbetreuung',
+    },
+  },
+
+  mamaBaby: {
+    hero: {
+      subHeadline:
+        'Gemeinsam von Anfang an – Bindung durch Bewegung.',
+    },
+    description: {
+      headline: 'Tanzen mit deinem Baby',
+      body: 'Dieser Kurs verbindet sanfte Bewegung mit wertvoller Bindungszeit zwischen dir und deinem Baby.\n\nGeeignet für Babys von 3–12 Monaten. Stillen und Wickeln jederzeit möglich.',
+      highlights: [
+        { text: 'Babytragen-freundliche Choreografien' },
+        { text: 'Beckenbodenfreundliche Übungen' },
+        { text: 'Entspannungseinheiten' },
+      ],
+    },
+    booking: {
+      ctaText: 'Gemeinsam anmelden',
+      notice: 'Stillen und Wickeln jederzeit möglich.',
+    },
+  },
+};
+
+// Mapping: slug → detailContent key + SEO data
+const COURSE_DETAIL_MAP: Record<
+  string,
+  {
+    content: keyof typeof DETAIL_CONTENT;
+    metaTitle: string;
+    metaDescription: string;
+  }
+> = {
+  'ausdruckstanz-frei-verbunden': {
+    content: 'expressiveFrei',
+    metaTitle: 'Ausdruckstanz – frei & verbunden | Tanzmoment',
+    metaDescription:
+      'Entdecke Ausdruckstanz bei Tanzmoment. Emotionen in Bewegung umsetzen – für Anfänger und Fortgeschrittene.',
+  },
+  'ausdruckstanz-vertiefung': {
+    content: 'expressiveVertiefung',
+    metaTitle: 'Ausdruckstanz Vertiefung | Tanzmoment',
+    metaDescription:
+      'Vertiefe deine Ausdruckstanz-Praxis mit fortgeschrittenen Techniken und Performance-Vorbereitung.',
+  },
+  'tanzmaeuse-4-6': {
+    content: 'tanzmaeuse',
+    metaTitle: 'Tanzmäuse (4-6 Jahre) | Tanzmoment',
+    metaDescription:
+      'Spielerischer Tanzkurs für Kinder von 4–6 Jahren. Bewegung, Musik und Spaß in kleinen Gruppen.',
+  },
+  'tanzfuechse-7-10': {
+    content: 'tanzfuechse',
+    metaTitle: 'Tanzfüchse (7-10 Jahre) | Tanzmoment',
+    metaDescription:
+      'Tanzkurs für Kinder von 7–10 Jahren. Erste Tanzschritte, Choreografien und Teamwork.',
+  },
+  'schnupperkurs-alt-jung': {
+    content: 'schnupperkurs',
+    metaTitle: 'Schnupperkurs – Alt oder Jung | Tanzmoment',
+    metaDescription:
+      'Der perfekte Einstieg in die Welt des Tanzes. Für alle Altersgruppen – keine Vorkenntnisse nötig.',
+  },
+  'inklusiver-tanzkreis': {
+    content: 'inklusiverTanzkreis',
+    metaTitle: 'Inklusiver Tanzkreis | Tanzmoment',
+    metaDescription:
+      'Inklusiver Tanz für Menschen mit und ohne Behinderung. Barrierefreier Zugang, individuelle Anpassung.',
+  },
+  rollstuhltanz: {
+    content: 'rollstuhltanz',
+    metaTitle: 'Rollstuhltanz | Tanzmoment',
+    metaDescription:
+      'Rollstuhltanz bei Tanzmoment. Eleganz und Ausdruck auf Rädern – für Rollstuhlfahrer:innen und Partner:innen.',
+  },
+  'mama-tanzt-zeit-fuer-mich': {
+    content: 'mamaTanzt',
+    metaTitle: 'Mama tanzt – Zeit für mich | Tanzmoment',
+    metaDescription:
+      'Tanzkurs für Mütter. Eine Auszeit vom Alltag mit Bewegung, die Kraft gibt. Kinderbetreuung möglich.',
+  },
+  'mama-baby-tanz': {
+    content: 'mamaBaby',
+    metaTitle: 'Mama & Baby Tanz | Tanzmoment',
+    metaDescription:
+      'Tanzen mit deinem Baby bei Tanzmoment. Bindungszeit mit Bewegung und Musik für Mütter mit Baby (3–12 Monate).',
+  },
+};
+
+// =============================================================================
 // COURSE DATA
 // =============================================================================
 
@@ -381,12 +703,18 @@ async function seedCourses(instructorId: string) {
   let createdCount = 0;
 
   for (const courseData of allCourses) {
+    const detailMap = COURSE_DETAIL_MAP[courseData.slug];
     const course = await prisma.course.upsert({
       where: { slug: courseData.slug },
       update: {},
       create: {
         ...courseData,
         instructorId,
+        ...(detailMap && {
+          detailContent: DETAIL_CONTENT[detailMap.content],
+          metaTitle: detailMap.metaTitle,
+          metaDescription: detailMap.metaDescription,
+        }),
       },
     });
     createdCount++;
