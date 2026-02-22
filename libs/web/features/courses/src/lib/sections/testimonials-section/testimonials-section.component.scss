@@ -1,0 +1,176 @@
+// ============================================================================
+// TESTIMONIALS SECTION STYLES
+// ============================================================================
+// Responsive card grid for participant testimonials with star ratings.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.testimonials-section {
+  background: var(--color-surface);
+  padding: var(--space-12) 0;
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0;
+  }
+
+  // ─── Container ──────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
+  }
+
+  // ─── Headline ───────────────────────────────────────────────────────────
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--detail-text);
+    margin: 0 0 var(--space-8);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  // ─── Grid ───────────────────────────────────────────────────────────────
+
+  &__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // ─── Card ───────────────────────────────────────────────────────────────
+
+  &__card {
+    background: var(--detail-bg);
+    border: 1px solid var(--detail-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: 0 2px 12px var(--detail-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: transform 0.25s cubic-bezier(.2, .7, .2, 1),
+                box-shadow 0.25s cubic-bezier(.2, .7, .2, 1);
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px var(--detail-shadow);
+    }
+  }
+
+  // ─── Stars ──────────────────────────────────────────────────────────────
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  &__star {
+    font-size: 1.1rem;
+    color: var(--detail-border);
+    line-height: 1;
+
+    &--filled {
+      color: var(--color-secondary);
+    }
+  }
+
+  // ─── Quote ──────────────────────────────────────────────────────────────
+
+  &__quote {
+    margin: 0;
+    flex: 1;
+  }
+
+  &__text {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--detail-text-secondary);
+    line-height: 1.75;
+    margin: 0;
+    font-style: italic;
+  }
+
+  // ─── Author ─────────────────────────────────────────────────────────────
+
+  &__author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--detail-border);
+  }
+
+  &__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--detail-accent);
+
+    &--initials {
+      background: var(--detail-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: var(--font-size-sm);
+      color: var(--detail-text);
+    }
+  }
+
+  &__author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__author-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-body);
+    color: var(--detail-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__author-role {
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    color: var(--detail-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ─── Reduced Motion ──────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-section__card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

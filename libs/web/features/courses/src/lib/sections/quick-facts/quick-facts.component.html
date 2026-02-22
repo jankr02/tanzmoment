@@ -1,0 +1,18 @@
+<section class="quick-facts" aria-label="Course key facts">
+  <div class="quick-facts__container">
+    @for (fact of facts; track fact.type + fact.label) {
+      <div class="quick-facts__item">
+        <!-- Icon -->
+        <div class="quick-facts__icon" aria-hidden="true">
+          <app-icon [name]="$any(fact.icon)" size="sm" color="text-secondary" />
+        </div>
+
+        <!-- Text -->
+        <div class="quick-facts__text">
+          <span class="quick-facts__label">{{ fact.label }}</span>
+          <span class="quick-facts__value">{{ fact.value }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</section>

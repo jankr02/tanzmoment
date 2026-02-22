@@ -1,0 +1,160 @@
+// ============================================================================
+// STICKY BOOKING BAR STYLES
+// ============================================================================
+// Fixed bottom bar with slide-up animation.
+// Uses --detail-* theme variables for button colors.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.sticky-booking-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+
+  // ─── Hidden by default (slide down) ──────────────────────────────────
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.25s ease,
+    visibility 0.35s;
+
+  // ─── Visible state ────────────────────────────────────────────────────
+  &--visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // ─── Fully booked state ───────────────────────────────────────────────
+  &--booked {
+    .sticky-booking-bar__price {
+      color: var(--color-text-secondary);
+      text-decoration: line-through;
+    }
+  }
+
+  // ─── Container ────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+
+    @media (max-width: 768px) {
+      padding: var(--space-3) var(--space-4);
+      gap: var(--space-3);
+    }
+  }
+
+  // ─── Info ─────────────────────────────────────────────────────────────
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-body, 1rem);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-sm, 0.875rem);
+    }
+  }
+
+  &__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  &__price {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l, 1.125rem);
+    font-weight: 700;
+    color: var(--detail-button-bg);
+
+    @media (max-width: 768px) {
+      font-size: var(--font-size-body, 1rem);
+    }
+  }
+
+  &__price-note {
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs, 0.75rem);
+    font-weight: 400;
+    color: var(--color-text-secondary);
+  }
+
+  // ─── Action ───────────────────────────────────────────────────────────
+
+  &__action {
+    flex-shrink: 0;
+
+    app-button {
+      --btn-custom-bg: var(--detail-button-bg);
+      --btn-custom-text: var(--detail-button-text);
+    }
+  }
+
+  // ─── Notice ───────────────────────────────────────────────────────────
+
+  &__notice {
+    background: var(--detail-bg);
+    padding: var(--space-2) var(--space-6);
+    text-align: center;
+    border-top: 1px solid var(--detail-border);
+
+    span {
+      font-family: var(--font-body);
+      font-size: var(--font-size-xs, 0.75rem);
+      color: var(--detail-text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      padding: var(--space-2) var(--space-4);
+    }
+  }
+}
+
+// ─── Reduced Motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-booking-bar {
+    transition: none;
+
+    &--visible {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// ─── Safe Area (iPhone Notch / Home Indicator) ────────────────────────────────
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .sticky-booking-bar__container {
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  }
+}

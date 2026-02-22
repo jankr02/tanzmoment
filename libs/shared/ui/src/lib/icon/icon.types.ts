@@ -24,6 +24,14 @@ export type IconName =
   | 'x'
   | 'check-circle'
   | 'filter'
+  | 'info'
+  // Course / Fact Icons
+  | 'euro'
+  | 'clock'
+  | 'bar-chart'
+  | 'wheelchair'
+  | 'sparkle'
+  | 'music'
   // Social Media
   | 'instagram'
   | 'facebook'
