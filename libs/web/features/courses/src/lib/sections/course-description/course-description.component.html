@@ -1,0 +1,42 @@
+<section class="course-description" aria-label="Course description">
+  <div class="course-description__container">
+
+    <!-- Headline -->
+    <h2 class="course-description__headline">{{ headline }}</h2>
+
+    <!-- Main Body (HTML from Markdown) -->
+    <div
+      class="course-description__body"
+      [innerHTML]="bodyHtml"
+    ></div>
+
+    <!-- Highlights -->
+    @if (hasHighlights) {
+      <div class="course-description__highlights" role="list">
+        @for (highlight of highlights; track highlight.text) {
+          <div class="course-description__highlight-item" role="listitem">
+            <span
+              class="course-description__highlight-icon"
+              aria-hidden="true"
+            >✓</span>
+            <span>{{ highlight.text }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Target Audience (optional) -->
+    @if (targetAudience; as ta) {
+      <div class="course-description__target">
+        <h3 class="course-description__target-headline">
+          {{ ta.headline }}
+        </h3>
+        <div
+          class="course-description__target-body"
+          [innerHTML]="ta.body"
+        ></div>
+      </div>
+    }
+
+  </div>
+</section>
