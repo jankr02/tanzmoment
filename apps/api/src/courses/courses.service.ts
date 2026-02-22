@@ -13,6 +13,11 @@ import {
   PaginatedCoursesResponseDto,
   PaginationMetaDto,
 } from './dto/course-response.dto';
+import {
+  CourseDetailResponseDto,
+  CourseDetailInstructorDto,
+  CourseDetailSessionDto,
+} from './dto/course-detail-response.dto';
 
 // =============================================================================
 // TYPES
@@ -158,13 +163,19 @@ export class CoursesService {
   }
 
   /**
-   * Get single course by slug
+   * Get single course by slug with full detail data
+   *
+   * Includes:
+   * - Instructor with bio and expertise
+   * - All upcoming sessions with booking counts
+   * - CMS detailContent
+   * - Computed availability
    *
    * @param slug - Course URL slug
-   * @returns Course details or null
+   * @returns CourseDetailResponseDto or null
    */
-  async findBySlug(slug: string) {
-    return this.prisma.course.findUnique({
+  async findBySlug(slug: string): Promise<CourseDetailResponseDto | null> {
+    const course = await this.prisma.course.findUnique({
       where: { slug },
       include: {
         instructor: {
@@ -183,14 +194,124 @@ export class CoursesService {
             status: 'SCHEDULED',
           },
           orderBy: { startTime: 'asc' },
+          include: {
+            _count: {
+              select: {
+                bookings: {
+                  where: {
+                    status: { in: ['PENDING', 'CONFIRMED'] },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });
+
+    if (!course) return null;
+
+    return this.transformToDetail(course);
   }
 
   // ===========================================================================
   // PRIVATE HELPERS
   // ===========================================================================
+
+  /**
+   * Transform Prisma course to detail response DTO
+   */
+  private transformToDetail(course: any): CourseDetailResponseDto {
+    const priceInEuros = course.priceInCents / 100;
+    const priceFormatted =
+      priceInEuros === 0 ? 'Kostenlos' : `${priceInEuros.toFixed(0)} €`;
+
+    const detailContent = course.detailContent as Record<string, any> | null;
+    const scheduleContent = detailContent?.schedule as
+      | { sessionLabels?: Record<string, string> }
+      | undefined;
+
+    const sessions: CourseDetailSessionDto[] = course.sessions.map(
+      (session: any) => {
+        const bookedCount = session._count?.bookings ?? 0;
+        const availableSpots = Math.max(
+          0,
+          course.maxParticipants - bookedCount
+        );
+        const isFullyBooked = availableSpots === 0;
+
+        return {
+          id: session.id,
+          startTime: session.startTime,
+          endTime: session.endTime,
+          location: session.location,
+          status: session.status,
+          formattedDate: this.formatSessionDateTime(session.startTime),
+          formattedTime: this.formatSessionTimeRange(
+            session.startTime,
+            session.endTime
+          ),
+          availableSpots,
+          isFullyBooked,
+          label: scheduleContent?.sessionLabels?.[session.id] ?? undefined,
+        };
+      }
+    );
+
+    const nextSession = sessions[0];
+    const overallAvailable = nextSession?.availableSpots ?? 0;
+    const isFullyBooked =
+      sessions.length > 0 && sessions.every((s) => s.isFullyBooked);
+
+    const instructor: CourseDetailInstructorDto = {
+      id: course.instructor.id,
+      firstName: course.instructor.user.firstName,
+      lastName: course.instructor.user.lastName,
+      bio: course.instructor.bio ?? undefined,
+      imageUrl: course.instructor.imageUrl ?? undefined,
+      expertise: course.instructor.expertise ?? [],
+    };
+
+    return {
+      id: course.id,
+      slug: course.slug,
+      title: course.title,
+      catchPhrase: course.catchPhrase ?? undefined,
+      shortDescription: course.shortDescription,
+      description: course.description,
+      danceStyle: course.danceStyle,
+      targetGroup: course.targetGroup,
+      level: course.level,
+      duration: course.duration,
+      maxParticipants: course.maxParticipants,
+      priceInCents: course.priceInCents,
+      price: priceInEuros,
+      priceFormatted,
+      imageUrl: course.imageUrl ?? undefined,
+      detailContent: detailContent ?? undefined,
+      metaTitle: course.metaTitle ?? undefined,
+      metaDescription: course.metaDescription ?? undefined,
+      ogImageUrl: course.ogImageUrl ?? undefined,
+      instructor,
+      sessions,
+      totalUpcomingSessions: sessions.length,
+      availableSpots: overallAvailable,
+      isFullyBooked,
+    };
+  }
+
+  /**
+   * Format session time range
+   * Example: "17:00 – 18:30"
+   */
+  private formatSessionTimeRange(start: Date, end: Date): string {
+    const format = (d: Date) => {
+      const h = d.getHours().toString().padStart(2, '0');
+      const m = d.getMinutes().toString().padStart(2, '0');
+      return `${h}:${m}`;
+    };
+    return `${format(new Date(start))} – ${format(new Date(end))}`;
+  }
 
   /**
    * Build Prisma where clause from query parameters

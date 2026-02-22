@@ -25,6 +25,7 @@ import {
   CourseListItemDto,
   PaginatedCoursesResponseDto,
 } from './dto/course-response.dto';
+import { CourseDetailResponseDto } from './dto/course-detail-response.dto';
 
 @ApiTags('Courses')
 @Controller('courses')
@@ -107,8 +108,15 @@ export class CoursesController {
 
   @Get(':slug')
   @ApiOperation({
-    summary: 'Get course by slug',
-    description: 'Returns detailed information about a single course.',
+    summary: 'Get course details by slug',
+    description: `
+      Returns detailed information about a single course including:
+      - Full course data with CMS-managed detailContent
+      - Instructor profile with bio and expertise
+      - All upcoming sessions with real-time availability
+      - Computed fields (availableSpots, isFullyBooked)
+      - SEO metadata
+    `,
   })
   @ApiParam({
     name: 'slug',
@@ -117,13 +125,16 @@ export class CoursesController {
   })
   @ApiResponse({
     status: 200,
-    description: 'Course details',
+    description: 'Course details with full data',
+    type: CourseDetailResponseDto,
   })
   @ApiResponse({
     status: 404,
     description: 'Course not found',
   })
-  async findBySlug(@Param('slug') slug: string) {
+  async findBySlug(
+    @Param('slug') slug: string
+  ): Promise<CourseDetailResponseDto> {
     const course = await this.coursesService.findBySlug(slug);
 
     if (!course) {

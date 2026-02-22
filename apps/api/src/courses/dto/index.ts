@@ -13,3 +13,10 @@ export {
   PaginationMetaDto,
   PaginatedCoursesResponseDto,
 } from './course-response.dto';
+
+// Detail Response DTOs
+export {
+  CourseDetailResponseDto,
+  CourseDetailInstructorDto,
+  CourseDetailSessionDto,
+} from './course-detail-response.dto';
