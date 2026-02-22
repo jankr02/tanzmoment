@@ -85,6 +85,86 @@ const DETAIL_CONTENT = {
       includes: ['Materialien inklusive', 'Wasser & Tee', 'Umkleideraum', 'Kostenloses Erstgespräch'],
       notice: 'Kostenlose Stornierung bis 24h vor Kursbeginn.',
     },
+    courseFlow: {
+      headline: 'So läuft eine Stunde ab',
+      intro: 'Jede Stunde folgt einem sanften Rhythmus – vom Ankommen bis zum kreativen Loslassen.',
+      steps: [
+        {
+          phase: 'Ankommen & Erden',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Wir beginnen mit einer kurzen Atem- und Erdungsübung, um den Alltag hinter uns zu lassen.',
+        },
+        {
+          phase: 'Aufwärmen',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Sanfte Gelenkarbeit, Körperwahrnehmung und leichtes Stretching – Vorbereitung auf die Bewegung.',
+        },
+        {
+          phase: 'Freie Improvisation',
+          duration: '30 Min.',
+          icon: 'music',
+          description: 'Das kreative Herzstück der Stunde. Die Musik führt dich, aber dein Körper entscheidet. Kein richtig oder falsch.',
+        },
+        {
+          phase: 'Angeleitete Sequenz',
+          duration: '20 Min.',
+          icon: 'improvisation',
+          description: 'Eine kurze, strukturierte Bewegungsphrase, die wir gemeinsam erkunden – mit Raum für individuellen Ausdruck.',
+        },
+        {
+          phase: 'Cool-Down & Reflexion',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Wir schließen mit sanftem Stretching und einem Moment der Stille. Optionaler Austausch in der Gruppe.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Das sagen Teilnehmende',
+      testimonials: [
+        {
+          text: 'Ich bin total verkrampft reingekommen – ohne jede Tanzerfahrung. Nach drei Stunden habe ich mich frei bewegt und es tatsächlich genossen. Sarah schafft einen Raum, in dem man vergisst, befangen zu sein.',
+          authorName: 'Miriam H.',
+          authorRole: 'Teilnehmerin seit 2023',
+          rating: 5,
+        },
+        {
+          text: 'Dieser Kurs hat verändert, wie ich mit meinem eigenen Körper umgehe. Die Improvisation gibt mir etwas, das ich nirgendwo anders finde – Freiheit mit Anleitung.',
+          authorName: 'Julia W.',
+          authorRole: 'Regelmäßige Teilnehmerin',
+          rating: 5,
+        },
+        {
+          text: 'Ich hatte einen Fitnesskurs erwartet. Was ich bekommen habe, ist etwas Therapie-ähnliches. Im besten Sinne.',
+          authorName: 'Karin S.',
+          authorRole: 'Teilnehmerin',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen & Antworten',
+      items: [
+        {
+          question: 'Brauche ich Tanzerfahrung?',
+          answer: 'Nein, überhaupt nicht. Dieser Kurs ist für alle Levels gedacht. Anfänger und erfahrene Tänzer bewegen sich Seite an Seite – jeder in seinem eigenen Tempo.',
+        },
+        {
+          question: 'Was soll ich anziehen?',
+          answer: 'Bequeme Kleidung, in der du dich frei bewegen kannst. Barfuß oder mit Tanzsocken ist ideal. Keine spezielle Tanzkleidung nötig.',
+        },
+        {
+          question: 'Kann ich mitten im Kurs einsteigen?',
+          answer: 'Ja! Der Kurs ist fortlaufend ohne feste Starttermine. Du kannst jederzeit einsteigen. Wir empfehlen ein kostenloses Erstgespräch mit Sarah vorab.',
+        },
+        {
+          question: 'Gibt es eine Schnupperstunde?',
+          answer: 'Ja. Deine erste Stunde beinhaltet ein kostenloses Kennenlerngespräch mit Sarah. Gib das einfach bei der Buchung an.',
+        },
+      ],
+    },
   },
 
   expressiveVertiefung: {
@@ -134,6 +214,76 @@ const DETAIL_CONTENT = {
       priceNote: 'pro Einzelstunde',
       includes: ['Materialien inklusive', 'Wasser & Tee', 'Umkleideraum'],
       notice: 'Voraussetzung: Grundkurs oder vergleichbare Erfahrung. Bei Unsicherheit meld dich gerne vorab.',
+    },
+    courseFlow: {
+      headline: 'So arbeiten wir zusammen',
+      intro: 'Die Stunden wechseln zwischen individueller Erkundung und gemeinsamer Gruppenarbeit. Jedes Treffen baut auf dem vorherigen auf.',
+      steps: [
+        {
+          phase: 'Check-In',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Kurzer Body-Scan und Austausch über den individuellen Fokus für die Stunde.',
+        },
+        {
+          phase: 'Technik-Fokus',
+          duration: '25 Min.',
+          icon: 'bar-chart',
+          description: 'Arbeit an spezifischen Elementen: Dynamik, Raumwahrnehmung, Timing oder Gewichtsverlagerung.',
+        },
+        {
+          phase: 'Solo-Erkundung',
+          duration: '20 Min.',
+          icon: 'improvisation',
+          description: 'Erweiterte individuelle Improvisation mit einem gewählten Thema oder Score.',
+        },
+        {
+          phase: 'Duett & Gruppenarbeit',
+          duration: '20 Min.',
+          icon: 'users',
+          description: 'Kollaborative Strukturen und Partner-Improvisation. Material für die Studio-Abende aufbauen.',
+        },
+        {
+          phase: 'Reflexion',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Wir beobachten, diskutieren und integrieren. Was hast du bemerkt? Was willst du weiterentwickeln?',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Stimmen aus dem Kurs',
+      testimonials: [
+        {
+          text: 'Der Vertiefungskurs hat mich genau in die richtige Richtung geschoben. Sarah stellt die richtigen Fragen und gibt Raum, in sie hineinzuwachsen.',
+          authorName: 'Anna L.',
+          authorRole: 'Fortgeschrittene Teilnehmerin',
+          rating: 5,
+        },
+        {
+          text: 'Ich habe jahrelang Tanz studiert, aber hier habe ich mehr über meine eigene Bewegung gelernt als in jedem Technikkurs.',
+          authorName: 'Thomas R.',
+          authorRole: 'Teilnehmer',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zum Aufbaukurs',
+      items: [
+        {
+          question: 'Welche Vorerfahrung brauche ich?',
+          answer: 'Den abgeschlossenen Grundkurs „Ausdruckstanz – frei & verbunden" oder vergleichbare Erfahrung im freien Tanz. Bei Unsicherheit kontaktiere Sarah für eine kurze Einschätzung.',
+        },
+        {
+          question: 'Was sind die Studio-Abende?',
+          answer: 'Zweimal pro Semester teilt die Gruppe Work-in-Progress-Stücke in einem informellen Rahmen. Die Teilnahme ist freiwillig, aber empfohlen.',
+        },
+        {
+          question: 'Kann ich eine Stunde verpassen?',
+          answer: 'Der Kurs läuft in Semestern. Gelegentliches Fehlen ist kein Problem, aber Kontinuität ist wichtig für die Tiefe der Arbeit. Nachholterminen können individuell vereinbart werden.',
+        },
+      ],
     },
   },
 
@@ -187,6 +337,80 @@ const DETAIL_CONTENT = {
       includes: ['Tanzraum & Musik', 'Erste Schnupperstunde gratis', 'Kleine Abschlussvorführung im Semester'],
       notice: 'Eltern können bei der ersten Stunde zuschauen.',
     },
+    courseFlow: {
+      headline: 'Eine Stunde bei den Tanzmäusen',
+      intro: 'Jede Stunde ist ein kleines Abenteuer – genug Struktur, damit sich die Kinder sicher fühlen, und genug Offenheit für ihre Fantasie.',
+      steps: [
+        {
+          phase: 'Begrüßungskreis',
+          duration: '5 Min.',
+          icon: 'heart',
+          description: 'Wir versammeln uns im Kreis, begrüßen uns und finden heraus, welches Tier oder Thema wir heute erkunden.',
+        },
+        {
+          phase: 'Aufwärmspiel',
+          duration: '10 Min.',
+          icon: 'sparkle',
+          description: 'Ein spielerisches Bewegungsspiel, um die Körper in Schwung zu bringen – oft ein Favorit aus der Vorwoche.',
+        },
+        {
+          phase: 'Tanzgeschichte',
+          duration: '15 Min.',
+          icon: 'music',
+          description: 'Wir bewegen uns durch eine Geschichte – die Kinder sind die Figuren und ihre Körper erzählen die Handlung.',
+        },
+        {
+          phase: 'Kreatives Spielen',
+          duration: '10 Min.',
+          icon: 'improvisation',
+          description: 'Freies Erkunden mit Requisiten, Bändern oder Schlaginstrumenten.',
+        },
+        {
+          phase: 'Cool-Down',
+          duration: '5 Min.',
+          icon: 'heart',
+          description: 'Ein ruhiges Abschlussritual – Dehnen, Atmen und ein sanftes Abschiedslied.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Eltern erzählen',
+      testimonials: [
+        {
+          text: 'Meine Tochter fragt jede Woche, ob Tanzmäuse-Tag ist. Sie kommt strahlend nach Hause. Sarah ist unglaublich warm und geduldig mit den Kleinen.',
+          authorName: 'Lisa M.',
+          authorRole: 'Mama einer 5-Jährigen',
+          rating: 5,
+        },
+        {
+          text: 'Wir haben schon nach einem Semester eine deutliche Verbesserung in Koordination und Selbstvertrauen gesehen. Sehr empfehlenswert.',
+          authorName: 'Stefan K.',
+          authorRole: 'Papa eines 4-Jährigen',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zu den Tanzmäusen',
+      items: [
+        {
+          question: 'Können Eltern zuschauen?',
+          answer: 'Bei der ersten Stunde sind Eltern herzlich willkommen. Ab der zweiten Stunde haben wir die Erfahrung gemacht, dass Kinder sich schneller einleben und besser konzentrieren, wenn die Eltern draußen warten. Ihr seid aber telefonisch immer erreichbar.',
+        },
+        {
+          question: 'Was muss mein Kind mitbringen?',
+          answer: 'Bequeme, dehnbare Kleidung und nackte Füße oder Tanzsocken. Keine spezielle Tanzkleidung nötig. Eine kleine Wasserflasche wird empfohlen.',
+        },
+        {
+          question: 'Gibt es eine Schnupperstunde?',
+          answer: 'Ja – die erste Stunde ist kostenlos. Einfach über das Formular buchen oder uns direkt kontaktieren.',
+        },
+        {
+          question: 'Mein Kind ist schüchtern. Geht das trotzdem?',
+          answer: 'Absolut. Sarah hat jahrelange Erfahrung mit Kindern, die etwas mehr Zeit zum Auftauen brauchen. Es gibt keinen Druck, sofort mitzumachen – Kinder finden ihren Weg in ihrem eigenen Tempo.',
+        },
+      ],
+    },
   },
 
   tanzfuechse: {
@@ -239,6 +463,76 @@ const DETAIL_CONTENT = {
       includes: ['Tanzraum & Musik', 'Semesterabschluss-Aufführung', 'Tanzskript & Choreografie-Notizen'],
       notice: 'Erste Schnupperstunde auf Anfrage möglich.',
     },
+    courseFlow: {
+      headline: 'Eine Stunde bei den Tanzfüchsen',
+      intro: 'Mehr Struktur als bei den Tanzmäusen, aber immer noch voller Spaß – die Tanzfüchse balancieren Lernen und Spiel.',
+      steps: [
+        {
+          phase: 'Energiser',
+          duration: '10 Min.',
+          icon: 'sparkle',
+          description: 'Ein aktives Aufwärmspiel, um den Körper und den Teamgeist zu wecken.',
+        },
+        {
+          phase: 'Technik',
+          duration: '15 Min.',
+          icon: 'bar-chart',
+          description: 'Wir arbeiten an einem bestimmten Skill: ein Sprung, eine Drehung, ein Schrittmuster oder eine Rhythmus-Challenge.',
+        },
+        {
+          phase: 'Choreografie',
+          duration: '20 Min.',
+          icon: 'music',
+          description: 'Schritt für Schritt bauen wir das Semester-Stück auf. Alle bringen Ideen ein.',
+        },
+        {
+          phase: 'Impro-Runde',
+          duration: '10 Min.',
+          icon: 'improvisation',
+          description: 'Freie Bewegungszeit, um das Gelernte auf eigene Art auszuprobieren.',
+        },
+        {
+          phase: 'Cool-Down',
+          duration: '5 Min.',
+          icon: 'heart',
+          description: 'Dehnen, eine Reflexionsfrage und ein Team-High-Five zum Abschluss.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Das sagen Familien',
+      testimonials: [
+        {
+          text: 'Mein Sohn stand nie auf Tanzen, aber ein Freund hat ihn mitgeschleppt. Sechs Monate später erinnert er uns an den Kurs. Die Gruppenenergie ist unglaublich.',
+          authorName: 'Petra V.',
+          authorRole: 'Mama eines 9-Jährigen',
+          rating: 5,
+        },
+        {
+          text: 'Die Aufführung am Semesterende war großartig. Die Kinder waren so stolz. Sarah holt wirklich das Beste aus ihnen heraus.',
+          authorName: 'Michael B.',
+          authorRole: 'Papa eines 7-Jährigen',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zu den Tanzfüchsen',
+      items: [
+        {
+          question: 'Mein Kind hat keine Erfahrung – geht das?',
+          answer: 'Absolut. Wir heißen Anfänger willkommen. Kinder, die bei den Tanzmäusen waren, haben einen kleinen Vorsprung, aber Quereinsteiger holen schnell auf.',
+        },
+        {
+          question: 'Was ist die Semesteraufführung?',
+          answer: 'Am Ende jedes Semesters führen die Tanzfüchse ihre Choreografie für Familie und Freunde im Studio auf. Es ist ein informelles, festliches Event – kein Wettbewerb.',
+        },
+        {
+          question: 'Kann mein Kind mitten im Semester einsteigen?',
+          answer: 'Wir empfehlen den Einstieg zu Semesterbeginn, da die Choreografie aufbauend ist. Ausnahmen sind möglich – kontaktiere uns, um das zu besprechen.',
+        },
+      ],
+    },
   },
 
   schnupperkurs: {
@@ -289,6 +583,69 @@ const DETAIL_CONTENT = {
       priceNote: 'Einmalig – kein Abo',
       includes: ['Einblick in mehrere Tanzstile', 'Persönliche Kursberatung', 'Wasser & Tee'],
       notice: 'Komm wie du bist – bequeme Kleidung reicht! Keine Tanzklamotten nötig.',
+    },
+    courseFlow: {
+      headline: 'Was passiert in der Schnupperstunde',
+      steps: [
+        {
+          phase: 'Willkommen',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Sarah stellt sich und das Studio vor. Alle teilen, was sie hergeführt hat – oder hören einfach zu.',
+        },
+        {
+          phase: 'Einfaches Warm-Up',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Sanfte Bewegung, zugänglich für alle Körper und alle Altersgruppen. Keine Erfahrung nötig.',
+        },
+        {
+          phase: 'Stil-Kostproben',
+          duration: '25 Min.',
+          icon: 'music',
+          description: 'Wir probieren 2–3 verschiedene Stile: etwas Ausdruckstanz, Rhythmusarbeit und einen Hauch von Partnertanz.',
+        },
+        {
+          phase: 'Q&A & Kursempfehlung',
+          duration: '10 Min.',
+          icon: 'info',
+          description: 'Sarah beantwortet Fragen und hilft jedem Teilnehmer, den passenden Kurs für Interessen und Verfügbarkeit zu finden.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Erste Eindrücke',
+      testimonials: [
+        {
+          text: 'Ich wäre fast nicht gegangen, weil ich Angst hatte, mich lächerlich zu machen. Nach zehn Minuten hatte ich komplett vergessen, dass diese Angst existiert. Eine tolle Stunde.',
+          authorName: 'Renate F.',
+          authorRole: 'Teilnehmerin',
+          rating: 5,
+        },
+        {
+          text: 'War mit meiner 70-jährigen Mutter dort. Wir haben es beide geliebt und uns danach beide für verschiedene reguläre Kurse angemeldet.',
+          authorName: 'Claudia H.',
+          authorRole: 'Teilnehmerin',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zur Schnupperstunde',
+      items: [
+        {
+          question: 'Muss ich danach einen regulären Kurs buchen?',
+          answer: 'Absolut nicht. Die Schnupperstunde ist ein eigenständiges Erlebnis. Wenn du dich in den Tanz verliebst und weitermachen möchtest, super – aber es gibt keinen Druck.',
+        },
+        {
+          question: 'Ist die Stunde wirklich für alle Altersgruppen?',
+          answer: 'Ja. Wir hatten schon Teilnehmer von 6 bis 78 Jahren in derselben Stunde. Sarah passt jede Übung an, damit jeder bequem mitmachen kann.',
+        },
+        {
+          question: 'Was soll ich anziehen?',
+          answer: 'Alles Bequeme, worin du dich bewegen kannst. Normale Sportkleidung ist perfekt. Keine spezielle Ausrüstung nötig.',
+        },
+      ],
     },
   },
 
@@ -359,6 +716,80 @@ const DETAIL_CONTENT = {
       notice:
         'Bei Fragen zur Barrierefreiheit oder besonderen Bedürfnissen kontaktiere uns gerne vorab – wir planen gemeinsam, wie wir es für dich möglich machen.',
     },
+    courseFlow: {
+      headline: 'So läuft eine Stunde ab',
+      intro: 'Wir bewegen uns im Tempo der Gruppe. Jede Stunde wird geprägt von denen, die im Raum sind.',
+      steps: [
+        {
+          phase: 'Ankommen & Check-In',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Wir kommen im Kreis zusammen. Jeder wird begrüßt und kann teilen, wie es ihm heute geht – in Worten, Bewegung oder einfach einer Geste.',
+        },
+        {
+          phase: 'Aufwärmen',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Sanfte Bewegung für den ganzen Körper. Alle Übungen können im Sitzen, Stehen oder im Rollstuhl gemacht werden.',
+        },
+        {
+          phase: 'Gemeinsam tanzen',
+          duration: '25 Min.',
+          icon: 'users',
+          description: 'Gruppen- und Partnerbewegung, Energie im Kreis weitergeben, kreative Antworten auf Musik.',
+        },
+        {
+          phase: 'Freier Ausdruck',
+          duration: '5 Min.',
+          icon: 'improvisation',
+          description: 'Jeder bewegt sich auf seine eigene Art zu einem selbst gewählten Musikstück.',
+        },
+        {
+          phase: 'Abschlusskreis',
+          duration: '5 Min.',
+          icon: 'heart',
+          description: 'Wir schließen die Stunde gemeinsam – ein geteilter Moment der Stille und Wertschätzung.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Erfahrungen von Teilnehmenden',
+      testimonials: [
+        {
+          text: 'Zum ersten Mal hatte ich das Gefühl, dass der Rollstuhl nichts war, worum man herumarbeiten muss – er war einfach Teil meines Tanzes. Eine wirklich transformative Erfahrung.',
+          authorName: 'Marco D.',
+          authorRole: 'Rollstuhlfahrer, Teilnehmer seit 2022',
+          rating: 5,
+        },
+        {
+          text: 'Ich begleite meinen Bruder mit Down-Syndrom. Er blüht in diesem Kurs auf. Sarah ist außergewöhnlich – sie sieht jeden Menschen.',
+          authorName: 'Susanne T.',
+          authorRole: 'Geschwister und Teilnehmerin',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zum inklusiven Tanz',
+      items: [
+        {
+          question: 'Ist das Studio barrierefrei?',
+          answer: 'Ja. Das Studio hat stufenfreien Zugang, eine barrierefreie Toilette und breite Türen. Bitte kontaktiere uns bei speziellen Barrierefreiheitsanforderungen, damit wir entsprechend planen können.',
+        },
+        {
+          question: 'Kann meine Betreuungsperson oder Assistenz dabei sein?',
+          answer: 'Ja, und kostenfrei. Assistenzen sind während der gesamten Stunde im Raum willkommen.',
+        },
+        {
+          question: 'Mein Familienmitglied hat noch nie getanzt – geht das?',
+          answer: 'Dieser Kurs ist speziell für Menschen ohne Tanzerfahrung konzipiert. Die einzige Voraussetzung ist die Bereitschaft, im Raum zu sein.',
+        },
+        {
+          question: 'Gibt es Ermäßigungen?',
+          answer: 'Ermäßigte Teilnahmegebühren sind möglich – kontaktiere uns, um deine Situation zu besprechen. Wir möchten nicht, dass finanzielle Hürden jemanden von der Teilnahme abhalten.',
+        },
+      ],
+    },
   },
 
   rollstuhltanz: {
@@ -427,6 +858,75 @@ const DETAIL_CONTENT = {
       notice:
         'Eigener Rollstuhl oder Leih-Rollstuhl verfügbar – bitte bei Anmeldung angeben.',
     },
+    courseFlow: {
+      headline: 'So läuft eine Stunde ab',
+      steps: [
+        {
+          phase: 'Warm-Up im Rollstuhl',
+          duration: '15 Min.',
+          icon: 'wheelchair',
+          description: 'Oberkörper-Mobilisation, Core-Aktivierung und Erkunden des Bewegungsradius des Rollstuhls.',
+        },
+        {
+          phase: 'Technik',
+          duration: '20 Min.',
+          icon: 'bar-chart',
+          description: 'Drehungen, Richtungswechsel, Gewichtsverlagerungen und Rollstuhl-Dynamik – das Vokabular des Rollstuhltanzes.',
+        },
+        {
+          phase: 'Partnerarbeit',
+          duration: '15 Min.',
+          icon: 'users',
+          description: 'Rollstuhltänzer und Fußgänger-Partner erkunden gemeinsam Verbindung, Führen und Folgen.',
+        },
+        {
+          phase: 'Choreografie',
+          duration: '15 Min.',
+          icon: 'music',
+          description: 'Wir bauen gemeinsam eine kurze Phrase – wechselnd durch verschiedene Musikstile.',
+        },
+        {
+          phase: 'Cool-Down',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Stretching und Atemarbeit. Wir schließen mit einer kurzen Reflexion der Stunde.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Das erleben Teilnehmende',
+      testimonials: [
+        {
+          text: 'Ich benutze seit zwölf Jahren einen Rollstuhl und hätte nie an Tanz gedacht. Jetzt kann ich mir meine Woche ohne diesen Kurs nicht mehr vorstellen.',
+          authorName: 'Eva R.',
+          authorRole: 'Rollstuhlfahrerin, Teilnehmerin',
+          rating: 5,
+        },
+        {
+          text: 'Ich kam als Tanzpartner für meine Frau. Am Ende habe ich etwas völlig Unerwartetes entdeckt – wie viel ich von ihrer Bewegung lernen konnte.',
+          authorName: 'Georg N.',
+          authorRole: 'Fußgänger-Tanzpartner',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zum Rollstuhltanz',
+      items: [
+        {
+          question: 'Brauche ich meinen eigenen Rollstuhl?',
+          answer: 'Nein. Leih-Rollstühle sind vorhanden. Bitte gib bei der Buchung an, ob du einen brauchst, damit wir ihn für dich bereitstellen können.',
+        },
+        {
+          question: 'Können auch Fußgänger teilnehmen?',
+          answer: 'Ja – als Tanzpartner. Der Kurs braucht aktiv sowohl Rollstuhlfahrer als auch Fußgänger-Teilnehmer. Partnerkombinationen können flexibel gestaltet werden.',
+        },
+        {
+          question: 'Ist ein bestimmtes Fitnesslevel nötig?',
+          answer: 'Kein spezielles Fitnesslevel erforderlich. Das Warm-Up passt sich der individuellen Kapazität an. Bitte informiere Sarah bei der Anmeldung über eventuelle gesundheitliche Einschränkungen.',
+        },
+      ],
+    },
   },
 
   mamaTanzt: {
@@ -478,6 +978,76 @@ const DETAIL_CONTENT = {
       priceNote: 'pro Einheit',
       includes: ['75 Min. Tanz & Bewegung', 'Wasser & Tee', 'Raum zum Austausch'],
       notice: 'Kinderbetreuung vor Ort auf Anfrage zubuchbar. Babys im Kinderwagen jederzeit willkommen.',
+    },
+    courseFlow: {
+      headline: 'Deine Stunde',
+      intro: 'Fünfundsiebzig Minuten ganz für dich. Keine Agenda, keine Ziele – nur Bewegung.',
+      steps: [
+        {
+          phase: 'Ankommen',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Den Tag ausatmen. Wir beginnen mit einem sanften Body-Scan und erlauben uns, ganz anzukommen.',
+        },
+        {
+          phase: 'Energetisches Warm-Up',
+          duration: '15 Min.',
+          icon: 'sparkle',
+          description: 'Dynamische Sequenzen, um Energie zu heben. Angepasst an alle Phasen der Rückbildung.',
+        },
+        {
+          phase: 'Tanz',
+          duration: '30 Min.',
+          icon: 'music',
+          description: 'Freie und geführte Bewegung zu einer kuratierten Playlist. Mal mehr strukturiert, mal reine Improvisation.',
+        },
+        {
+          phase: 'Stille',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Sanfte Bodenarbeit und Entspannung. Das ist der Teil, den viele Teilnehmerinnen am meisten schätzen.',
+        },
+        {
+          phase: 'Verbindung',
+          duration: '10 Min.',
+          icon: 'users',
+          description: 'Optional – Austausch bei Tee mit anderen Müttern. Sarah bleibt für Fragen da.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Mütter erzählen',
+      testimonials: [
+        {
+          text: 'Ich hatte vergessen, wie es sich anfühlt, in meinem eigenen Körper zu sein. Dieser Kurs gibt mir mich selbst zurück, einmal die Woche. Ich hüte diese Stunde wie einen Schatz.',
+          authorName: 'Sarah B.',
+          authorRole: 'Mutter von zwei Kindern',
+          rating: 5,
+        },
+        {
+          text: 'Ich hatte einen Workout-Kurs erwartet. Was ich gefunden habe, war eine kleine Gemeinschaft von Frauen, die sich verstehen. Das Tanzen ist wunderbar, aber das Gefühl, nicht allein zu sein, ist genauso wichtig.',
+          authorName: 'Jana P.',
+          authorRole: 'Junge Mutter, Teilnehmerin',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zu Mama tanzt',
+      items: [
+        {
+          question: 'Kann ich mein Baby mitbringen?',
+          answer: 'Schlafende Babys im Kinderwagen sind im Raum immer willkommen. Für ältere Babys, die aktive Betreuung brauchen, kann Kinderbetreuung vor Ort gebucht werden – kontaktiere uns vorab.',
+        },
+        {
+          question: 'Bin ich nach der Geburt schon fit genug?',
+          answer: 'Bitte kläre das mit deiner Hebamme oder Ärztin. Sarah hat eine Ausbildung in rückbildungsfreundlicher Bewegung und bietet immer Alternativen an. Im Zweifel sprich sie vor deiner ersten Stunde an.',
+        },
+        {
+          question: 'Muss ich mich für ein Semester anmelden?',
+          answer: 'Nein. Dieser Kurs ist bewusst flexibel – keine Semesterbindung. Buche einzelne Stunden, wie es dein Zeitplan erlaubt.',
+        },
+      ],
     },
   },
 
@@ -531,6 +1101,76 @@ const DETAIL_CONTENT = {
       priceNote: 'pro Einheit',
       includes: ['Wickelmöglichkeit vor Ort', 'Krabbelmatten & Hilfsmittel', 'Wasser & Tee für Mama'],
       notice: 'Stillen und Wickeln jederzeit möglich – Baby und Mama kommen so wie sie sind.',
+    },
+    courseFlow: {
+      headline: 'Eine Stunde zusammen',
+      intro: 'Sechzig Minuten Nähe, Bewegung und Musik für dich und dein Baby.',
+      steps: [
+        {
+          phase: 'Ankommen & Einrichten',
+          duration: '10 Min.',
+          icon: 'heart',
+          description: 'Wir kommen an, stillen bei Bedarf, wickeln bei Bedarf. Es gibt keine Eile. Wir beginnen, wenn alle bereit sind.',
+        },
+        {
+          phase: 'Mama Warm-Up',
+          duration: '10 Min.',
+          icon: 'sparkle',
+          description: 'Sanfte, rückbildungsfreundliche Bewegung für die Mutter, während die Babys auf der Matte liegen oder im Arm sind.',
+        },
+        {
+          phase: 'Gemeinsame Zeit',
+          duration: '25 Min.',
+          icon: 'music',
+          description: 'Wir tanzen mit unseren Babys – tragen, wiegen, schaukeln. Bewegungslieder, sanftes Heben, Bodenspiel.',
+        },
+        {
+          phase: 'Baby-Spielzeit',
+          duration: '10 Min.',
+          icon: 'users',
+          description: 'Die Babys erkunden selbstständig auf der Matte, während die Mütter sich dehnen und atmen.',
+        },
+        {
+          phase: 'Schlaflied-Abschluss',
+          duration: '5 Min.',
+          icon: 'heart',
+          description: 'Wir schließen jede Stunde mit dem gleichen sanften Lied. Babys beginnen, es als Zeichen für Ruhe zu erkennen.',
+        },
+      ],
+    },
+    socialProof: {
+      headline: 'Aus unseren Mama-Baby-Familien',
+      testimonials: [
+        {
+          text: 'Meine Tochter war vier Monate alt und ich war verzweifelt, die Wohnung zu verlassen, aber hatte Angst vor formellen Kursen. Das hier war perfekt – kein Urteil, keine Stille, kein Druck. Nur Wärme.',
+          authorName: 'Melanie K.',
+          authorRole: 'Erstmals-Mama',
+          rating: 5,
+        },
+        {
+          text: 'Mein Sohn ist jetzt ein Kleinkind und ich vermisse diese Stunden immer noch. Die Bindungen, die ich mit anderen Müttern in diesem Kurs aufgebaut habe, halten seit Jahren.',
+          authorName: 'Nicole W.',
+          authorRole: 'Ehemalige Teilnehmerin',
+          rating: 5,
+        },
+      ],
+    },
+    faq: {
+      headline: 'Fragen zu Mama & Baby Tanz',
+      items: [
+        {
+          question: 'Mein Baby ist sehr unruhig – stört das?',
+          answer: 'Überhaupt nicht. Weinen, Stillen und Quengeln sind völlig normal und erwartet. Jedes Baby im Raum lebt in der gleichen Welt. Sarah strukturiert die Stunde so, dass sie mit den natürlichen Rhythmen der Babys arbeitet.',
+        },
+        {
+          question: 'Ab welchem Alter kann mein Baby mitmachen?',
+          answer: 'Ab 3 Monaten. Wir empfehlen, zu warten, bis dein Baby eine gute Kopfkontrolle hat. Die Obergrenze liegt bei etwa 12 Monaten, oder wenn dein Baby selbstständig läuft.',
+        },
+        {
+          question: 'Brauche ich Tanzerfahrung?',
+          answer: 'Keinerlei. Die Bewegung ist einfach, intuitiv und für Körper konzipiert, die sich noch von der Geburt erholen.',
+        },
+      ],
     },
   },
 };

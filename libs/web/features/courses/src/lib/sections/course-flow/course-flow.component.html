@@ -1,0 +1,44 @@
+<section class="course-flow" aria-label="Session structure">
+  <div class="course-flow__container">
+
+    <h2 class="course-flow__headline">{{ headline }}</h2>
+
+    @if (intro) {
+      <p class="course-flow__intro">{{ intro }}</p>
+    }
+
+    @if (hasSteps) {
+      <ol class="course-flow__steps" role="list">
+        @for (step of steps; track step.phase; let i = $index) {
+          <li class="course-flow__step">
+
+            <!-- Number + connecting line -->
+            <div class="course-flow__step-marker" aria-hidden="true">
+              <span class="course-flow__step-number">{{ i + 1 }}</span>
+              <div class="course-flow__step-line"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="course-flow__step-content">
+              <div class="course-flow__step-header">
+                @if (step.icon) {
+                  <app-icon
+                    [name]="$any(step.icon)"
+                    size="sm"
+                    color="text-secondary"
+                    aria-hidden="true"
+                  />
+                }
+                <span class="course-flow__step-phase">{{ step.phase }}</span>
+                <span class="course-flow__step-duration">{{ step.duration }}</span>
+              </div>
+              <p class="course-flow__step-description">{{ step.description }}</p>
+            </div>
+
+          </li>
+        }
+      </ol>
+    }
+
+  </div>
+</section>

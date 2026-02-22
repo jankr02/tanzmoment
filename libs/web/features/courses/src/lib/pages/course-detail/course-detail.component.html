@@ -64,11 +64,45 @@
       [content]="detailContent().description"
     />
 
-    <!-- 4. Instructor (Trust) -->
-    @if (instructor(); as instr) {
+    <!-- 4. Course Flow (Interest + Clarity) -->
+    @if (detailContent().courseFlow?.steps?.length) {
+      <!-- Wave Divider: Description → Course Flow -->
+      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--color-surface)"
+          />
+        </svg>
+      </div>
 
-      <!-- Wave Divider: Description → Instructor -->
-      <!-- bg = detail-bg (instructor), fill = color-surface (description) -->
+      <app-course-flow
+        [course]="c"
+        [content]="detailContent().courseFlow"
+      />
+    }
+
+    <!-- 5. Testimonials (Social Proof) -->
+    @if (detailContent().socialProof?.testimonials?.length) {
+      <!-- Wave Divider: previous → Testimonials -->
+      <div class="course-detail__wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--detail-wave-fill)"
+          />
+        </svg>
+      </div>
+
+      <app-testimonials-section
+        [course]="c"
+        [content]="detailContent().socialProof"
+      />
+    }
+
+    <!-- 6. Instructor (Trust) -->
+    @if (instructor(); as instr) {
+      <!-- Wave Divider: previous → Instructor -->
       <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
@@ -84,7 +118,6 @@
       />
 
       <!-- Wave Divider: Instructor → Schedule -->
-      <!-- bg = detail-bg (instructor), fill = color-surface (schedule) -->
       <div class="course-detail__wave course-detail__wave--inverted" style="background: var(--detail-bg)" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
@@ -93,10 +126,9 @@
           />
         </svg>
       </div>
-
     }
 
-    <!-- 5. Schedule & Availability (Decision) -->
+    <!-- 7. Schedule & Availability (Decision) -->
     <section id="schedule-section">
       <app-schedule-section
         [sessions]="sessions()"
@@ -106,7 +138,25 @@
       />
     </section>
 
-    <!-- 6. Sticky Booking Bar (permanent CTA) -->
+    <!-- 8. FAQ (Objection Removal) -->
+    @if (detailContent().faq?.items?.length) {
+      <!-- Wave Divider: Schedule → FAQ -->
+      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--color-surface)"
+          />
+        </svg>
+      </div>
+
+      <app-faq-section
+        [course]="c"
+        [content]="detailContent().faq"
+      />
+    }
+
+    <!-- 9. Sticky Booking Bar (permanent CTA) -->
     <app-sticky-booking-bar
       [course]="c"
       [content]="detailContent().booking"

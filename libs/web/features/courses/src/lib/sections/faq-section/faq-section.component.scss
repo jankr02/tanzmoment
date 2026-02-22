@@ -1,0 +1,170 @@
+// ============================================================================
+// FAQ SECTION STYLES
+// ============================================================================
+// Accordion with CSS grid-template-rows animation.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.faq-section {
+  background: var(--detail-bg);
+  padding: var(--space-12) 0;
+
+  // Extend themed background into sticky-bar spacing area
+  // to prevent white gap between FAQ and footer
+  padding-bottom: calc(var(--space-12) + 80px);
+  margin-bottom: -80px;
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0;
+    padding-bottom: calc(var(--space-8) + 70px);
+    margin-bottom: -70px;
+  }
+
+  // ─── Container ──────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
+  }
+
+  // ─── Headline ───────────────────────────────────────────────────────────
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--detail-text);
+    margin: 0 0 var(--space-8);
+    line-height: 1.2;
+  }
+
+  // ─── List ───────────────────────────────────────────────────────────────
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  // ─── Item ───────────────────────────────────────────────────────────────
+
+  &__item {
+    background: var(--color-surface);
+    border: 1px solid var(--detail-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+
+    &--open {
+      border-color: var(--detail-accent);
+    }
+  }
+
+  // ─── Question (Trigger) ─────────────────────────────────────────────────
+
+  &__question {
+    margin: 0;
+  }
+
+  &__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    min-height: 44px;
+
+    &:focus-visible {
+      outline: 2px solid var(--detail-accent);
+      outline-offset: -2px;
+      border-radius: var(--radius-md);
+    }
+
+    &:hover .faq-section__question-text {
+      color: var(--detail-text);
+    }
+  }
+
+  &__question-text {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-body);
+    color: var(--detail-text-secondary);
+    line-height: 1.5;
+    transition: color 0.15s ease;
+
+    .faq-section__item--open & {
+      color: var(--detail-text);
+    }
+  }
+
+  // ─── Answer (Panel) ─────────────────────────────────────────────────────
+
+  &__answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(.2, .7, .2, 1);
+    margin: 0;
+    padding: 0;
+
+    &--visible {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__answer-body {
+    overflow: hidden;
+    padding: 0 var(--space-5);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--detail-text-secondary);
+    line-height: 1.75;
+
+    .faq-section__answer--visible & {
+      padding-bottom: var(--space-5);
+    }
+
+    p {
+      margin: 0 0 var(--space-3);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: var(--detail-text);
+    }
+  }
+}
+
+// ─── Reduced Motion ──────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-section {
+    &__answer {
+      transition: none;
+    }
+
+    &__item {
+      transition: none;
+    }
+
+    &__question-text {
+      transition: none;
+    }
+  }
+}

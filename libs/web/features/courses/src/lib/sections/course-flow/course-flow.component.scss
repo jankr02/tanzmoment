@@ -1,0 +1,155 @@
+// ============================================================================
+// COURSE FLOW SECTION STYLES
+// ============================================================================
+// Vertical timeline with numbered steps and connecting lines.
+// ============================================================================
+
+@use 'tokens' as *;
+
+.course-flow {
+  background: var(--detail-bg);
+  padding: var(--space-12) 0;
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) 0;
+  }
+
+  // ─── Container ──────────────────────────────────────────────────────────
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+
+    @media (max-width: 768px) {
+      padding: 0 var(--space-4);
+    }
+  }
+
+  // ─── Headline ───────────────────────────────────────────────────────────
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: var(--detail-text);
+    margin: 0 0 var(--space-4);
+    line-height: 1.2;
+  }
+
+  // ─── Intro ──────────────────────────────────────────────────────────────
+
+  &__intro {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--detail-text-secondary);
+    margin: 0 0 var(--space-8);
+    line-height: 1.7;
+  }
+
+  // ─── Steps List ─────────────────────────────────────────────────────────
+
+  &__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // ─── Step ───────────────────────────────────────────────────────────────
+
+  &__step {
+    display: flex;
+    gap: var(--space-5);
+    align-items: stretch;
+
+    &:last-child .course-flow__step-line {
+      display: none;
+    }
+
+    &:last-child .course-flow__step-content {
+      padding-bottom: 0;
+    }
+  }
+
+  // ─── Marker (Number + Line) ─────────────────────────────────────────────
+
+  &__step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 40px;
+  }
+
+  &__step-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--detail-accent);
+    color: var(--detail-text);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__step-line {
+    width: 2px;
+    flex: 1;
+    background: var(--detail-border);
+    margin: var(--space-2) 0;
+  }
+
+  // ─── Step Content ───────────────────────────────────────────────────────
+
+  &__step-content {
+    flex: 1;
+    padding-bottom: var(--space-8);
+    min-width: 0;
+
+    @media (max-width: 768px) {
+      padding-bottom: var(--space-6);
+    }
+  }
+
+  &__step-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  &__step-phase {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-body);
+    color: var(--detail-text);
+  }
+
+  &__step-duration {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--detail-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    color: var(--detail-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__step-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--detail-text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+}

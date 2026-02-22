@@ -1,0 +1,53 @@
+<section class="faq-section" aria-label="Frequently asked questions">
+  <div class="faq-section__container">
+
+    <h2 class="faq-section__headline">{{ headline }}</h2>
+
+    @if (hasItems) {
+      <dl class="faq-section__list">
+        @for (item of items; track item.question; let i = $index) {
+          <div
+            class="faq-section__item"
+            [class.faq-section__item--open]="openIndex() === i"
+          >
+            <!-- Question / Trigger -->
+            <dt class="faq-section__question">
+              <button
+                type="button"
+                class="faq-section__trigger"
+                [attr.id]="'faq-trigger-' + i"
+                [attr.aria-expanded]="openIndex() === i"
+                [attr.aria-controls]="'faq-answer-' + i"
+                (click)="toggle(i)"
+              >
+                <span class="faq-section__question-text">{{ item.question }}</span>
+                <app-icon
+                  [name]="openIndex() === i ? 'chevron-up' : 'chevron-down'"
+                  size="sm"
+                  color="text-secondary"
+                  aria-hidden="true"
+                />
+              </button>
+            </dt>
+
+            <!-- Answer / Panel -->
+            <dd
+              class="faq-section__answer"
+              [id]="'faq-answer-' + i"
+              role="region"
+              [attr.aria-labelledby]="'faq-trigger-' + i"
+              [class.faq-section__answer--visible]="openIndex() === i"
+            >
+              <div
+                class="faq-section__answer-body"
+                [innerHTML]="toHtml(item.answer)"
+              ></div>
+            </dd>
+
+          </div>
+        }
+      </dl>
+    }
+
+  </div>
+</section>

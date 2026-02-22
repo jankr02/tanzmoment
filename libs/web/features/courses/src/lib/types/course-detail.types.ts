@@ -15,6 +15,12 @@ import {
   CourseDetailInstructorContent,
   CourseDetailScheduleContent,
   CourseDetailBookingContent,
+  CourseDetailCourseFlowContent,
+  CourseFlowStep,
+  CourseDetailSocialProofContent,
+  Testimonial,
+  CourseDetailFaqContent,
+  FaqItem,
 } from '@tanzmoment/shared/types';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -195,4 +201,10 @@ export type {
   CourseDetailInstructorContent,
   CourseDetailScheduleContent,
   CourseDetailBookingContent,
+  CourseDetailCourseFlowContent,
+  CourseFlowStep,
+  CourseDetailSocialProofContent,
+  Testimonial,
+  CourseDetailFaqContent,
+  FaqItem,
 };

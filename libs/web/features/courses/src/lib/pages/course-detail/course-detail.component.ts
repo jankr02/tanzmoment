@@ -35,12 +35,15 @@ import {
   CourseDetailContent,
 } from '../../types/course-detail.types';
 
-// Sections (stub imports for now)
+// Sections
 import { DetailHeroComponent } from '../../sections/detail-hero/detail-hero.component';
 import { QuickFactsComponent } from '../../sections/quick-facts/quick-facts.component';
 import { CourseDescriptionComponent } from '../../sections/course-description/course-description.component';
+import { CourseFlowComponent } from '../../sections/course-flow/course-flow.component';
+import { TestimonialsSectionComponent } from '../../sections/testimonials-section/testimonials-section.component';
 import { InstructorSectionComponent } from '../../sections/instructor-section/instructor-section.component';
 import { ScheduleSectionComponent } from '../../sections/schedule-section/schedule-section.component';
+import { FaqSectionComponent } from '../../sections/faq-section/faq-section.component';
 import { StickyBookingBarComponent } from '../../sections/sticky-booking-bar/sticky-booking-bar.component';
 
 // Shared UI
@@ -55,8 +58,11 @@ import { ButtonComponent } from '@tanzmoment/shared/ui';
     DetailHeroComponent,
     QuickFactsComponent,
     CourseDescriptionComponent,
+    CourseFlowComponent,
+    TestimonialsSectionComponent,
     InstructorSectionComponent,
     ScheduleSectionComponent,
+    FaqSectionComponent,
     StickyBookingBarComponent,
   ],
   templateUrl: './course-detail.component.html',
