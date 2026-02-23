@@ -107,12 +107,12 @@ const FEW_SPOTS_THRESHOLD = 3;
  */
 export function deriveAvailabilityStatus(
   availableSpots: number,
-  waitlistCount: number,
+  waitlistEnabled: boolean,
   isCancelled: boolean
 ): AvailabilityStatus {
   if (isCancelled) return AvailabilityStatus.CANCELLED;
   if (availableSpots > FEW_SPOTS_THRESHOLD) return AvailabilityStatus.AVAILABLE;
   if (availableSpots > 0) return AvailabilityStatus.FEW_SPOTS;
-  if (waitlistCount >= 0) return AvailabilityStatus.WAITLIST_AVAILABLE;
+  if (waitlistEnabled) return AvailabilityStatus.WAITLIST_AVAILABLE;
   return AvailabilityStatus.FULL;
 }
