@@ -6,8 +6,17 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { WaitlistService } from '../waitlist/waitlist.service';
+import {
+  QUEUE_NAMES,
+  JOB_NAMES,
+  TIMING,
+  type SessionReminderJobData,
+} from '../queue';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { BookingQueryDto } from './dto/booking-query.dto';
 import {
@@ -28,22 +37,23 @@ type TransactionClient = Parameters<Parameters<PrismaService['$transaction']>[0]
 /**
  * Core booking business logic.
  *
- * Phase 2 scope:
- * - Create bookings (authenticated + guest)
- * - Cancel bookings (by owner or via token)
- * - List own bookings (authenticated)
- * - Check availability (public)
+ * Handles booking creation, cancellation, listing, and availability checks.
+ * Schedules BullMQ jobs for expiry (PENDING timeout) and session reminders.
  *
  * NOT in scope (later phases):
  * - Stripe payment integration (Phase 4)
- * - Waitlist promotion with payment links (Phase 3/5)
  * - Email notifications (Phase 7)
  */
 @Injectable()
 export class BookingsService {
   private readonly logger = new Logger(BookingsService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly waitlistService: WaitlistService,
+    @InjectQueue(QUEUE_NAMES.SESSION_REMINDER)
+    private readonly reminderQueue: Queue<SessionReminderJobData>,
+  ) {}
 
   // ===========================================================================
   // CREATE BOOKING
@@ -59,196 +69,233 @@ export class BookingsService {
     userId: string | null,
     dto: CreateBookingDto,
   ): Promise<CreateBookingResponseDto> {
-    return this.prisma.$transaction(
-      async (tx) => {
-        const course = await tx.course.findUnique({
-          where: { id: dto.courseId },
-          select: {
-            id: true,
-            title: true,
-            slug: true,
-            danceStyle: true,
-            imageUrl: true,
-            bookingMode: true,
-            maxParticipants: true,
-            priceInCents: true,
-            isFree: true,
-            status: true,
-            isPublished: true,
-          },
-        });
-
-        if (!course) {
-          throw new NotFoundException('Kurs nicht gefunden.');
-        }
-
-        if (!course.isPublished || course.status !== 'ACTIVE') {
-          throw new BadRequestException(
-            'Buchungen für diesen Kurs sind derzeit nicht möglich.',
-          );
-        }
-
-        // Validate session for SINGLE_SESSION mode
-        let session: {
-          id: string;
-          startTime: Date;
-          endTime: Date;
-          location: string;
-          status: string;
-        } | null = null;
-
-        if (course.bookingMode === 'SINGLE_SESSION') {
-          if (!dto.sessionId) {
-            throw new BadRequestException(
-              'Für diesen Kurs muss eine Session ausgewählt werden.',
-            );
-          }
-
-          session = await tx.session.findUnique({
-            where: { id: dto.sessionId },
+    const { response, rawBookingId, rawStatus, capturedSession, isFreeOrNoPrice } =
+      await this.prisma.$transaction(
+        async (tx) => {
+          const course = await tx.course.findUnique({
+            where: { id: dto.courseId },
             select: {
               id: true,
-              startTime: true,
-              endTime: true,
-              location: true,
+              title: true,
+              slug: true,
+              danceStyle: true,
+              imageUrl: true,
+              bookingMode: true,
+              maxParticipants: true,
+              priceInCents: true,
+              isFree: true,
               status: true,
+              isPublished: true,
             },
           });
 
-          if (!session) {
-            throw new NotFoundException('Termin nicht gefunden.');
+          if (!course) {
+            throw new NotFoundException('Kurs nicht gefunden.');
           }
 
-          if (session.status === 'CANCELLED') {
-            throw new BadRequestException('Dieser Termin wurde abgesagt.');
-          }
-
-          if (new Date(session.startTime) < new Date()) {
+          if (!course.isPublished || course.status !== 'ACTIVE') {
             throw new BadRequestException(
-              'Dieser Termin liegt in der Vergangenheit.',
+              'Buchungen für diesen Kurs sind derzeit nicht möglich.',
             );
           }
-        }
 
-        // Check for duplicate booking
-        const sessionIdForQuery =
-          course.bookingMode === 'SINGLE_SESSION' ? dto.sessionId ?? null : null;
+          let session: {
+            id: string;
+            startTime: Date;
+            endTime: Date;
+            location: string;
+            status: string;
+          } | null = null;
 
-        await this.validateNoDuplicate(
-          tx,
-          userId,
-          dto.guestEmail ?? null,
-          dto.courseId,
-          sessionIdForQuery,
-        );
+          if (course.bookingMode === 'SINGLE_SESSION') {
+            if (!dto.sessionId) {
+              throw new BadRequestException(
+                'Für diesen Kurs muss eine Session ausgewählt werden.',
+              );
+            }
 
-        // Check capacity
-        const confirmedCount = await this.countActiveBookings(
-          tx,
-          dto.courseId,
-          sessionIdForQuery,
-        );
-
-        const isFull = confirmedCount >= course.maxParticipants;
-
-        // Waitlist requires an account
-        if (isFull && !userId) {
-          throw new BadRequestException(
-            'Dieser Kurs ist leider ausgebucht. Erstelle ein Konto, um dich auf die Warteliste setzen zu lassen.',
-          );
-        }
-
-        // Create booking record
-        const bookingStatus = isFull ? 'WAITLISTED' : 'PENDING';
-        const waitlistPosition = isFull
-          ? await this.getNextWaitlistPosition(tx, dto.courseId, sessionIdForQuery)
-          : null;
-
-        const booking = await tx.booking.create({
-          data: {
-            userId,
-            courseId: dto.courseId,
-            sessionId:
-              course.bookingMode === 'SINGLE_SESSION' ? dto.sessionId : null,
-            status: bookingStatus,
-            waitlistPosition,
-            notes: dto.notes,
-            guestEmail: !userId ? dto.guestEmail : null,
-            guestFirstName: !userId ? dto.guestFirstName : null,
-            guestLastName: !userId ? dto.guestLastName : null,
-            guestPhone: !userId ? dto.guestPhone : null,
-          },
-          include: {
-            course: {
-              select: {
-                id: true,
-                title: true,
-                slug: true,
-                danceStyle: true,
-                imageUrl: true,
-              },
-            },
-            session: {
+            session = await tx.session.findUnique({
+              where: { id: dto.sessionId },
               select: {
                 id: true,
                 startTime: true,
                 endTime: true,
                 location: true,
+                status: true,
+              },
+            });
+
+            if (!session) {
+              throw new NotFoundException('Termin nicht gefunden.');
+            }
+
+            if (session.status === 'CANCELLED') {
+              throw new BadRequestException('Dieser Termin wurde abgesagt.');
+            }
+
+            if (new Date(session.startTime) < new Date()) {
+              throw new BadRequestException(
+                'Dieser Termin liegt in der Vergangenheit.',
+              );
+            }
+          }
+
+          const sessionIdForQuery =
+            course.bookingMode === 'SINGLE_SESSION' ? dto.sessionId ?? null : null;
+
+          await this.validateNoDuplicate(
+            tx,
+            userId,
+            dto.guestEmail ?? null,
+            dto.courseId,
+            sessionIdForQuery,
+          );
+
+          const confirmedCount = await this.countActiveBookings(
+            tx,
+            dto.courseId,
+            sessionIdForQuery,
+          );
+
+          const isFull = confirmedCount >= course.maxParticipants;
+
+          if (isFull && !userId) {
+            throw new BadRequestException(
+              'Dieser Kurs ist leider ausgebucht. Erstelle ein Konto, um dich auf die Warteliste setzen zu lassen.',
+            );
+          }
+
+          const bookingStatus = isFull ? 'WAITLISTED' : 'PENDING';
+          const waitlistPosition = isFull
+            ? await this.getNextWaitlistPosition(tx, dto.courseId, sessionIdForQuery)
+            : null;
+
+          const booking = await tx.booking.create({
+            data: {
+              userId,
+              courseId: dto.courseId,
+              sessionId:
+                course.bookingMode === 'SINGLE_SESSION' ? dto.sessionId : null,
+              status: bookingStatus,
+              waitlistPosition,
+              notes: dto.notes,
+              guestEmail: !userId ? dto.guestEmail : null,
+              guestFirstName: !userId ? dto.guestFirstName : null,
+              guestLastName: !userId ? dto.guestLastName : null,
+              guestPhone: !userId ? dto.guestPhone : null,
+            },
+            include: {
+              course: {
+                select: {
+                  id: true,
+                  title: true,
+                  slug: true,
+                  danceStyle: true,
+                  imageUrl: true,
+                },
+              },
+              session: {
+                select: {
+                  id: true,
+                  startTime: true,
+                  endTime: true,
+                  location: true,
+                },
               },
             },
-          },
-        });
-
-        // For free courses (not on waitlist): confirm immediately
-        if (!isFull && (course.isFree || course.priceInCents === 0)) {
-          await tx.booking.update({
-            where: { id: booking.id },
-            data: { status: 'CONFIRMED' },
           });
 
-          await tx.payment.create({
-            data: {
-              bookingId: booking.id,
-              userId,
-              amountInCents: 0,
-              currency: 'EUR',
-              method: 'FREE',
-              status: 'PAID',
-              paidAt: new Date(),
+          const isFree = course.isFree || course.priceInCents === 0;
+
+          if (!isFull && isFree) {
+            await tx.booking.update({
+              where: { id: booking.id },
+              data: { status: 'CONFIRMED' },
+            });
+
+            await tx.payment.create({
+              data: {
+                bookingId: booking.id,
+                userId,
+                amountInCents: 0,
+                currency: 'EUR',
+                method: 'FREE',
+                status: 'PAID',
+                paidAt: new Date(),
+              },
+            });
+
+            booking.status = 'CONFIRMED';
+          }
+
+          this.logger.log(
+            `Booking created: ${booking.id} (status: ${booking.status}, ` +
+              `course: ${course.title}, guest: ${!userId})`,
+          );
+
+          return {
+            response: {
+              booking: this.mapToResponseDto(booking),
+              checkoutUrl: null,
+              payment:
+                booking.status !== 'WAITLISTED' && isFree
+                  ? {
+                      id: 'free',
+                      amountInCents: 0,
+                      currency: 'EUR',
+                      status: 'paid',
+                    }
+                  : undefined,
             },
-          });
+            rawBookingId: booking.id,
+            rawStatus: booking.status,
+            capturedSession: session,
+            isFreeOrNoPrice: isFree,
+          };
+        },
+        {
+          // Serializable isolation prevents two users from booking the last spot
+          isolationLevel: 'Serializable',
+          timeout: 10000,
+        },
+      );
 
-          booking.status = 'CONFIRMED';
-        }
-
-        this.logger.log(
-          `Booking created: ${booking.id} (status: ${booking.status}, ` +
-            `course: ${course.title}, guest: ${!userId})`,
+    if (rawStatus === 'PENDING' && !isFreeOrNoPrice) {
+      this.waitlistService
+        .scheduleExpiry(rawBookingId, 'pending_timeout')
+        .catch((err) =>
+          this.logger.error(`Failed to schedule expiry for ${rawBookingId}`, err),
         );
+    }
 
-        const responseBooking = this.mapToResponseDto(booking);
+    if (rawStatus === 'CONFIRMED' && capturedSession) {
+      const delay = Math.max(
+        0,
+        capturedSession.startTime.getTime() - TIMING.REMINDER_BEFORE_MS - Date.now(),
+      );
 
-        return {
-          booking: responseBooking,
-          checkoutUrl: null,
-          payment:
-            booking.status !== 'WAITLISTED' &&
-            (course.isFree || course.priceInCents === 0)
-              ? {
-                  id: 'free',
-                  amountInCents: 0,
-                  currency: 'EUR',
-                  status: 'paid',
-                }
-              : undefined,
-        };
-      },
-      {
-        // Serializable isolation prevents two users from booking the last spot
-        isolationLevel: 'Serializable',
-        timeout: 10000,
-      },
-    );
+      if (delay > 0) {
+        this.reminderQueue
+          .add(
+            JOB_NAMES.SEND_REMINDER,
+            {
+              bookingId: rawBookingId,
+              sessionId: capturedSession.id,
+              userId,
+              guestEmail: dto.guestEmail ?? null,
+            },
+            { delay, jobId: `reminder-${rawBookingId}` },
+          )
+          .catch((err) =>
+            this.logger.error(
+              `Failed to schedule reminder for ${rawBookingId}`,
+              err,
+            ),
+          );
+      }
+    }
+
+    return response;
   }
 
   // ===========================================================================
@@ -377,6 +424,20 @@ export class BookingsService {
       `Booking cancelled: ${bookingId} (refund: ${refundPercentage}%, ` +
         `amount: ${refundAmountInCents} cents)`,
     );
+
+    // Promote the next person on the waitlist if a real spot was freed
+    await this.waitlistService
+      .triggerPromotion(booking.courseId, booking.sessionId)
+      .catch((err) =>
+        this.logger.error(`Failed to trigger promotion after cancel ${bookingId}`, err),
+      );
+
+    // Remove any pending expiry job (relevant when cancelling a PENDING booking)
+    await this.waitlistService
+      .cancelExpiry(bookingId)
+      .catch((err) =>
+        this.logger.error(`Failed to cancel expiry job for ${bookingId}`, err),
+      );
 
     const updated = await this.prisma.booking.findUniqueOrThrow({
       where: { id: bookingId },
