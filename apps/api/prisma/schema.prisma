@@ -64,6 +64,11 @@ model Instructor {
 // COURSE & SESSION
 // ============================================================================
 
+enum BookingMode {
+  FULL_COURSE
+  SINGLE_SESSION
+}
+
 model Course {
   id                    String           @id @default(cuid())
   title                 String
@@ -83,6 +88,11 @@ model Course {
   priceInCents          Int
   duration              Int
   imageUrl              String?
+
+  // Booking configuration
+  bookingMode           BookingMode      @default(FULL_COURSE)
+  isFree                Boolean          @default(false)
+  cancellationPolicy    Json?            @db.JsonB
 
   // CMS Detail Content (JSON)
   detailContent         Json?            @db.JsonB
@@ -104,6 +114,7 @@ model Course {
   updatedAt             DateTime         @updatedAt
 
   sessions              Session[]
+  bookings              Booking[]
 
   @@index([status])
   @@index([visibility])
@@ -168,11 +179,26 @@ enum CourseVisibility {
 model Booking {
   id                 String              @id @default(cuid())
 
-  userId             String
-  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Registered user OR guest – one of these must be set
+  userId             String?
+  user               User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  sessionId          String
-  session            Session             @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  // Guest data (only when userId is null)
+  guestEmail         String?
+  guestFirstName     String?
+  guestLastName      String?
+  guestPhone         String?
+
+  // Token-based cancellation for guests (no login required)
+  cancellationToken  String?             @unique @default(cuid())
+
+  // Course reference (always set)
+  courseId            String
+  course             Course              @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  // Session reference (only for SINGLE_SESSION booking mode)
+  sessionId          String?
+  session            Session?            @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   status             BookingStatus       @default(PENDING)
   waitlistPosition   Int?
@@ -185,8 +211,13 @@ model Booking {
 
   payment            Payment?
 
-  @@unique([userId, sessionId])
+  // Registered users: one booking per course/session combination
+  @@unique([userId, courseId, sessionId])
+  // Guests: one booking per email per course/session combination
+  @@unique([guestEmail, courseId, sessionId])
   @@index([userId])
+  @@index([guestEmail])
+  @@index([courseId])
   @@index([sessionId])
   @@index([status])
   @@map("bookings")
@@ -217,8 +248,8 @@ model Payment {
   bookingId             String         @unique
   booking               Booking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
-  userId                String
-  user                  User           @relation(fields: [userId], references: [id])
+  userId                String?
+  user                  User?          @relation(fields: [userId], references: [id])
 
   amountInCents         Int
   currency              Currency       @default(EUR)

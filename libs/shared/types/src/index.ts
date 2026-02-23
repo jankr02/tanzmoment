@@ -113,21 +113,59 @@ export {
 // =============================================================================
 export {
   // Enums
+  BookingMode,
   BookingStatus,
   CancellationReason,
   // Types
   type BookingStatusMeta,
   type Booking,
+  type GuestInfo,
   type CreateBookingRequest,
+  type CreateBookingResponse,
   type UpdateBookingRequest,
+  type CancelBookingRequest,
+  type CancelBookingResponse,
   // Constants
+  BOOKING_MODE_LABELS,
   BOOKING_STATUS_META,
   CANCELLATION_REASON_LABELS,
   // Helpers
   isBookingActive,
   isBookingCancellable,
+  requiresAccount,
   getAllowedStatusTransitions,
 } from './lib/booking.types';
+
+// =============================================================================
+// CANCELLATION POLICY
+// =============================================================================
+export {
+  // Types
+  type CancellationPolicy,
+  type RefundTier,
+  // Constants
+  DEFAULT_CANCELLATION_POLICY,
+  NO_CANCELLATION_POLICY,
+  FREE_CANCELLATION_POLICY,
+  // Helpers
+  resolveRefundPercentage,
+  getRefundInfo,
+  validateCancellationPolicy,
+} from './lib/cancellation-policy.types';
+
+// =============================================================================
+// AVAILABILITY
+// =============================================================================
+export {
+  // Enums
+  AvailabilityStatus,
+  // Types
+  type AvailabilityInfo,
+  // Constants
+  AVAILABILITY_STATUS_META,
+  // Helpers
+  deriveAvailabilityStatus,
+} from './lib/availability.types';
 
 // =============================================================================
 // PAYMENT
