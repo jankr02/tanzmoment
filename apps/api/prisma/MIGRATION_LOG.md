@@ -1,5 +1,32 @@
 # Tanzmoment – Migration Log
 
+## Migration: add_webhook_event_log_cleanup_payment_status
+
+**Datum:** 2026-02-25
+**Autor:** Jan
+**Abhängigkeit:** add_booking_mode_guest_checkout_cancellation_policy
+
+### Beschreibung
+
+1. **WebhookEvent-Tabelle:** Speichert verarbeitete Stripe Webhook-Events zur Deduplication
+2. **PaymentStatus-Cleanup:** `SUCCEEDED` entfernt (redundant mit `PAID`)
+
+### Schema-Änderungen
+
+| Model/Enum | Änderung | Beschreibung |
+|------------|----------|-------------|
+| WebhookEvent | + neues Model | Stripe Event-ID, Typ, Status, Error |
+| WebhookEventStatus | + neuer Enum | PROCESSED, FAILED, SKIPPED |
+| PaymentStatus | - `SUCCEEDED` | Redundant, Stripe `succeeded` → `PAID` |
+
+### Rollback
+
+```sql
+-- npx prisma migrate resolve --rolled-back add_webhook_event_log_cleanup_payment_status
+```
+
+---
+
 ## Migration: add_booking_mode_guest_checkout_cancellation_policy
 
 **Datum:** 2026-02-23

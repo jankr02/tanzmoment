@@ -277,7 +277,6 @@ model Payment {
 enum PaymentStatus {
   PENDING
   PROCESSING
-  SUCCEEDED
   PAID
   FAILED
   REFUNDED
@@ -299,4 +298,39 @@ enum PaymentMethod {
 enum Currency {
   EUR
   CHF
+}
+
+// ============================================================================
+// WEBHOOK EVENT LOG
+// ============================================================================
+
+model WebhookEvent {
+  id            String             @id @default(cuid())
+
+  /** Stripe event ID (e.g., evt_1234...) – used for deduplication */
+  stripeEventId String             @unique
+
+  /** Event type (e.g., checkout.session.completed) */
+  eventType     String
+
+  /** Processing status */
+  status        WebhookEventStatus @default(PROCESSED)
+
+  /** Error message if processing failed */
+  errorMessage  String?            @db.Text
+
+  /** Raw event payload for debugging */
+  payload       Json?              @db.JsonB
+
+  createdAt     DateTime           @default(now())
+
+  @@index([eventType])
+  @@index([createdAt])
+  @@map("webhook_events")
+}
+
+enum WebhookEventStatus {
+  PROCESSED
+  FAILED
+  SKIPPED
 }

@@ -33,6 +33,7 @@ import { QUEUE_NAMES } from './queue.constants';
       { name: QUEUE_NAMES.BOOKING_EXPIRY },
       { name: QUEUE_NAMES.WAITLIST_PROMOTION },
       { name: QUEUE_NAMES.SESSION_REMINDER },
+      { name: QUEUE_NAMES.MAINTENANCE },
     ),
   ],
   exports: [BullModule],

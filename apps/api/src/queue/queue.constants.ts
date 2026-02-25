@@ -6,6 +6,7 @@ export const QUEUE_NAMES = {
   BOOKING_EXPIRY: 'booking-expiry',
   WAITLIST_PROMOTION: 'waitlist-promotion',
   SESSION_REMINDER: 'session-reminder',
+  MAINTENANCE: 'maintenance',
 } as const;
 
 /**
@@ -16,6 +17,10 @@ export const JOB_NAMES = {
   EXPIRE_WAITLIST_PROMOTION: 'expire-waitlist-promotion',
   PROMOTE_NEXT: 'promote-next',
   SEND_REMINDER: 'send-reminder',
+
+  // maintenance queue
+  RECONCILE_PAYMENTS: 'reconcile-payments',
+  CLEANUP_WEBHOOK_EVENTS: 'cleanup-webhook-events',
 } as const;
 
 /**

@@ -18,3 +18,8 @@ export interface SessionReminderJobData {
   userId: string | null;
   guestEmail: string | null;
 }
+
+/** Empty payload for scheduled maintenance jobs */
+export interface MaintenanceJobData {
+  triggeredBy: 'cron' | 'manual';
+}

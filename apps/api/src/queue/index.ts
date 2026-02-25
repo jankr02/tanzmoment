@@ -3,5 +3,6 @@ export {
   type BookingExpiryJobData,
   type WaitlistPromotionJobData,
   type SessionReminderJobData,
+  type MaintenanceJobData,
 } from './queue.types';
 export { QueueModule } from './queue.module';

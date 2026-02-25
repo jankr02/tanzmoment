@@ -9,6 +9,7 @@ import { PaymentMethod } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { StripeService } from './stripe.service';
 import { WaitlistService } from '../waitlist/waitlist.service';
+import { WebhookEventLogService } from './webhook-event-log.service';
 
 /**
  * Processes Stripe webhook events and manages payment state.
@@ -24,6 +25,7 @@ export class PaymentsService {
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly waitlistService: WaitlistService,
+    private readonly webhookLog: WebhookEventLogService,
   ) {}
 
   // ===========================================================================
@@ -32,31 +34,53 @@ export class PaymentsService {
 
   /**
    * Route a verified Stripe event to the appropriate handler.
+   * Includes deduplication via WebhookEventLog.
    */
   async handleWebhookEvent(event: Stripe.Event): Promise<void> {
     this.logger.log(`Processing webhook: ${event.type} (${event.id})`);
 
-    switch (event.type) {
-      case 'checkout.session.completed':
-        await this.handleCheckoutCompleted(
-          event.data.object as Stripe.Checkout.Session,
-        );
-        break;
+    // Deduplication: skip if already processed
+    const { isDuplicate, logId } = await this.webhookLog.registerEvent(
+      event.id,
+      event.type,
+    );
 
-      case 'checkout.session.expired':
-        await this.handleCheckoutExpired(
-          event.data.object as Stripe.Checkout.Session,
-        );
-        break;
+    if (isDuplicate) {
+      this.logger.log(`Skipping duplicate event: ${event.id}`);
+      return;
+    }
 
-      case 'charge.refunded':
-        await this.handleChargeRefunded(
-          event.data.object as Stripe.Charge,
-        );
-        break;
+    try {
+      switch (event.type) {
+        case 'checkout.session.completed':
+          await this.handleCheckoutCompleted(
+            event.data.object as Stripe.Checkout.Session,
+          );
+          break;
 
-      default:
-        this.logger.log(`Unhandled event type: ${event.type}`);
+        case 'checkout.session.expired':
+          await this.handleCheckoutExpired(
+            event.data.object as Stripe.Checkout.Session,
+          );
+          break;
+
+        case 'charge.refunded':
+          await this.handleChargeRefunded(
+            event.data.object as Stripe.Charge,
+          );
+          break;
+
+        default:
+          this.logger.log(`Unhandled event type: ${event.type}`);
+      }
+    } catch (error) {
+      if (logId) {
+        await this.webhookLog.markFailed(
+          logId,
+          error instanceof Error ? error.message : String(error),
+        );
+      }
+      throw error;
     }
   }
 
