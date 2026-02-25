@@ -11,6 +11,8 @@ import { Queue } from 'bullmq';
 import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { WaitlistService } from '../waitlist/waitlist.service';
+import { StripeService } from '../payments/stripe.service';
+import { PaymentsService } from '../payments/payments.service';
 import {
   QUEUE_NAMES,
   JOB_NAMES,
@@ -39,10 +41,7 @@ type TransactionClient = Parameters<Parameters<PrismaService['$transaction']>[0]
  *
  * Handles booking creation, cancellation, listing, and availability checks.
  * Schedules BullMQ jobs for expiry (PENDING timeout) and session reminders.
- *
- * NOT in scope (later phases):
- * - Stripe payment integration (Phase 4)
- * - Email notifications (Phase 7)
+ * Integrates with Stripe for paid course checkout and refunds.
  */
 @Injectable()
 export class BookingsService {
@@ -51,6 +50,8 @@ export class BookingsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly waitlistService: WaitlistService,
+    private readonly stripeService: StripeService,
+    private readonly paymentsService: PaymentsService,
     @InjectQueue(QUEUE_NAMES.SESSION_REMINDER)
     private readonly reminderQueue: Queue<SessionReminderJobData>,
   ) {}
@@ -69,8 +70,17 @@ export class BookingsService {
     userId: string | null,
     dto: CreateBookingDto,
   ): Promise<CreateBookingResponseDto> {
-    const { response, rawBookingId, rawStatus, capturedSession, isFreeOrNoPrice } =
-      await this.prisma.$transaction(
+    const {
+      response,
+      rawBookingId,
+      rawStatus,
+      capturedSession,
+      isFreeOrNoPrice,
+      pendingPaymentId,
+      customerEmailForStripe,
+      rawCourseTitle,
+      rawPriceInCents,
+    } = await this.prisma.$transaction(
         async (tx) => {
           const course = await tx.course.findUnique({
             where: { id: dto.courseId },
@@ -207,25 +217,69 @@ export class BookingsService {
 
           const isFree = course.isFree || course.priceInCents === 0;
 
-          if (!isFull && isFree) {
-            await tx.booking.update({
-              where: { id: booking.id },
-              data: { status: 'CONFIRMED' },
-            });
+          let pendingPaymentId: string | undefined;
+          let customerEmailForStripe: string | undefined;
+          let paymentInfo:
+            | { id: string; amountInCents: number; currency: string; status: string }
+            | undefined;
 
-            await tx.payment.create({
-              data: {
-                bookingId: booking.id,
-                userId,
+          if (!isFull) {
+            if (isFree) {
+              await tx.booking.update({
+                where: { id: booking.id },
+                data: { status: 'CONFIRMED' },
+              });
+
+              const freePayment = await tx.payment.create({
+                data: {
+                  bookingId: booking.id,
+                  userId,
+                  amountInCents: 0,
+                  currency: 'EUR',
+                  method: 'FREE',
+                  status: 'PAID',
+                  paidAt: new Date(),
+                },
+              });
+
+              booking.status = 'CONFIRMED';
+              paymentInfo = {
+                id: freePayment.id,
                 amountInCents: 0,
                 currency: 'EUR',
-                method: 'FREE',
-                status: 'PAID',
-                paidAt: new Date(),
-              },
-            });
+                status: 'paid',
+              };
+            } else {
+              // Paid course: create PENDING payment; Stripe session is created after
+              // the transaction to avoid holding a serializable lock during external API calls.
+              const customerEmail = userId
+                ? (
+                    await tx.user.findUnique({
+                      where: { id: userId },
+                      select: { email: true },
+                    })
+                  )?.email
+                : dto.guestEmail;
 
-            booking.status = 'CONFIRMED';
+              const pendingPayment = await tx.payment.create({
+                data: {
+                  bookingId: booking.id,
+                  userId,
+                  amountInCents: course.priceInCents,
+                  currency: 'EUR',
+                  status: 'PENDING',
+                },
+              });
+
+              pendingPaymentId = pendingPayment.id;
+              customerEmailForStripe = customerEmail ?? undefined;
+              paymentInfo = {
+                id: pendingPayment.id,
+                amountInCents: course.priceInCents,
+                currency: 'EUR',
+                status: 'pending',
+              };
+            }
           }
 
           this.logger.log(
@@ -237,20 +291,16 @@ export class BookingsService {
             response: {
               booking: this.mapToResponseDto(booking),
               checkoutUrl: null,
-              payment:
-                booking.status !== 'WAITLISTED' && isFree
-                  ? {
-                      id: 'free',
-                      amountInCents: 0,
-                      currency: 'EUR',
-                      status: 'paid',
-                    }
-                  : undefined,
+              payment: booking.status !== 'WAITLISTED' ? paymentInfo : undefined,
             },
             rawBookingId: booking.id,
             rawStatus: booking.status,
             capturedSession: session,
             isFreeOrNoPrice: isFree,
+            pendingPaymentId,
+            customerEmailForStripe,
+            rawCourseTitle: course.title,
+            rawPriceInCents: course.priceInCents,
           };
         },
         {
@@ -261,11 +311,57 @@ export class BookingsService {
       );
 
     if (rawStatus === 'PENDING' && !isFreeOrNoPrice) {
-      this.waitlistService
-        .scheduleExpiry(rawBookingId, 'pending_timeout')
-        .catch((err) =>
-          this.logger.error(`Failed to schedule expiry for ${rawBookingId}`, err),
+      // Paid course: create Stripe Checkout Session outside the transaction
+      // to avoid holding a serializable lock during an external API call.
+      try {
+        const checkoutResult = await this.stripeService.createCheckoutSession({
+          bookingId: rawBookingId,
+          courseTitle: rawCourseTitle,
+          amountInCents: rawPriceInCents,
+          currency: 'EUR',
+          customerEmail: customerEmailForStripe,
+        });
+
+        response.checkoutUrl = checkoutResult.checkoutUrl;
+
+        await this.prisma.payment.update({
+          where: { id: pendingPaymentId! },
+          data: {
+            stripePaymentId: checkoutResult.sessionId,
+            stripeStatus: 'open',
+          },
+        });
+
+        // Schedule expiry job (30 min, synchronized with Stripe checkout expiry)
+        this.waitlistService
+          .scheduleExpiry(rawBookingId, 'pending_timeout')
+          .catch((err) =>
+            this.logger.error(`Failed to schedule expiry for ${rawBookingId}`, err),
+          );
+      } catch (err) {
+        if (err instanceof BadRequestException) throw err;
+
+        this.logger.error(`Stripe checkout creation failed for booking ${rawBookingId}: ${err}`);
+
+        await this.prisma.$transaction([
+          this.prisma.booking.update({
+            where: { id: rawBookingId },
+            data: {
+              status: 'CANCELLED',
+              cancellationReason: 'PAYMENT_FAILED',
+              cancelledAt: new Date(),
+            },
+          }),
+          this.prisma.payment.update({
+            where: { id: pendingPaymentId! },
+            data: { status: 'FAILED' },
+          }),
+        ]);
+
+        throw new BadRequestException(
+          'Zahlungsvorgang konnte nicht gestartet werden. Bitte versuche es erneut.',
         );
+      }
     }
 
     if (rawStatus === 'CONFIRMED' && capturedSession) {
@@ -385,22 +481,6 @@ export class BookingsService {
         },
       });
 
-      // Update payment status if exists (actual Stripe refund in Phase 6)
-      if (
-        booking.payment &&
-        booking.payment.status === 'PAID' &&
-        refundPercentage > 0
-      ) {
-        await tx.payment.update({
-          where: { id: booking.payment.id },
-          data: {
-            status: refundPercentage === 100 ? 'REFUNDED' : 'PARTIAL_REFUND',
-            refundedAmount: refundAmountInCents,
-            refundedAt: new Date(),
-          },
-        });
-      }
-
       // If waitlisted booking was cancelled, reorder positions
       if (
         booking.status === 'WAITLISTED' &&
@@ -424,6 +504,17 @@ export class BookingsService {
       `Booking cancelled: ${bookingId} (refund: ${refundPercentage}%, ` +
         `amount: ${refundAmountInCents} cents)`,
     );
+
+    // Initiate Stripe refund if the booking was paid and a refund is due
+    if (booking.payment?.status === 'PAID' && refundAmountInCents > 0) {
+      this.paymentsService
+        .processRefund(booking.payment.id, refundAmountInCents)
+        .catch((err) =>
+          this.logger.error(
+            `Refund failed for payment ${booking.payment!.id}: ${err}`,
+          ),
+        );
+    }
 
     // Promote the next person on the waitlist if a real spot was freed
     await this.waitlistService
