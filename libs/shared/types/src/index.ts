@@ -196,6 +196,22 @@ export {
 } from './lib/payment.types';
 
 // =============================================================================
+// CANCELLATION – Phase 6 (CancelledBy, RefundType, RefundCalculation, batch)
+// =============================================================================
+export {
+  // Enums
+  CancelledBy,
+  RefundType,
+  // Types
+  type RefundCalculation,
+  type AdminBatchCancelRequest,
+  type AdminBatchCancelResponse,
+  // Helpers
+  hoursUntil,
+  calculateRefund,
+} from './lib/cancellation.types';
+
+// =============================================================================
 // COURSE DETAIL CONTENT
 // =============================================================================
 export {

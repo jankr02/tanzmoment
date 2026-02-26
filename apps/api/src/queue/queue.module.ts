@@ -34,6 +34,7 @@ import { QUEUE_NAMES } from './queue.constants';
       { name: QUEUE_NAMES.WAITLIST_PROMOTION },
       { name: QUEUE_NAMES.SESSION_REMINDER },
       { name: QUEUE_NAMES.MAINTENANCE },
+      { name: QUEUE_NAMES.BATCH_REFUND },
     ),
   ],
   exports: [BullModule],

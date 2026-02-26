@@ -2,11 +2,13 @@ import {
   Controller,
   Get,
   Patch,
+  Post,
   Param,
   Query,
   Body,
   UseGuards,
   Logger,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -19,6 +21,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { AdminBookingsService } from './admin-bookings.service';
+import { AdminBatchCancelDto } from './dto/admin-batch-cancel.dto';
 
 @ApiTags('Admin – Bookings')
 @Controller('admin/bookings')
@@ -102,5 +105,53 @@ export class AdminBookingsController {
   @ApiOperation({ summary: 'Mark booking as no-show (admin)' })
   async markNoShow(@Param('id') id: string) {
     return this.adminService.updateStatus(id, 'NO_SHOW', undefined);
+  }
+
+  // ===========================================================================
+  // POST /admin/bookings/sessions/:id/cancel
+  // ===========================================================================
+
+  @Post('sessions/:id/cancel')
+  @ApiParam({ name: 'id', description: 'Session ID' })
+  @ApiOperation({
+    summary: 'Cancel entire session (admin)',
+    description:
+      'Cancels a session and all active bookings. ' +
+      'Queues batch refunds for paid bookings.',
+  })
+  @ApiResponse({ status: 201, description: 'Session cancelled with batch details' })
+  @ApiResponse({ status: 400, description: 'Session already cancelled' })
+  @ApiResponse({ status: 404, description: 'Session not found' })
+  async cancelSession(
+    @Param('id') id: string,
+    @Body(ValidationPipe) dto: AdminBatchCancelDto,
+    @CurrentUser() admin: { id: string; email: string },
+  ) {
+    this.logger.log(`Admin ${admin.email} cancelling session ${id}`);
+    return this.adminService.cancelSession(id, admin.id, dto);
+  }
+
+  // ===========================================================================
+  // POST /admin/bookings/courses/:id/cancel
+  // ===========================================================================
+
+  @Post('courses/:id/cancel')
+  @ApiParam({ name: 'id', description: 'Course ID' })
+  @ApiOperation({
+    summary: 'Cancel entire course (admin)',
+    description:
+      'Cancels a course and all future sessions with their active bookings. ' +
+      'Queues batch refunds for paid bookings.',
+  })
+  @ApiResponse({ status: 201, description: 'Course cancelled with batch details' })
+  @ApiResponse({ status: 400, description: 'Course already cancelled' })
+  @ApiResponse({ status: 404, description: 'Course not found' })
+  async cancelCourse(
+    @Param('id') id: string,
+    @Body(ValidationPipe) dto: AdminBatchCancelDto,
+    @CurrentUser() admin: { id: string; email: string },
+  ) {
+    this.logger.log(`Admin ${admin.email} cancelling course ${id}`);
+    return this.adminService.cancelCourse(id, admin.id, dto);
   }
 }

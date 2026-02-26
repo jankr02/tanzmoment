@@ -9,6 +9,7 @@ import { AdminPaymentsController } from './admin-payments.controller';
 import { WaitlistModule } from '../waitlist/waitlist.module';
 import { QueueModule, QUEUE_NAMES, JOB_NAMES } from '../queue';
 import { ReconciliationProcessor } from '../queue/processors/reconciliation.processor';
+import { RefundService } from './refund.service';
 
 @Module({
   imports: [WaitlistModule, QueueModule],
@@ -16,10 +17,11 @@ import { ReconciliationProcessor } from '../queue/processors/reconciliation.proc
   providers: [
     StripeService,
     PaymentsService,
+    RefundService,
     WebhookEventLogService,
     ReconciliationProcessor,
   ],
-  exports: [PaymentsService, StripeService, WebhookEventLogService],
+  exports: [PaymentsService, StripeService, WebhookEventLogService, RefundService],
 })
 export class PaymentsModule implements OnModuleInit {
   constructor(
@@ -45,6 +47,15 @@ export class PaymentsModule implements OnModuleInit {
       { pattern: '0 3 * * *' }, // Daily at 03:00
       {
         name: JOB_NAMES.CLEANUP_WEBHOOK_EVENTS,
+        data: { triggeredBy: 'cron' as const },
+      },
+    );
+
+    await this.maintenanceQueue.upsertJobScheduler(
+      'gdpr-cleanup-scheduler',
+      { pattern: '0 2 * * *' }, // Daily at 02:00
+      {
+        name: JOB_NAMES.GDPR_CLEANUP,
         data: { triggeredBy: 'cron' as const },
       },
     );

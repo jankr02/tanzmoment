@@ -4,5 +4,6 @@ export {
   type WaitlistPromotionJobData,
   type SessionReminderJobData,
   type MaintenanceJobData,
+  type BatchRefundJobData,
 } from './queue.types';
 export { QueueModule } from './queue.module';

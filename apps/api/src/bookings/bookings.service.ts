@@ -12,7 +12,7 @@ import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { WaitlistService } from '../waitlist/waitlist.service';
 import { StripeService } from '../payments/stripe.service';
-import { PaymentsService } from '../payments/payments.service';
+import { RefundService } from '../payments/refund.service';
 import {
   QUEUE_NAMES,
   JOB_NAMES,
@@ -28,11 +28,8 @@ import {
   AvailabilityResponseDto,
   PaginatedBookingsResponseDto,
 } from './dto/booking-response.dto';
-import {
-  type CancellationPolicy,
-  DEFAULT_CANCELLATION_POLICY,
-  resolveRefundPercentage,
-} from '@tanzmoment/shared/types';
+import { CancellationPolicyService } from './cancellation-policy.service';
+import { RefundType } from '@tanzmoment/shared/types';
 
 type TransactionClient = Parameters<Parameters<PrismaService['$transaction']>[0]>[0];
 
@@ -51,7 +48,8 @@ export class BookingsService {
     private readonly prisma: PrismaService,
     private readonly waitlistService: WaitlistService,
     private readonly stripeService: StripeService,
-    private readonly paymentsService: PaymentsService,
+    private readonly cancellationPolicyService: CancellationPolicyService,
+    private readonly refundService: RefundService,
     @InjectQueue(QUEUE_NAMES.SESSION_REMINDER)
     private readonly reminderQueue: Queue<SessionReminderJobData>,
   ) {}
@@ -400,6 +398,9 @@ export class BookingsService {
 
   /**
    * Cancel a booking by the owner (authenticated) or via cancellation token (guest).
+   *
+   * Uses CancellationPolicyService for refund calculation (DB-backed policy
+   * with automatic fallback to default). RefundService handles Stripe + DB tracking.
    */
   async cancelBooking(
     bookingId: string,
@@ -416,7 +417,6 @@ export class BookingsService {
             slug: true,
             danceStyle: true,
             imageUrl: true,
-            cancellationPolicy: true,
             priceInCents: true,
             isFree: true,
           },
@@ -446,30 +446,29 @@ export class BookingsService {
       );
     }
 
-    const policy: CancellationPolicy =
-      (booking.course.cancellationPolicy as unknown as CancellationPolicy) ??
-      DEFAULT_CANCELLATION_POLICY;
+    // Calculate refund using DB-backed policy
+    const policy = await this.cancellationPolicyService.getPolicyForCourse(
+      booking.courseId,
+    );
 
-    if (!policy.allowCancellation) {
-      throw new BadRequestException(
-        policy.cancellationNote ??
-          'Stornierung ist für diesen Kurs nicht möglich.',
-      );
-    }
-
-    const referenceDate = booking.session?.startTime ?? null;
     let refundPercentage = 100;
+    let refundAmountInCents = 0;
 
-    if (referenceDate) {
-      const daysUntil = this.calculateDaysUntil(referenceDate);
-      refundPercentage = resolveRefundPercentage(policy, daysUntil);
+    if (booking.payment) {
+      const referenceDate = booking.session?.startTime;
+      const refundCalc = referenceDate
+        ? this.cancellationPolicyService.calculateRefund(
+            policy,
+            referenceDate,
+            booking.payment.amountInCents,
+          )
+        : this.cancellationPolicyService.calculateAdminRefund(
+            booking.payment.amountInCents,
+          );
+
+      refundPercentage = refundCalc.refundPercent;
+      refundAmountInCents = refundCalc.refundAmountInCents;
     }
-
-    const refundAmountInCents = booking.payment
-      ? Math.round(
-          booking.payment.amountInCents * (refundPercentage / 100),
-        )
-      : 0;
 
     await this.prisma.$transaction(async (tx) => {
       await tx.booking.update({
@@ -477,11 +476,12 @@ export class BookingsService {
         data: {
           status: 'CANCELLED',
           cancellationReason: 'USER_REQUEST',
+          cancelledBy: 'USER',
           cancelledAt: new Date(),
         },
       });
 
-      // If waitlisted booking was cancelled, reorder positions
+      // Reorder waitlist positions when a waitlisted booking is cancelled
       if (
         booking.status === 'WAITLISTED' &&
         booking.waitlistPosition != null
@@ -507,13 +507,25 @@ export class BookingsService {
 
     // Initiate Stripe refund if the booking was paid and a refund is due
     if (booking.payment?.status === 'PAID' && refundAmountInCents > 0) {
-      this.paymentsService
-        .processRefund(booking.payment.id, refundAmountInCents)
-        .catch((err) =>
-          this.logger.error(
-            `Refund failed for payment ${booking.payment!.id}: ${err}`,
-          ),
-        );
+      const refundCalc = booking.session?.startTime
+        ? this.cancellationPolicyService.calculateRefund(
+            policy,
+            booking.session.startTime,
+            booking.payment.amountInCents,
+          )
+        : this.cancellationPolicyService.calculateAdminRefund(
+            booking.payment.amountInCents,
+          );
+
+      if (refundCalc.type !== RefundType.NONE) {
+        this.refundService
+          .processRefund(bookingId, refundCalc, 'User-initiated cancellation')
+          .catch((err) =>
+            this.logger.error(
+              `Refund failed for booking ${bookingId}: ${err}`,
+            ),
+          );
+      }
     }
 
     // Promote the next person on the waitlist if a real spot was freed
@@ -849,11 +861,6 @@ export class BookingsService {
     );
   }
 
-  private calculateDaysUntil(date: Date): number {
-    const now = new Date();
-    const diff = new Date(date).getTime() - now.getTime();
-    return Math.floor(diff / (1000 * 60 * 60 * 24));
-  }
 
   /**
    * Map a Prisma booking record to the response DTO.

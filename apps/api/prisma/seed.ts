@@ -1858,9 +1858,31 @@ async function seedBookings(customerId: string) {
 // MAIN
 // =============================================================================
 
+async function seedCancellationPolicy() {
+  const policy = await prisma.cancellationPolicy.upsert({
+    where: { id: 'default-policy' },
+    update: {},
+    create: {
+      id: 'default-policy',
+      name: 'Standard 48h Policy',
+      description:
+        'Full refund up to 48 hours before session start. ' +
+        '50% refund between 24–48 hours. No refund within 24 hours.',
+      fullRefundHours: 48,
+      partialRefundHours: 24,
+      partialRefundPercent: 50,
+      isDefault: true,
+    },
+  });
+  console.log(`✅ Cancellation policy: ${policy.name}`);
+}
+
 async function main() {
   console.log('🌱 Starting database seed...\n');
   console.log('━'.repeat(50));
+
+  // Seed cancellation policy (must be before courses)
+  await seedCancellationPolicy();
 
   // Seed users
   const { instructor, customer } = await seedUsers();

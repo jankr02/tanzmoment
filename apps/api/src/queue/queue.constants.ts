@@ -7,6 +7,7 @@ export const QUEUE_NAMES = {
   WAITLIST_PROMOTION: 'waitlist-promotion',
   SESSION_REMINDER: 'session-reminder',
   MAINTENANCE: 'maintenance',
+  BATCH_REFUND: 'batch-refund',
 } as const;
 
 /**
@@ -21,6 +22,10 @@ export const JOB_NAMES = {
   // maintenance queue
   RECONCILE_PAYMENTS: 'reconcile-payments',
   CLEANUP_WEBHOOK_EVENTS: 'cleanup-webhook-events',
+  GDPR_CLEANUP: 'gdpr-cleanup',
+
+  // batch-refund queue
+  PROCESS_BATCH_REFUND: 'process-batch-refund',
 } as const;
 
 /**

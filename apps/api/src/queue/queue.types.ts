@@ -23,3 +23,13 @@ export interface SessionReminderJobData {
 export interface MaintenanceJobData {
   triggeredBy: 'cron' | 'manual';
 }
+
+/** Payload for batch refund jobs (session or course cancellation) */
+export interface BatchRefundJobData {
+  type: 'SESSION_CANCEL' | 'COURSE_CANCEL';
+  sessionId?: string;
+  courseId?: string;
+  adminId: string;
+  reason: string;
+  bookingIds: string[];
+}

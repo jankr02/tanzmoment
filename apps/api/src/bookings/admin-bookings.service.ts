@@ -4,14 +4,24 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { BookingStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { AdminBatchCancelDto } from './dto/admin-batch-cancel.dto';
+import { AdminBatchCancelResponse } from '@tanzmoment/shared/types';
+import { QUEUE_NAMES } from '../queue';
+import { BatchRefundJobData } from '../queue/queue.types';
 
 @Injectable()
 export class AdminBookingsService {
   private readonly logger = new Logger(AdminBookingsService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @InjectQueue(QUEUE_NAMES.BATCH_REFUND)
+    private readonly batchRefundQueue: Queue<BatchRefundJobData>,
+  ) {}
 
   async findAll(filters: {
     status?: string;
@@ -192,6 +202,203 @@ export class AdminBookingsService {
 
     this.logger.log(`Admin status update: booking ${id} → ${normalizedStatus}`);
     return updated;
+  }
+
+  // ===========================================================================
+  // BATCH CANCEL – SESSION
+  // ===========================================================================
+
+  /**
+   * Cancels an entire session: marks it CANCELLED, batch-cancels all active
+   * bookings, and enqueues refund jobs for paid bookings.
+   */
+  async cancelSession(
+    sessionId: string,
+    adminId: string,
+    dto: AdminBatchCancelDto,
+  ): Promise<AdminBatchCancelResponse> {
+    const session = await this.prisma.session.findUnique({
+      where: { id: sessionId },
+      include: {
+        bookings: {
+          where: { status: { in: ['PENDING', 'CONFIRMED', 'WAITLISTED'] } },
+          include: { payment: true },
+        },
+      },
+    });
+
+    if (!session) {
+      throw new NotFoundException(`Session ${sessionId} not found`);
+    }
+
+    if (session.status === 'CANCELLED') {
+      throw new BadRequestException('Session is already cancelled');
+    }
+
+    const activeBookings = session.bookings;
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.session.update({
+        where: { id: sessionId },
+        data: { status: 'CANCELLED' },
+      });
+
+      await tx.booking.updateMany({
+        where: {
+          sessionId,
+          status: { in: ['PENDING', 'CONFIRMED', 'WAITLISTED'] },
+        },
+        data: {
+          status: 'CANCELLED',
+          cancellationReason: 'STUDIO_CANCELLED',
+          cancelledBy: 'ADMIN',
+          cancelledByAdminId: adminId,
+          cancelledAt: new Date(),
+        },
+      });
+    });
+
+    let refundsQueued = 0;
+    let refundJobId: string | undefined;
+
+    const bookingsWithPayments = activeBookings.filter(
+      (b) => b.payment?.status === 'PAID',
+    );
+
+    if (dto.processRefunds !== false && bookingsWithPayments.length > 0) {
+      const job = await this.batchRefundQueue.add(
+        'process-batch-refund',
+        {
+          type: 'SESSION_CANCEL',
+          sessionId,
+          adminId,
+          reason: dto.reason,
+          bookingIds: bookingsWithPayments.map((b) => b.id),
+        },
+        { attempts: 3, backoff: { type: 'exponential', delay: 5000 } },
+      );
+      refundJobId = job.id as string;
+      refundsQueued = bookingsWithPayments.length;
+    }
+
+    this.logger.log(
+      `Session ${sessionId} cancelled by admin ${adminId}: ` +
+        `${activeBookings.length} bookings cancelled, ${refundsQueued} refunds queued`,
+    );
+
+    return {
+      cancelledCount: activeBookings.length,
+      refundsQueued,
+      refundJobId,
+      skippedCount: 0,
+      affectedSessions: [sessionId],
+    };
+  }
+
+  // ===========================================================================
+  // BATCH CANCEL – COURSE
+  // ===========================================================================
+
+  /**
+   * Cancels an entire course: marks it CANCELLED, cancels all future sessions
+   * and their active bookings, and enqueues a batch-refund job.
+   */
+  async cancelCourse(
+    courseId: string,
+    adminId: string,
+    dto: AdminBatchCancelDto,
+  ): Promise<AdminBatchCancelResponse> {
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+      include: {
+        sessions: {
+          where: { status: { in: ['SCHEDULED', 'IN_PROGRESS'] } },
+          include: {
+            bookings: {
+              where: { status: { in: ['PENDING', 'CONFIRMED', 'WAITLISTED'] } },
+              include: { payment: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!course) {
+      throw new NotFoundException(`Course ${courseId} not found`);
+    }
+
+    if (course.status === 'CANCELLED') {
+      throw new BadRequestException('Course is already cancelled');
+    }
+
+    const activeSessions = course.sessions;
+    const allBookings = activeSessions.flatMap((s) => s.bookings);
+    const sessionIds = activeSessions.map((s) => s.id);
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.course.update({
+        where: { id: courseId },
+        data: { status: 'CANCELLED' },
+      });
+
+      if (sessionIds.length > 0) {
+        await tx.session.updateMany({
+          where: { courseId, status: { in: ['SCHEDULED', 'IN_PROGRESS'] } },
+          data: { status: 'CANCELLED' },
+        });
+
+        await tx.booking.updateMany({
+          where: {
+            sessionId: { in: sessionIds },
+            status: { in: ['PENDING', 'CONFIRMED', 'WAITLISTED'] },
+          },
+          data: {
+            status: 'CANCELLED',
+            cancellationReason: 'COURSE_CANCELLED',
+            cancelledBy: 'ADMIN',
+            cancelledByAdminId: adminId,
+            cancelledAt: new Date(),
+          },
+        });
+      }
+    });
+
+    let refundsQueued = 0;
+    let refundJobId: string | undefined;
+
+    const bookingsWithPayments = allBookings.filter(
+      (b) => b.payment?.status === 'PAID',
+    );
+
+    if (dto.processRefunds !== false && bookingsWithPayments.length > 0) {
+      const job = await this.batchRefundQueue.add(
+        'process-batch-refund',
+        {
+          type: 'COURSE_CANCEL',
+          courseId,
+          adminId,
+          reason: dto.reason,
+          bookingIds: bookingsWithPayments.map((b) => b.id),
+        },
+        { attempts: 3, backoff: { type: 'exponential', delay: 5000 } },
+      );
+      refundJobId = job.id as string;
+      refundsQueued = bookingsWithPayments.length;
+    }
+
+    this.logger.log(
+      `Course ${courseId} cancelled by admin ${adminId}: ` +
+        `${activeSessions.length} sessions, ${allBookings.length} bookings cancelled, ` +
+        `${refundsQueued} refunds queued`,
+    );
+
+    return {
+      cancelledCount: allBookings.length,
+      refundsQueued,
+      refundJobId,
+      skippedCount: 0,
+      affectedSessions: sessionIds,
+    };
   }
 
   /**

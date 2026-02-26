@@ -7,6 +7,10 @@ import { WebhookEventLogService } from '../../payments/webhook-event-log.service
 import { QUEUE_NAMES, JOB_NAMES } from '../queue.constants';
 import { MaintenanceJobData } from '../queue.types';
 
+/** Retention periods in days for GDPR cleanup */
+const BOOKING_ANONYMIZE_DAYS = 90;
+const PAYMENT_CLEANUP_DAYS = 180;
+
 /**
  * Reconciles payment status between the database and Stripe.
  *
@@ -40,6 +44,10 @@ export class ReconciliationProcessor extends WorkerHost {
 
       case JOB_NAMES.CLEANUP_WEBHOOK_EVENTS:
         await this.webhookLog.cleanup(30);
+        break;
+
+      case JOB_NAMES.GDPR_CLEANUP:
+        await this.runGdprCleanup();
         break;
 
       default:
@@ -156,5 +164,77 @@ export class ReconciliationProcessor extends WorkerHost {
       `Reconciliation complete: ${fixed} fixed, ${expired} expired, ` +
         `${stalePayments.length - fixed - expired} still pending`,
     );
+  }
+
+  // ===========================================================================
+  // GDPR CLEANUP
+  // ===========================================================================
+
+  /**
+   * Anonymizes personal data from old cancelled bookings and cleans up
+   * Stripe references from old failed/expired payments.
+   *
+   * Retention periods:
+   * - Cancelled bookings: 90 days → notes anonymized
+   * - Failed/expired/cancelled payments: 180 days → Stripe IDs removed
+   *
+   * Booking records and amounts are preserved for financial/statistical reporting.
+   */
+  private async runGdprCleanup(): Promise<void> {
+    this.logger.log('Starting GDPR cleanup');
+
+    const bookingResult = await this.anonymizeOldBookings();
+    const paymentResult = await this.cleanupOldPayments();
+
+    this.logger.log(
+      `GDPR cleanup complete: ${bookingResult} bookings anonymized, ` +
+        `${paymentResult} payments cleaned`,
+    );
+  }
+
+  private async anonymizeOldBookings(): Promise<number> {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - BOOKING_ANONYMIZE_DAYS);
+
+    const result = await this.prisma.booking.updateMany({
+      where: {
+        status: 'CANCELLED',
+        cancelledAt: { lt: cutoff },
+        notes: { not: null },
+      },
+      data: { notes: '[GDPR: data removed]' },
+    });
+
+    if (result.count > 0) {
+      this.logger.log(`Anonymized ${result.count} old cancelled bookings`);
+    }
+
+    return result.count;
+  }
+
+  private async cleanupOldPayments(): Promise<number> {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - PAYMENT_CLEANUP_DAYS);
+
+    const result = await this.prisma.payment.updateMany({
+      where: {
+        status: { in: ['FAILED', 'EXPIRED', 'CANCELLED'] },
+        updatedAt: { lt: cutoff },
+        stripePaymentId: { not: null },
+      },
+      data: {
+        stripePaymentId: null,
+        stripeRefundId: null,
+        stripeStatus: null,
+        externalTransactionId: null,
+        notes: '[GDPR: data removed]',
+      },
+    });
+
+    if (result.count > 0) {
+      this.logger.log(`Cleaned up ${result.count} old payment records`);
+    }
+
+    return result.count;
   }
 }

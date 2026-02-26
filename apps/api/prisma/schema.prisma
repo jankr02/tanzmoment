@@ -92,7 +92,11 @@ model Course {
   // Booking configuration
   bookingMode           BookingMode      @default(FULL_COURSE)
   isFree                Boolean          @default(false)
-  cancellationPolicy    Json?            @db.JsonB
+  cancellationPolicyJson Json?           @db.JsonB
+
+  // Structured cancellation policy (replaces JSONB for new bookings)
+  cancellationPolicyId  String?
+  cancellationPolicy    CancellationPolicy? @relation(fields: [cancellationPolicyId], references: [id], onDelete: SetNull)
 
   // CMS Detail Content (JSON)
   detailContent         Json?            @db.JsonB
@@ -203,6 +207,8 @@ model Booking {
   status             BookingStatus       @default(PENDING)
   waitlistPosition   Int?
   cancellationReason CancellationReason?
+  cancelledBy        CancelledBy?
+  cancelledByAdminId String?
   notes              String?             @db.Text
 
   createdAt          DateTime            @default(now())
@@ -242,6 +248,12 @@ enum CancellationReason {
   OTHER
 }
 
+enum CancelledBy {
+  USER
+  ADMIN
+  SYSTEM
+}
+
 model Payment {
   id                    String         @id @default(cuid())
 
@@ -257,10 +269,12 @@ model Payment {
 
   stripePaymentId       String?        @unique
   stripeStatus          String?
+  stripeRefundId        String?        @unique
   externalTransactionId String?
 
   status                PaymentStatus  @default(PENDING)
   refundedAmount        Int?
+  refundReason          String?
   notes                 String?        @db.Text
 
   paidAt                DateTime?
@@ -333,4 +347,45 @@ enum WebhookEventStatus {
   PROCESSED
   FAILED
   SKIPPED
+}
+
+// ============================================================================
+// CANCELLATION POLICY
+// ============================================================================
+
+model CancellationPolicy {
+  id          String   @id @default(cuid())
+
+  /** Human-readable name (e.g., "Standard 48h Policy") */
+  name        String
+
+  /** Description for admin reference */
+  description String?  @db.Text
+
+  /**
+   * Hours before session start until which full refund is possible.
+   * Example: 48 = full refund if cancelled 48+ hours before start.
+   */
+  fullRefundHours      Int
+
+  /**
+   * Hours before session start until which partial refund is possible.
+   * Set to 0 to disable partial refunds.
+   */
+  partialRefundHours   Int  @default(0)
+
+  /**
+   * Percentage of refund for partial window (0–100).
+   */
+  partialRefundPercent Int  @default(50)
+
+  /** Whether this is the default policy for new courses */
+  isDefault   Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  courses     Course[]
+
+  @@map("cancellation_policies")
 }
