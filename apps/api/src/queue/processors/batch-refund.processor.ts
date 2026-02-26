@@ -10,6 +10,7 @@ import { BatchRefundJobData } from '../queue.types';
 import { RefundService } from '../../payments/refund.service';
 import { CancellationPolicyService } from '../../bookings/cancellation-policy.service';
 import { PrismaService } from '../../prisma/prisma.service';
+import { BookingEmailService } from '../../email/booking-email.service';
 
 @Processor(QUEUE_NAMES.BATCH_REFUND)
 export class BatchRefundProcessor extends WorkerHost {
@@ -19,6 +20,7 @@ export class BatchRefundProcessor extends WorkerHost {
     private readonly refundService: RefundService,
     private readonly cancellationPolicyService: CancellationPolicyService,
     private readonly prisma: PrismaService,
+    private readonly bookingEmailService: BookingEmailService,
   ) {
     super();
   }
@@ -59,6 +61,12 @@ export class BatchRefundProcessor extends WorkerHost {
 
         if (result.success) {
           succeeded++;
+          // Notify participant about the studio cancellation
+          this.bookingEmailService
+            .sendBookingCancelledByStudio(bookingId, reason, refundCalc.refundAmountInCents)
+            .catch((err) =>
+              this.logger.error(`Failed to send cancellation email for ${bookingId}: ${err.message}`),
+            );
         } else {
           failed++;
           errors.push(`${bookingId}: ${result.error}`);

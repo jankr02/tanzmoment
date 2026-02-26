@@ -3,16 +3,15 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { PrismaService } from '../../prisma/prisma.service';
 import { WaitlistService } from '../../waitlist/waitlist.service';
-import { QUEUE_NAMES } from '../queue.constants';
+import { QUEUE_NAMES, TIMING } from '../queue.constants';
 import { WaitlistPromotionJobData } from '../queue.types';
+import { BookingEmailService } from '../../email/booking-email.service';
 
 /**
  * Promotes the next person on the waitlist when a spot opens up.
  *
  * Free courses: status moves directly to CONFIRMED.
  * Paid courses: status moves to PENDING and a 24h expiry job is scheduled.
- *
- * Email notifications are sent in Phase 7.
  */
 @Processor(QUEUE_NAMES.WAITLIST_PROMOTION)
 export class WaitlistPromotionProcessor extends WorkerHost {
@@ -21,6 +20,7 @@ export class WaitlistPromotionProcessor extends WorkerHost {
   constructor(
     private readonly waitlistService: WaitlistService,
     private readonly prisma: PrismaService,
+    private readonly bookingEmailService: BookingEmailService,
   ) {
     super();
   }
@@ -44,7 +44,7 @@ export class WaitlistPromotionProcessor extends WorkerHost {
 
     const booking = await this.prisma.booking.findUnique({
       where: { id: promotedBookingId },
-      select: { status: true },
+      select: { status: true, userId: true },
     });
 
     if (booking?.status === 'PENDING') {
@@ -55,5 +55,17 @@ export class WaitlistPromotionProcessor extends WorkerHost {
     }
 
     this.logger.log(`Promotion complete: booking ${promotedBookingId}`);
+
+    // Notify the promoted user (registered users only)
+    if (booking?.userId) {
+      const expiresAt = new Date(Date.now() + TIMING.PENDING_EXPIRY_MS);
+      this.bookingEmailService
+        .sendWaitlistPromoted(promotedBookingId, expiresAt)
+        .catch((err) =>
+          this.logger.error(
+            `Failed to send waitlist promotion email for ${promotedBookingId}: ${err.message}`,
+          ),
+        );
+    }
   }
 }

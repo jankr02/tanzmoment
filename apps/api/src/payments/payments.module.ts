@@ -8,11 +8,12 @@ import { WebhookEventLogService } from './webhook-event-log.service';
 import { AdminPaymentsController } from './admin-payments.controller';
 import { WaitlistModule } from '../waitlist/waitlist.module';
 import { QueueModule, QUEUE_NAMES, JOB_NAMES } from '../queue';
+import { EmailModule } from '../email/email.module';
 import { ReconciliationProcessor } from '../queue/processors/reconciliation.processor';
 import { RefundService } from './refund.service';
 
 @Module({
-  imports: [WaitlistModule, QueueModule],
+  imports: [WaitlistModule, QueueModule, EmailModule],
   controllers: [PaymentsController, AdminPaymentsController],
   providers: [
     StripeService,

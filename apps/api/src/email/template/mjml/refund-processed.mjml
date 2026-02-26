@@ -1,0 +1,43 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" padding="0 0 8px 0">
+          Deine Erstattung wurde veranlasst
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0">
+          Hallo {{firstName}}, wir haben eine Erstattung für deine Buchung veranlasst.
+        </mj-text>
+
+        <mj-section background-color="#D1FAE5" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text color="#378A5C" font-size="13px" padding="0 0 8px 0">
+              ERSTATTUNGSDETAILS
+            </mj-text>
+            <mj-text padding="4px 0"><strong>Kurs:</strong> {{courseName}}</mj-text>
+            <mj-text padding="4px 0"><strong>Erstattungsbetrag:</strong> {{formatPrice refundAmount}}</mj-text>
+            <mj-text padding="4px 0">
+              <strong>Art:</strong>
+              {{#eq refundType "full"}}Vollständige Erstattung{{/eq}}{{#eq refundType "partial"}}Teilerstattung ({{refundPercent}}%){{/eq}}
+            </mj-text>
+            <mj-text padding="12px 0 0 0" font-size="13px" color="#5E5A55">
+              Die Gutschrift erscheint innerhalb von 5–10 Werktagen auf deinem Konto.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

@@ -1,0 +1,59 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" padding="0 0 8px 0">
+          Erinnerung: Morgen tanzen wir!
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0">
+          Hallo {{firstName}}, dein Kurs <strong>{{courseName}}</strong> findet morgen statt.
+        </mj-text>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text padding="4px 0"><strong>Kurs:</strong> {{courseName}}</mj-text>
+            <mj-text padding="4px 0"><strong>Wann:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} – {{formatTime sessionEnd}} Uhr</mj-text>
+            <mj-text padding="4px 0"><strong>Wo:</strong> {{location}}</mj-text>
+            <mj-text padding="4px 0"><strong>Leitung:</strong> {{instructorName}}</mj-text>
+          </mj-column>
+        </mj-section>
+
+        {{#if notes}}
+        <mj-text padding="24px 0 0 0" font-size="14px" color="#5E5A55">
+          <strong>Hinweis:</strong> {{notes}}
+        </mj-text>
+        {{/if}}
+
+        <mj-text padding="24px 0 0 0" font-size="14px" color="#5E5A55">
+          Bitte denke an bequeme Kleidung und bringe etwas zu trinken mit.
+          Falls du nicht teilnehmen kannst, storniere bitte rechtzeitig.
+        </mj-text>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{baseUrl}}/meine-buchungen/{{bookingId}}"
+          padding="24px 0 0 0"
+        >
+          Buchung ansehen
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

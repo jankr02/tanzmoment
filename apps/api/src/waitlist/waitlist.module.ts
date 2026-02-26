@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { WaitlistService } from './waitlist.service';
 import { QueueModule } from '../queue';
+import { EmailModule } from '../email/email.module';
 import { BookingExpiryProcessor } from '../queue/processors/booking-expiry.processor';
 import { WaitlistPromotionProcessor } from '../queue/processors/waitlist-promotion.processor';
 import { SessionReminderProcessor } from '../queue/processors/session-reminder.processor';
@@ -12,7 +13,7 @@ import { SessionReminderProcessor } from '../queue/processors/session-reminder.p
  * QueueModule only handles Redis config and queue registration.
  */
 @Module({
-  imports: [QueueModule],
+  imports: [QueueModule, EmailModule],
   providers: [
     WaitlistService,
     BookingExpiryProcessor,

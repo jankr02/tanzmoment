@@ -1,0 +1,47 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" padding="0 0 8px 0">
+          Hallo {{firstName}},
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0">
+          der Kurs <strong>{{courseName}}</strong> ist leider aktuell ausgebucht.
+          Du stehst jetzt auf <strong>Platz {{waitlistPosition}}</strong> der Warteliste.
+        </mj-text>
+
+        <mj-section background-color="#EDE9FE" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text color="#7C3AED" font-weight="600" padding="0 0 8px 0">
+              So geht es weiter
+            </mj-text>
+            <mj-text color="#2E2A25" padding="0">
+              Sobald ein Platz frei wird, benachrichtigen wir dich automatisch per E-Mail.
+              Du hast dann 30 Minuten Zeit, deine Buchung zu bestätigen.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text padding="4px 0"><strong>Kurs:</strong> {{courseName}}</mj-text>
+            <mj-text padding="4px 0"><strong>Termin:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} Uhr</mj-text>
+            <mj-text padding="4px 0"><strong>Warteliste:</strong> Platz {{waitlistPosition}}</mj-text>
+          </mj-column>
+        </mj-section>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

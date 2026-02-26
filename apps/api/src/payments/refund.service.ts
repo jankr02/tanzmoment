@@ -5,6 +5,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { StripeService } from './stripe.service';
+import { BookingEmailService } from '../email/booking-email.service';
 import { PaymentStatus } from '@prisma/client';
 import { RefundCalculation, RefundType } from '@tanzmoment/shared/types';
 
@@ -23,7 +24,8 @@ export class RefundService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly stripeService: StripeService
+    private readonly stripeService: StripeService,
+    private readonly bookingEmailService: BookingEmailService,
   ) {}
 
   /**
@@ -155,6 +157,17 @@ export class RefundService {
         `Refund processed: payment=${payment.id}, amount=${refundCalc.refundAmountInCents}c, ` +
           `type=${refundCalc.type}, stripe_refund=${stripeRefund.id}`
       );
+
+      // Notify the user that their refund has been processed
+      this.bookingEmailService
+        .sendRefundProcessed(bookingId, {
+          type: refundCalc.type,
+          amountInCents: refundCalc.refundAmountInCents,
+          percent: refundCalc.refundPercent,
+        })
+        .catch((err) =>
+          this.logger.error(`Failed to send refund email for booking ${bookingId}: ${err.message}`),
+        );
 
       return {
         success: true,

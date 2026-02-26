@@ -8,10 +8,11 @@ import { AuthModule } from '../auth/auth.module';
 import { WaitlistModule } from '../waitlist/waitlist.module';
 import { QueueModule } from '../queue';
 import { PaymentsModule } from '../payments/payments.module';
+import { EmailModule } from '../email/email.module';
 import { BatchRefundProcessor } from '../queue/processors/batch-refund.processor';
 
 @Module({
-  imports: [AuthModule, WaitlistModule, QueueModule, PaymentsModule],
+  imports: [AuthModule, WaitlistModule, QueueModule, PaymentsModule, EmailModule],
   controllers: [BookingsController, AdminBookingsController],
   providers: [
     BookingsService,
