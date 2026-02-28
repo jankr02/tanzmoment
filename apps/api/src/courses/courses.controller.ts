@@ -11,6 +11,8 @@ import {
   Param,
   Query,
   NotFoundException,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -18,6 +20,7 @@ import {
   ApiResponse,
   ApiQuery,
   ApiParam,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { CoursesService } from './courses.service';
 import { CourseQueryDto } from './dto/course-query.dto';
@@ -26,6 +29,8 @@ import {
   PaginatedCoursesResponseDto,
 } from './dto/course-response.dto';
 import { CourseDetailResponseDto } from './dto/course-detail-response.dto';
+import { SessionAvailabilityDto } from './dto/session-availability.dto';
+import { OptionalAuthGuard } from '../auth/guards/optional-auth.guard';
 
 @ApiTags('Courses')
 @Controller('courses')
@@ -100,6 +105,63 @@ export class CoursesController {
     @Query('limit') limit?: number
   ): Promise<CourseListItemDto[]> {
     return this.coursesService.findHighlighted(limit ?? 3);
+  }
+
+  // ===========================================================================
+  // GET /api/courses/:courseId/sessions - Get sessions with availability
+  // ===========================================================================
+
+  @Get(':courseId/sessions')
+  @UseGuards(OptionalAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all sessions for a course with availability information',
+    description: `
+      Returns all upcoming scheduled sessions for a course with real-time availability data.
+
+      **Returned data:**
+      - Available spots per session
+      - Waitlist count
+      - Whether the current user has already booked (if authenticated)
+
+      **Authentication:**
+      - Optional: Works for both authenticated and guest users
+      - When authenticated, \`userHasBooking\` reflects the current user's booking status
+      - When not authenticated, \`userHasBooking\` is always false
+    `,
+  })
+  @ApiParam({
+    name: 'courseId',
+    description: 'Course ID',
+    example: 'cm1234567890',
+  })
+  @ApiQuery({
+    name: 'includeAvailability',
+    required: false,
+    type: Boolean,
+    description: 'Include availability data (ignored, always included)',
+  })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    type: String,
+    description: 'Filter by status (ignored, only SCHEDULED sessions returned)',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Array of sessions with availability data',
+    type: [SessionAvailabilityDto],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  async getSessionsWithAvailability(
+    @Param('courseId') courseId: string,
+    @Req() req: { user?: { id: string } },
+  ): Promise<SessionAvailabilityDto[]> {
+    const userId = req.user?.id;
+    return this.coursesService.getSessionsWithAvailability(courseId, userId);
   }
 
   // ===========================================================================

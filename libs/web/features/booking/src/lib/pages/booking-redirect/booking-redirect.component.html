@@ -1,0 +1,73 @@
+<div class="booking-redirect">
+  <!-- Verifying -->
+  @if (state() === 'verifying') {
+    <div class="booking-redirect__loading">
+      <div class="booking-redirect__spinner" aria-hidden="true"></div>
+      <h1>Zahlung wird überprüft...</h1>
+      <p>Einen Moment bitte.</p>
+    </div>
+  }
+
+  <!-- Success -->
+  @if (state() === 'success') {
+    <div class="booking-redirect__result booking-redirect__result--success">
+      <div class="booking-redirect__icon">
+        <app-icon name="check-circle" size="xl" />
+      </div>
+      <h1>Buchung bestätigt!</h1>
+
+      @if (bookingStore.bookingDetail(); as booking) {
+        <p>
+          Deine Buchung für <strong>{{ booking.session.course.title }}</strong> ist bestätigt.
+          @if (booking.isGuestBooking) {
+            Wir haben dir eine Bestätigung per E-Mail gesendet.
+          } @else {
+            Du erhältst in Kürze eine Bestätigungsmail.
+          }
+        </p>
+
+        <div class="booking-redirect__details">
+          <div class="booking-redirect__detail-row">
+            <span>Kurs</span>
+            <strong>{{ booking.session.course.title }}</strong>
+          </div>
+          <div class="booking-redirect__detail-row">
+            <span>Ort</span>
+            <strong>{{ booking.session.location }}</strong>
+          </div>
+        </div>
+      }
+
+      <div class="booking-redirect__actions">
+        @if (authState.isAuthenticated()) {
+          <app-button variant="primary" (clicked)="goToMyBookings()">Meine Buchungen</app-button>
+        }
+        <app-button variant="ghost" (clicked)="goToCourses()">Weitere Kurse entdecken</app-button>
+      </div>
+    </div>
+  }
+
+  <!-- Cancelled -->
+  @if (state() === 'cancelled') {
+    <div class="booking-redirect__result booking-redirect__result--cancelled">
+      <div class="booking-redirect__icon">
+        <app-icon name="x-circle" size="xl" />
+      </div>
+      <h1>Zahlung abgebrochen</h1>
+      <p>Du hast die Zahlung abgebrochen. Deine Buchung wurde nicht abgeschlossen.</p>
+      <app-button variant="primary" (clicked)="goToCourses()">Zurück zu Kursen</app-button>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (state() === 'error') {
+    <div class="booking-redirect__result booking-redirect__result--error">
+      <div class="booking-redirect__icon">
+        <app-icon name="alert-circle" size="xl" />
+      </div>
+      <h1>Etwas ist schiefgelaufen</h1>
+      <p>{{ bookingStore.error() || 'Die Zahlung konnte nicht verifiziert werden.' }}</p>
+      <app-button variant="primary" (clicked)="goToCourses()">Zurück zu Kursen</app-button>
+    </div>
+  }
+</div>

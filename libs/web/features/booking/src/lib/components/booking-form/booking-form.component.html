@@ -1,0 +1,284 @@
+<div class="booking-form">
+
+  <!-- Progress Indicator -->
+  <div class="booking-form__progress" role="progressbar"
+       [attr.aria-valuenow]="currentStepNumber()"
+       [attr.aria-valuemax]="totalSteps()">
+    @for (dot of [].constructor(totalSteps()); track $index) {
+      <div class="booking-form__progress-dot"
+           [class.booking-form__progress-dot--active]="$index < currentStepNumber()"
+           [class.booking-form__progress-dot--current]="$index + 1 === currentStepNumber()">
+      </div>
+    }
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- STEP 1: Session Selection                                          -->
+  <!-- ================================================================== -->
+  @if (step() === 'select-session') {
+    <div class="booking-form__step">
+      <p class="booking-form__step-label">Schritt 1 · Termin wählen</p>
+
+      <ui-session-selector
+        [sessions]="sessions"
+        (sessionSelected)="onSessionSelected($event)"
+      />
+    </div>
+  }
+
+  <!-- ================================================================== -->
+  <!-- STEP 2: Guest Contact Details (only for unauthenticated users)     -->
+  <!-- ================================================================== -->
+  @if (step() === 'details') {
+    <div class="booking-form__step">
+      <p class="booking-form__step-label">Schritt 2 · Deine Daten</p>
+
+      <p class="booking-form__hint">
+        Kein Konto nötig – gib einfach deine Kontaktdaten ein.
+      </p>
+
+      <form [formGroup]="guestForm" class="booking-form__guest-fields">
+        <app-input
+          formControlName="guestEmail"
+          type="email"
+          label="E-Mail-Adresse"
+          placeholder="deine@email.de"
+          [required]="true"
+          helperText="Für Buchungsbestätigung und Stornierung"
+        />
+
+        <app-input
+          formControlName="guestFirstName"
+          type="text"
+          label="Vorname"
+          placeholder="Maria"
+          [required]="true"
+        />
+
+        <app-input
+          formControlName="guestLastName"
+          type="text"
+          label="Nachname"
+          placeholder="Müller"
+        />
+
+        <app-input
+          formControlName="guestPhone"
+          type="tel"
+          label="Telefon"
+          placeholder="+49 170 1234567"
+          helperText="Optional, für Rückfragen"
+        />
+      </form>
+
+      <div class="booking-form__nav">
+        <app-button variant="ghost" (clicked)="goBack()">Zurück</app-button>
+        <app-button variant="primary" (clicked)="onGuestDetailsNext()">
+          Weiter
+        </app-button>
+      </div>
+    </div>
+  }
+
+  <!-- ================================================================== -->
+  <!-- STEP 3 (or 2 for auth): Confirm & Submit                          -->
+  <!-- ================================================================== -->
+  @if (step() === 'confirm' || step() === 'processing' || step() === 'redirecting') {
+    <div class="booking-form__step">
+      <p class="booking-form__step-label">
+        Schritt {{ currentStepNumber() }} · Buchung bestätigen
+      </p>
+
+      <!-- Who is booking? -->
+      <div class="booking-form__identity">
+        @if (isAuthenticated()) {
+          <div class="booking-form__user-info">
+            <app-icon name="user-check" size="sm" />
+            <div>
+              <strong>{{ authState.user()?.firstName }} {{ authState.user()?.lastName }}</strong>
+              <span>{{ authState.user()?.email }}</span>
+            </div>
+          </div>
+        } @else {
+          <div class="booking-form__user-info booking-form__user-info--guest">
+            <app-icon name="user" size="sm" />
+            <div>
+              <strong>{{ guestForm.value.guestFirstName }} {{ guestForm.value.guestLastName }}</strong>
+              <span>{{ guestForm.value.guestEmail }}</span>
+              <button class="booking-form__edit-link" (click)="goBack()">Ändern</button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Booking Summary -->
+      @if (selectedSession(); as session) {
+        <div class="booking-form__summary">
+          <div class="booking-form__summary-row">
+            <span>Kurs</span>
+            <strong>{{ courseTitle }}</strong>
+          </div>
+          <div class="booking-form__summary-row">
+            <span>Termin</span>
+            <strong>
+              {{ formatWeekday(session.startTime) }},
+              {{ formatDay(session.startTime) }}.{{ formatMonth(session.startTime) }}.
+              · {{ formatTime(session.startTime) }} Uhr
+            </strong>
+          </div>
+          <div class="booking-form__summary-row">
+            <span>Ort</span>
+            <strong>{{ session.location }}</strong>
+          </div>
+          <div class="booking-form__summary-row booking-form__summary-row--price">
+            <span>Preis</span>
+            <strong>{{ formattedPrice() }}</strong>
+          </div>
+        </div>
+      }
+
+      <!-- Waitlist Notice -->
+      @if (isWaitlist()) {
+        <div class="booking-form__notice booking-form__notice--waitlist">
+          <app-icon name="users" size="sm" />
+          <p>
+            Dieser Termin ist ausgebucht. Du wirst auf die Warteliste gesetzt
+            und automatisch benachrichtigt.
+          </p>
+        </div>
+      }
+
+      <!-- Guest waitlist warning -->
+      @if (isWaitlist() && !isAuthenticated()) {
+        <div class="booking-form__notice booking-form__notice--warning">
+          <app-icon name="alert-circle" size="sm" />
+          <p>
+            Warteliste ist nur mit Konto möglich.
+            <a href="/registrieren">Jetzt Konto erstellen</a>
+          </p>
+        </div>
+      }
+
+      <!-- Confirm Form (notes + terms) -->
+      <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
+        <div class="booking-form__field">
+          <label for="booking-notes" class="booking-form__label">
+            Anmerkungen <span class="booking-form__optional">(optional)</span>
+          </label>
+          <textarea
+            id="booking-notes"
+            formControlName="notes"
+            class="booking-form__textarea"
+            placeholder="z. B. besondere Bedürfnisse, Allergien..."
+            rows="3"
+            maxlength="500"
+          ></textarea>
+        </div>
+
+        <label class="booking-form__checkbox">
+          <input type="checkbox" formControlName="acceptTerms" />
+          <span>
+            Ich akzeptiere die
+            <a href="/agb" target="_blank" rel="noopener">AGB</a> und
+            <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzbestimmungen</a>.
+          </span>
+        </label>
+
+        @if (cancellationPolicyName) {
+          <p class="booking-form__policy">
+            <app-icon name="info" size="xs" />
+            Stornierung: {{ cancellationPolicyName }}
+          </p>
+        }
+
+        <!-- Error -->
+        @if (error()) {
+          <div class="booking-form__error" role="alert" aria-live="polite">
+            <app-icon name="alert-circle" size="sm" />
+            {{ error() }}
+          </div>
+        }
+
+        <!-- Actions -->
+        <div class="booking-form__nav">
+          <app-button variant="ghost" (clicked)="goBack()" [disabled]="isProcessing()">
+            Zurück
+          </app-button>
+          <app-button
+            variant="primary"
+            size="large"
+            [loading]="isProcessing()"
+            [disabled]="confirmForm.invalid || (isWaitlist() && !isAuthenticated())"
+            type="submit"
+          >
+            {{ ctaText() }}
+          </app-button>
+        </div>
+
+        @if (step() === 'redirecting') {
+          <p class="booking-form__redirect-notice">
+            Du wirst zur sicheren Bezahlung weitergeleitet...
+          </p>
+        }
+
+        <!-- Guest: payment security hint -->
+        @if (!isAuthenticated() && !isFree()) {
+          <p class="booking-form__security-hint">
+            <app-icon name="lock" size="xs" />
+            Sichere Bezahlung über Stripe – deine Daten bleiben geschützt.
+          </p>
+        }
+      </form>
+    </div>
+  }
+
+  <!-- ================================================================== -->
+  <!-- SUCCESS: Free booking confirmed                                     -->
+  <!-- ================================================================== -->
+  @if (step() === 'success') {
+    <div class="booking-form__success">
+      <div class="booking-form__success-icon" aria-hidden="true">
+        <app-icon name="check-circle" size="xl" />
+      </div>
+
+      <h3 class="booking-form__success-title">Buchung bestätigt!</h3>
+      <p class="booking-form__success-text">
+        Du bist angemeldet. Eine Bestätigung wurde an deine E-Mail-Adresse gesendet.
+      </p>
+
+      @if (selectedSession(); as session) {
+        <div class="booking-form__summary">
+          <div class="booking-form__summary-row">
+            <span>Kurs</span>
+            <strong>{{ courseTitle }}</strong>
+          </div>
+          <div class="booking-form__summary-row">
+            <span>Termin</span>
+            <strong>
+              {{ formatWeekday(session.startTime) }},
+              {{ formatDay(session.startTime) }}.{{ formatMonth(session.startTime) }}.
+              · {{ formatTime(session.startTime) }} Uhr
+            </strong>
+          </div>
+          <div class="booking-form__summary-row">
+            <span>Ort</span>
+            <strong>{{ session.location }}</strong>
+          </div>
+        </div>
+      }
+
+      @if (!isAuthenticated() && bookingResponse()?.booking?.cancellationToken) {
+        <p class="booking-form__success-hint">
+          <app-icon name="info" size="xs" />
+          Du kannst deine Buchung jederzeit über den Link in der Bestätigungs-E-Mail stornieren.
+        </p>
+      }
+
+      <div class="booking-form__success-actions">
+        <app-button variant="primary" (clicked)="onSuccessClose()">
+          Schließen
+        </app-button>
+      </div>
+    </div>
+  }
+</div>

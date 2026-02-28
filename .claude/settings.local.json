@@ -16,9 +16,19 @@
       "Bash(dir:*)",
       "Bash(powershell -Command:*)",
       "Bash(grep:*)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx dotenv:*)",
+      "Bash(DATABASE_URL=\"postgresql://tanzmoment:dev_password@localhost:5432/tanzmoment_dev?schema=public\" npx prisma migrate dev:*)",
+      "Bash(DATABASE_URL=\"postgresql://tanzmoment:dev_password@localhost:5432/tanzmoment_dev?schema=public\" npx prisma generate:*)",
+      "Bash(docker exec tanzmoment-db psql -U tanzmoment -d tanzmoment_dev -c 'SELECT title, \"\"isFree\"\", \"\"priceInCents\"\" FROM courses;')"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "nx",
+    "prisma"
+  ]
 }

@@ -169,6 +169,22 @@
       (bookClick)="onBookCourse()"
     />
 
+    <!-- 10. Booking Modal -->
+    <ui-booking-modal
+      [isOpen]="bookingStore.isModalOpen()"
+      [title]="'Buchung – ' + c.title"
+      (closed)="bookingStore.closeModal()"
+    >
+      <app-booking-form
+        [courseId]="c.id"
+        [courseTitle]="c.title"
+        [priceInCents]="c.priceInCents"
+        [sessions]="bookingStore.sessions()"
+        (bookingCompleted)="onBookingCompleted($event)"
+        (bookingError)="onBookingError($event)"
+      />
+    </ui-booking-modal>
+
   }
 
 </main>

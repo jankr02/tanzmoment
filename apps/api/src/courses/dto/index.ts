@@ -20,3 +20,6 @@ export {
   CourseDetailInstructorDto,
   CourseDetailSessionDto,
 } from './course-detail-response.dto';
+
+// Session Availability DTO
+export { SessionAvailabilityDto } from './session-availability.dto';

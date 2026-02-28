@@ -1,0 +1,24 @@
+<mj-section background-color="#688B68" padding="24px 0">
+  <mj-column>
+    <mj-text
+      align="center"
+      color="#FFFFFF"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="28px"
+      letter-spacing="1px"
+      padding="0"
+    >
+      Tanzmoment
+    </mj-text>
+    <mj-text
+      align="center"
+      color="rgba(255,255,255,0.8)"
+      font-family="'Helvetica Neue', Arial, sans-serif"
+      font-size="13px"
+      letter-spacing="2px"
+      padding="4px 0 0 0"
+    >
+      Bewegung · Ausdruck · Verbindung
+    </mj-text>
+  </mj-column>
+</mj-section>

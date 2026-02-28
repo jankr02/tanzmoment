@@ -1,0 +1,72 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Hallo {{firstName}},
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0">
+          schön, dass du dabei bist! Deine Buchung für <strong>{{courseName}}</strong> ist bestätigt. ✨
+        </mj-text>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 12px 0">
+              DEINE BUCHUNGSDETAILS
+            </mj-text>
+
+            <mj-text padding="4px 0">
+              <strong>Kurs:</strong> {{courseName}}
+            </mj-text>
+            <mj-text padding="4px 0">
+              <strong>Termin:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} – {{formatTime sessionEnd}} Uhr
+            </mj-text>
+            <mj-text padding="4px 0">
+              <strong>Ort:</strong> {{location}}
+            </mj-text>
+            <mj-text padding="4px 0">
+              <strong>Leitung:</strong> {{instructorName}}
+            </mj-text>
+            {{#if amountPaid}}
+            <mj-text padding="4px 0">
+              <strong>Bezahlt:</strong> {{formatPrice amountPaid}}
+            </mj-text>
+            {{/if}}
+            <mj-text padding="8px 0 0 0" color="#9A958F" font-size="12px">
+              Buchungsnr.: {{bookingId}}
+            </mj-text>
+          </mj-column>
+        </mj-section>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{baseUrl}}/meine-buchungen/{{bookingId}}"
+          padding="32px 0 16px 0"
+        >
+          Buchung ansehen
+        </mj-button>
+
+        <mj-text font-size="13px" color="#5E5A55" align="center" padding="0 0 8px 0">
+          Wir freuen uns auf dich!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

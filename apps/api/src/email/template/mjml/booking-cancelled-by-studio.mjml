@@ -1,0 +1,82 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" padding="0 0 8px 0">
+          Hallo {{firstName}},
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          leider müssen wir dir mitteilen, dass <strong>{{courseName}}</strong> abgesagt wurde.
+        </mj-text>
+
+        {{#if adminReason}}
+        <mj-section background-color="#FEF3C7" border-radius="8px" padding="20px 24px">
+          <mj-column>
+            <mj-text color="#B8860B" font-weight="600" padding="0 0 4px 0">
+              Grund der Absage
+            </mj-text>
+            <mj-text color="#2E2A25" padding="0">
+              {{adminReason}}
+            </mj-text>
+          </mj-column>
+        </mj-section>
+        {{/if}}
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
+          <mj-column>
+            <mj-text padding="4px 0">
+              <strong>Kurs:</strong> {{courseName}}
+            </mj-text>
+            <mj-text padding="4px 0">
+              <strong>Termin:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} Uhr
+            </mj-text>
+          </mj-column>
+        </mj-section>
+
+        {{#if refundAmount}}
+        <mj-section background-color="#D1FAE5" border-radius="8px" padding="20px 24px">
+          <mj-column>
+            <mj-text color="#378A5C" font-weight="600" padding="0 0 4px 0">
+              Erstattung
+            </mj-text>
+            <mj-text color="#2E2A25" padding="0">
+              Der volle Betrag von <strong>{{formatPrice refundAmount}}</strong> wird dir automatisch erstattet.
+              Die Gutschrift erscheint innerhalb von 5–10 Werktagen.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+        {{/if}}
+
+        <mj-text padding="24px 0 0 0" color="#5E5A55">
+          Wir entschuldigen uns für die Unannehmlichkeiten und hoffen,
+          dich bald bei einem anderen Kurs begrüßen zu dürfen.
+        </mj-text>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{baseUrl}}/kurse"
+          padding="24px 0 0 0"
+        >
+          Alternative Kurse finden
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

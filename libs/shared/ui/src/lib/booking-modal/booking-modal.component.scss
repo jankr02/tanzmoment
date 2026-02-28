@@ -1,0 +1,134 @@
+// ============================================================================
+// BOOKING MODAL STYLES
+// ============================================================================
+
+:host {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  pointer-events: none;
+}
+
+:host(.is-open) {
+  display: flex;
+}
+
+.booking-modal {
+
+  // ── Backdrop ────────────────────────────────────────────────────────────
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1;
+    pointer-events: auto;
+  }
+
+  // ── Dialog ──────────────────────────────────────────────────────────────
+
+  &__dialog {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    background: var(--color-accent, #fff);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: auto;
+
+    // Brand accent bar at top
+    &::before {
+      content: '';
+      display: block;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--color-primary-dark) 0%,
+        var(--color-secondary-dark) 100%
+      );
+    }
+  }
+
+  // ── Header ──────────────────────────────────────────────────────────────
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-6) var(--space-6) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+      background: var(--color-primary-light);
+      color: var(--color-text-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-soft-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  // ── Content ─────────────────────────────────────────────────────────────
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-6);
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // ── Mobile: Full-screen modal ───────────────────────────────────────────
+
+  @media (max-width: 767px) {
+    &__dialog {
+      max-width: 100%;
+      max-height: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+}
+
+// ─── Reduced motion ────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .booking-modal__backdrop,
+  .booking-modal__dialog {
+    transition: none;
+    animation: none;
+  }
+}

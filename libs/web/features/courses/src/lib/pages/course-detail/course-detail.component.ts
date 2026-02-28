@@ -47,7 +47,11 @@ import { FaqSectionComponent } from '../../sections/faq-section/faq-section.comp
 import { StickyBookingBarComponent } from '../../sections/sticky-booking-bar/sticky-booking-bar.component';
 
 // Shared UI
-import { ButtonComponent, ScrollRevealDirective } from '@tanzmoment/shared/ui';
+import { ButtonComponent, ScrollRevealDirective, BookingModalComponent } from '@tanzmoment/shared/ui';
+
+// Booking Feature
+import { BookingFormComponent, BookingStore } from '@tanzmoment/web/features/booking';
+import { CreateBookingApiResponse } from '@tanzmoment/shared/types';
 
 @Component({
   selector: 'app-course-detail',
@@ -65,7 +69,10 @@ import { ButtonComponent, ScrollRevealDirective } from '@tanzmoment/shared/ui';
     ScheduleSectionComponent,
     FaqSectionComponent,
     StickyBookingBarComponent,
+    BookingModalComponent,
+    BookingFormComponent,
   ],
+  providers: [BookingStore],
   templateUrl: './course-detail.component.html',
   styleUrl: './course-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,6 +86,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   private readonly ngZone = inject(NgZone);
   private readonly courseDetailService = inject(CourseDetailService);
   private readonly platformId = inject(PLATFORM_ID);
+  readonly bookingStore = inject(BookingStore);
 
   // ─── State (delegated to Service) ───────────────────────────────────────
   readonly course = this.courseDetailService.course;
@@ -178,25 +186,38 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   // ─── Actions ────────────────────────────────────────────────────────────
 
   /**
-   * Book session — opens booking window (separate feature)
+   * Opens the booking modal and loads sessions for the course.
    */
-  onBookSession(sessionId: string): void {
-    // TODO: Open booking modal/overlay
-    // For now: placeholder
-    console.log('[CourseDetail] Book session:', sessionId);
+  openBookingModal(): void {
+    const c = this.course();
+    if (!c) return;
+    this.bookingStore.loadSessions(c.id);
+    this.bookingStore.openModal();
   }
 
   /**
-   * Sticky bar CTA — scroll smooth to schedule section
+   * Book session — opens booking modal
+   */
+  onBookSession(_sessionId: string): void {
+    this.openBookingModal();
+  }
+
+  /**
+   * Sticky bar CTA — opens booking modal
    */
   onBookCourse(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const el = document.getElementById('schedule-section');
-      if (el) {
-        this.ngZone.runOutsideAngular(() => {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      }
+    this.openBookingModal();
+  }
+
+  onBookingCompleted(response: CreateBookingApiResponse): void {
+    this.bookingStore.setBookingResult(response);
+
+    if (response.isWaitlisted) {
+      this.router.navigate(['/buchung/warteliste']);
     }
+  }
+
+  onBookingError(_message: string): void {
+    // Error is displayed inside the form, no extra handling needed
   }
 }

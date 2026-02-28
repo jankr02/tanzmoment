@@ -32,6 +32,29 @@ const CourseLevel = {
   ALL_LEVELS: 'ALL_LEVELS',
 } as const;
 
+const BookingMode = {
+  FULL_COURSE: 'FULL_COURSE',
+  SINGLE_SESSION: 'SINGLE_SESSION',
+} as const;
+
+const DEFAULT_CANCELLATION_POLICY = {
+  allowCancellation: true,
+  refundTiers: [
+    { daysBeforeStart: 7, refundPercentage: 100, label: 'Volle Erstattung' },
+    { daysBeforeStart: 3, refundPercentage: 50, label: '50% Erstattung' },
+    { daysBeforeStart: 0, refundPercentage: 0, label: 'Keine Erstattung' },
+  ],
+  defaultRefundPercentage: 0,
+};
+
+const FREE_CANCELLATION_POLICY = {
+  allowCancellation: true,
+  refundTiers: [
+    { daysBeforeStart: 0, refundPercentage: 100, label: 'Kostenlose Stornierung' },
+  ],
+  defaultRefundPercentage: 100,
+};
+
 // =============================================================================
 // DETAIL CONTENT (CMS JSON per dance style)
 // =============================================================================
@@ -1377,7 +1400,11 @@ Dieser Kurs ist perfekt für alle, die Tanz als Form der Selbsterfahrung entdeck
       priceInCents: 2500,
       duration: 90,
       imageUrl: '/assets/images/courses/expressive-frei.jpg',
+      bookingMode: BookingMode.SINGLE_SESSION,
+      isFree: false,
+      cancellationPolicy: FREE_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
     {
@@ -1402,7 +1429,11 @@ Voraussetzung: Grundkurs oder vergleichbare Erfahrung im freien Tanz.`,
       priceInCents: 2800,
       duration: 90,
       imageUrl: '/assets/images/courses/expressive-vertiefung.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1433,7 +1464,11 @@ Die Kinder entwickeln Körpergefühl, Koordination und Selbstvertrauen – ganz 
       priceInCents: 1500,
       duration: 45,
       imageUrl: '/assets/images/courses/kids-tanzmaeuse.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1458,7 +1493,11 @@ Der Kurs fördert nicht nur die motorischen Fähigkeiten, sondern auch Teamgeist
       priceInCents: 1800,
       duration: 60,
       imageUrl: '/assets/images/courses/kids-tanzfuechse.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1483,7 +1522,11 @@ Keine Vorkenntnisse nötig. Komm wie du bist!`,
       priceInCents: 1200,
       duration: 60,
       imageUrl: '/assets/images/courses/schnupperkurs.jpg',
+      bookingMode: BookingMode.SINGLE_SESSION,
+      isFree: true,
+      cancellationPolicy: FREE_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
   ],
@@ -1514,7 +1557,11 @@ Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Das
       priceInCents: 2000,
       duration: 60,
       imageUrl: '/assets/images/courses/inclusive-tanzkreis.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1539,7 +1586,11 @@ Der Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen a
       priceInCents: 2200,
       duration: 75,
       imageUrl: '/assets/images/courses/rollstuhltanz.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1570,7 +1621,11 @@ Babys können mitgebracht werden (schlafend im Kinderwagen) oder du genießt die
       priceInCents: 2200,
       duration: 75,
       imageUrl: '/assets/images/courses/mama-tanzt.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1595,7 +1650,11 @@ Geeignet für Babys von 3-12 Monaten. Stillen und Wickeln jederzeit möglich.`,
       priceInCents: 2000,
       duration: 60,
       imageUrl: '/assets/images/courses/mama-baby.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1700,13 +1759,17 @@ async function seedCourses(instructorId: string) {
         }
       : {};
 
+    const { cancellationPolicy, ...rest } = courseData as any;
+
     const course = await prisma.course.upsert({
-      where: { slug: courseData.slug },
+      where: { slug: rest.slug },
       update: detailFields,
       create: {
-        ...courseData,
+        ...rest,
         instructorId,
         ...detailFields,
+        cancellationPolicyJson: cancellationPolicy ?? null,
+        cancellationPolicyId: 'default-policy',
       },
     });
     createdCount++;
@@ -1752,19 +1815,98 @@ async function seedSessionsForCourse(courseId: string, duration: number) {
   }
 }
 
+async function seedBookings(customerId: string) {
+  console.log('\n🎟️ Creating bookings...');
+
+  await prisma.booking.deleteMany();
+
+  const courses = await prisma.course.findMany({
+    include: { sessions: { take: 1 } },
+    take: 3,
+  });
+
+  if (courses.length === 0) return;
+
+  // Registered user booking
+  const course1 = courses[0];
+  await prisma.booking.create({
+    data: {
+      userId: customerId,
+      courseId: course1.id,
+      ...(course1.sessions[0] ? { sessionId: course1.sessions[0].id } : {}),
+      status: 'CONFIRMED',
+    },
+  });
+  console.log(`  ✅ Registered booking: ${course1.title}`);
+
+  // Guest booking
+  if (courses.length > 1) {
+    const course2 = courses[1];
+    await prisma.booking.create({
+      data: {
+        guestEmail: 'gast@example.com',
+        guestFirstName: 'Maria',
+        guestLastName: 'Beispiel',
+        courseId: course2.id,
+        status: 'CONFIRMED',
+      },
+    });
+    console.log(`  ✅ Guest booking: ${course2.title}`);
+  }
+
+  // Waitlisted booking
+  if (courses.length > 2) {
+    const course3 = courses[2];
+    await prisma.booking.create({
+      data: {
+        userId: customerId,
+        courseId: course3.id,
+        status: 'WAITLISTED',
+        waitlistPosition: 1,
+      },
+    });
+    console.log(`  ✅ Waitlisted booking: ${course3.title}`);
+  }
+}
+
 // =============================================================================
 // MAIN
 // =============================================================================
+
+async function seedCancellationPolicy() {
+  const policy = await prisma.cancellationPolicy.upsert({
+    where: { id: 'default-policy' },
+    update: {},
+    create: {
+      id: 'default-policy',
+      name: 'Standard 48h Policy',
+      description:
+        'Full refund up to 48 hours before session start. ' +
+        '50% refund between 24–48 hours. No refund within 24 hours.',
+      fullRefundHours: 48,
+      partialRefundHours: 24,
+      partialRefundPercent: 50,
+      isDefault: true,
+    },
+  });
+  console.log(`✅ Cancellation policy: ${policy.name}`);
+}
 
 async function main() {
   console.log('🌱 Starting database seed...\n');
   console.log('━'.repeat(50));
 
+  // Seed cancellation policy (must be before courses)
+  await seedCancellationPolicy();
+
   // Seed users
-  const { instructor } = await seedUsers();
+  const { instructor, customer } = await seedUsers();
 
   // Seed courses with sessions
   await seedCourses(instructor.id);
+
+  // Seed bookings
+  await seedBookings(customer.id);
 
   // Summary
   console.log('\n' + '━'.repeat(50));
@@ -1774,10 +1916,12 @@ async function main() {
   const courseCount = await prisma.course.count();
   const sessionCount = await prisma.session.count();
   const userCount = await prisma.user.count();
+  const bookingCount = await prisma.booking.count();
 
   console.log(`   • Users: ${userCount}`);
   console.log(`   • Courses: ${courseCount}`);
   console.log(`   • Sessions: ${sessionCount}`);
+  console.log(`   • Bookings: ${bookingCount}`);
 
   console.log('\n🔐 Test Accounts:');
   console.log('━'.repeat(50));

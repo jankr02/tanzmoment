@@ -1,0 +1,65 @@
+<div class="session-selector" role="radiogroup" [attr.aria-label]="'Termin auswählen'">
+  @if (sessions.length === 0) {
+    <div class="session-selector__empty">
+      <app-icon name="calendar-x" size="lg" />
+      <p>Aktuell keine Termine verfügbar.</p>
+    </div>
+  }
+
+  @for (session of sessions; track session.id) {
+    <button
+      class="session-card"
+      [class.session-card--selected]="selectedSessionId() === session.id"
+      [class.session-card--full]="session.availableSpots === 0"
+      [class.session-card--booked]="session.userHasBooking"
+      [disabled]="session.userHasBooking"
+      (click)="selectSession(session)"
+      role="radio"
+      [attr.aria-checked]="selectedSessionId() === session.id"
+      [attr.aria-label]="getSessionAriaLabel(session)"
+    >
+      <!-- Date -->
+      <div class="session-card__date">
+        <span class="session-card__weekday">{{ formatWeekday(session.startTime) }}</span>
+        <span class="session-card__day">{{ formatDay(session.startTime) }}</span>
+        <span class="session-card__month">{{ formatMonth(session.startTime) }}</span>
+      </div>
+
+      <!-- Info -->
+      <div class="session-card__info">
+        <span class="session-card__time">
+          <app-icon name="clock" size="xs" />
+          {{ formatTime(session.startTime) }} – {{ formatTime(session.endTime) }} Uhr
+        </span>
+        <span class="session-card__location">
+          <app-icon name="map-pin" size="xs" />
+          {{ session.location }}
+        </span>
+      </div>
+
+      <!-- Availability -->
+      <div class="session-card__availability">
+        @if (session.userHasBooking) {
+          <span class="session-card__badge session-card__badge--booked">Gebucht</span>
+        } @else if (session.availableSpots === 0) {
+          <span class="session-card__badge session-card__badge--full">Ausgebucht</span>
+        } @else if (session.availableSpots <= 3) {
+          <span class="session-card__badge session-card__badge--few">
+            Noch {{ session.availableSpots }} {{ session.availableSpots === 1 ? 'Platz' : 'Plätze' }}
+          </span>
+        } @else {
+          <span class="session-card__badge session-card__badge--available">
+            {{ session.availableSpots }} Plätze frei
+          </span>
+        }
+      </div>
+
+      <!-- Check -->
+      <div class="session-card__check">
+        @if (selectedSessionId() === session.id) {
+          <app-icon name="check-circle" size="md" />
+        }
+      </div>
+    </button>
+  }
+</div>

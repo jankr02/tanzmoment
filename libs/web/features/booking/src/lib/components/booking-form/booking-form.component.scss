@@ -1,0 +1,393 @@
+// ============================================================================
+// BOOKING FORM STYLES
+// ============================================================================
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+
+  // ── Progress Dots ──────────────────────────────────────────────────────
+
+  &__progress {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    padding-bottom: var(--space-4);
+  }
+
+  &__progress-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    transition: all 0.2s;
+
+    &--active {
+      background: var(--color-primary-dark);
+    }
+
+    &--current {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--color-primary-dark);
+    }
+  }
+
+  // ── Step ───────────────────────────────────────────────────────────────
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  &__step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &__hint {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  // ── Guest Fields ──────────────────────────────────────────────────────
+
+  &__guest-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  // ── Identity ──────────────────────────────────────────────────────────
+
+  &__identity {
+    margin-bottom: var(--space-2);
+  }
+
+  &__user-info {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    background: rgba(104, 139, 104, 0.06);
+    border: 1px solid rgba(104, 139, 104, 0.15);
+
+    app-icon {
+      color: var(--color-primary-dark);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    strong {
+      font-size: 0.95rem;
+      color: var(--color-text-primary);
+    }
+
+    span {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+    }
+
+    &--guest {
+      background: rgba(0, 0, 0, 0.02);
+      border-color: var(--color-border);
+
+      app-icon {
+        color: var(--color-text-secondary);
+      }
+    }
+  }
+
+  &__edit-link {
+    display: inline;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--color-primary-dark);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-secondary-dark);
+    }
+  }
+
+  // ── Summary ───────────────────────────────────────────────────────────
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  &__summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    span {
+      color: var(--color-text-secondary);
+    }
+
+    strong {
+      color: var(--color-text-primary);
+      text-align: right;
+    }
+
+    &--price {
+      background: var(--color-primary-light);
+
+      strong {
+        font-size: 1.1rem;
+        color: var(--color-primary-dark);
+      }
+    }
+  }
+
+  // ── Notices ───────────────────────────────────────────────────────────
+
+  &__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+
+    &--waitlist {
+      background: #ede9fe;
+      color: #5b21b6;
+
+      app-icon {
+        color: #7c3aed;
+      }
+    }
+
+    &--warning {
+      background: #fef3c7;
+      color: #92400e;
+
+      app-icon {
+        color: #d97706;
+      }
+
+      a {
+        color: inherit;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // ── Confirm Form ──────────────────────────────────────────────────────
+
+  &__field {
+    margin-bottom: var(--space-4);
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  &__optional {
+    font-weight: 400;
+    color: var(--color-text-secondary);
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body, 'Nunito', sans-serif);
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    background: var(--color-accent);
+    resize: vertical;
+    transition: border-color 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary-dark);
+      box-shadow: 0 0 0 3px rgba(104, 139, 104, 0.1);
+    }
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+    }
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--color-primary-dark);
+      cursor: pointer;
+    }
+
+    a {
+      color: var(--color-primary-dark);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--color-secondary-dark);
+      }
+    }
+  }
+
+  &__policy {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    app-icon {
+      flex-shrink: 0;
+    }
+  }
+
+  // ── Error ─────────────────────────────────────────────────────────────
+
+  &__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: var(--space-3) 0;
+  }
+
+  // ── Navigation ────────────────────────────────────────────────────────
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  &__redirect-notice {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin: var(--space-3) 0 0;
+  }
+
+  &__security-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: var(--space-4) 0 0;
+  }
+
+  // ── Success Step ────────────────────────────────────────────────────
+
+  &__success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+  }
+
+  &__success-icon {
+    color: #059669;
+    font-size: 3rem;
+  }
+
+  &__success-title {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__success-text {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    max-width: 380px;
+  }
+
+  &__success-hint {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    app-icon {
+      flex-shrink: 0;
+    }
+  }
+
+  &__success-actions {
+    margin-top: var(--space-2);
+  }
+}
+
+// ─── Reduced motion ────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .booking-form__progress-dot {
+    transition: none;
+  }
+}
