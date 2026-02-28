@@ -1404,6 +1404,7 @@ Dieser Kurs ist perfekt für alle, die Tanz als Form der Selbsterfahrung entdeck
       isFree: false,
       cancellationPolicy: FREE_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
     {
@@ -1432,6 +1433,7 @@ Voraussetzung: Grundkurs oder vergleichbare Erfahrung im freien Tanz.`,
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1466,6 +1468,7 @@ Die Kinder entwickeln Körpergefühl, Koordination und Selbstvertrauen – ganz 
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1494,6 +1497,7 @@ Der Kurs fördert nicht nur die motorischen Fähigkeiten, sondern auch Teamgeist
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1522,6 +1526,7 @@ Keine Vorkenntnisse nötig. Komm wie du bist!`,
       isFree: true,
       cancellationPolicy: FREE_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
   ],
@@ -1556,6 +1561,7 @@ Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Das
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1584,6 +1590,7 @@ Der Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen a
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1618,6 +1625,7 @@ Babys können mitgebracht werden (schlafend im Kinderwagen) oder du genießt die
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
     {
@@ -1646,6 +1654,7 @@ Geeignet für Babys von 3-12 Monaten. Stillen und Wickeln jederzeit möglich.`,
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
       isPublished: true,
+      status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
   ],
@@ -1750,13 +1759,17 @@ async function seedCourses(instructorId: string) {
         }
       : {};
 
+    const { cancellationPolicy, ...rest } = courseData as any;
+
     const course = await prisma.course.upsert({
-      where: { slug: courseData.slug },
+      where: { slug: rest.slug },
       update: detailFields,
       create: {
-        ...courseData,
+        ...rest,
         instructorId,
         ...detailFields,
+        cancellationPolicyJson: cancellationPolicy ?? null,
+        cancellationPolicyId: 'default-policy',
       },
     });
     createdCount++;
@@ -1804,6 +1817,8 @@ async function seedSessionsForCourse(courseId: string, duration: number) {
 
 async function seedBookings(customerId: string) {
   console.log('\n🎟️ Creating bookings...');
+
+  await prisma.booking.deleteMany();
 
   const courses = await prisma.course.findMany({
     include: { sessions: { take: 1 } },

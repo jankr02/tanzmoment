@@ -212,6 +212,18 @@ export {
 } from './lib/cancellation.types';
 
 // =============================================================================
+// BOOKING API (Frontend ↔ Backend communication types)
+// =============================================================================
+export type {
+  SessionAvailability,
+  CreateBookingApiRequest,
+  CreateBookingApiResponse,
+  BookingDetail,
+  CancellationPreview,
+  StripeRedirectParams,
+} from './lib/booking-api.types';
+
+// =============================================================================
 // COURSE DETAIL CONTENT
 // =============================================================================
 export {

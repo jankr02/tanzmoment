@@ -18,6 +18,7 @@ import {
   CourseDetailInstructorDto,
   CourseDetailSessionDto,
 } from './dto/course-detail-response.dto';
+import { SessionAvailabilityDto } from './dto/session-availability.dto';
 
 // =============================================================================
 // TYPES
@@ -212,6 +213,97 @@ export class CoursesService {
     if (!course) return null;
 
     return this.transformToDetail(course);
+  }
+
+  /**
+   * Get all sessions for a course with availability information.
+   *
+   * Returns session-level booking data for the booking flow:
+   * - Available spots per session
+   * - Waitlist count
+   * - Whether the current user has already booked
+   *
+   * @param courseId - Course ID
+   * @param userId - Optional user ID (for userHasBooking check)
+   * @returns Array of sessions with availability data
+   */
+  async getSessionsWithAvailability(
+    courseId: string,
+    userId?: string,
+  ): Promise<SessionAvailabilityDto[]> {
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+      select: {
+        id: true,
+        maxParticipants: true,
+      },
+    });
+
+    if (!course) {
+      return [];
+    }
+
+    const sessions = await this.prisma.session.findMany({
+      where: {
+        courseId,
+        status: 'SCHEDULED',
+        startTime: { gte: new Date() },
+      },
+      orderBy: { startTime: 'asc' },
+      include: {
+        _count: {
+          select: {
+            bookings: {
+              where: {
+                status: { in: ['PENDING', 'CONFIRMED'] },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const result: SessionAvailabilityDto[] = [];
+
+    for (const session of sessions) {
+      const bookedCount = session._count.bookings;
+      const availableSpots = Math.max(0, course.maxParticipants - bookedCount);
+
+      const waitlistCount = await this.prisma.booking.count({
+        where: {
+          sessionId: session.id,
+          status: 'WAITLISTED',
+        },
+      });
+
+      let userHasBooking = false;
+      if (userId) {
+        const userBooking = await this.prisma.booking.findFirst({
+          where: {
+            sessionId: session.id,
+            userId,
+            status: { in: ['PENDING', 'CONFIRMED', 'WAITLISTED'] },
+          },
+        });
+        userHasBooking = !!userBooking;
+      }
+
+      result.push({
+        id: session.id,
+        courseId: session.courseId,
+        startTime: session.startTime.toISOString(),
+        endTime: session.endTime.toISOString(),
+        location: session.location,
+        status: session.status,
+        maxParticipants: course.maxParticipants,
+        bookedCount,
+        availableSpots,
+        userHasBooking,
+        waitlistCount,
+      });
+    }
+
+    return result;
   }
 
   // ===========================================================================

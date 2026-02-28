@@ -1,0 +1,66 @@
+// ============================================================================
+// GUEST CANCEL STYLES
+// ============================================================================
+
+.guest-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--space-8) var(--space-4);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 480px;
+    text-align: center;
+
+    h1 {
+      font-family: var(--font-headline);
+      font-size: 1.75rem;
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    p {
+      color: var(--color-text-secondary);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    app-icon {
+      font-size: 3rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-2);
+  }
+
+  &__spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary-dark);
+    border-radius: 50%;
+    animation: guest-cancel-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes guest-cancel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guest-cancel__spinner {
+    animation: none;
+  }
+}

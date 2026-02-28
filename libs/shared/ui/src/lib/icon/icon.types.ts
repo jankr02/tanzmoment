@@ -32,6 +32,12 @@ export type IconName =
   | 'wheelchair'
   | 'sparkle'
   | 'music'
+  // Booking & Status
+  | 'alert-circle'
+  | 'x-circle'
+  | 'user-check'
+  | 'lock'
+  | 'calendar-x'
   // Social Media
   | 'instagram'
   | 'facebook'

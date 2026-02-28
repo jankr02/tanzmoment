@@ -7,7 +7,7 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.ts'],
     coverage: {
       provider: 'v8',
-      reportsDirectory: '../../../coverage/libs/shared/services',
+      reportsDirectory: '../../../coverage/libs/shared/ui',
     },
   },
 });

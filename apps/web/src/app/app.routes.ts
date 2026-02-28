@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { bookingRoutes } from '@tanzmoment/web/features/booking';
 
 export const appRoutes: Route[] = [
   {
@@ -68,4 +69,6 @@ export const appRoutes: Route[] = [
         (m) => m.ExpressivePageComponent
       ),
   },
+  // Booking Routes (payment redirect, guest cancellation, waitlist)
+  ...bookingRoutes,
 ];
