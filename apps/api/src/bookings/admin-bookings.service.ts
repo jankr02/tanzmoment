@@ -60,7 +60,7 @@ export class AdminBookingsService {
             },
           },
           session: {
-            select: { id: true, startTime: true, location: true },
+            select: { id: true, startTime: true, location: { select: { name: true } } },
           },
           payment: {
             select: {
@@ -95,7 +95,7 @@ export class AdminBookingsService {
           ? {
               id: b.session.id,
               startTime: b.session.startTime,
-              location: b.session.location,
+              location: b.session.location.name,
             }
           : null,
         payment: b.payment,

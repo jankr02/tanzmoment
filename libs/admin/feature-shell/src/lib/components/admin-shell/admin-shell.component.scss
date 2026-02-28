@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.admin-layout {
+  display: flex;
+  height: 100%;
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--color-accent, #fdf8f3);
+    padding: var(--space-6, 24px);
+
+    @media (min-width: 1024px) {
+      padding: var(--space-8, 32px) var(--space-10, 40px);
+    }
+  }
+}

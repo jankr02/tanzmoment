@@ -1,0 +1,126 @@
+<div class="dashboard">
+  <!-- Greeting -->
+  <header class="dashboard__header">
+    <h1 class="dashboard__greeting">{{ greeting() }}</h1>
+    <p class="dashboard__subtitle">Hier ist dein Überblick für diese Woche.</p>
+  </header>
+
+  @if (loading()) {
+    <div class="dashboard__loading" aria-live="polite">
+      <div class="skeleton skeleton--stats"></div>
+      <div class="skeleton skeleton--actions"></div>
+      <div class="skeleton skeleton--table"></div>
+    </div>
+  } @else if (error()) {
+    <div class="dashboard__error" role="alert">
+      <app-icon name="alert-circle" size="lg" color="danger" />
+      <p>{{ error() }}</p>
+      <button class="dashboard__retry" (click)="ngOnInit()">Erneut versuchen</button>
+    </div>
+  } @else {
+    <!-- Stats Cards -->
+    @if (stats(); as s) {
+      <section class="stats-grid" aria-label="Statistiken">
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--bookings">
+            <app-icon name="clipboard-list" size="md" color="current" />
+          </div>
+          <div class="stat-card__content">
+            <span class="stat-card__value">{{ s.bookingsThisWeek }}</span>
+            <span class="stat-card__label">Buchungen diese Woche</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--revenue">
+            <app-icon name="euro" size="md" color="current" />
+          </div>
+          <div class="stat-card__content">
+            <span class="stat-card__value">{{ revenueFormatted() }} &euro;</span>
+            <span class="stat-card__label">Umsatz diesen Monat</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--occupancy">
+            <app-icon name="bar-chart" size="md" color="current" />
+          </div>
+          <div class="stat-card__content">
+            <span class="stat-card__value">{{ s.averageOccupancy }}%</span>
+            <span class="stat-card__label">Durchschn. Auslastung</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__icon stat-card__icon--customers">
+            <app-icon name="users" size="md" color="current" />
+          </div>
+          <div class="stat-card__content">
+            <span class="stat-card__value">{{ s.activeCustomers }}</span>
+            <span class="stat-card__label">Aktive Kunden</span>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- Action Items -->
+    @if (actionItems().length > 0) {
+      <section class="action-items" aria-label="Handlungsbedarf">
+        <h2 class="section-title">Handlungsbedarf</h2>
+        <div class="action-items__grid">
+          @for (item of actionItems(); track item.label) {
+            <div class="action-item" [class]="'action-item--' + item.severity">
+              <app-icon [name]="$any(item.icon)" size="sm" color="current" />
+              <span class="action-item__count">{{ item.count }}</span>
+              <span class="action-item__label">{{ item.label }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Upcoming Sessions -->
+    <section class="sessions" aria-label="Kommende Sessions">
+      <h2 class="section-title">Kommende Sessions</h2>
+      @if (upcomingSessions().length === 0) {
+        <div class="sessions__empty">
+          <app-icon name="calendar" size="lg" color="text-secondary" />
+          <p>Keine Sessions in den nächsten 7 Tagen.</p>
+        </div>
+      } @else {
+        <div class="sessions__table-wrapper">
+          <table class="sessions__table">
+            <thead>
+              <tr>
+                <th>Kurs</th>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Ort</th>
+                <th>Auslastung</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (session of upcomingSessions(); track trackSession($index, session)) {
+                <tr>
+                  <td>
+                    <span class="sessions__course-title">{{ session.courseTitle }}</span>
+                    <span class="sessions__dance-style">{{ session.danceStyle }}</span>
+                  </td>
+                  <td>{{ session.startTime | date:'EEE, dd.MM.' }}</td>
+                  <td>{{ session.startTime | date:'HH:mm' }} – {{ session.endTime | date:'HH:mm' }}</td>
+                  <td>{{ session.locationName }}</td>
+                  <td>
+                    <div class="occupancy-badge" [class]="getOccupancyClass(session.occupancy)">
+                      {{ session.bookedCount }}/{{ session.maxParticipants }}
+                      <span class="occupancy-badge__pct">({{ session.occupancy }}%)</span>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  }
+</div>

@@ -1,53 +1,124 @@
-import { Component, inject, computed, signal, effect } from '@angular/core';
+import { Component, inject, computed, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
-import { HeaderComponent, FooterComponent } from '@tanzmoment/shared/ui';
-import { AuthStateService, SplashScreenVisibilityService } from '@tanzmoment/web/features/landing';
+import {
+  HeaderComponent,
+  FooterComponent,
+  LoginModalComponent,
+  UserMenuData,
+} from '@tanzmoment/shared/ui';
+import {
+  AuthStateService,
+  AuthApiService,
+} from '@tanzmoment/shared/services';
+import { SplashScreenVisibilityService } from '@tanzmoment/web/features/landing';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    LoginModalComponent,
+  ],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss']
+  styleUrls: ['./app.scss'],
 })
 export class AppComponent {
   title = 'Tanzmoment';
-  protected readonly authState = inject(AuthStateService);
+  private readonly authState = inject(AuthStateService);
+  private readonly authApi = inject(AuthApiService);
   protected readonly splashScreenVisibility = inject(SplashScreenVisibilityService);
   private readonly router = inject(Router);
 
-  /**
-   * Track current route - updates reactively when navigation occurs
-   */
-  private readonly currentRoute = signal('/');
+  @ViewChild(LoginModalComponent) loginModal?: LoginModalComponent;
 
-  /**
-   * Determines if header/footer should be visible
-   * - Hidden during splash screen on landing page
-   * - Always visible on all other pages
-   */
+  private readonly currentRoute = signal('/');
+  protected readonly showLoginModal = signal(false);
+
+  protected readonly isAuthenticated = computed(() => this.authState.isAuthenticated());
+
+  protected readonly userMenuData = computed<UserMenuData | undefined>(() => {
+    const user = this.authState.user();
+    if (!user) return undefined;
+
+    const isAdmin = user.role === 'ADMIN' || user.role === 'INSTRUCTOR';
+
+    const menuItems = [
+      { label: 'Meine Buchungen', iconName: 'calendar' as const },
+      ...(isAdmin
+        ? [{ label: 'Admin Panel', iconName: 'layout-dashboard' as const, route: '/admin' }]
+        : []),
+      {
+        label: 'Abmelden',
+        iconName: 'log-out' as const,
+        divider: true,
+        action: () => this.onLogout(),
+      },
+    ];
+
+    return {
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.email,
+      role: user.role,
+      menuItems,
+    };
+  });
+
   protected readonly shouldShowHeaderFooter = computed(() => {
-    const isLandingPage = this.currentRoute() === '/';
+    const route = this.currentRoute();
+    const isLandingPage = route === '/';
+    const isAdminPage = route.startsWith('/admin');
     const isSplashVisible = this.splashScreenVisibility.showSplash();
 
-    // Show header/footer if:
-    // - NOT on landing page, OR
-    // - On landing page but splash screen is hidden
+    if (isAdminPage) return false;
+
     return !isLandingPage || !isSplashVisible;
   });
 
   constructor() {
-    // Subscribe to router navigation events to update current route
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.currentRoute.set(event.url);
       });
   }
 
   onLoginClicked(): void {
-    this.authState.login(0);
+    this.showLoginModal.set(true);
+  }
+
+  onLoginSubmitted(credentials: { email: string; password: string }): void {
+    this.authApi.login(credentials.email, credentials.password).subscribe({
+      next: (response) => {
+        this.authState.setAuth(response.accessToken, {
+          id: response.user.id,
+          email: response.user.email,
+          firstName: response.user.firstName,
+          lastName: response.user.lastName,
+          role: response.user.role,
+        });
+        this.showLoginModal.set(false);
+      },
+      error: (err) => {
+        const message =
+          err.status === 401
+            ? 'E-Mail oder Passwort ist falsch.'
+            : 'Anmeldung fehlgeschlagen. Bitte versuche es erneut.';
+        this.loginModal?.setError(message);
+      },
+    });
+  }
+
+  onLoginModalClosed(): void {
+    this.showLoginModal.set(false);
+  }
+
+  private onLogout(): void {
+    this.authState.clearAuth();
+    this.router.navigate(['/']);
   }
 }

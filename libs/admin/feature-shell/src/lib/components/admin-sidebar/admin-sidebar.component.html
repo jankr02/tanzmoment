@@ -1,0 +1,41 @@
+<aside class="sidebar" [class.collapsed]="collapsed()" [style.width]="sidebarWidth()">
+  <div class="sidebar__header">
+    @if (!collapsed()) {
+      <span class="sidebar__logo">Tanzmoment</span>
+      <span class="sidebar__badge">Admin</span>
+    }
+    <button
+      class="sidebar__toggle"
+      (click)="toggleCollapsed()"
+      [attr.aria-label]="collapsed() ? 'Seitenleiste einblenden' : 'Seitenleiste ausblenden'"
+    >
+      <app-icon [name]="collapsed() ? 'chevrons-right' : 'chevrons-left'" size="sm" color="current" />
+    </button>
+  </div>
+
+  <nav class="sidebar__nav" role="navigation" aria-label="Admin Navigation">
+    @for (item of navItems; track item.route) {
+      <a
+        class="sidebar__link"
+        [routerLink]="item.route"
+        routerLinkActive="sidebar__link--active"
+        [routerLinkActiveOptions]="{ exact: item.route === '/admin' }"
+        [attr.title]="collapsed() ? item.label : null"
+      >
+        <app-icon [name]="item.icon" size="sm" color="current" />
+        @if (!collapsed()) {
+          <span class="sidebar__label">{{ item.label }}</span>
+        }
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar__footer">
+    <a class="sidebar__link" routerLink="/" [attr.title]="collapsed() ? 'Zur Website' : null">
+      <app-icon name="external-link" size="sm" color="current" />
+      @if (!collapsed()) {
+        <span class="sidebar__label">Zur Website</span>
+      }
+    </a>
+  </div>
+</aside>

@@ -7,6 +7,7 @@ import { ContactModule } from '../contact/contact.module';
 import { BookingsModule } from '../bookings/bookings.module';
 import { PaymentsModule } from '../payments/payments.module';
 import { EmailModule } from '../email/email.module';
+import { AdminModule } from '../admin/admin.module';
 import { emailConfig } from '../config/email.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -26,6 +27,7 @@ import { AppService } from './app.service';
     BookingsModule,
     PaymentsModule,
     EmailModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

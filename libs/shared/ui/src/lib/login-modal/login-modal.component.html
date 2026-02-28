@@ -1,0 +1,78 @@
+@if (isOpen) {
+  <div class="login-modal__backdrop" (click)="onBackdropClick()"></div>
+
+  <div
+    class="login-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="login-title"
+  >
+    <button
+      class="login-modal__close"
+      (click)="onClose()"
+      [disabled]="loading()"
+      aria-label="Schließen"
+    >
+      <app-icon name="x" size="sm" color="current" />
+    </button>
+
+    <div class="login-modal__header">
+      <h2 id="login-title" class="login-modal__title">Anmelden</h2>
+      <p class="login-modal__subtitle">Melde dich mit deinem Tanzmoment-Konto an.</p>
+    </div>
+
+    @if (errorMessage(); as error) {
+      <div class="login-modal__error" role="alert">
+        <app-icon name="alert-circle" size="sm" color="danger" />
+        <span>{{ error }}</span>
+      </div>
+    }
+
+    <form class="login-modal__form" (ngSubmit)="onSubmit()">
+      <div class="login-modal__field">
+        <label for="login-email" class="login-modal__label">E-Mail</label>
+        <input
+          id="login-email"
+          type="email"
+          class="login-modal__input"
+          placeholder="deine@email.de"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          name="email"
+          autocomplete="email"
+          [disabled]="loading()"
+          required
+        />
+      </div>
+
+      <div class="login-modal__field">
+        <label for="login-password" class="login-modal__label">Passwort</label>
+        <input
+          id="login-password"
+          type="password"
+          class="login-modal__input"
+          placeholder="Passwort eingeben"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          name="password"
+          autocomplete="current-password"
+          [disabled]="loading()"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="login-modal__submit"
+        [disabled]="loading()"
+      >
+        @if (loading()) {
+          <span class="login-modal__spinner"></span>
+          Wird angemeldet...
+        } @else {
+          Anmelden
+        }
+      </button>
+    </form>
+  </div>
+}

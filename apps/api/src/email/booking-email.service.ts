@@ -41,7 +41,7 @@ export class BookingEmailService {
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
         sessionEnd: data.session.endTime.toISOString(),
-        location: data.session.location,
+        location: data.session.location.name,
         instructorName: `${data.session.course.instructor.user.firstName} ${data.session.course.instructor.user.lastName}`,
         amountPaid: data.payment?.amountInCents ?? null,
         bookingId: data.id,
@@ -152,7 +152,7 @@ export class BookingEmailService {
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
-        location: data.session.location,
+        location: data.session.location.name,
         priceInCents: data.session.course.priceInCents,
         expiresAt: expiresAt.toISOString(),
         bookingId: data.id,
@@ -180,7 +180,7 @@ export class BookingEmailService {
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
         sessionEnd: data.session.endTime.toISOString(),
-        location: data.session.location,
+        location: data.session.location.name,
         instructorName: `${data.session.course.instructor.user.firstName} ${data.session.course.instructor.user.lastName}`,
         bookingId: data.id,
         notes: data.notes,
@@ -249,6 +249,7 @@ export class BookingEmailService {
         },
         session: {
           include: {
+            location: { select: { name: true } },
             course: {
               include: {
                 instructor: {

@@ -23,6 +23,7 @@ export * from './lib/filter-sidebar/filter-sidebar.component';
 export * from './lib/testimonial-section/testimonial-section.component';
 export * from './lib/session-selector/session-selector.component';
 export * from './lib/booking-modal/booking-modal.component';
+export * from './lib/login-modal/login-modal.component';
 
 // Types
 export * from './lib/card/course-card.types';

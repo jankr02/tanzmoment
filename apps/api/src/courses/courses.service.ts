@@ -52,7 +52,7 @@ interface CourseWithRelations {
   sessions: Array<{
     startTime: Date;
     endTime: Date;
-    location: string;
+    location: { name: string };
   }>;
 }
 
@@ -105,7 +105,8 @@ export class CoursesService {
               status: 'SCHEDULED',
             },
             orderBy: { startTime: 'asc' },
-            take: 10, // Limit for performance
+            take: 10,
+            include: { location: { select: { name: true } } },
           },
         },
       }),
@@ -154,6 +155,7 @@ export class CoursesService {
           },
           orderBy: { startTime: 'asc' },
           take: 1,
+          include: { location: { select: { name: true } } },
         },
       },
     });
@@ -196,6 +198,7 @@ export class CoursesService {
           },
           orderBy: { startTime: 'asc' },
           include: {
+            location: { select: { name: true } },
             _count: {
               select: {
                 bookings: {
@@ -251,6 +254,7 @@ export class CoursesService {
       },
       orderBy: { startTime: 'asc' },
       include: {
+        location: { select: { name: true } },
         _count: {
           select: {
             bookings: {
@@ -293,7 +297,7 @@ export class CoursesService {
         courseId: session.courseId,
         startTime: session.startTime.toISOString(),
         endTime: session.endTime.toISOString(),
-        location: session.location,
+        location: session.location.name,
         status: session.status,
         maxParticipants: course.maxParticipants,
         bookedCount,
@@ -336,7 +340,7 @@ export class CoursesService {
           id: session.id,
           startTime: session.startTime,
           endTime: session.endTime,
-          location: session.location,
+          location: session.location.name,
           status: session.status,
           formattedDate: this.formatSessionDateTime(session.startTime),
           formattedTime: this.formatSessionTimeRange(
@@ -441,9 +445,8 @@ export class CoursesService {
       status: 'SCHEDULED',
     };
 
-    // Location filter (partial match for flexibility)
+    // Location filter via relation
     if (query.location) {
-      // Map location ID to actual location name
       const locationMap: Record<string, string> = {
         moessingen: 'Mössingen',
         bodelshausen: 'Bodelshausen',
@@ -451,8 +454,7 @@ export class CoursesService {
       const locationName = locationMap[query.location];
       if (locationName) {
         sessionFilter.location = {
-          contains: locationName,
-          mode: 'insensitive',
+          name: { contains: locationName, mode: 'insensitive' },
         };
       }
     }
@@ -518,7 +520,7 @@ export class CoursesService {
             startTime: nextSession.startTime,
             endTime: nextSession.endTime,
             startsAt: this.formatSessionDateTime(nextSession.startTime),
-            location: nextSession.location,
+            location: nextSession.location.name,
           }
         : undefined,
       upcomingSessionCount,

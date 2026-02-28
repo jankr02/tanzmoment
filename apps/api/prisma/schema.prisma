@@ -29,7 +29,8 @@ model User {
   instructor    Instructor?
   bookings      Booking[]
   payments      Payment[]
-  
+  customerNotes CustomerNote[]
+
   @@map("users")
 }
 
@@ -58,6 +59,24 @@ model Instructor {
   courses     Course[]
   
   @@map("instructors")
+}
+
+// ============================================================================
+// LOCATION
+// ============================================================================
+
+model Location {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  address   String?
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions  Session[]
+
+  @@map("locations")
 }
 
 // ============================================================================
@@ -134,21 +153,23 @@ enum CourseLevel {
 }
 
 model Session {
-  id          String       @id @default(cuid())
+  id          String        @id @default(cuid())
   courseId    String
-  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  
+  course      Course        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
   startTime   DateTime
   endTime     DateTime
-  location    String
-  
+
+  locationId  String
+  location    Location      @relation(fields: [locationId], references: [id])
+
   status      SessionStatus @default(SCHEDULED)
-  
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
   bookings    Booking[]
-  
+
   @@map("sessions")
 }
 
@@ -388,4 +409,43 @@ model CancellationPolicy {
   courses     Course[]
 
   @@map("cancellation_policies")
+}
+
+// ============================================================================
+// CUSTOMER NOTES
+// ============================================================================
+
+model CustomerNote {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  content   String   @db.Text
+  createdBy String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("customer_notes")
+}
+
+// ============================================================================
+// AUDIT LOG
+// ============================================================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  entity    String
+  entityId  String
+  details   Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
 }

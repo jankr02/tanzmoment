@@ -141,7 +141,7 @@ export class AdminPaymentsController {
         booking: {
           include: {
             course: { select: { title: true, slug: true, priceInCents: true } },
-            session: { select: { startTime: true, location: true } },
+            session: { select: { startTime: true, location: { select: { name: true } } } },
           },
         },
         user: { select: { email: true, firstName: true, lastName: true } },

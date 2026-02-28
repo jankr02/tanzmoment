@@ -38,6 +38,17 @@ export type IconName =
   | 'user-check'
   | 'lock'
   | 'calendar-x'
+  // Admin Icons
+  | 'layout-dashboard'
+  | 'book-open'
+  | 'clipboard-list'
+  | 'wallet'
+  | 'chevrons-right'
+  | 'chevrons-left'
+  | 'external-link'
+  | 'menu'
+  | 'home'
+  | 'arrow-left'
   // Social Media
   | 'instagram'
   | 'facebook'

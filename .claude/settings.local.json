@@ -21,7 +21,12 @@
       "Bash(npx dotenv:*)",
       "Bash(DATABASE_URL=\"postgresql://tanzmoment:dev_password@localhost:5432/tanzmoment_dev?schema=public\" npx prisma migrate dev:*)",
       "Bash(DATABASE_URL=\"postgresql://tanzmoment:dev_password@localhost:5432/tanzmoment_dev?schema=public\" npx prisma generate:*)",
-      "Bash(docker exec tanzmoment-db psql -U tanzmoment -d tanzmoment_dev -c 'SELECT title, \"\"isFree\"\", \"\"priceInCents\"\" FROM courses;')"
+      "Bash(docker exec tanzmoment-db psql -U tanzmoment -d tanzmoment_dev -c 'SELECT title, \"\"isFree\"\", \"\"priceInCents\"\" FROM courses;')",
+      "Bash(npx prisma migrate reset --schema=apps/api/prisma/schema.prisma --force)",
+      "Bash(git -C /c/Projects/tanzmoment log --all --oneline)",
+      "Bash(git -C /c/Projects/tanzmoment show HEAD~5:CLAUDE.md)",
+      "Bash(git -C /c/Projects/tanzmoment log --all --oneline -30)",
+      "Bash(git -C /c/Projects/tanzmoment log --all --full-history --diff-filter=D -- \"*admin*\" \"*plan*\" \"*Phase*\")"
     ],
     "deny": [],
     "ask": []

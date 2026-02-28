@@ -1,8 +1,8 @@
 <!-- Global Header (hidden during splash screen on landing page) -->
 @if (shouldShowHeaderFooter()) {
   <tm-header
-    [isAuthenticated]="authState.isAuthenticated()"
-    [userData]="authState.userMenuData()"
+    [isAuthenticated]="isAuthenticated()"
+    [userData]="userMenuData()"
     (loginClicked)="onLoginClicked()"
   />
 }
@@ -16,3 +16,10 @@
 @if (shouldShowHeaderFooter()) {
   <tm-footer />
 }
+
+<!-- Login Modal -->
+<ui-login-modal
+  [isOpen]="showLoginModal()"
+  (closed)="onLoginModalClosed()"
+  (loginSubmitted)="onLoginSubmitted($event)"
+/>

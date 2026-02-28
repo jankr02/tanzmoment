@@ -1,0 +1,151 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-text-primary, #2e2a25);
+  color: rgba(255, 255, 255, 0.85);
+  transition: width 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  overflow: hidden;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    padding: var(--space-4, 16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 64px;
+  }
+
+  &__logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__badge {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--color-primary-dark, #688b68);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm, 8px);
+    white-space: nowrap;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    border-radius: var(--radius-sm, 8px);
+    transition: background 150ms ease, color 150ms ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary-dark, #688b68);
+      outline-offset: 2px;
+    }
+  }
+
+  &__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+    padding: var(--space-3, 12px) var(--space-2, 8px);
+    overflow-y: auto;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3, 12px);
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    border-radius: var(--radius-sm, 8px);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 150ms ease, color 150ms ease;
+    min-height: 44px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary-dark, #688b68);
+      outline-offset: -2px;
+    }
+
+    &--active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 24px;
+        background: var(--color-primary-dark, #688b68);
+        border-radius: 0 3px 3px 0;
+      }
+    }
+  }
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__footer {
+    padding: var(--space-2, 8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  // Collapsed state adjustments
+  &.collapsed {
+    .sidebar__header {
+      justify-content: center;
+      padding: var(--space-4, 16px) var(--space-2, 8px);
+    }
+
+    .sidebar__link {
+      justify-content: center;
+      padding: var(--space-2, 8px);
+    }
+
+    .sidebar__link--active::before {
+      height: 20px;
+    }
+  }
+}

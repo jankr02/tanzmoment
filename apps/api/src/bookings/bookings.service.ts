@@ -113,7 +113,7 @@ export class BookingsService {
             id: string;
             startTime: Date;
             endTime: Date;
-            location: string;
+            location: { name: string };
             status: string;
           } | null = null;
 
@@ -130,7 +130,7 @@ export class BookingsService {
                 id: true,
                 startTime: true,
                 endTime: true,
-                location: true,
+                location: { select: { name: true } },
                 status: true,
               },
             });
@@ -209,7 +209,7 @@ export class BookingsService {
                   id: true,
                   startTime: true,
                   endTime: true,
-                  location: true,
+                  location: { select: { name: true } },
                 },
               },
             },
@@ -446,7 +446,7 @@ export class BookingsService {
             id: true,
             startTime: true,
             endTime: true,
-            location: true,
+            location: { select: { name: true } },
           },
         },
         payment: true,
@@ -603,7 +603,7 @@ export class BookingsService {
             id: true,
             startTime: true,
             endTime: true,
-            location: true,
+            location: { select: { name: true } },
           },
         },
       },
@@ -667,7 +667,7 @@ export class BookingsService {
               id: true,
               startTime: true,
               endTime: true,
-              location: true,
+              location: { select: { name: true } },
             },
           },
         },
@@ -714,7 +714,7 @@ export class BookingsService {
             id: true,
             startTime: true,
             endTime: true,
-            location: true,
+            location: { select: { name: true } },
           },
         },
       },
@@ -933,7 +933,7 @@ export class BookingsService {
       id: string;
       startTime: Date;
       endTime: Date;
-      location: string;
+      location: { name: string };
     } | null;
   }): BookingResponseDto {
     const isGuest = !booking.userId;
@@ -963,7 +963,7 @@ export class BookingsService {
             id: booking.session.id,
             startTime: booking.session.startTime.toISOString(),
             endTime: booking.session.endTime.toISOString(),
-            location: booking.session.location,
+            location: booking.session.location.name,
           }
         : undefined,
       waitlistPosition: booking.waitlistPosition ?? undefined,

@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { bookingRoutes } from '@tanzmoment/web/features/booking';
+import { adminAuthGuard } from '@tanzmoment/admin/data-access';
 
 export const appRoutes: Route[] = [
   {
@@ -71,4 +72,12 @@ export const appRoutes: Route[] = [
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)
   ...bookingRoutes,
+  // Admin Panel (lazy-loaded, guarded)
+  {
+    path: 'admin',
+    canActivate: [adminAuthGuard],
+    loadChildren: () =>
+      import('@tanzmoment/admin/feature-shell').then((m) => m.adminRoutes),
+    title: 'Admin | Tanzmoment',
+  },
 ];

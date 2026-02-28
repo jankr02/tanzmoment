@@ -1664,7 +1664,10 @@ Geeignet für Babys von 3-12 Monaten. Stillen und Wickeln jederzeit möglich.`,
 // LOCATIONS
 // =============================================================================
 
-const LOCATIONS = ['Mössingen', 'Bodelshausen'];
+const LOCATION_DATA = [
+  { name: 'Mössingen', address: null },
+  { name: 'Bodelshausen', address: null },
+];
 
 // =============================================================================
 // SEED FUNCTIONS
@@ -1743,7 +1746,29 @@ async function seedUsers() {
   return { admin, instructorUser, instructor, customer };
 }
 
-async function seedCourses(instructorId: string) {
+async function seedLocations(): Promise<Record<string, string>> {
+  console.log('\n📍 Creating locations...');
+
+  const created: Record<string, string> = {};
+
+  for (const loc of LOCATION_DATA) {
+    const location = await prisma.location.upsert({
+      where: { name: loc.name },
+      update: {},
+      create: {
+        name: loc.name,
+        address: loc.address,
+        isActive: true,
+      },
+    });
+    created[loc.name] = location.id;
+    console.log(`  ✅ Location: ${location.name} (${location.id})`);
+  }
+
+  return created;
+}
+
+async function seedCourses(instructorId: string, locationIds: Record<string, string>) {
   console.log('\n📚 Creating courses...');
 
   const allCourses = Object.values(COURSES_BY_STYLE).flat();
@@ -1776,22 +1801,26 @@ async function seedCourses(instructorId: string) {
     console.log(`  ✅ ${course.title} (${course.danceStyle})`);
 
     // Create sessions for each course
-    await seedSessionsForCourse(course.id, course.duration);
+    await seedSessionsForCourse(course.id, course.duration, locationIds);
   }
 
   console.log(`  📊 Total courses: ${createdCount}`);
 }
 
-async function seedSessionsForCourse(courseId: string, duration: number) {
-  // Create sessions for the next 6 weeks at both locations
+async function seedSessionsForCourse(
+  courseId: string,
+  duration: number,
+  locationIds: Record<string, string>,
+) {
   const sessionsPerLocation = 3;
+  const locationNames = Object.keys(locationIds);
 
-  for (const location of LOCATIONS) {
+  for (const locationName of locationNames) {
     for (let week = 0; week < sessionsPerLocation; week++) {
       const date = new Date();
 
       // Alternate days: Mössingen = Wednesday (3), Bodelshausen = Friday (5)
-      const targetDay = location === 'Mössingen' ? 3 : 5;
+      const targetDay = locationName === 'Mössingen' ? 3 : 5;
       const daysUntilTarget = (targetDay - date.getDay() + 7) % 7 || 7;
 
       date.setDate(date.getDate() + daysUntilTarget + week * 7);
@@ -1808,7 +1837,7 @@ async function seedSessionsForCourse(courseId: string, duration: number) {
           courseId,
           startTime: date,
           endTime: endDate,
-          location,
+          locationId: locationIds[locationName],
         },
       });
     }
@@ -1902,8 +1931,11 @@ async function main() {
   // Seed users
   const { instructor, customer } = await seedUsers();
 
+  // Seed locations
+  const locationIds = await seedLocations();
+
   // Seed courses with sessions
-  await seedCourses(instructor.id);
+  await seedCourses(instructor.id, locationIds);
 
   // Seed bookings
   await seedBookings(customer.id);

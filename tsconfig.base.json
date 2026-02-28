@@ -27,7 +27,10 @@
       "@tanzmoment/web/features/about": ["libs/web/features/about/src/index.ts"],
       "@tanzmoment/web/features/contact": ["libs/web/features/contact/src/index.ts"],
       "@tanzmoment/web/features/target-groups": ["libs/web/features/target-groups/src/index.ts"],
-      "@tanzmoment/web/features/booking": ["libs/web/features/booking/src/index.ts"]
+      "@tanzmoment/web/features/booking": ["libs/web/features/booking/src/index.ts"],
+      "@tanzmoment/admin/feature-shell": ["libs/admin/feature-shell/src/index.ts"],
+      "@tanzmoment/admin/feature-dashboard": ["libs/admin/feature-dashboard/src/index.ts"],
+      "@tanzmoment/admin/data-access": ["libs/admin/data-access/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
