@@ -1,0 +1,56 @@
+<div class="week-view" role="grid" aria-label="Wochenansicht">
+  <!-- Day Headers -->
+  <div class="week-view__header">
+    <div class="week-view__time-gutter" aria-hidden="true"></div>
+    @for (day of days(); track day.getTime()) {
+      <div
+        class="week-view__day-header"
+        [class.week-view__day-header--today]="isToday(day)"
+        role="columnheader"
+      >
+        {{ formatDayHeader(day) }}
+      </div>
+    }
+  </div>
+
+  <!-- Time Grid -->
+  <div class="week-view__grid">
+    <!-- Time Labels -->
+    <div class="week-view__time-labels" aria-hidden="true">
+      @for (slot of timeSlots; track slot) {
+        <div class="week-view__time-label">{{ slot }}</div>
+      }
+    </div>
+
+    <!-- Day Columns -->
+    @for (day of days(); track day.getTime()) {
+      <div
+        class="week-view__day-column"
+        [class.week-view__day-column--today]="isToday(day)"
+        role="gridcell"
+        [attr.aria-label]="formatDayHeader(day)"
+      >
+        <!-- Hour Grid Lines -->
+        @for (slot of timeSlots; track slot) {
+          <div class="week-view__hour-line" aria-hidden="true"></div>
+        }
+
+        <!-- Sessions -->
+        @for (session of getSessionsForDay(day); track session.id) {
+          <button
+            class="session-card"
+            [style]="getSessionStyle(session)"
+            [class.session-card--cancelled]="session.status === 'CANCELLED'"
+            [class.session-card--full]="getOccupancyPercent(session) >= 100"
+            (click)="onSessionClick(session, $event)"
+            [attr.aria-label]="session.courseTitle + ' um ' + formatSessionTime(session)"
+          >
+            <span class="session-card__title">{{ session.courseTitle }}</span>
+            <span class="session-card__time">{{ formatSessionTime(session) }}</span>
+            <span class="session-card__occupancy">{{ getOccupancy(session) }}</span>
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

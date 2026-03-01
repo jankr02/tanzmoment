@@ -1,0 +1,154 @@
+<div class="calendar-page">
+  <!-- Page Header -->
+  <header class="calendar-page__header">
+    <h1 class="calendar-page__title">Kalender</h1>
+
+    <div class="calendar-controls">
+      <!-- Navigation -->
+      <div class="calendar-nav" role="navigation" aria-label="Kalender-Navigation">
+        <button
+          class="btn btn--ghost btn--icon"
+          (click)="goToPrevious()"
+          [attr.aria-label]="view() === 'week' ? 'Vorherige Woche' : 'Vorheriger Monat'"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <button class="btn btn--ghost btn--small today-btn" (click)="goToToday()">
+          Heute
+        </button>
+
+        <button
+          class="btn btn--ghost btn--icon"
+          (click)="goToNext()"
+          [attr.aria-label]="view() === 'week' ? 'Nächste Woche' : 'Nächster Monat'"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Period Label -->
+      <h2 class="calendar-period" aria-live="polite">{{ headerLabel() }}</h2>
+
+      <!-- View Toggle -->
+      <div class="view-toggle" role="group" aria-label="Ansicht wählen">
+        <button
+          class="view-toggle__btn"
+          [class.view-toggle__btn--active]="view() === 'week'"
+          (click)="setView('week')"
+          [attr.aria-pressed]="view() === 'week'"
+        >
+          Woche
+        </button>
+        <button
+          class="view-toggle__btn"
+          [class.view-toggle__btn--active]="view() === 'month'"
+          (click)="setView('month')"
+          [attr.aria-pressed]="view() === 'month'"
+        >
+          Monat
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading Overlay -->
+  @if (loading()) {
+    <div class="calendar-page__loading" aria-live="polite" aria-label="Kalender wird geladen">
+      <div class="loading-spinner" aria-hidden="true"></div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error()) {
+    <div class="calendar-page__error" role="alert">
+      <p>{{ error() }}</p>
+      <button class="btn btn--primary" (click)="goToToday()">Erneut versuchen</button>
+    </div>
+  }
+
+  <!-- Calendar Views -->
+  @if (!error()) {
+    @if (view() === 'week') {
+      <admin-calendar-week-view
+        [days]="displayedDays()"
+        [sessions]="sessions()"
+        (sessionSelected)="onSessionSelected($event)"
+      />
+    } @else {
+      <admin-calendar-month-view
+        [calendarDays]="calendarDays()"
+        (sessionSelected)="onSessionSelected($event)"
+      />
+    }
+  }
+
+  <!-- Session Flyout -->
+  @if (selectedSession(); as session) {
+    <div
+      class="flyout-backdrop"
+      (click)="closeFlyout()"
+      (keydown.escape)="closeFlyout()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Session-Details"
+    >
+      <div class="flyout" (click)="$event.stopPropagation()">
+        <div class="flyout__header">
+          <div>
+            <h3 class="flyout__title">{{ session.courseTitle }}</h3>
+            <span class="flyout__style">{{ getDanceStyleLabel(session.danceStyle) }}</span>
+          </div>
+          <button
+            class="flyout__close"
+            (click)="closeFlyout()"
+            aria-label="Schließen"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <dl class="flyout__details">
+          <dt>Datum & Zeit</dt>
+          <dd>
+            {{ formatFlyoutDate(session) }}
+            – {{ formatFlyoutEndTime(session) }} Uhr
+          </dd>
+
+          <dt>Standort</dt>
+          <dd>{{ session.locationName }}</dd>
+
+          <dt>Auslastung</dt>
+          <dd>
+            <div class="occupancy-bar">
+              <div
+                class="occupancy-bar__fill"
+                [style.width]="getOccupancyPercent(session) + '%'"
+                [class.occupancy-bar__fill--full]="session.bookedCount >= session.maxParticipants"
+              ></div>
+            </div>
+            <span class="occupancy-label">
+              {{ session.bookedCount }} / {{ session.maxParticipants }} Plätze
+              ({{ getOccupancyPercent(session) }}%)
+            </span>
+          </dd>
+        </dl>
+
+        <a
+          class="btn btn--primary flyout__action"
+          [routerLink]="['/admin/courses', session.courseId]"
+          (click)="closeFlyout()"
+        >
+          Kurs verwalten
+        </a>
+      </div>
+    </div>
+  }
+</div>

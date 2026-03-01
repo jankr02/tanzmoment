@@ -43,12 +43,18 @@ export class AdminBookingsController {
   async findAll(
     @Query('status') status?: string,
     @Query('courseId') courseId?: string,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+    @Query('paymentStatus') paymentStatus?: string,
     @Query('page') page = 1,
     @Query('limit') limit = 20,
   ) {
     return this.adminService.findAll({
       status,
       courseId,
+      from,
+      to,
+      paymentStatus,
       page: +page,
       limit: +limit,
     });

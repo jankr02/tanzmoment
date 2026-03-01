@@ -1,0 +1,254 @@
+<div class="booking-list">
+  <!-- Page Header -->
+  <header class="booking-list__header">
+    <div class="booking-list__header-text">
+      <h1 class="booking-list__title">Buchungen</h1>
+      <p class="booking-list__subtitle">Alle Buchungen verwalten und filtern</p>
+    </div>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-bar__selects">
+      <label for="status-filter" class="visually-hidden">Status filtern</label>
+      <select
+        id="status-filter"
+        class="filter-bar__select"
+        [value]="statusFilter()"
+        (change)="onStatusChange($event)"
+      >
+        @for (option of statusOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+
+      <label for="payment-filter" class="visually-hidden">Zahlungsstatus filtern</label>
+      <select
+        id="payment-filter"
+        class="filter-bar__select"
+        [value]="paymentStatusFilter()"
+        (change)="onPaymentStatusChange($event)"
+      >
+        @for (option of paymentStatusOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-bar__dates">
+      <label for="from-filter" class="filter-bar__date-label">Von</label>
+      <input
+        id="from-filter"
+        type="date"
+        class="filter-bar__date-input"
+        [value]="fromFilter()"
+        (change)="onFromChange($event)"
+      />
+
+      <label for="to-filter" class="filter-bar__date-label">Bis</label>
+      <input
+        id="to-filter"
+        type="date"
+        class="filter-bar__date-input"
+        [value]="toFilter()"
+        (change)="onToChange($event)"
+      />
+    </div>
+
+    @if (hasActiveFilters()) {
+      <button class="btn btn--ghost btn--small" (click)="onResetFilters()">
+        Filter zurücksetzen
+      </button>
+    }
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="booking-list__loading" aria-live="polite" aria-label="Buchungen werden geladen">
+      <div class="skeleton-table">
+        @for (row of [1, 2, 3, 4, 5]; track row) {
+          <div class="skeleton-row">
+            <div class="skeleton-cell skeleton-cell--wide"></div>
+            <div class="skeleton-cell skeleton-cell--medium"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--actions"></div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @else if (error()) {
+    <div class="booking-list__error" role="alert">
+      <div class="booking-list__error-icon" aria-hidden="true">!</div>
+      <p class="booking-list__error-text">{{ error() }}</p>
+      <button class="btn btn--primary" (click)="loadBookings()">Erneut versuchen</button>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @else if (isEmpty()) {
+    <div class="booking-list__empty">
+      <div class="booking-list__empty-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <h2 class="booking-list__empty-title">Keine Buchungen gefunden</h2>
+      @if (hasActiveFilters()) {
+        <p class="booking-list__empty-text">Versuche die Filter anzupassen.</p>
+        <button class="btn btn--primary" (click)="onResetFilters()">Filter zurücksetzen</button>
+      } @else {
+        <p class="booking-list__empty-text">Noch keine Buchungen vorhanden.</p>
+      }
+    </div>
+  }
+
+  <!-- Booking Table -->
+  @else {
+    <div class="table-wrapper">
+      <table class="booking-table">
+        <thead>
+          <tr>
+            <th>Teilnehmer</th>
+            <th>Kurs / Termin</th>
+            <th>Status</th>
+            <th class="hide-mobile">Zahlung</th>
+            <th class="hide-tablet">Gebucht am</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (booking of bookings(); track trackBooking($index, booking)) {
+            <tr>
+              <td>
+                <span class="participant-name">{{ getParticipantName(booking) }}</span>
+                <span class="participant-email">{{ getParticipantEmail(booking) }}</span>
+                @if (booking.isGuestBooking) {
+                  <span class="guest-badge">Gast</span>
+                }
+              </td>
+              <td>
+                <span class="course-title">{{ booking.course.title }}</span>
+                @if (booking.session) {
+                  <span class="session-info">
+                    {{ formatDate(booking.session.startTime) }}
+                    · {{ booking.session.location }}
+                  </span>
+                }
+              </td>
+              <td>
+                <admin-booking-status-badge
+                  [status]="booking.status"
+                  type="booking"
+                />
+                @if (booking.waitlistPosition) {
+                  <span class="waitlist-pos">Pos. {{ booking.waitlistPosition }}</span>
+                }
+              </td>
+              <td class="hide-mobile">
+                @if (booking.payment) {
+                  <admin-booking-status-badge
+                    [status]="booking.payment.status"
+                    type="payment"
+                  />
+                } @else {
+                  <span class="no-payment">—</span>
+                }
+              </td>
+              <td class="hide-tablet">
+                <time [attr.datetime]="booking.createdAt" [title]="formatDate(booking.createdAt)">
+                  {{ formatRelativeDate(booking.createdAt) }}
+                </time>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <a
+                    class="btn btn--ghost btn--small"
+                    [routerLink]="['/admin/buchungen', booking.id]"
+                    [attr.aria-label]="'Buchung von ' + getParticipantName(booking) + ' öffnen'"
+                  >
+                    Details
+                  </a>
+                  @if (booking.status === 'PENDING') {
+                    <button
+                      class="btn btn--ghost btn--small"
+                      (click)="onConfirmBooking(booking)"
+                      [attr.aria-label]="'Buchung von ' + getParticipantName(booking) + ' bestätigen'"
+                    >
+                      Bestätigen
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    @if (meta(); as m) {
+      @if (m.totalPages > 1) {
+        <nav class="pagination" aria-label="Buchungs-Navigation">
+          <button
+            class="btn btn--ghost btn--small"
+            (click)="onPreviousPage()"
+            [disabled]="currentPage() <= 1"
+            aria-label="Vorherige Seite"
+          >
+            &larr; Zur&uuml;ck
+          </button>
+          <span class="pagination__info">
+            Seite {{ m.page }} von {{ m.totalPages }}
+            <span class="pagination__total">({{ m.total }} Buchungen)</span>
+          </span>
+          <button
+            class="btn btn--ghost btn--small"
+            (click)="onNextPage()"
+            [disabled]="currentPage() >= m.totalPages"
+            aria-label="N&auml;chste Seite"
+          >
+            Weiter &rarr;
+          </button>
+        </nav>
+      }
+    }
+  }
+
+  <!-- Confirm Dialog Overlay -->
+  @if (confirmAction(); as action) {
+    <div
+      class="confirm-overlay"
+      (click)="onCancelAction()"
+      (keydown.escape)="onCancelAction()"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="action.title"
+    >
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <h2 class="confirm-dialog__title">{{ action.title }}</h2>
+        <p class="confirm-dialog__message">{{ action.message }}</p>
+        <div class="confirm-dialog__actions">
+          <button class="btn btn--ghost" (click)="onCancelAction()">Abbrechen</button>
+          <button
+            class="btn"
+            [class.btn--primary]="action.variant === 'primary'"
+            [class.btn--warning]="action.variant === 'warning'"
+            [class.btn--danger]="action.variant === 'danger'"
+            (click)="onConfirmAction()"
+          >
+            {{ action.confirmLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

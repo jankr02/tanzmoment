@@ -26,15 +26,29 @@ export class AdminBookingsService {
   async findAll(filters: {
     status?: string;
     courseId?: string;
+    from?: string;
+    to?: string;
+    paymentStatus?: string;
     page: number;
     limit: number;
   }) {
-    const { status, courseId, page, limit } = filters;
+    const { status, courseId, from, to, paymentStatus, page, limit } = filters;
     const skip = (page - 1) * limit;
 
     const where: Record<string, unknown> = {};
     if (status) where['status'] = status.toUpperCase();
     if (courseId) where['courseId'] = courseId;
+    if (paymentStatus) where['payment'] = { status: paymentStatus.toUpperCase() };
+    if (from || to) {
+      const dateFilter: Record<string, Date> = {};
+      if (from) dateFilter['gte'] = new Date(from);
+      if (to) {
+        const toDate = new Date(to);
+        toDate.setHours(23, 59, 59, 999);
+        dateFilter['lte'] = toDate;
+      }
+      where['createdAt'] = dateFilter;
+    }
 
     const [bookings, total] = await Promise.all([
       this.prisma.booking.findMany({

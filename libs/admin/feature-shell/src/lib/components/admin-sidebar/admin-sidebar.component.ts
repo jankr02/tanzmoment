@@ -30,7 +30,8 @@ export class AdminSidebarComponent {
   readonly navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'layout-dashboard', route: '/admin' },
     { label: 'Kurse', icon: 'book-open', route: '/admin/courses' },
-    { label: 'Buchungen', icon: 'clipboard-list', route: '/admin/bookings' },
+    { label: 'Buchungen', icon: 'clipboard-list', route: '/admin/buchungen' },
+    { label: 'Kalender', icon: 'calendar', route: '/admin/kalender' },
     { label: 'Zahlungen', icon: 'wallet', route: '/admin/payments' },
     { label: 'Nutzer', icon: 'users', route: '/admin/users' },
     { label: 'Einstellungen', icon: 'settings', route: '/admin/settings' },

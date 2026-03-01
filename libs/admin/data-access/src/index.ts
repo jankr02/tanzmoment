@@ -17,3 +17,15 @@ export type {
   AdminLocation,
   SessionParticipant,
 } from './lib/types/course.types';
+export type {
+  AdminBookingListItem,
+  AdminBookingDetail,
+  BookingListFilters,
+  BookingListMeta,
+  BookingListResponse,
+} from './lib/types/booking.types';
+export type {
+  CalendarSession,
+  CalendarView,
+  CalendarDay,
+} from './lib/types/calendar.types';

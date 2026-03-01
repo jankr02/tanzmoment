@@ -31,7 +31,9 @@
       "@tanzmoment/admin/feature-shell": ["libs/admin/feature-shell/src/index.ts"],
       "@tanzmoment/admin/feature-dashboard": ["libs/admin/feature-dashboard/src/index.ts"],
       "@tanzmoment/admin/data-access": ["libs/admin/data-access/src/index.ts"],
-      "@tanzmoment/admin/feature-courses": ["libs/admin/feature-courses/src/index.ts"]
+      "@tanzmoment/admin/feature-courses": ["libs/admin/feature-courses/src/index.ts"],
+      "@tanzmoment/admin/feature-bookings": ["libs/admin/feature-bookings/src/index.ts"],
+      "@tanzmoment/admin/feature-calendar": ["libs/admin/feature-calendar/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,130 @@
+
+.month-view {
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+
+  &__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 2px solid var(--color-border, #e6ded7);
+    background: var(--color-accent, #fdf8f3);
+  }
+
+  &__weekday {
+    text-align: center;
+    padding: 10px 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary, #5e5a55);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+.month-day {
+  border-right: 1px solid var(--color-border, #e6ded7);
+  border-bottom: 1px solid var(--color-border, #e6ded7);
+  padding: 6px;
+  min-height: 100px;
+
+  &:nth-child(7n) { border-right: none; }
+
+  &--other-month {
+    background: var(--color-accent, #fdf8f3);
+
+    .month-day__number {
+      color: var(--color-border, #e6ded7);
+    }
+  }
+
+  &--today {
+    .month-day__number {
+      background: var(--color-primary-dark, #688b68);
+      color: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__number {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-secondary, #5e5a55);
+    margin-bottom: 4px;
+    display: block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  &__sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+.session-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.6875rem;
+  transition: filter 150ms ease;
+  overflow: hidden;
+
+  &:hover { filter: brightness(0.9); }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-dark, #688b68);
+    outline-offset: 1px;
+  }
+
+  &--cancelled {
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+
+  &__time {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-text-primary, #2e2a25);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-text-primary, #2e2a25);
+  }
+}
+
+.session-more {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary, #5e5a55);
+  padding: 2px 4px;
+}
+
+@media (max-width: 640px) {
+  .month-day { min-height: 70px; }
+
+  .session-chip__title { display: none; }
+}

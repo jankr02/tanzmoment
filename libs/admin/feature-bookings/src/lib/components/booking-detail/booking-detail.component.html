@@ -1,0 +1,209 @@
+<div class="booking-detail">
+  <!-- Back Navigation -->
+  <div class="booking-detail__nav">
+    <button class="back-btn" (click)="onBack()" aria-label="Zurück zur Buchungsliste">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Alle Buchungen
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="booking-detail__loading" aria-live="polite" aria-label="Buchung wird geladen">
+      <div class="skeleton-block skeleton-block--title"></div>
+      <div class="skeleton-block"></div>
+      <div class="skeleton-block"></div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @else if (error()) {
+    <div class="booking-detail__error" role="alert">
+      <p>{{ error() }}</p>
+      <button class="btn btn--primary" (click)="onBack()">Zurück</button>
+    </div>
+  }
+
+  <!-- Booking Content -->
+  @else if (booking(); as b) {
+    <header class="booking-detail__header">
+      <div class="booking-detail__header-info">
+        <p class="booking-detail__id">Buchungs-ID: {{ b.id }}</p>
+        <h1 class="booking-detail__title">{{ participantName() }}</h1>
+        <div class="booking-detail__badges">
+          <admin-booking-status-badge [status]="b.status" type="booking" />
+          @if (b.payment) {
+            <admin-booking-status-badge [status]="b.payment.status" type="payment" />
+          }
+          @if (b.isGuestBooking) {
+            <span class="guest-indicator">Gast-Buchung</span>
+          }
+        </div>
+      </div>
+      <time class="booking-detail__created-at">
+        Gebucht am {{ formatDate(b.createdAt) }}
+      </time>
+    </header>
+
+    <!-- Success / Error Feedback -->
+    @if (saveSuccess()) {
+      <div class="feedback feedback--success" role="status" aria-live="polite">
+        {{ saveSuccess() }}
+      </div>
+    }
+    @if (saveError()) {
+      <div class="feedback feedback--error" role="alert">
+        {{ saveError() }}
+      </div>
+    }
+
+    <div class="booking-detail__grid">
+      <!-- Participant Info -->
+      <section class="detail-card">
+        <h2 class="detail-card__title">Teilnehmer</h2>
+        <dl class="detail-list">
+          <dt>Name</dt>
+          <dd>{{ participantName() }}</dd>
+          <dt>E-Mail</dt>
+          <dd>
+            <a [href]="'mailto:' + participantEmail()" class="link">
+              {{ participantEmail() }}
+            </a>
+          </dd>
+          @if (b.isGuestBooking) {
+            <dt>Typ</dt>
+            <dd>Gast (nicht registriert)</dd>
+          }
+        </dl>
+      </section>
+
+      <!-- Course & Session Info -->
+      <section class="detail-card">
+        <h2 class="detail-card__title">Kurs & Termin</h2>
+        <dl class="detail-list">
+          <dt>Kurs</dt>
+          <dd>
+            <a [routerLink]="['/admin/courses', b.course.id]" class="link">
+              {{ b.course.title }}
+            </a>
+          </dd>
+          @if (b.session) {
+            <dt>Termin</dt>
+            <dd>{{ formatDate(b.session.startTime) }}</dd>
+            <dt>Standort</dt>
+            <dd>{{ b.session.location }}</dd>
+          } @else {
+            <dt>Termin</dt>
+            <dd>—</dd>
+          }
+          @if (b.waitlistPosition) {
+            <dt>Warteliste</dt>
+            <dd>Position {{ b.waitlistPosition }}</dd>
+          }
+          @if (b.cancelledAt) {
+            <dt>Storniert am</dt>
+            <dd>{{ formatDate(b.cancelledAt) }}</dd>
+          }
+        </dl>
+      </section>
+
+      <!-- Payment Info -->
+      @if (b.payment) {
+        <section class="detail-card">
+          <h2 class="detail-card__title">Zahlung</h2>
+          <dl class="detail-list">
+            <dt>Betrag</dt>
+            <dd class="amount">{{ formatCurrency(b.payment.amountInCents) }}</dd>
+            <dt>Status</dt>
+            <dd><admin-booking-status-badge [status]="b.payment.status" type="payment" /></dd>
+            <dt>Methode</dt>
+            <dd>{{ getPaymentMethodLabel(b.payment.method) }}</dd>
+          </dl>
+        </section>
+      }
+
+      <!-- Actions -->
+      <section class="detail-card detail-card--actions">
+        <h2 class="detail-card__title">Aktionen</h2>
+
+        <!-- Status Change -->
+        @if (allowedStatusTransitions().length > 0) {
+          <div class="action-group">
+            <label for="status-select" class="action-group__label">Status ändern</label>
+            <div class="action-group__row">
+              <select
+                id="status-select"
+                class="action-group__select"
+                [value]="selectedStatus()"
+                (change)="onStatusChange($event)"
+              >
+                <option value="">Status wählen...</option>
+                @for (option of allowedStatusTransitions(); track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+              <button
+                class="btn btn--primary btn--small"
+                [disabled]="!selectedStatus() || saving()"
+                (click)="onApplyStatus()"
+              >
+                Anwenden
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Quick Actions -->
+        @if (b.status === 'CONFIRMED') {
+          <div class="action-group">
+            <p class="action-group__label">Anwesenheit</p>
+            <div class="action-group__row">
+              <button class="btn btn--ghost" [disabled]="saving()" (click)="onMarkAttended()">
+                Erschienen
+              </button>
+              <button class="btn btn--ghost btn--warning-text" [disabled]="saving()" (click)="onMarkNoShow()">
+                No-Show
+              </button>
+            </div>
+          </div>
+        }
+
+        @if (allowedStatusTransitions().length === 0 && b.status !== 'CONFIRMED') {
+          <p class="no-actions">Keine weiteren Aktionen möglich.</p>
+        }
+      </section>
+    </div>
+  }
+
+  <!-- Confirm Dialog Overlay -->
+  @if (confirmAction(); as action) {
+    <div
+      class="confirm-overlay"
+      (click)="onCancelAction()"
+      (keydown.escape)="onCancelAction()"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="action.title"
+    >
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <h2 class="confirm-dialog__title">{{ action.title }}</h2>
+        <p class="confirm-dialog__message">{{ action.message }}</p>
+        <div class="confirm-dialog__actions">
+          <button class="btn btn--ghost" (click)="onCancelAction()">Abbrechen</button>
+          <button
+            class="btn"
+            [class.btn--primary]="action.variant === 'primary'"
+            [class.btn--warning]="action.variant === 'warning'"
+            [class.btn--danger]="action.variant === 'danger'"
+            [disabled]="saving()"
+            (click)="onConfirmAction()"
+          >
+            {{ action.confirmLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

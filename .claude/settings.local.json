@@ -26,7 +26,8 @@
       "Bash(git -C /c/Projects/tanzmoment log --all --oneline)",
       "Bash(git -C /c/Projects/tanzmoment show HEAD~5:CLAUDE.md)",
       "Bash(git -C /c/Projects/tanzmoment log --all --oneline -30)",
-      "Bash(git -C /c/Projects/tanzmoment log --all --full-history --diff-filter=D -- \"*admin*\" \"*plan*\" \"*Phase*\")"
+      "Bash(git -C /c/Projects/tanzmoment log --all --full-history --diff-filter=D -- \"*admin*\" \"*plan*\" \"*Phase*\")",
+      "Bash(ls -la \"c:\\\\Projects\\\\tanzmoment\\\\libs\\\\admin\"\" | grep -E \"^d \")"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,41 @@
+<div class="month-view" role="grid" aria-label="Monatsansicht">
+  <!-- Weekday Headers -->
+  <div class="month-view__weekdays" role="row">
+    @for (label of weekDayLabels; track label) {
+      <div class="month-view__weekday" role="columnheader">{{ label }}</div>
+    }
+  </div>
+
+  <!-- Day Grid -->
+  <div class="month-view__grid">
+    @for (day of calendarDays(); track trackDay($index, day)) {
+      <div
+        class="month-day"
+        [class.month-day--other-month]="!day.isCurrentMonth"
+        [class.month-day--today]="day.isToday"
+        role="gridcell"
+        [attr.aria-label]="day.date.toLocaleDateString('de-DE')"
+      >
+        <span class="month-day__number">{{ day.date.getDate() }}</span>
+
+        <div class="month-day__sessions">
+          @for (session of day.sessions.slice(0, 3); track trackSession($index, session)) {
+            <button
+              class="session-chip"
+              [style.background-color]="getSessionColor(session)"
+              [class.session-chip--cancelled]="session.status === 'CANCELLED'"
+              (click)="onSessionClick(session, $event)"
+              [attr.aria-label]="session.courseTitle + ' um ' + formatSessionTime(session)"
+            >
+              <span class="session-chip__time">{{ formatSessionTime(session) }}</span>
+              <span class="session-chip__title">{{ session.courseTitle }}</span>
+            </button>
+          }
+          @if (day.sessions.length > 3) {
+            <span class="session-more">+{{ day.sessions.length - 3 }} weitere</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

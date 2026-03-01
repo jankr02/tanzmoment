@@ -13,6 +13,13 @@ import {
   AdminLocation,
   SessionParticipant,
 } from '../types/course.types';
+import {
+  AdminBookingListItem,
+  AdminBookingDetail,
+  BookingListFilters,
+  BookingListResponse,
+} from '../types/booking.types';
+import { CalendarSession } from '../types/calendar.types';
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
@@ -145,5 +152,66 @@ export class AdminApiService {
       `${this.baseUrl}/locations/${id}`,
       data,
     );
+  }
+
+  // -------------------------------------------------------------------------
+  // BOOKINGS
+  // Note: Booking endpoints live at /api/admin/bookings (in the bookings module)
+  // -------------------------------------------------------------------------
+
+  getBookings(filters?: BookingListFilters): Observable<BookingListResponse> {
+    let httpParams = new HttpParams();
+    if (filters) {
+      if (filters.status) httpParams = httpParams.set('status', filters.status);
+      if (filters.courseId) httpParams = httpParams.set('courseId', filters.courseId);
+      if (filters.from) httpParams = httpParams.set('from', filters.from);
+      if (filters.to) httpParams = httpParams.set('to', filters.to);
+      if (filters.paymentStatus) httpParams = httpParams.set('paymentStatus', filters.paymentStatus);
+      if (filters.page) httpParams = httpParams.set('page', filters.page.toString());
+      if (filters.limit) httpParams = httpParams.set('limit', filters.limit.toString());
+    }
+    return this.http.get<BookingListResponse>(`${this.baseUrl}/bookings`, {
+      params: httpParams,
+    });
+  }
+
+  getBooking(id: string): Observable<AdminBookingDetail> {
+    return this.http.get<AdminBookingDetail>(`${this.baseUrl}/bookings/${id}`);
+  }
+
+  updateBookingStatus(
+    id: string,
+    status: string,
+    reason?: string,
+  ): Observable<AdminBookingListItem> {
+    return this.http.patch<AdminBookingListItem>(
+      `${this.baseUrl}/bookings/${id}/status`,
+      { status, reason },
+    );
+  }
+
+  markAttended(id: string): Observable<AdminBookingListItem> {
+    return this.http.patch<AdminBookingListItem>(
+      `${this.baseUrl}/bookings/${id}/mark-attended`,
+      {},
+    );
+  }
+
+  markNoShow(id: string): Observable<AdminBookingListItem> {
+    return this.http.patch<AdminBookingListItem>(
+      `${this.baseUrl}/bookings/${id}/mark-no-show`,
+      {},
+    );
+  }
+
+  // -------------------------------------------------------------------------
+  // CALENDAR
+  // -------------------------------------------------------------------------
+
+  getCalendar(from: string, to: string): Observable<CalendarSession[]> {
+    const params = new HttpParams().set('from', from).set('to', to);
+    return this.http.get<CalendarSession[]>(`${this.baseUrl}/calendar`, {
+      params,
+    });
   }
 }

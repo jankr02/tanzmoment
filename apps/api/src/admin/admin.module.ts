@@ -8,6 +8,8 @@ import { AdminSessionsController } from './sessions/admin-sessions.controller';
 import { AdminSessionsService } from './sessions/admin-sessions.service';
 import { AdminLocationsController } from './locations/admin-locations.controller';
 import { AdminLocationsService } from './locations/admin-locations.service';
+import { AdminCalendarController } from './calendar/admin-calendar.controller';
+import { AdminCalendarService } from './calendar/admin-calendar.service';
 
 @Module({
   imports: [AuthModule],
@@ -16,12 +18,14 @@ import { AdminLocationsService } from './locations/admin-locations.service';
     AdminCoursesController,
     AdminSessionsController,
     AdminLocationsController,
+    AdminCalendarController,
   ],
   providers: [
     AdminDashboardService,
     AdminCoursesService,
     AdminSessionsService,
     AdminLocationsService,
+    AdminCalendarService,
   ],
 })
 export class AdminModule {}

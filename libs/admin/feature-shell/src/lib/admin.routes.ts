@@ -22,6 +22,22 @@ export const adminRoutes: Route[] = [
           ),
         title: 'Kurse | Admin | Tanzmoment',
       },
+      {
+        path: 'buchungen',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-bookings').then(
+            (m) => m.adminBookingsRoutes
+          ),
+        title: 'Buchungen | Admin | Tanzmoment',
+      },
+      {
+        path: 'kalender',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-calendar').then(
+            (m) => m.adminCalendarRoutes
+          ),
+        title: 'Kalender | Admin | Tanzmoment',
+      },
     ],
   },
 ];
