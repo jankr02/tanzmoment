@@ -1,0 +1,77 @@
+.settings {
+  padding: var(--space-6);
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-1);
+  }
+
+  &__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  &__tab {
+    padding: var(--space-3) var(--space-5);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 150ms ease, border-color 150ms ease;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+
+    &--active {
+      color: var(--color-primary-dark);
+      border-bottom-color: var(--color-primary-dark);
+      font-weight: 600;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .settings {
+    padding: var(--space-4);
+    gap: var(--space-5);
+  }
+
+  .settings__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .settings__tab {
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.85rem;
+  }
+}

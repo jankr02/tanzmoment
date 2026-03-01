@@ -1,0 +1,154 @@
+<div class="section">
+  <div class="section__header">
+    <div>
+      <h2 class="section__title">Standorte</h2>
+      <p class="section__desc">Orte, an denen Kurse stattfinden. Werden bei der Kursplanung als Auswahl angeboten.</p>
+    </div>
+    @if (!showAddForm()) {
+      <button class="btn btn--primary" type="button" (click)="openAddForm()">
+        Standort hinzufügen
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="alert alert--error" role="alert">{{ error() }}</div>
+  }
+
+  @if (showAddForm()) {
+    <div class="add-form">
+      <h3 class="add-form__title">Neuer Standort</h3>
+      <div class="form-row">
+        <div class="field">
+          <label class="field__label" for="addName">Name *</label>
+          <input
+            id="addName"
+            class="field__input"
+            type="text"
+            [value]="addForm().name"
+            (input)="updateAddField('name', $any($event.target).value)"
+            placeholder="z.B. Kulturzentrum Mössingen"
+            required
+            maxlength="100"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label" for="addAddress">Adresse</label>
+          <input
+            id="addAddress"
+            class="field__input"
+            type="text"
+            [value]="addForm().address"
+            (input)="updateAddField('address', $any($event.target).value)"
+            placeholder="z.B. Hauptstraße 10, 72116 Mössingen"
+          />
+        </div>
+      </div>
+      <div class="add-form__actions">
+        <button class="btn btn--ghost" type="button" (click)="cancelAdd()">Abbrechen</button>
+        <button
+          class="btn btn--primary"
+          type="button"
+          [disabled]="!addForm().name.trim() || adding()"
+          (click)="addLocation()"
+        >
+          {{ adding() ? 'Wird erstellt...' : 'Erstellen' }}
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="locations-list">
+      @for (i of [1, 2, 3]; track i) {
+        <div class="location-row location-row--skeleton">
+          <div class="skeleton-line skeleton-line--wide"></div>
+          <div class="skeleton-line skeleton-line--narrow"></div>
+        </div>
+      }
+    </div>
+  } @else if (locations().length === 0 && !showAddForm()) {
+    <div class="empty-state">
+      <p class="empty-state__text">Noch keine Standorte angelegt.</p>
+      <button class="btn btn--primary" type="button" (click)="openAddForm()">
+        Ersten Standort anlegen
+      </button>
+    </div>
+  } @else {
+    <div class="locations-list">
+      @for (location of locations(); track location.id) {
+        @if (editingId() === location.id) {
+          <div class="location-row location-row--editing">
+            <div class="edit-form">
+              <div class="form-row">
+                <div class="field">
+                  <label class="field__label" [for]="'editName-' + location.id">Name *</label>
+                  <input
+                    [id]="'editName-' + location.id"
+                    class="field__input"
+                    type="text"
+                    [value]="editForm().name"
+                    (input)="updateEditField('name', $any($event.target).value)"
+                    required
+                    maxlength="100"
+                  />
+                </div>
+                <div class="field">
+                  <label class="field__label" [for]="'editAddr-' + location.id">Adresse</label>
+                  <input
+                    [id]="'editAddr-' + location.id"
+                    class="field__input"
+                    type="text"
+                    [value]="editForm().address"
+                    (input)="updateEditField('address', $any($event.target).value)"
+                  />
+                </div>
+              </div>
+              <div class="edit-form__actions">
+                <button class="btn btn--ghost btn--small" type="button" (click)="cancelEdit()">Abbrechen</button>
+                <button
+                  class="btn btn--primary btn--small"
+                  type="button"
+                  [disabled]="!editForm().name.trim() || saving()"
+                  (click)="saveEdit(location.id)"
+                >
+                  {{ saving() ? 'Speichern...' : 'Speichern' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <div class="location-row" [class.location-row--inactive]="!location.isActive">
+            <div class="location-row__info">
+              <span class="location-row__name">{{ location.name }}</span>
+              @if (location.address) {
+                <span class="location-row__address">{{ location.address }}</span>
+              }
+              @if (!location.isActive) {
+                <span class="badge badge--inactive">Inaktiv</span>
+              }
+            </div>
+            <div class="location-row__actions">
+              <button
+                class="btn-icon"
+                type="button"
+                [title]="location.isActive ? 'Deaktivieren' : 'Aktivieren'"
+                (click)="toggleActive(location)"
+              >
+                {{ location.isActive ? 'Deaktivieren' : 'Aktivieren' }}
+              </button>
+              <button
+                class="btn-icon btn-icon--edit"
+                type="button"
+                title="Bearbeiten"
+                (click)="startEdit(location)"
+              >
+                Bearbeiten
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

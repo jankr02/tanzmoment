@@ -32,6 +32,11 @@ import {
   FinancePaymentFilters,
   MonthlyRevenueStat,
 } from '../types/finance.types';
+import {
+  StudioSettings,
+  UpdateStudioSettingsRequest,
+  ChangePasswordRequest,
+} from '../types/settings.types';
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
@@ -296,6 +301,22 @@ export class AdminApiService {
       params: httpParams,
       responseType: 'blob',
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // SETTINGS
+  // -------------------------------------------------------------------------
+
+  getStudioSettings(): Observable<StudioSettings> {
+    return this.http.get<StudioSettings>(`${this.baseUrl}/settings/studio`);
+  }
+
+  updateStudioSettings(data: UpdateStudioSettingsRequest): Observable<StudioSettings> {
+    return this.http.patch<StudioSettings>(`${this.baseUrl}/settings/studio`, data);
+  }
+
+  changePassword(data: ChangePasswordRequest): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(`${this.baseUrl}/settings/account/password`, data);
   }
 
 }

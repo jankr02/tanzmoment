@@ -54,6 +54,14 @@ export const adminRoutes: Route[] = [
           ),
         title: 'Finanzen | Admin | Tanzmoment',
       },
+      {
+        path: 'einstellungen',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-settings').then(
+            (m) => m.adminSettingsRoutes
+          ),
+        title: 'Einstellungen | Admin | Tanzmoment',
+      },
     ],
   },
 ];

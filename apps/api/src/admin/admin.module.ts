@@ -17,6 +17,8 @@ import {
 import { AdminCustomersService } from './customers/admin-customers.service';
 import { AdminFinanceController } from './finance/admin-finance.controller';
 import { AdminFinanceService } from './finance/admin-finance.service';
+import { AdminSettingsController } from './settings/admin-settings.controller';
+import { AdminSettingsService } from './settings/admin-settings.service';
 
 @Module({
   imports: [AuthModule],
@@ -29,6 +31,7 @@ import { AdminFinanceService } from './finance/admin-finance.service';
     AdminCustomersController,
     AdminCustomerNotesController,
     AdminFinanceController,
+    AdminSettingsController,
   ],
   providers: [
     AdminDashboardService,
@@ -38,6 +41,7 @@ import { AdminFinanceService } from './finance/admin-finance.service';
     AdminCalendarService,
     AdminCustomersService,
     AdminFinanceService,
+    AdminSettingsService,
   ],
 })
 export class AdminModule {}

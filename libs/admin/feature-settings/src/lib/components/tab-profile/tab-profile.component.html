@@ -1,0 +1,129 @@
+@if (loading()) {
+  <div class="section skeleton-section">
+    @for (i of [1, 2, 3, 4]; track i) {
+      <div class="skeleton-field">
+        <div class="skeleton-line skeleton-line--label"></div>
+        <div class="skeleton-line skeleton-line--input"></div>
+      </div>
+    }
+  </div>
+} @else {
+  <form class="section" (ngSubmit)="save()" #profileForm="ngForm">
+    <div class="section__header">
+      <h2 class="section__title">Studio-Profil</h2>
+      <p class="section__desc">
+        Diese Informationen werden auf der öffentlichen Website angezeigt.
+      </p>
+    </div>
+
+    @if (error()) {
+      <div class="alert alert--error" role="alert">{{ error() }}</div>
+    }
+    @if (successMessage()) {
+      <div class="alert alert--success" role="status">{{ successMessage() }}</div>
+    }
+
+    <div class="form-grid">
+      <div class="field field--full">
+        <label class="field__label" for="studioName">Studioname *</label>
+        <input
+          id="studioName"
+          class="field__input"
+          type="text"
+          [value]="form().name ?? ''"
+          (input)="updateField('name', $any($event.target).value)"
+          placeholder="Tanzmoment"
+          required
+          maxlength="100"
+        />
+      </div>
+
+      <div class="field field--full">
+        <label class="field__label" for="tagline">Tagline</label>
+        <input
+          id="tagline"
+          class="field__input"
+          type="text"
+          [value]="form().tagline ?? ''"
+          (input)="updateField('tagline', $any($event.target).value)"
+          placeholder="Tanzen für alle – barrierefrei und kreativ"
+          maxlength="200"
+        />
+        <span class="field__hint">Kurze Beschreibung, z.B. für den Website-Header.</span>
+      </div>
+
+      <div class="field field--full">
+        <label class="field__label" for="description">Beschreibung</label>
+        <textarea
+          id="description"
+          class="field__input field__input--textarea"
+          [value]="form().description ?? ''"
+          (input)="updateField('description', $any($event.target).value)"
+          placeholder="Wir sind ein inklusives Tanzstudio im Herzen von Mössingen..."
+          rows="4"
+        ></textarea>
+        <span class="field__hint">Längere Beschreibung für die Über-uns-Seite.</span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="email">E-Mail</label>
+        <input
+          id="email"
+          class="field__input"
+          type="email"
+          [value]="form().email ?? ''"
+          (input)="updateField('email', $any($event.target).value)"
+          placeholder="info@tanzmoment.de"
+        />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="phone">Telefon</label>
+        <input
+          id="phone"
+          class="field__input"
+          type="tel"
+          [value]="form().phone ?? ''"
+          (input)="updateField('phone', $any($event.target).value)"
+          placeholder="+49 7473 123456"
+          maxlength="50"
+        />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="website">Website</label>
+        <input
+          id="website"
+          class="field__input"
+          type="url"
+          [value]="form().website ?? ''"
+          (input)="updateField('website', $any($event.target).value)"
+          placeholder="https://tanzmoment.de"
+        />
+      </div>
+
+      <div class="field field--full">
+        <label class="field__label" for="address">Anschrift</label>
+        <input
+          id="address"
+          class="field__input"
+          type="text"
+          [value]="form().address ?? ''"
+          (input)="updateField('address', $any($event.target).value)"
+          placeholder="Musterstraße 1, 72116 Mössingen"
+          maxlength="300"
+        />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn--primary"
+        [disabled]="saving()"
+      >
+        {{ saving() ? 'Wird gespeichert...' : 'Speichern' }}
+      </button>
+    </div>
+  </form>
+}

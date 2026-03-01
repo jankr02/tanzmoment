@@ -35,7 +35,8 @@
       "@tanzmoment/admin/feature-bookings": ["libs/admin/feature-bookings/src/index.ts"],
       "@tanzmoment/admin/feature-calendar": ["libs/admin/feature-calendar/src/index.ts"],
       "@tanzmoment/admin/feature-customers": ["libs/admin/feature-customers/src/index.ts"],
-      "@tanzmoment/admin/feature-finance": ["libs/admin/feature-finance/src/index.ts"]
+      "@tanzmoment/admin/feature-finance": ["libs/admin/feature-finance/src/index.ts"],
+      "@tanzmoment/admin/feature-settings": ["libs/admin/feature-settings/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

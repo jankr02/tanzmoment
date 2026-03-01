@@ -412,6 +412,25 @@ model CancellationPolicy {
 }
 
 // ============================================================================
+// STUDIO SETTINGS
+// ============================================================================
+
+model StudioSettings {
+  id          String  @id @default("singleton")
+  name        String  @default("Tanzmoment")
+  tagline     String?
+  description String? @db.Text
+  email       String?
+  phone       String?
+  website     String?
+  address     String?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("studio_settings")
+}
+
+// ============================================================================
 // CUSTOMER NOTES
 // ============================================================================
 

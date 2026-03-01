@@ -47,3 +47,8 @@ export type {
   FinanceListMeta,
   FinancePaymentListResponse,
 } from './lib/types/finance.types';
+export type {
+  StudioSettings,
+  UpdateStudioSettingsRequest,
+  ChangePasswordRequest,
+} from './lib/types/settings.types';

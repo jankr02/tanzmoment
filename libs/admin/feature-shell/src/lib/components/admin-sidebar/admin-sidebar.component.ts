@@ -34,7 +34,7 @@ export class AdminSidebarComponent {
     { label: 'Kalender', icon: 'calendar', route: '/admin/kalender' },
     { label: 'Teilnehmer', icon: 'users', route: '/admin/teilnehmer' },
     { label: 'Finanzen', icon: 'wallet', route: '/admin/finanzen' },
-    { label: 'Einstellungen', icon: 'settings', route: '/admin/settings' },
+    { label: 'Einstellungen', icon: 'settings', route: '/admin/einstellungen' },
   ];
 
   toggleCollapsed(): void {

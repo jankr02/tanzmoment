@@ -1,0 +1,99 @@
+<div class="section">
+  <div class="section__header">
+    <h2 class="section__title">Konto</h2>
+    <p class="section__desc">Ändere dein Passwort. Wähle ein starkes Passwort mit mindestens 8 Zeichen.</p>
+  </div>
+
+  @if (error()) {
+    <div class="alert alert--error" role="alert">{{ error() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert--success" role="status">{{ successMessage() }}</div>
+  }
+
+  <form class="password-form" (ngSubmit)="save()" novalidate>
+    <div class="field">
+      <label class="field__label" for="currentPassword">Aktuelles Passwort</label>
+      <div class="field__input-wrap">
+        <input
+          id="currentPassword"
+          class="field__input"
+          [type]="showCurrentPassword() ? 'text' : 'password'"
+          [value]="currentPassword()"
+          (input)="currentPassword.set($any($event).target.value)"
+          autocomplete="current-password"
+          required
+        />
+        <button
+          class="field__toggle"
+          type="button"
+          (click)="toggleCurrentPasswordVisibility()"
+          [attr.aria-label]="showCurrentPassword() ? 'Passwort verbergen' : 'Passwort anzeigen'"
+        >
+          {{ showCurrentPassword() ? 'Verbergen' : 'Anzeigen' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="newPassword">Neues Passwort</label>
+      <div class="field__input-wrap">
+        <input
+          id="newPassword"
+          class="field__input"
+          [type]="showNewPassword() ? 'text' : 'password'"
+          [value]="newPassword()"
+          (input)="newPassword.set($any($event).target.value)"
+          autocomplete="new-password"
+          required
+          minlength="8"
+          [class.field__input--error]="newPasswordTooShort"
+        />
+        <button
+          class="field__toggle"
+          type="button"
+          (click)="toggleNewPasswordVisibility()"
+          [attr.aria-label]="showNewPassword() ? 'Passwort verbergen' : 'Passwort anzeigen'"
+        >
+          {{ showNewPassword() ? 'Verbergen' : 'Anzeigen' }}
+        </button>
+      </div>
+      @if (newPasswordTooShort) {
+        <span class="field__error">Mindestens 8 Zeichen erforderlich.</span>
+      }
+      @if (!newPasswordTooShort && newPassword().length > 0) {
+        <div class="password-strength" [class]="'password-strength--' + getStrengthClass()">
+          <div class="password-strength__bar"></div>
+          <span class="password-strength__label">{{ getStrengthLabel() }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="confirmPassword">Passwort bestätigen</label>
+      <input
+        id="confirmPassword"
+        class="field__input"
+        type="password"
+        [value]="confirmPassword()"
+        (input)="confirmPassword.set($any($event).target.value)"
+        autocomplete="new-password"
+        required
+        [class.field__input--error]="passwordMismatch"
+      />
+      @if (passwordMismatch) {
+        <span class="field__error">Die Passwörter stimmen nicht überein.</span>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn btn--primary"
+        [disabled]="!formValid || saving()"
+      >
+        {{ saving() ? 'Wird gespeichert...' : 'Passwort ändern' }}
+      </button>
+    </div>
+  </form>
+</div>

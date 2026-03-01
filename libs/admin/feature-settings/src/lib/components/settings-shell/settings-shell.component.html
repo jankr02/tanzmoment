@@ -1,0 +1,25 @@
+<div class="settings">
+  <header class="settings__header">
+    <div>
+      <h1 class="settings__title">Einstellungen</h1>
+      <p class="settings__subtitle">Studio, Standorte und dein Konto verwalten</p>
+    </div>
+  </header>
+
+  <nav class="settings__tabs" aria-label="Einstellungen Navigation">
+    @for (tab of tabs; track tab.route) {
+      <a
+        class="settings__tab"
+        [routerLink]="tab.route"
+        routerLinkActive="settings__tab--active"
+        [routerLinkActiveOptions]="tab.routerLinkActiveOptions"
+      >
+        {{ tab.label }}
+      </a>
+    }
+  </nav>
+
+  <div class="settings__content">
+    <router-outlet />
+  </div>
+</div>
