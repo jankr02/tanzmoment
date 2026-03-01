@@ -1,0 +1,44 @@
+<div
+  class="placeholder"
+  [class.placeholder--hero]="variant === 'hero'"
+  [style.background]="'radial-gradient(ellipse at 30% 40%, ' + colors().accent + ' 0%, ' + colors().background + ' 70%)'"
+  role="img"
+  aria-label="Course placeholder image"
+>
+  <!-- Decorative background circles -->
+  <svg
+    class="placeholder__decor"
+    viewBox="0 0 400 400"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="xMidYMid slice"
+    aria-hidden="true"
+  >
+    <circle cx="320" cy="80" r="100" [attr.fill]="colors().accent" opacity="0.25" />
+    <circle cx="60" cy="340" r="80" [attr.fill]="colors().accent" opacity="0.2" />
+    <circle cx="200" cy="200" r="140" [attr.fill]="colors().accent" opacity="0.1" />
+
+    <path
+      d="M0 260 C80 230, 160 280, 240 250 S400 220, 400 260"
+      [attr.stroke]="colors().buttonBg || colors().accent"
+      stroke-width="1.5"
+      fill="none"
+      opacity="0.15"
+    />
+    <path
+      d="M0 290 C100 260, 180 310, 280 270 S400 250, 400 290"
+      [attr.stroke]="colors().buttonBg || colors().accent"
+      stroke-width="1"
+      fill="none"
+      opacity="0.1"
+    />
+  </svg>
+
+  <!-- Dance style illustration (masked to dance style color) -->
+  <div
+    class="placeholder__illustration"
+    [style.--illustration-url]="'url(' + illustrationUrl() + ')'"
+    [style.--illustration-color]="colors().buttonBg || colors().accent"
+    aria-hidden="true"
+  ></div>
+</div>

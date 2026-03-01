@@ -1,0 +1,128 @@
+@if (loading()) {
+  <div class="form-loading">
+    <div class="form-loading__spinner"></div>
+    <p>Kurs wird geladen...</p>
+  </div>
+} @else {
+  <div class="course-form">
+    <header class="course-form__header">
+      <button type="button" class="back-btn" (click)="navigateBack()">
+        &larr; Zurueck
+      </button>
+      <h2 class="course-form__title">
+        {{ isEditMode() ? 'Kurs bearbeiten' : 'Neuer Kurs' }}
+      </h2>
+    </header>
+
+    @if (error()) {
+      <div class="course-form__error">
+        {{ error() }}
+      </div>
+    }
+
+    <nav class="stepper">
+      @for (step of steps(); track step.key; let i = $index) {
+        <button
+          type="button"
+          class="stepper__step"
+          [class.stepper__step--active]="currentStep() === i"
+          [class.stepper__step--completed]="isStepCompleted(i)"
+          [class.stepper__step--disabled]="!isStepValid(i) && i > currentStep()"
+          (click)="goToStep(i)"
+        >
+          <span class="stepper__icon">
+            @if (isStepCompleted(i)) {
+              &#10003;
+            } @else {
+              {{ step.icon }}
+            }
+          </span>
+          <span class="stepper__label">{{ step.label }}</span>
+        </button>
+        @if (i < steps().length - 1) {
+          <span
+            class="stepper__connector"
+            [class.stepper__connector--completed]="isStepCompleted(i)"
+          ></span>
+        }
+      }
+    </nav>
+
+    <div class="course-form__content">
+      @switch (steps()[currentStep()].key) {
+        @case ('basics') {
+          <admin-step-basics [form]="form" />
+        }
+        @case ('details') {
+          <admin-step-details [form]="form" />
+        }
+        @case ('content') {
+          <admin-step-content
+            [detailContent]="detailContent()"
+            (detailContentChanged)="onDetailContentChanged($event)"
+          />
+        }
+        @case ('settings') {
+          <admin-step-settings [form]="form" />
+        }
+        @case ('sessions') {
+          <admin-step-sessions
+            [courseId]="courseId()!"
+            [sessions]="sessions()"
+            [locations]="locations()"
+            [courseDuration]="form.controls.duration.value ?? 90"
+            (sessionCreated)="onSessionsChanged()"
+            (sessionCancelled)="onSessionsChanged()"
+          />
+        }
+        @case ('preview') {
+          <admin-step-preview
+            [data]="previewData"
+            [sessions]="sessions()"
+            [locations]="locations()"
+            [isEditMode]="isEditMode()"
+          />
+        }
+      }
+    </div>
+
+    <footer class="course-form__footer">
+      <div class="course-form__footer-left">
+        @if (currentStep() > 0) {
+          <button
+            type="button"
+            class="form-btn form-btn--secondary"
+            (click)="prevStep()"
+          >
+            Zurueck
+          </button>
+        }
+      </div>
+      <div class="course-form__footer-right">
+        @if (currentStep() < steps().length - 1) {
+          <button
+            type="button"
+            class="form-btn form-btn--primary"
+            [disabled]="!isStepValid(currentStep())"
+            (click)="nextStep()"
+          >
+            Weiter
+          </button>
+        } @else {
+          <button
+            type="button"
+            class="form-btn form-btn--primary"
+            [disabled]="saving()"
+            (click)="save()"
+          >
+            @if (saving()) {
+              Speichere...
+            } @else {
+              {{ isEditMode() ? 'Aktualisieren' : 'Kurs erstellen' }}
+            }
+          </button>
+        }
+      </div>
+    </footer>
+  </div>
+}

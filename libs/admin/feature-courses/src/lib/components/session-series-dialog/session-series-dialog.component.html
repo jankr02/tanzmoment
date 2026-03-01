@@ -1,0 +1,82 @@
+<div class="overlay" (click)="closed.emit()">
+  <div class="dialog" (click)="$event.stopPropagation()">
+    <h3 class="dialog__title">Terminserie erstellen</h3>
+
+    <form [formGroup]="form" class="form">
+      <div class="form__row">
+        <div class="form__field">
+          <label class="form__label" for="weekday">Wochentag</label>
+          <select id="weekday" formControlName="weekday" class="form__select" (change)="generatePreview()">
+            @for (day of weekdayLabels; track $index) {
+              <option [value]="$index">{{ day }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="startTime">Startzeit</label>
+          <input id="startTime" type="time" formControlName="startTime" class="form__input" />
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="duration">Dauer (Min.)</label>
+          <input id="duration" type="number" formControlName="durationMinutes" class="form__input" min="15" step="15" />
+        </div>
+      </div>
+
+      <div class="form__row">
+        <div class="form__field">
+          <label class="form__label" for="startDate">Von</label>
+          <input id="startDate" type="date" formControlName="seriesStartDate" class="form__input" (change)="generatePreview()" />
+        </div>
+
+        <div class="form__field">
+          <label class="form__label" for="endDate">Bis</label>
+          <input id="endDate" type="date" formControlName="seriesEndDate" class="form__input" (change)="generatePreview()" />
+        </div>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="location">Standort</label>
+        <select id="location" formControlName="locationId" class="form__select">
+          <option value="" disabled>Standort wählen...</option>
+          @for (loc of locations; track loc.id) {
+            <option [value]="loc.id">{{ loc.name }}</option>
+          }
+        </select>
+      </div>
+    </form>
+
+    @if (hasPreview()) {
+      <div class="preview">
+        <h4 class="preview__title">Vorschau: {{ previewDates().length }} Termine</h4>
+        <ul class="preview__list">
+          @for (date of previewDates(); track date) {
+            <li class="preview__item">{{ date }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="dialog__actions">
+      <button class="btn btn--ghost" (click)="closed.emit()" [disabled]="submitting()">
+        Abbrechen
+      </button>
+      <button
+        class="btn btn--primary"
+        (click)="submit()"
+        [disabled]="form.invalid || submitting() || previewDates().length === 0"
+      >
+        @if (submitting()) {
+          Erstelle...
+        } @else {
+          {{ previewDates().length }} Termine erstellen
+        }
+      </button>
+    </div>
+  </div>
+</div>

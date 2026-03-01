@@ -51,5 +51,8 @@ export * from './lib/wave-divider';
 // Directives
 export * from './lib/directives/scroll-reveal/scroll-reveal.directive';
 
+// Course Placeholder
+export * from './lib/course-placeholder/course-placeholder.component';
+
 // Decorative Components
 export * from './lib/decorative-blob/decorative-blob.component';

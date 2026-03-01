@@ -14,6 +14,14 @@ export const adminRoutes: Route[] = [
           ),
         title: 'Dashboard | Admin | Tanzmoment',
       },
+      {
+        path: 'courses',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-courses').then(
+            (m) => m.adminCoursesRoutes
+          ),
+        title: 'Kurse | Admin | Tanzmoment',
+      },
     ],
   },
 ];

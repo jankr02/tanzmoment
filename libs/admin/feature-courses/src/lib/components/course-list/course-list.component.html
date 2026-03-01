@@ -1,0 +1,239 @@
+<div class="course-list">
+  <!-- Page Header -->
+  <header class="course-list__header">
+    <div class="course-list__header-text">
+      <h1 class="course-list__title">Kurse</h1>
+      <p class="course-list__subtitle">Verwalte deine Kursangebote</p>
+    </div>
+    <a class="btn btn--primary" routerLink="/admin/courses/neu">
+      <span class="btn__icon" aria-hidden="true">+</span>
+      Neuer Kurs
+    </a>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-bar__search">
+      <label for="course-search" class="visually-hidden">Kurse durchsuchen</label>
+      <input
+        id="course-search"
+        type="search"
+        class="filter-bar__input"
+        placeholder="Kurse durchsuchen..."
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+      />
+    </div>
+
+    <div class="filter-bar__select-group">
+      <label for="status-filter" class="visually-hidden">Status filtern</label>
+      <select
+        id="status-filter"
+        class="filter-bar__select"
+        [value]="statusFilter()"
+        (change)="onStatusChange($event)"
+      >
+        @for (option of statusOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+
+      <label for="dance-style-filter" class="visually-hidden">Tanzstil filtern</label>
+      <select
+        id="dance-style-filter"
+        class="filter-bar__select"
+        [value]="danceStyleFilter()"
+        (change)="onDanceStyleChange($event)"
+      >
+        @for (option of danceStyleOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading()) {
+    <div class="course-list__loading" aria-live="polite" aria-label="Kurse werden geladen">
+      <div class="skeleton-table">
+        @for (row of [1, 2, 3]; track row) {
+          <div class="skeleton-row">
+            <div class="skeleton-cell skeleton-cell--wide"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--actions"></div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Error State -->
+  @else if (error()) {
+    <div class="course-list__error" role="alert">
+      <div class="course-list__error-icon" aria-hidden="true">!</div>
+      <p class="course-list__error-text">{{ error() }}</p>
+      <button class="btn btn--primary" (click)="loadCourses()">Erneut versuchen</button>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @else if (isEmpty()) {
+    <div class="course-list__empty">
+      <div class="course-list__empty-icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <line x1="12" y1="8" x2="12" y2="16"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+      </div>
+      <h2 class="course-list__empty-title">Noch keine Kurse vorhanden</h2>
+      <p class="course-list__empty-text">Erstelle deinen ersten Kurs, um loszulegen.</p>
+      <a class="btn btn--primary" routerLink="/admin/courses/neu">Ersten Kurs erstellen</a>
+    </div>
+  }
+
+  <!-- Course Table -->
+  @else {
+    <div class="table-wrapper">
+      <table class="course-table">
+        <thead>
+          <tr>
+            <th>Kurs</th>
+            <th>Status</th>
+            <th class="hide-mobile">Preis</th>
+            <th class="hide-mobile">Sessions</th>
+            <th class="hide-tablet">Buchungen</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of courses(); track trackCourse($index, course)) {
+            <tr>
+              <td>
+                <span class="course-title">{{ course.title }}</span>
+                <span class="dance-style-badge">{{ getDanceStyleLabel(course.danceStyle) }}</span>
+              </td>
+              <td>
+                <span class="status-indicator">
+                  <span
+                    class="status-dot"
+                    [style.background-color]="getStatusColor(course.status)"
+                    aria-hidden="true"
+                  ></span>
+                  {{ getStatusLabel(course.status) }}
+                </span>
+              </td>
+              <td class="hide-mobile">{{ course.priceFormatted }}</td>
+              <td class="hide-mobile">
+                <span class="session-count">
+                  {{ course.upcomingSessions }} / {{ course.totalSessions }}
+                </span>
+              </td>
+              <td class="hide-tablet">{{ course.totalBookings }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button
+                    class="btn btn--ghost btn--small"
+                    (click)="onEdit(course)"
+                    title="Bearbeiten"
+                    aria-label="Kurs {{ course.title }} bearbeiten"
+                  >
+                    Bearbeiten
+                  </button>
+                  <button
+                    class="btn btn--ghost btn--small"
+                    (click)="onTogglePublish(course)"
+                    [title]="course.isPublished ? 'Zurückziehen' : 'Veröffentlichen'"
+                    [attr.aria-label]="(course.isPublished ? 'Kurs zurückziehen: ' : 'Kurs veröffentlichen: ') + course.title"
+                  >
+                    {{ course.isPublished ? 'Zurückziehen' : 'Veröffentlichen' }}
+                  </button>
+                  <button
+                    class="btn btn--ghost btn--small"
+                    (click)="onDuplicate(course)"
+                    title="Duplizieren"
+                    [attr.aria-label]="'Kurs duplizieren: ' + course.title"
+                  >
+                    Duplizieren
+                  </button>
+                  <button
+                    class="btn btn--ghost btn--small btn--danger-text"
+                    (click)="onArchive(course)"
+                    title="Archivieren"
+                    [attr.aria-label]="'Kurs archivieren: ' + course.title"
+                  >
+                    Archivieren
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    @if (meta(); as m) {
+      @if (m.totalPages > 1) {
+        <nav class="pagination" aria-label="Kurs-Navigation">
+          <button
+            class="btn btn--ghost btn--small"
+            (click)="onPreviousPage()"
+            [disabled]="currentPage() <= 1"
+            aria-label="Vorherige Seite"
+          >
+            &larr; Zur&uuml;ck
+          </button>
+          <span class="pagination__info">
+            Seite {{ m.page }} von {{ m.totalPages }}
+          </span>
+          <button
+            class="btn btn--ghost btn--small"
+            (click)="onNextPage()"
+            [disabled]="currentPage() >= m.totalPages"
+            aria-label="N&auml;chste Seite"
+          >
+            Weiter &rarr;
+          </button>
+        </nav>
+      }
+    }
+  }
+
+  <!-- Confirm Dialog Overlay -->
+  @if (confirmAction(); as action) {
+    <div
+      class="confirm-overlay"
+      (click)="onCancelAction()"
+      (keydown.escape)="onCancelAction()"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="action.title"
+    >
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <h2 class="confirm-dialog__title">{{ action.title }}</h2>
+        <p class="confirm-dialog__message">{{ action.message }}</p>
+        <div class="confirm-dialog__actions">
+          <button
+            class="btn btn--ghost"
+            (click)="onCancelAction()"
+          >
+            Abbrechen
+          </button>
+          <button
+            class="btn"
+            [class.btn--primary]="action.variant === 'primary'"
+            [class.btn--warning]="action.variant === 'warning'"
+            [class.btn--danger]="action.variant === 'danger'"
+            (click)="onConfirmAction()"
+          >
+            {{ action.confirmLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

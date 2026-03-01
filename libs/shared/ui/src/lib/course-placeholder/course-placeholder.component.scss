@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  &__decor {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__illustration {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 85%;
+    width: 80%;
+    opacity: 0.35;
+    pointer-events: none;
+    background-color: var(--illustration-color);
+    mask-image: var(--illustration-url);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: var(--illustration-url);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  &--hero {
+    min-height: 100%;
+
+    .placeholder__illustration {
+      height: 70%;
+      opacity: 0.3;
+    }
+  }
+}

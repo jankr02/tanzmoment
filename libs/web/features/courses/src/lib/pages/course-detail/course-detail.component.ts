@@ -114,6 +114,47 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   /** Session list */
   readonly sessions = computed(() => this.course()?.sessions ?? []);
 
+  // ─── Section Visibility ────────────────────────────────────────────────
+  // Used to compute correct wave divider colors between optional sections.
+
+  readonly hasCourseFlow = computed(
+    () => !!(this.detailContent().courseFlow?.steps?.length),
+  );
+
+  readonly hasTestimonials = computed(
+    () => !!(this.detailContent().socialProof?.testimonials?.length),
+  );
+
+  readonly hasFaq = computed(
+    () => !!(this.detailContent().faq?.items?.length),
+  );
+
+  // ─── Dynamic Wave Colors ──────────────────────────────────────────────
+  // Each wave transitions from the section above (fill) to section below (div bg).
+  // When optional sections are skipped, the "section above" changes.
+
+  /** Testimonials wave: show only when CourseFlow is above (themed → white) */
+  readonly showTestimonialsWave = this.hasCourseFlow;
+
+  /** Instructor wave: show only when section above is white */
+  readonly showInstructorWave = computed(() => {
+    if (this.hasTestimonials()) return true;
+    return !this.hasCourseFlow();
+  });
+
+  /** Fill color for the Instructor wave (section above) */
+  readonly instructorWaveFill = computed(() => {
+    // Section above Instructor is always white when wave is shown
+    return 'var(--color-surface)';
+  });
+
+  /** Need a wave before Schedule when Instructor is missing and last section is themed */
+  readonly needsPreScheduleWave = computed(() => {
+    if (this.instructor()) return false;
+    if (this.hasTestimonials()) return false;
+    return this.hasCourseFlow();
+  });
+
   /** Error type for template logic */
   readonly isNotFound = computed(() => this.error() === 'NOT_FOUND');
 

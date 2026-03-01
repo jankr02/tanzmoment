@@ -1,0 +1,131 @@
+<div class="sessions">
+  <div class="sessions__header">
+    <h3 class="sessions__title">Termine ({{ sessions.length }})</h3>
+    <div class="sessions__actions">
+      <button
+        type="button"
+        class="btn btn--ghost"
+        (click)="showAddForm.set(!showAddForm())"
+      >
+        + Einzeltermin
+      </button>
+      <button
+        type="button"
+        class="btn btn--secondary"
+        (click)="showSeriesDialog.set(true)"
+      >
+        Terminserie erstellen
+      </button>
+    </div>
+  </div>
+
+  @if (showAddForm()) {
+    <div class="add-form" [formGroup]="addForm">
+      <div class="add-form__row">
+        <div class="add-form__field">
+          <label class="add-form__label">Datum</label>
+          <input type="date" formControlName="date" class="add-form__input" />
+        </div>
+        <div class="add-form__field">
+          <label class="add-form__label">Start</label>
+          <input type="time" formControlName="startTime" class="add-form__input" />
+        </div>
+        <div class="add-form__field">
+          <label class="add-form__label">Ende</label>
+          <input type="time" formControlName="endTime" class="add-form__input" />
+        </div>
+        <div class="add-form__field">
+          <label class="add-form__label">Standort</label>
+          <select formControlName="locationId" class="add-form__input">
+            <option value="" disabled>Wählen...</option>
+            @for (loc of locations; track loc.id) {
+              <option [value]="loc.id">{{ loc.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <div class="add-form__actions">
+        <button
+          type="button"
+          class="btn btn--ghost"
+          (click)="showAddForm.set(false)"
+        >
+          Abbrechen
+        </button>
+        <button
+          type="button"
+          class="btn btn--primary"
+          [disabled]="addForm.invalid || saving()"
+          (click)="addSession()"
+        >
+          Hinzufügen
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (sessions.length === 0) {
+    <div class="empty">
+      <p>Noch keine Termine vorhanden.</p>
+      <p class="empty__hint">Erstelle einzelne Termine oder eine Terminserie.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Ort</th>
+            <th>Status</th>
+            <th>Buchungen</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (session of sessions; track session.id) {
+            <tr>
+              <td>{{ formatDate(session.startTime) }}</td>
+              <td>{{ formatTime(session.startTime) }} – {{ formatTime(session.endTime) }}</td>
+              <td>{{ session.locationName }}</td>
+              <td><admin-status-badge [status]="session.status" type="session" /></td>
+              <td>{{ session.bookedCount }} / {{ session.maxParticipants }}</td>
+              <td>
+                @if (session.status !== 'CANCELLED') {
+                  <button
+                    type="button"
+                    class="btn btn--ghost btn--sm btn--danger-text"
+                    (click)="confirmCancel(session.id)"
+                  >
+                    Absagen
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+@if (showSeriesDialog()) {
+  <admin-session-series-dialog
+    [courseId]="courseId"
+    [locations]="locations"
+    [courseDuration]="courseDuration"
+    (created)="onSeriesCreated()"
+    (closed)="showSeriesDialog.set(false)"
+  />
+}
+
+@if (cancelSessionId()) {
+  <admin-confirm-dialog
+    title="Termin absagen"
+    message="Möchtest du diesen Termin wirklich absagen?"
+    confirmLabel="Absagen"
+    variant="danger"
+    (confirmed)="cancelSession()"
+    (cancelled)="cancelSessionId.set(null)"
+  />
+}
