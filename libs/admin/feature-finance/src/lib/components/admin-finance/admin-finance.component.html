@@ -1,0 +1,216 @@
+<div class="finance">
+  <div class="finance__header">
+    <div>
+      <h1 class="finance__title">Finanzen</h1>
+      <p class="finance__subtitle">Zahlungsübersicht und Statistiken</p>
+    </div>
+    <button
+      class="btn btn--ghost"
+      (click)="onExportCSV()"
+      [disabled]="exporting()"
+      aria-label="Zahlungen als CSV exportieren"
+    >
+      <app-icon name="download" aria-hidden="true" />
+      {{ exporting() ? 'Exportiert...' : 'CSV Export' }}
+    </button>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  @if (loadingSummary()) {
+    <div class="summary-grid skeleton-grid">
+      @for (card of [1, 2, 3, 4]; track card) {
+        <div class="skeleton-card">
+          <div class="skeleton-line skeleton-line--narrow"></div>
+          <div class="skeleton-line skeleton-line--wide"></div>
+        </div>
+      }
+    </div>
+  } @else if (summary(); as s) {
+    <div class="summary-grid">
+      <div class="summary-card summary-card--revenue">
+        <div class="summary-card__icon">
+          <app-icon name="euro" aria-hidden="true" />
+        </div>
+        <div class="summary-card__body">
+          <span class="summary-card__label">Einnahmen diesen Monat</span>
+          <span class="summary-card__value">{{ formatEuro(s.revenueThisMonth) }}</span>
+        </div>
+      </div>
+      <div class="summary-card summary-card--pending">
+        <div class="summary-card__icon">
+          <app-icon name="clock" aria-hidden="true" />
+        </div>
+        <div class="summary-card__body">
+          <span class="summary-card__label">Offene Beträge</span>
+          <span class="summary-card__value">{{ formatEuro(s.pendingAmount) }}</span>
+        </div>
+      </div>
+      <div class="summary-card summary-card--refunded">
+        <div class="summary-card__icon">
+          <app-icon name="x-circle" aria-hidden="true" />
+        </div>
+        <div class="summary-card__body">
+          <span class="summary-card__label">Erstattet (gesamt)</span>
+          <span class="summary-card__value">{{ formatEuro(s.refundedAmount) }}</span>
+        </div>
+      </div>
+      <div class="summary-card summary-card--total">
+        <div class="summary-card__icon">
+          <app-icon name="bar-chart" aria-hidden="true" />
+        </div>
+        <div class="summary-card__body">
+          <span class="summary-card__label">Gesamteinnahmen</span>
+          <span class="summary-card__value">{{ formatEuro(s.totalRevenue) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- MONTHLY CHART -->
+  @if (!loadingChart() && monthlyStats().length > 0) {
+    <section class="chart-section" aria-labelledby="chart-heading">
+      <h2 id="chart-heading" class="section-title">Einnahmen der letzten 12 Monate</h2>
+      <div class="bar-chart" role="img" aria-label="Einnahmen-Balkendiagramm der letzten 12 Monate">
+        @for (stat of monthlyStats(); track stat.month) {
+          <div class="bar-chart__col">
+            <span class="bar-chart__amount" [class.bar-chart__amount--zero]="stat.revenue === 0">
+              {{ stat.revenue > 0 ? formatEuro(stat.revenue) : '' }}
+            </span>
+            <div
+              class="bar-chart__bar"
+              [style.height.%]="getBarHeight(stat.revenue)"
+              [class.bar-chart__bar--zero]="stat.revenue === 0"
+              [title]="formatMonthLabel(stat.month) + ': ' + formatEuro(stat.revenue)"
+              role="presentation"
+            ></div>
+            <span class="bar-chart__label">{{ formatMonthLabel(stat.month) }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- PAYMENT TABLE -->
+  <section class="payments-section" aria-labelledby="payments-heading">
+    <div class="payments-section__header">
+      <h2 id="payments-heading" class="section-title">Zahlungen</h2>
+      <div class="filter-bar">
+        <select
+          class="filter-select"
+          [value]="statusFilter()"
+          (change)="onStatusChange($event)"
+          aria-label="Status filtern"
+        >
+          <option value="">Alle Status</option>
+          <option value="PAID">Bezahlt</option>
+          <option value="PENDING">Offen</option>
+          <option value="REFUNDED">Erstattet</option>
+          <option value="FAILED">Fehlgeschlagen</option>
+          <option value="PARTIAL_REFUND">Teilerstattung</option>
+        </select>
+        <div class="filter-date-range">
+          <label for="from-filter" class="filter-label">Von</label>
+          <input
+            id="from-filter"
+            type="date"
+            class="filter-date"
+            [value]="fromFilter()"
+            (change)="onFromChange($event)"
+          />
+          <label for="to-filter" class="filter-label">Bis</label>
+          <input
+            id="to-filter"
+            type="date"
+            class="filter-date"
+            [value]="toFilter()"
+            (change)="onToChange($event)"
+          />
+        </div>
+        @if (hasActiveFilters()) {
+          <button class="btn btn--ghost btn--small" (click)="onResetFilters()">
+            Zurücksetzen
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (loadingPayments()) {
+      <div class="skeleton-table" aria-live="polite" aria-label="Lädt...">
+        @for (row of [1, 2, 3, 4, 5]; track row) {
+          <div class="skeleton-row">
+            <div class="skeleton-cell skeleton-cell--medium"></div>
+            <div class="skeleton-cell skeleton-cell--wide"></div>
+            <div class="skeleton-cell skeleton-cell--medium"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+          </div>
+        }
+      </div>
+    } @else if (isEmpty()) {
+      <div class="payments-empty">
+        <app-icon name="euro" class="empty-icon" aria-hidden="true" />
+        @if (hasActiveFilters()) {
+          <p>Keine Zahlungen für den gewählten Filter.</p>
+          <button class="btn btn--ghost" (click)="onResetFilters()">Filter zurücksetzen</button>
+        } @else {
+          <p>Noch keine Zahlungen vorhanden.</p>
+        }
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="payments-table">
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Teilnehmer</th>
+              <th class="hide-mobile">Kurs</th>
+              <th>Betrag</th>
+              <th>Status</th>
+              <th class="hide-tablet">Methode</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (payment of payments(); track trackByPayment($index, payment)) {
+              <tr>
+                <td class="payments-table__date">{{ formatDate(payment.paidAt ?? payment.createdAt) }}</td>
+                <td>
+                  <span class="participant-name">{{ getParticipantName(payment) }}</span>
+                  <span class="participant-email hide-mobile">{{ getParticipantEmail(payment) }}</span>
+                </td>
+                <td class="hide-mobile">{{ payment.course.title }}</td>
+                <td class="payments-table__amount">{{ formatEuro(payment.amountInCents) }}</td>
+                <td>
+                  <span class="status-badge" [class]="getPaymentStatusClass(payment.status)">
+                    {{ getPaymentStatusLabel(payment.status) }}
+                  </span>
+                </td>
+                <td class="hide-tablet">{{ getMethodLabel(payment.method) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (meta(); as m) {
+        @if (m.totalPages > 1) {
+          <nav class="pagination" aria-label="Seitennavigation">
+            <button
+              class="btn btn--ghost btn--small"
+              [disabled]="currentPage() <= 1"
+              (click)="onPreviousPage()"
+            >
+              ← Zurück
+            </button>
+            <span class="pagination__info">Seite {{ m.page }} von {{ m.totalPages }}</span>
+            <button
+              class="btn btn--ghost btn--small"
+              [disabled]="currentPage() >= m.totalPages"
+              (click)="onNextPage()"
+            >
+              Weiter →
+            </button>
+          </nav>
+        }
+      }
+    }
+  </section>
+</div>

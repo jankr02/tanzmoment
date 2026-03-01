@@ -1,0 +1,140 @@
+<div class="customer-list">
+  <div class="customer-list__header">
+    <h1 class="customer-list__title">Teilnehmer</h1>
+    <p class="customer-list__subtitle">
+      @if (meta(); as m) {
+        {{ m.total }} registrierte Teilnehmer
+      }
+    </p>
+  </div>
+
+  <div class="customer-list__search-bar">
+    <div class="search-input-wrapper">
+      <app-icon name="search" class="search-icon" aria-hidden="true" />
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Name oder E-Mail suchen..."
+        [value]="searchFilter()"
+        (input)="onSearchChange($event)"
+        aria-label="Teilnehmer suchen"
+      />
+      @if (hasSearch()) {
+        <button
+          class="search-clear-btn"
+          (click)="onClearSearch()"
+          aria-label="Suche zurücksetzen"
+        >
+          <app-icon name="x" aria-hidden="true" />
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="customer-list__loading" aria-live="polite" aria-label="Lädt...">
+      <div class="skeleton-table">
+        @for (row of [1, 2, 3, 4, 5, 6, 7, 8]; track row) {
+          <div class="skeleton-row">
+            <div class="skeleton-cell skeleton-cell--wide"></div>
+            <div class="skeleton-cell skeleton-cell--medium"></div>
+            <div class="skeleton-cell skeleton-cell--narrow"></div>
+            <div class="skeleton-cell skeleton-cell--narrow hide-mobile"></div>
+            <div class="skeleton-cell skeleton-cell--narrow hide-tablet"></div>
+          </div>
+        }
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="customer-list__error" role="alert">
+      <app-icon name="alert-circle" class="error-icon" aria-hidden="true" />
+      <p>{{ error() }}</p>
+      <button class="btn btn--primary" (click)="onClearSearch()">Erneut versuchen</button>
+    </div>
+  } @else if (isEmpty()) {
+    <div class="customer-list__empty">
+      <app-icon name="users" class="empty-icon" aria-hidden="true" />
+      @if (hasSearch()) {
+        <h2>Keine Ergebnisse für "{{ searchFilter() }}"</h2>
+        <p>Versuche einen anderen Namen oder eine andere E-Mail-Adresse.</p>
+        <button class="btn btn--ghost" (click)="onClearSearch()">Suche zurücksetzen</button>
+      } @else {
+        <h2>Noch keine Teilnehmer</h2>
+        <p>Registrierte Teilnehmer erscheinen hier.</p>
+      }
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="customer-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th class="hide-mobile">Telefon</th>
+            <th>Buchungen</th>
+            <th class="hide-tablet">Letzte Aktivität</th>
+            <th class="hide-mobile">Registriert</th>
+            <th><span class="visually-hidden">Aktionen</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (customer of customers(); track trackByCustomer($index, customer)) {
+            <tr
+              class="customer-table__row"
+              [class.customer-table__row--inactive]="!customer.isActive"
+            >
+              <td class="customer-table__name">
+                <a [routerLink]="['/admin/teilnehmer', customer.id]" class="customer-name-link">
+                  {{ getFullName(customer) }}
+                </a>
+                @if (!customer.isActive) {
+                  <span class="inactive-badge">Inaktiv</span>
+                }
+              </td>
+              <td class="customer-table__email">
+                <a [href]="'mailto:' + customer.email" class="email-link">{{ customer.email }}</a>
+              </td>
+              <td class="hide-mobile">{{ customer.phone ?? '—' }}</td>
+              <td class="customer-table__count">
+                <span class="booking-count">{{ customer.bookingCount }}</span>
+              </td>
+              <td class="hide-tablet">{{ formatRelativeDate(customer.lastActivity) }}</td>
+              <td class="hide-mobile">{{ formatDate(customer.createdAt) }}</td>
+              <td class="customer-table__actions">
+                <a
+                  [routerLink]="['/admin/teilnehmer', customer.id]"
+                  class="btn btn--ghost btn--small"
+                  aria-label="Profil von {{ getFullName(customer) }} anzeigen"
+                >
+                  <app-icon name="chevron-right" aria-hidden="true" />
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (meta(); as m) {
+      @if (m.totalPages > 1) {
+        <nav class="pagination" aria-label="Seitennavigation">
+          <button
+            class="btn btn--ghost btn--small"
+            [disabled]="currentPage() <= 1"
+            (click)="onPreviousPage()"
+          >
+            ← Zurück
+          </button>
+          <span class="pagination__info">Seite {{ m.page }} von {{ m.totalPages }}</span>
+          <button
+            class="btn btn--ghost btn--small"
+            [disabled]="currentPage() >= m.totalPages"
+            (click)="onNextPage()"
+          >
+            Weiter →
+          </button>
+        </nav>
+      }
+    }
+  }
+</div>

@@ -29,3 +29,21 @@ export type {
   CalendarView,
   CalendarDay,
 } from './lib/types/calendar.types';
+export type {
+  AdminCustomerListItem,
+  AdminCustomerDetail,
+  AdminCustomerBooking,
+  CustomerNote,
+  CustomerListFilters,
+  CustomerListMeta,
+  CustomerListResponse,
+} from './lib/types/customer.types';
+export type {
+  FinanceSummary,
+  FinancePayment,
+  FinancePaymentUser,
+  MonthlyRevenueStat,
+  FinancePaymentFilters,
+  FinanceListMeta,
+  FinancePaymentListResponse,
+} from './lib/types/finance.types';

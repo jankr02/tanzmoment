@@ -1,0 +1,224 @@
+<div class="customer-detail">
+  <div class="customer-detail__back">
+    <a routerLink="/admin/teilnehmer" class="back-link">
+      <app-icon name="chevron-left" aria-hidden="true" />
+      Alle Teilnehmer
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="customer-detail__loading" aria-live="polite" aria-label="Lädt...">
+      <div class="skeleton-card">
+        <div class="skeleton-line skeleton-line--wide"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
+        <div class="skeleton-line skeleton-line--narrow"></div>
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="customer-detail__error" role="alert">
+      <app-icon name="alert-circle" aria-hidden="true" />
+      <p>{{ error() }}</p>
+      <a routerLink="/admin/teilnehmer" class="btn btn--ghost">Zurück zur Liste</a>
+    </div>
+  } @else if (customer(); as c) {
+    <div class="customer-detail__content">
+      <!-- HEADER -->
+      <div class="customer-header">
+        <div class="customer-header__info">
+          <div class="customer-avatar" aria-hidden="true">
+            {{ c.firstName.charAt(0) }}{{ c.lastName.charAt(0) }}
+          </div>
+          <div>
+            <h1 class="customer-header__name">{{ fullName() }}</h1>
+            <div class="customer-header__meta">
+              <span>Registriert {{ formatDate(c.createdAt) }}</span>
+              @if (!c.isActive) {
+                <span class="status-badge status--cancelled">Inaktiv</span>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="customer-header__stats">
+          <div class="stat-card">
+            <span class="stat-card__value">{{ c.bookingCount }}</span>
+            <span class="stat-card__label">Buchungen</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT DETAILS -->
+      <section class="detail-section" aria-labelledby="contact-heading">
+        <h2 id="contact-heading" class="detail-section__title">Kontaktdaten</h2>
+        <div class="contact-grid">
+          <div class="contact-item">
+            <app-icon name="mail" class="contact-icon" aria-hidden="true" />
+            <div>
+              <span class="contact-label">E-Mail</span>
+              <a [href]="'mailto:' + c.email" class="contact-value contact-value--link">{{ c.email }}</a>
+            </div>
+          </div>
+          @if (c.phone) {
+            <div class="contact-item">
+              <app-icon name="phone" class="contact-icon" aria-hidden="true" />
+              <div>
+                <span class="contact-label">Telefon</span>
+                <a [href]="'tel:' + c.phone" class="contact-value contact-value--link">{{ c.phone }}</a>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- BOOKING HISTORY -->
+      <section class="detail-section" aria-labelledby="bookings-heading">
+        <h2 id="bookings-heading" class="detail-section__title">
+          Buchungshistorie
+          <span class="count-badge">{{ c.bookings.length }}</span>
+        </h2>
+
+        @if (c.bookings.length === 0) {
+          <p class="empty-hint">Noch keine Buchungen vorhanden.</p>
+        } @else {
+          <div class="table-wrapper">
+            <table class="booking-table">
+              <thead>
+                <tr>
+                  <th>Kurs</th>
+                  <th class="hide-mobile">Termin</th>
+                  <th>Status</th>
+                  <th>Zahlung</th>
+                  <th class="hide-tablet">Betrag</th>
+                  <th class="hide-mobile">Datum</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (booking of c.bookings; track booking.id) {
+                  <tr>
+                    <td class="booking-table__course">{{ booking.course.title }}</td>
+                    <td class="hide-mobile">
+                      @if (booking.session) {
+                        {{ formatDateTime(booking.session.startTime) }}
+                      } @else {
+                        —
+                      }
+                    </td>
+                    <td>
+                      <span class="status-badge" [class]="getBookingStatusClass(booking.status)">
+                        {{ getBookingStatusLabel(booking.status) }}
+                      </span>
+                    </td>
+                    <td>
+                      @if (booking.payment) {
+                        <span
+                          class="status-badge"
+                          [class.status--confirmed]="booking.payment.status === 'PAID'"
+                          [class.status--pending]="booking.payment.status === 'PENDING'"
+                          [class.status--cancelled]="booking.payment.status === 'REFUNDED' || booking.payment.status === 'FAILED'"
+                        >
+                          {{ getPaymentStatusLabel(booking.payment.status) }}
+                        </span>
+                      } @else {
+                        <span class="text-muted">—</span>
+                      }
+                    </td>
+                    <td class="hide-tablet">
+                      @if (booking.payment) {
+                        {{ formatEuro(booking.payment.amountInCents) }}
+                      } @else {
+                        —
+                      }
+                    </td>
+                    <td class="hide-mobile text-muted">{{ formatDate(booking.createdAt) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <!-- NOTES -->
+      <section class="detail-section" aria-labelledby="notes-heading">
+        <h2 id="notes-heading" class="detail-section__title">
+          Notizen
+          <span class="count-badge">{{ c.notes.length }}</span>
+        </h2>
+
+        <div class="notes-add">
+          <label for="new-note" class="visually-hidden">Neue Notiz</label>
+          <textarea
+            id="new-note"
+            class="notes-textarea"
+            rows="3"
+            placeholder="Notiz hinzufügen, z. B. 'Hat Rückenprobleme, braucht schonende Varianten'..."
+            [value]="noteContent()"
+            (input)="noteContent.set($any($event.target).value)"
+            [disabled]="addingNote()"
+          ></textarea>
+          <button
+            class="btn btn--primary"
+            [disabled]="!canSubmitNote() || addingNote()"
+            (click)="onSubmitNote()"
+          >
+            @if (addingNote()) {
+              Speichert...
+            } @else {
+              Notiz hinzufügen
+            }
+          </button>
+        </div>
+
+        @if (c.notes.length > 0) {
+          <ul class="notes-list" aria-label="Notizen">
+            @for (note of c.notes; track note.id) {
+              <li class="note-card" [class.note-card--deleting]="deletingNoteId() === note.id">
+                <p class="note-card__content">{{ note.content }}</p>
+                <div class="note-card__footer">
+                  <span class="note-card__date">{{ formatDateTime(note.createdAt) }}</span>
+                  <button
+                    class="btn btn--ghost btn--small note-card__delete"
+                    [disabled]="deletingNoteId() === note.id"
+                    (click)="onDeleteNote(note)"
+                    aria-label="Notiz löschen"
+                  >
+                    <app-icon name="trash-2" aria-hidden="true" />
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty-hint">Noch keine Notizen vorhanden.</p>
+        }
+      </section>
+    </div>
+  }
+
+  <!-- SUCCESS TOAST -->
+  @if (successMessage()) {
+    <div class="success-toast" role="status" aria-live="polite">
+      <app-icon name="check-circle" aria-hidden="true" />
+      {{ successMessage() }}
+    </div>
+  }
+
+  <!-- CONFIRM DIALOG -->
+  @if (confirmAction(); as action) {
+    <div
+      class="confirm-overlay"
+      (click)="onCancelAction()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-title"
+    >
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <h2 id="confirm-title" class="confirm-dialog__title">{{ action.title }}</h2>
+        <p class="confirm-dialog__message">{{ action.message }}</p>
+        <div class="confirm-dialog__actions">
+          <button class="btn btn--ghost" (click)="onCancelAction()">Abbrechen</button>
+          <button class="btn btn--danger" (click)="onConfirmAction()">{{ action.confirmLabel }}</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

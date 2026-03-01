@@ -38,6 +38,22 @@ export const adminRoutes: Route[] = [
           ),
         title: 'Kalender | Admin | Tanzmoment',
       },
+      {
+        path: 'teilnehmer',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-customers').then(
+            (m) => m.adminCustomersRoutes
+          ),
+        title: 'Teilnehmer | Admin | Tanzmoment',
+      },
+      {
+        path: 'finanzen',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-finance').then(
+            (m) => m.adminFinanceRoutes
+          ),
+        title: 'Finanzen | Admin | Tanzmoment',
+      },
     ],
   },
 ];

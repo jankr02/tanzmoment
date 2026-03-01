@@ -10,6 +10,13 @@ import { AdminLocationsController } from './locations/admin-locations.controller
 import { AdminLocationsService } from './locations/admin-locations.service';
 import { AdminCalendarController } from './calendar/admin-calendar.controller';
 import { AdminCalendarService } from './calendar/admin-calendar.service';
+import {
+  AdminCustomersController,
+  AdminCustomerNotesController,
+} from './customers/admin-customers.controller';
+import { AdminCustomersService } from './customers/admin-customers.service';
+import { AdminFinanceController } from './finance/admin-finance.controller';
+import { AdminFinanceService } from './finance/admin-finance.service';
 
 @Module({
   imports: [AuthModule],
@@ -19,6 +26,9 @@ import { AdminCalendarService } from './calendar/admin-calendar.service';
     AdminSessionsController,
     AdminLocationsController,
     AdminCalendarController,
+    AdminCustomersController,
+    AdminCustomerNotesController,
+    AdminFinanceController,
   ],
   providers: [
     AdminDashboardService,
@@ -26,6 +36,8 @@ import { AdminCalendarService } from './calendar/admin-calendar.service';
     AdminSessionsService,
     AdminLocationsService,
     AdminCalendarService,
+    AdminCustomersService,
+    AdminFinanceService,
   ],
 })
 export class AdminModule {}

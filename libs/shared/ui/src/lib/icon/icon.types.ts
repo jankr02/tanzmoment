@@ -49,6 +49,10 @@ export type IconName =
   | 'menu'
   | 'home'
   | 'arrow-left'
+  | 'chevron-right'
+  | 'chevron-left'
+  | 'trash-2'
+  | 'download'
   // Social Media
   | 'instagram'
   | 'facebook'

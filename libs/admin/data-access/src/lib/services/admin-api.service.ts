@@ -20,6 +20,18 @@ import {
   BookingListResponse,
 } from '../types/booking.types';
 import { CalendarSession } from '../types/calendar.types';
+import {
+  AdminCustomerDetail,
+  CustomerNote,
+  CustomerListFilters,
+  CustomerListResponse,
+} from '../types/customer.types';
+import {
+  FinanceSummary,
+  FinancePaymentListResponse,
+  FinancePaymentFilters,
+  MonthlyRevenueStat,
+} from '../types/finance.types';
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
@@ -214,4 +226,76 @@ export class AdminApiService {
       params,
     });
   }
+
+  // -------------------------------------------------------------------------
+  // CUSTOMERS
+  // -------------------------------------------------------------------------
+
+  getCustomers(filters?: CustomerListFilters): Observable<CustomerListResponse> {
+    let httpParams = new HttpParams();
+    if (filters) {
+      if (filters.search) httpParams = httpParams.set('search', filters.search);
+      if (filters.page) httpParams = httpParams.set('page', filters.page.toString());
+      if (filters.limit) httpParams = httpParams.set('limit', filters.limit.toString());
+    }
+    return this.http.get<CustomerListResponse>(`${this.baseUrl}/customers`, {
+      params: httpParams,
+    });
+  }
+
+  getCustomer(id: string): Observable<AdminCustomerDetail> {
+    return this.http.get<AdminCustomerDetail>(`${this.baseUrl}/customers/${id}`);
+  }
+
+  addCustomerNote(customerId: string, content: string): Observable<CustomerNote> {
+    return this.http.post<CustomerNote>(
+      `${this.baseUrl}/customers/${customerId}/notes`,
+      { content },
+    );
+  }
+
+  deleteCustomerNote(noteId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/customer-notes/${noteId}`);
+  }
+
+  // -------------------------------------------------------------------------
+  // FINANCE
+  // -------------------------------------------------------------------------
+
+  getFinanceSummary(): Observable<FinanceSummary> {
+    return this.http.get<FinanceSummary>(`${this.baseUrl}/finance/summary`);
+  }
+
+  getFinancePayments(filters?: FinancePaymentFilters): Observable<FinancePaymentListResponse> {
+    let httpParams = new HttpParams();
+    if (filters) {
+      if (filters.status) httpParams = httpParams.set('status', filters.status);
+      if (filters.from) httpParams = httpParams.set('from', filters.from);
+      if (filters.to) httpParams = httpParams.set('to', filters.to);
+      if (filters.page) httpParams = httpParams.set('page', filters.page.toString());
+      if (filters.limit) httpParams = httpParams.set('limit', filters.limit.toString());
+    }
+    return this.http.get<FinancePaymentListResponse>(`${this.baseUrl}/finance/payments`, {
+      params: httpParams,
+    });
+  }
+
+  getMonthlyStats(months?: number): Observable<MonthlyRevenueStat[]> {
+    let httpParams = new HttpParams();
+    if (months) httpParams = httpParams.set('months', months.toString());
+    return this.http.get<MonthlyRevenueStat[]>(`${this.baseUrl}/finance/monthly-stats`, {
+      params: httpParams,
+    });
+  }
+
+  exportFinanceCSV(from?: string, to?: string): Observable<Blob> {
+    let httpParams = new HttpParams();
+    if (from) httpParams = httpParams.set('from', from);
+    if (to) httpParams = httpParams.set('to', to);
+    return this.http.get(`${this.baseUrl}/finance/export`, {
+      params: httpParams,
+      responseType: 'blob',
+    });
+  }
+
 }

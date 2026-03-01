@@ -32,8 +32,8 @@ export class AdminSidebarComponent {
     { label: 'Kurse', icon: 'book-open', route: '/admin/courses' },
     { label: 'Buchungen', icon: 'clipboard-list', route: '/admin/buchungen' },
     { label: 'Kalender', icon: 'calendar', route: '/admin/kalender' },
-    { label: 'Zahlungen', icon: 'wallet', route: '/admin/payments' },
-    { label: 'Nutzer', icon: 'users', route: '/admin/users' },
+    { label: 'Teilnehmer', icon: 'users', route: '/admin/teilnehmer' },
+    { label: 'Finanzen', icon: 'wallet', route: '/admin/finanzen' },
     { label: 'Einstellungen', icon: 'settings', route: '/admin/settings' },
   ];
 
