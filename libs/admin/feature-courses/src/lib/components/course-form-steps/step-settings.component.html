@@ -1,0 +1,116 @@
+<div class="step" [formGroup]="form">
+  <div class="field-row">
+    <div class="field">
+      <label class="field__label" for="priceInEuros">Preis in Euro</label>
+      <input
+        id="priceInEuros"
+        type="number"
+        formControlName="priceInEuros"
+        class="field__input"
+        step="0.01"
+        min="0"
+        placeholder="0,00"
+      />
+    </div>
+
+    <div class="field" style="align-self: flex-end; padding-bottom: 8px;">
+      <label class="checkbox">
+        <input type="checkbox" formControlName="isFree" (change)="onFreeToggle()" />
+        <span>Kostenlos</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field__label" for="duration">Dauer (Minuten)</label>
+      <select id="duration" formControlName="duration" class="field__select">
+        @for (d of durations; track d) {
+          <option [value]="d">{{ d }} Min.</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="maxParticipants">Max. Teilnehmer</label>
+      <input
+        id="maxParticipants"
+        type="number"
+        formControlName="maxParticipants"
+        class="field__input"
+        min="1"
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field__label">Buchungsmodus</label>
+    <div class="radio-group">
+      <label class="radio">
+        <input type="radio" formControlName="bookingMode" value="FULL_COURSE" />
+        <span>Ganzer Kurs</span>
+      </label>
+      <label class="radio">
+        <input type="radio" formControlName="bookingMode" value="SINGLE_SESSION" />
+        <span>Einzelsession</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field__label" for="visibility">Sichtbarkeit</label>
+      <select id="visibility" formControlName="visibility" class="field__select">
+        @for (opt of visibilityOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field" style="align-self: flex-end; padding-bottom: 8px;">
+      <label class="checkbox">
+        <input type="checkbox" formControlName="isMarkedAsHighlighted" />
+        <span>Hervorgehoben</span>
+      </label>
+    </div>
+  </div>
+
+  <button type="button" class="toggle-advanced" (click)="toggleAdvanced()">
+    {{ showAdvanced() ? '▾ Erweitert ausblenden' : '▸ Erweitert anzeigen' }}
+  </button>
+
+  @if (showAdvanced()) {
+    <div class="field">
+      <label class="field__label" for="metaTitle">Meta-Titel (SEO)</label>
+      <input
+        id="metaTitle"
+        type="text"
+        formControlName="metaTitle"
+        class="field__input"
+        placeholder="Wird im Browser-Tab angezeigt"
+      />
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="metaDescription">Meta-Beschreibung (SEO)</label>
+      <textarea
+        id="metaDescription"
+        formControlName="metaDescription"
+        class="field__textarea"
+        rows="2"
+        placeholder="Wird in Suchergebnissen angezeigt"
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="cancellationPolicyId">Stornierungsrichtlinie (ID)</label>
+      <input
+        id="cancellationPolicyId"
+        type="text"
+        formControlName="cancellationPolicyId"
+        class="field__input"
+        placeholder="Optional"
+      />
+    </div>
+  }
+</div>

@@ -1,15 +1,30 @@
-<section class="detail-hero" role="banner">
-  <!-- Background Image -->
+<section
+  class="detail-hero"
+  [class.detail-hero--placeholder]="showPlaceholder()"
+  role="banner"
+>
+  <!-- Background Image / Placeholder -->
   <div class="detail-hero__image-wrapper">
-    <img
-      [src]="imageUrl"
-      [alt]="headline + ' – ' + danceStyleLabel"
-      class="detail-hero__image"
-      loading="eager"
-      fetchpriority="high"
-    />
-    <!-- Gradient overlay for text readability -->
-    <div class="detail-hero__overlay" aria-hidden="true"></div>
+    @if (!showPlaceholder()) {
+      <img
+        [src]="imageUrl"
+        [alt]="headline + ' – ' + danceStyleLabel"
+        class="detail-hero__image"
+        loading="eager"
+        fetchpriority="high"
+        (error)="onImageError()"
+      />
+    } @else {
+      <tm-course-placeholder
+        [danceStyle]="course.danceStyle"
+        variant="hero"
+      />
+    }
+    <div
+      class="detail-hero__overlay"
+      [class.detail-hero__overlay--light]="showPlaceholder()"
+      aria-hidden="true"
+    ></div>
   </div>
 
   <!-- Content Overlay -->
@@ -17,7 +32,11 @@
     <div class="detail-hero__container">
 
       <!-- Dance Style Badge -->
-      <span class="detail-hero__badge">
+      <span
+        class="detail-hero__badge"
+        [style.background-color]="badgeBg"
+        [style.color]="badgeText"
+      >
         {{ danceStyleLabel }}
       </span>
 

@@ -1,0 +1,131 @@
+<div class="preview">
+  <section class="preview__section">
+    <h4 class="preview__heading">Grundlagen</h4>
+    <div class="preview__grid">
+      <div class="preview__item">
+        <span class="preview__label">Titel</span>
+        <span class="preview__value">{{ data.title || '–' }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Tanzstil</span>
+        <span class="preview__value">{{ getDanceStyleLabel(data.danceStyle) }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Zielgruppe</span>
+        <span class="preview__value">{{ getTargetGroupLabel(data.targetGroup) }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Level</span>
+        <span class="preview__value">{{ getLevelLabel(data.level) }}</span>
+      </div>
+      <div class="preview__item preview__item--full">
+        <span class="preview__label">Kurzbeschreibung</span>
+        <span class="preview__value">{{ data.shortDescription || '–' }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="preview__section">
+    <h4 class="preview__heading">Details</h4>
+    <div class="preview__grid">
+      <div class="preview__item preview__item--full">
+        <span class="preview__label">Beschreibung</span>
+        <span class="preview__value preview__value--long">{{ data.description || '–' }}</span>
+      </div>
+      @if (data.catchPhrase) {
+        <div class="preview__item preview__item--full">
+          <span class="preview__label">Catchphrase</span>
+          <span class="preview__value">{{ data.catchPhrase }}</span>
+        </div>
+      }
+      @if (data.imageUrl) {
+        <div class="preview__item preview__item--full">
+          <span class="preview__label">Bild-URL</span>
+          <span class="preview__value">{{ data.imageUrl }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  @if (hasContentData) {
+    <section class="preview__section">
+      <h4 class="preview__heading">Inhalte</h4>
+      <div class="preview__grid">
+        @if (highlightCount > 0) {
+          <div class="preview__item">
+            <span class="preview__label">Highlights</span>
+            <span class="preview__value">{{ highlightCount }} Eintraege</span>
+          </div>
+        }
+        @if (courseFlowStepCount > 0) {
+          <div class="preview__item">
+            <span class="preview__label">Kursablauf</span>
+            <span class="preview__value">{{ courseFlowStepCount }} Phasen</span>
+          </div>
+        }
+        @if (testimonialCount > 0) {
+          <div class="preview__item">
+            <span class="preview__label">Testimonials</span>
+            <span class="preview__value">{{ testimonialCount }} Bewertungen</span>
+          </div>
+        }
+        @if (faqItemCount > 0) {
+          <div class="preview__item">
+            <span class="preview__label">FAQ</span>
+            <span class="preview__value">{{ faqItemCount }} Fragen</span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <section class="preview__section">
+    <h4 class="preview__heading">Einstellungen</h4>
+    <div class="preview__grid">
+      <div class="preview__item">
+        <span class="preview__label">Preis</span>
+        <span class="preview__value">{{ formatPrice(data.priceInEuros, data.isFree) }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Dauer</span>
+        <span class="preview__value">{{ formatDuration(data.duration) }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Max. Teilnehmer</span>
+        <span class="preview__value">{{ data.maxParticipants }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Buchungsmodus</span>
+        <span class="preview__value">{{ getBookingModeLabel(data.bookingMode) }}</span>
+      </div>
+      <div class="preview__item">
+        <span class="preview__label">Sichtbarkeit</span>
+        <span class="preview__value">{{ getVisibilityLabel(data.visibility) }}</span>
+      </div>
+      @if (data.isMarkedAsHighlighted) {
+        <div class="preview__item">
+          <span class="preview__label">Hervorgehoben</span>
+          <span class="preview__value">Ja</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  @if (isEditMode && sessions.length > 0) {
+    <section class="preview__section">
+      <h4 class="preview__heading">Termine ({{ sessions.length }})</h4>
+      <div class="preview__sessions">
+        @for (session of sessions; track session.id) {
+          <div class="preview__session-row">
+            <span>{{ formatSessionDate(session.startTime) }}</span>
+            <span>{{ formatSessionTime(session.startTime) }} – {{ formatSessionTime(session.endTime) }}</span>
+            <span>{{ session.locationName }}</span>
+            <span class="preview__session-status preview__session-status--{{ session.status | lowercase }}">
+              {{ session.status }}
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</div>

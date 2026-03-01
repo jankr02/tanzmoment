@@ -1,16 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
-import { 
-  CourseCardData, 
-  DANCE_STYLE_COLORS, 
-  DANCE_STYLE_ICONS 
+import { CoursePlaceholderComponent } from '../course-placeholder/course-placeholder.component';
+import {
+  CourseCardData,
+  DANCE_STYLE_COLORS,
+  DANCE_STYLE_ICONS,
 } from './course-card.types';
 
 @Component({
   selector: 'app-course-card',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, CoursePlaceholderComponent],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.scss',
 })
@@ -20,6 +21,12 @@ export class CourseCardComponent {
 
   @Output() cardClicked = new EventEmitter<string>();
   @Output() registerClicked = new EventEmitter<string>();
+
+  readonly imageError = signal(false);
+
+  onImageError(): void {
+    this.imageError.set(true);
+  }
 
   /**
    * Get color scheme for the dance style

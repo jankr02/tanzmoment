@@ -5,3 +5,15 @@ export type {
   DashboardStats,
   SessionSummary,
 } from './lib/types/dashboard.types';
+export type {
+  AdminCourseListItem,
+  AdminCourseDetail,
+  AdminSession,
+  AdminCourseListResponse,
+  AdminCourseQueryParams,
+  CreateCourseRequest,
+  CreateSessionRequest,
+  CreateSessionSeriesRequest,
+  AdminLocation,
+  SessionParticipant,
+} from './lib/types/course.types';

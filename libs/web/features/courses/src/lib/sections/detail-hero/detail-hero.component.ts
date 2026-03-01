@@ -9,8 +9,15 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
+  signal,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  CoursePlaceholderComponent,
+  DANCE_STYLE_COLOR_SCHEMES,
+  DanceStyleId,
+} from '@tanzmoment/shared/ui';
 
 import {
   CourseDetailData,
@@ -21,19 +28,21 @@ import { DANCE_STYLES } from '@tanzmoment/shared/types';
 @Component({
   selector: 'app-detail-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CoursePlaceholderComponent],
   templateUrl: './detail-hero.component.html',
   styleUrl: './detail-hero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailHeroComponent {
-  /** Course data (required) */
   @Input({ required: true }) course!: CourseDetailData;
-
-  /** CMS override content (optional) */
   @Input() content?: CourseDetailHeroContent;
 
-  // ─── Resolved Values (CMS → Fallback) ──────────────────────────────────
+  readonly imageError = signal(false);
+
+  readonly showPlaceholder = computed(() => {
+    const hasImage = this.content?.imageUrl || this.course?.imageUrl;
+    return !hasImage || this.imageError();
+  });
 
   get headline(): string {
     return this.content?.headlineOverride ?? this.course.title;
@@ -47,11 +56,10 @@ export class DetailHeroComponent {
     return (
       this.content?.imageUrl ??
       this.course.imageUrl ??
-      '/assets/images/placeholder-course.jpg'
+      ''
     );
   }
 
-  /** Dance style label for badge (from DANCE_STYLES constants) */
   get danceStyleLabel(): string {
     const styleMap: Record<string, string> = {
       accessible: DANCE_STYLES.ACCESSIBLE.label,
@@ -62,8 +70,27 @@ export class DetailHeroComponent {
     return styleMap[this.course.danceStyle] ?? this.course.danceStyle;
   }
 
-  /** Text color override (for light backgrounds) */
+  readonly danceStyleColors = computed(() => {
+    const style = this.course?.danceStyle as DanceStyleId;
+    return DANCE_STYLE_COLOR_SCHEMES[style] ?? DANCE_STYLE_COLOR_SCHEMES.expressive;
+  });
+
   get textColor(): string {
+    if (this.showPlaceholder()) return this.danceStyleColors().buttonBg ?? '#2E2A25';
     return this.content?.textColorOverride ?? '#FFFFFF';
+  }
+
+  get badgeBg(): string {
+    if (this.showPlaceholder()) return this.danceStyleColors().buttonBg ?? '#688B68';
+    return '';
+  }
+
+  get badgeText(): string {
+    if (this.showPlaceholder()) return '#FFFFFF';
+    return '';
+  }
+
+  onImageError(): void {
+    this.imageError.set(true);
   }
 }

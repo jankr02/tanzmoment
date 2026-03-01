@@ -87,15 +87,17 @@
 
     <!-- 5. Testimonials (Social Proof) -->
     @if (detailContent().socialProof?.testimonials?.length) {
-      <!-- Wave Divider: previous → Testimonials -->
-      <div class="course-detail__wave" aria-hidden="true">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path
-            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-            fill="var(--detail-wave-fill)"
-          />
-        </svg>
-      </div>
+      <!-- Wave only when CourseFlow above (themed → white transition) -->
+      @if (showTestimonialsWave()) {
+        <div class="course-detail__wave" aria-hidden="true">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+              d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+              fill="var(--detail-wave-fill)"
+            />
+          </svg>
+        </div>
+      }
 
       <app-testimonials-section
         tmScrollReveal="up"
@@ -106,15 +108,17 @@
 
     <!-- 6. Instructor (Trust) -->
     @if (instructor(); as instr) {
-      <!-- Wave Divider: previous → Instructor -->
-      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path
-            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-            fill="var(--color-surface)"
-          />
-        </svg>
-      </div>
+      <!-- Wave only when section above is white (white → themed transition) -->
+      @if (showInstructorWave()) {
+        <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path
+              d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+              fill="var(--color-surface)"
+            />
+          </svg>
+        </div>
+      }
 
       <app-instructor-section
         tmScrollReveal="up"
@@ -128,6 +132,18 @@
           <path
             d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
             fill="var(--color-surface)"
+          />
+        </svg>
+      </div>
+    }
+
+    <!-- Transition wave when last optional section is themed and no Instructor -->
+    @if (needsPreScheduleWave()) {
+      <div class="course-detail__wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--detail-wave-fill)"
           />
         </svg>
       </div>

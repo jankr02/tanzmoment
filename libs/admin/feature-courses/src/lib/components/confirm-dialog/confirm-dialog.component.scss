@@ -1,0 +1,76 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 24px;
+}
+
+.dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  &__title {
+    font-family: var(--font-headline, 'DM Serif Display', serif);
+    font-size: 1.25rem;
+    color: var(--color-text-primary, #2e2a25);
+    margin: 0 0 12px;
+  }
+
+  &__message {
+    color: var(--color-text-secondary, #5e5a55);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin: 0 0 24px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &--ghost {
+    background: transparent;
+    color: var(--color-text-secondary, #5e5a55);
+
+    &:hover {
+      background: var(--color-primary-light, #f2ece3);
+    }
+  }
+
+  &--warning {
+    background: #d97706;
+    color: #fff;
+
+    &:hover {
+      background: #b45309;
+    }
+  }
+
+  &--danger {
+    background: #dc2626;
+    color: #fff;
+
+    &:hover {
+      background: #b91c1c;
+    }
+  }
+}

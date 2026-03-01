@@ -1,0 +1,286 @@
+<div class="step">
+
+  <!-- ─── Highlights ──────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().highlights">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('highlights')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Highlights</h4>
+        <span class="content-section__count" *ngIf="highlights.length">
+          {{ highlights.length }}
+        </span>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().highlights ? '\u25BE' : '\u25B8' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Kurze Stichpunkte, die auf der Kursseite als Checkmark-Liste angezeigt werden
+    </p>
+
+    @if (expandedSections().highlights) {
+      <div class="content-section__body">
+        @for (highlight of highlights; track $index; let i = $index) {
+          <div class="list-item">
+            <input
+              type="text"
+              class="field__input"
+              [(ngModel)]="highlight.text"
+              (ngModelChange)="onHighlightChange()"
+              [placeholder]="'z.B. Keine Vorkenntnisse noetig'"
+            />
+            <button
+              type="button"
+              class="list-item__remove"
+              (click)="removeHighlight(i)"
+              aria-label="Highlight entfernen"
+            >
+              &times;
+            </button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addHighlight()">
+          + Highlight hinzufuegen
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ─── Course Flow ─────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().courseFlow">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('courseFlow')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Kursablauf</h4>
+        <span class="content-section__count" *ngIf="courseFlowSteps.length">
+          {{ courseFlowSteps.length }}
+        </span>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().courseFlow ? '\u25BE' : '\u25B8' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Phasen einer typischen Kursstunde (z.B. Warm-up, Kern-Session, Cool-down)
+    </p>
+
+    @if (expandedSections().courseFlow) {
+      <div class="content-section__body">
+        @for (step of courseFlowSteps; track $index; let i = $index) {
+          <div class="list-item list-item--card">
+            <div class="list-item__fields">
+              <div class="field-row">
+                <div class="field">
+                  <label class="field__label">Phase</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="step.phase"
+                    (ngModelChange)="onCourseFlowChange()"
+                    placeholder="z.B. Warm-up"
+                  />
+                </div>
+                <div class="field">
+                  <label class="field__label">Dauer</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="step.duration"
+                    (ngModelChange)="onCourseFlowChange()"
+                    placeholder="z.B. 15 min"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label">Beschreibung</label>
+                <textarea
+                  class="field__textarea"
+                  [(ngModel)]="step.description"
+                  (ngModelChange)="onCourseFlowChange()"
+                  rows="2"
+                  placeholder="Was passiert in dieser Phase?"
+                ></textarea>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="list-item__remove"
+              (click)="removeCourseFlowStep(i)"
+              aria-label="Phase entfernen"
+            >
+              &times;
+            </button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addCourseFlowStep()">
+          + Phase hinzufuegen
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ─── Testimonials ────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().testimonials">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('testimonials')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Testimonials</h4>
+        <span class="content-section__count" *ngIf="testimonials.length">
+          {{ testimonials.length }}
+        </span>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().testimonials ? '\u25BE' : '\u25B8' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Zitate und Bewertungen von Teilnehmenden
+    </p>
+
+    @if (expandedSections().testimonials) {
+      <div class="content-section__body">
+        @for (testimonial of testimonials; track $index; let i = $index) {
+          <div class="list-item list-item--card">
+            <div class="list-item__fields">
+              <div class="field">
+                <label class="field__label">Zitat</label>
+                <textarea
+                  class="field__textarea"
+                  [(ngModel)]="testimonial.text"
+                  (ngModelChange)="onTestimonialChange()"
+                  rows="3"
+                  placeholder="Was sagt die Person ueber den Kurs?"
+                ></textarea>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field__label">Name</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="testimonial.authorName"
+                    (ngModelChange)="onTestimonialChange()"
+                    placeholder="Vorname Nachname"
+                  />
+                </div>
+                <div class="field">
+                  <label class="field__label">Rolle (optional)</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="testimonial.authorRole"
+                    (ngModelChange)="onTestimonialChange()"
+                    placeholder="z.B. Teilnehmerin"
+                  />
+                </div>
+              </div>
+              <div class="field" style="max-width: 160px;">
+                <label class="field__label">Bewertung</label>
+                <select
+                  class="field__select"
+                  [(ngModel)]="testimonial.rating"
+                  (ngModelChange)="onTestimonialChange()"
+                >
+                  <option [ngValue]="5">&#9733;&#9733;&#9733;&#9733;&#9733; (5)</option>
+                  <option [ngValue]="4">&#9733;&#9733;&#9733;&#9733;&#9734; (4)</option>
+                  <option [ngValue]="3">&#9733;&#9733;&#9733;&#9734;&#9734; (3)</option>
+                  <option [ngValue]="2">&#9733;&#9733;&#9734;&#9734;&#9734; (2)</option>
+                  <option [ngValue]="1">&#9733;&#9734;&#9734;&#9734;&#9734; (1)</option>
+                </select>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="list-item__remove"
+              (click)="removeTestimonial(i)"
+              aria-label="Testimonial entfernen"
+            >
+              &times;
+            </button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addTestimonial()">
+          + Testimonial hinzufuegen
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ─── FAQ ─────────────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().faq">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('faq')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">FAQ</h4>
+        <span class="content-section__count" *ngIf="faqItems.length">
+          {{ faqItems.length }}
+        </span>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().faq ? '\u25BE' : '\u25B8' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Haeufig gestellte Fragen und Antworten (Markdown fuer Antworten erlaubt)
+    </p>
+
+    @if (expandedSections().faq) {
+      <div class="content-section__body">
+        @for (item of faqItems; track $index; let i = $index) {
+          <div class="list-item list-item--card">
+            <div class="list-item__fields">
+              <div class="field">
+                <label class="field__label">Frage</label>
+                <input
+                  type="text"
+                  class="field__input"
+                  [(ngModel)]="item.question"
+                  (ngModelChange)="onFaqChange()"
+                  placeholder="z.B. Brauche ich Vorkenntnisse?"
+                />
+              </div>
+              <div class="field">
+                <label class="field__label">Antwort</label>
+                <textarea
+                  class="field__textarea"
+                  [(ngModel)]="item.answer"
+                  (ngModelChange)="onFaqChange()"
+                  rows="3"
+                  placeholder="Antwort (Markdown: **fett**, Absaetze mit Leerzeile)"
+                ></textarea>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="list-item__remove"
+              (click)="removeFaqItem(i)"
+              aria-label="FAQ entfernen"
+            >
+              &times;
+            </button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addFaqItem()">
+          + Frage hinzufuegen
+        </button>
+      </div>
+    }
+  </div>
+
+</div>
