@@ -1,22 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
+import { AuthResponse, AuthUser } from './auth-state.service';
 
-export interface AuthResponse {
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone?: string;
-    role: string;
-    emailVerified: boolean;
-    isActive: boolean;
-    createdAt: string;
-  };
-  accessToken: string;
-  tokenType: string;
-  expiresIn: number;
+export interface MessageResponse {
+  message: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -25,10 +13,7 @@ export class AuthApiService {
   private readonly baseUrl = '/api/auth';
 
   login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, {
-      email,
-      password,
-    });
+    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, { email, password });
   }
 
   register(
@@ -47,7 +32,30 @@ export class AuthApiService {
     });
   }
 
-  getMe(): Observable<AuthResponse['user']> {
-    return this.http.get<AuthResponse['user']>(`${this.baseUrl}/me`);
+  getMe(): Observable<AuthUser> {
+    return this.http.get<AuthUser>(`${this.baseUrl}/me`);
+  }
+
+  getMeAsync(): Promise<AuthUser | null> {
+    return firstValueFrom(this.getMe()).catch(() => null);
+  }
+
+  forgotPassword(email: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.baseUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, password: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.baseUrl}/reset-password`, {
+      token,
+      password,
+    });
+  }
+
+  verifyEmail(token: string): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.baseUrl}/verify-email`, { token });
+  }
+
+  resendVerification(): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.baseUrl}/resend-verification`, {});
   }
 }

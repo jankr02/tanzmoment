@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { AuthStateService } from '@tanzmoment/web/features/landing';
+import { RouterLink, Router } from '@angular/router';
+import { AuthStateService } from '@tanzmoment/shared/services';
 
 @Component({
   selector: 'tm-expressive-page',
   standalone: true,
-  imports: [CommonModule, RouterLink ],
+  imports: [CommonModule, RouterLink],
   template: `
     <main class="placeholder-page">
       <div class="placeholder-page__container">
@@ -81,8 +81,9 @@ import { AuthStateService } from '@tanzmoment/web/features/landing';
 })
 export class ExpressivePageComponent {
   protected readonly authState = inject(AuthStateService);
+  private readonly router = inject(Router);
 
   onLoginClicked(): void {
-    this.authState.login(0);
+    this.router.navigate(['/auth/login']);
   }
 }

@@ -135,14 +135,16 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   // State Signals
   // ==========================================================================
 
+  private readonly splashAlreadyShown = !this.splashVisibility.showSplash();
+
   /** Whether to show splash screen */
-  readonly showSplash = signal(true);
+  readonly showSplash = signal(!this.splashAlreadyShown);
 
   /** Whether hero section is ready to display */
-  readonly showHero = signal(false);
+  readonly showHero = signal(this.splashAlreadyShown);
 
   /** Whether features section is ready to display */
-  readonly showFeatures = signal(false);
+  readonly showFeatures = signal(this.splashAlreadyShown);
 
   /** Features loading state */
   readonly featuresLoading = signal(false);

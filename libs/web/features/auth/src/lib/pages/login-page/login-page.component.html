@@ -1,0 +1,55 @@
+<tm-auth-layout
+  title="Willkommen zurück"
+  subtitle="Melde dich an, um deine Buchungen zu verwalten."
+>
+  <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    @if (errorMessage()) {
+      <div class="auth-form__error-banner" role="alert">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <app-input
+      id="email"
+      type="email"
+      label="E-Mail-Adresse"
+      placeholder="deine@email.de"
+      formControlName="email"
+      [required]="true"
+      [hasError]="emailControl.invalid && emailControl.touched"
+      errorMessage="Bitte gib eine gültige E-Mail-Adresse ein."
+    />
+
+    <div>
+      <app-input
+        id="password"
+        type="password"
+        label="Passwort"
+        placeholder="Dein Passwort"
+        formControlName="password"
+        [required]="true"
+        [showPasswordToggle]="true"
+        [hasError]="passwordControl.invalid && passwordControl.touched"
+        errorMessage="Passwort muss mindestens 8 Zeichen lang sein."
+      />
+      <div class="auth-form__link-row">
+        <a routerLink="/auth/forgot-password">Passwort vergessen?</a>
+      </div>
+    </div>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [fullWidth]="true"
+      [loading]="loading()"
+      [disabled]="loading()"
+      class="auth-form__submit"
+    >
+      Anmelden
+    </app-button>
+  </form>
+
+  <div auth-footer>
+    Noch kein Konto?&nbsp;<a routerLink="/auth/register">Jetzt registrieren</a>
+  </div>
+</tm-auth-layout>

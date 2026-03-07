@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  APP_INITIALIZER,
   isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
@@ -12,11 +13,14 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from '@tanzmoment/shared/services';
+import { authInterceptor, AuthStateService, AuthApiService } from '@tanzmoment/shared/services';
+
+function initializeAuth(authState: AuthStateService, authApi: AuthApiService) {
+  return () => authState.initialize(() => authApi.getMeAsync());
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // Only enable client hydration in production for faster dev experience
     ...(isDevMode() ? [] : [provideClientHydration(withEventReplay())]),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -26,5 +30,11 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimations(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAuth,
+      deps: [AuthStateService, AuthApiService],
+      multi: true,
+    },
   ],
 };

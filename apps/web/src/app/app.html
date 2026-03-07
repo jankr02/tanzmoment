@@ -4,6 +4,7 @@
     [isAuthenticated]="isAuthenticated()"
     [userData]="userMenuData()"
     (loginClicked)="onLoginClicked()"
+    (registerClicked)="onRegisterClicked()"
   />
 }
 
@@ -16,10 +17,3 @@
 @if (shouldShowHeaderFooter()) {
   <tm-footer />
 }
-
-<!-- Login Modal -->
-<ui-login-modal
-  [isOpen]="showLoginModal()"
-  (closed)="onLoginModalClosed()"
-  (loginSubmitted)="onLoginSubmitted($event)"
-/>

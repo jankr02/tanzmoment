@@ -1,12 +1,13 @@
 // ============================================================================
 // AUTH HTTP INTERCEPTOR
 // ============================================================================
-// Attaches JWT token to API requests IF available.
-// Does NOT block requests for unauthenticated users.
+// Attaches JWT to API requests and auto-logs out on 401 responses
+// (except for auth endpoints themselves to avoid redirect loops).
 // ============================================================================
 
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import { AuthStateService } from './auth-state.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -19,5 +20,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  return next(req);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Auto-logout on 401, but not for auth endpoints (avoids redirect loops)
+      if (error.status === 401 && !req.url.includes('/api/auth/')) {
+        authState.clearAuth(true);
+      }
+      return throwError(() => error);
+    }),
+  );
 };

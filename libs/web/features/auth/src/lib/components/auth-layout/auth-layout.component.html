@@ -1,0 +1,45 @@
+<div class="auth-layout">
+  <!-- Decorative background blobs -->
+  <div class="auth-layout__background" aria-hidden="true">
+    <svg class="auth-layout__blob auth-layout__blob--top" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0 200 Q 150 0, 300 100 T 600 200 L 600 0 L 0 0 Z"
+            fill="var(--color-primary-light)" opacity="0.4" />
+    </svg>
+    <svg class="auth-layout__blob auth-layout__blob--bottom" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0 100 Q 150 300, 300 200 T 600 100 L 600 300 L 0 300 Z"
+            fill="var(--color-primary-light)" opacity="0.3" />
+    </svg>
+  </div>
+
+  <!-- Main card -->
+  <main class="auth-layout__card">
+    <!-- Logo -->
+    <a routerLink="/" class="auth-layout__logo-link" aria-label="Zurück zur Startseite">
+      <img
+        src="assets/images/logo-with-name.svg"
+        alt="Tanzmoment"
+        class="auth-layout__logo"
+        width="220"
+        height="60"
+      />
+    </a>
+
+    <h1 class="auth-layout__title">{{ title() }}</h1>
+
+    @if (subtitle()) {
+      <p class="auth-layout__subtitle">{{ subtitle() }}</p>
+    }
+
+    <div class="auth-layout__content">
+      <ng-content />
+    </div>
+
+    <div class="auth-layout__footer">
+      <ng-content select="[auth-footer]" />
+    </div>
+  </main>
+
+  @if (showHomeLink()) {
+    <a routerLink="/" class="auth-layout__home-link">← Zurück zur Startseite</a>
+  }
+</div>

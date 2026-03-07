@@ -1,5 +1,5 @@
 <div [class]="containerClasses.join(' ')">
-  <label class="checkbox__wrapper" [for]="id || name">
+  <label class="checkbox__wrapper">
     <!-- Hidden native checkbox for accessibility -->
     <input
       type="checkbox"
@@ -50,15 +50,14 @@
       }
     </span>
 
-    <!-- Label text -->
-    @if (label) {
-      <span class="checkbox__label">
-        {{ label }}
-        @if (required) {
-          <span class="checkbox__required-indicator">*</span>
-        }
-      </span>
-    }
+    <!-- Label text (supports both @Input label and projected content) -->
+    <span class="checkbox__label">
+      {{ label }}
+      <ng-content />
+      @if (required) {
+        <span class="checkbox__required-indicator">*</span>
+      }
+    </span>
   </label>
 
   <!-- Helper/Error Text -->

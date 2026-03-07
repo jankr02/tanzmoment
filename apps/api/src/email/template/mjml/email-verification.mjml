@@ -1,0 +1,51 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Hallo {{firstName}}, willkommen bei Tanzmoment!
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Schön, dass du dabei bist! Bitte bestätige deine E-Mail-Adresse, um alle Funktionen nutzen zu können.
+        </mj-text>
+
+        <mj-text padding="0 0 32px 0">
+          Der Link ist <strong>24 Stunden</strong> gültig.
+        </mj-text>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{verifyLink}}"
+          padding="0 0 32px 0"
+        >
+          E-Mail bestätigen
+        </mj-button>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="16px 24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0">
+              Falls du dich nicht bei Tanzmoment registriert hast, kannst du diese E-Mail ignorieren.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

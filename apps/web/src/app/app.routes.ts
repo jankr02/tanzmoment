@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { bookingRoutes } from '@tanzmoment/web/features/booking';
 import { adminAuthGuard } from '@tanzmoment/admin/data-access';
+import { guestGuard } from '@tanzmoment/web/features/auth';
 
 export const appRoutes: Route[] = [
   {
@@ -69,6 +70,45 @@ export const appRoutes: Route[] = [
       import('@tanzmoment/web/features/target-groups').then(
         (m) => m.ExpressivePageComponent
       ),
+  },
+  // Auth routes
+  {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/auth').then((m) => m.LoginPageComponent),
+        canActivate: [guestGuard],
+        title: 'Anmelden | Tanzmoment',
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/auth').then((m) => m.RegisterPageComponent),
+        canActivate: [guestGuard],
+        title: 'Registrieren | Tanzmoment',
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/auth').then((m) => m.ForgotPasswordPageComponent),
+        canActivate: [guestGuard],
+        title: 'Passwort vergessen | Tanzmoment',
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/auth').then((m) => m.ResetPasswordPageComponent),
+        title: 'Passwort zurücksetzen | Tanzmoment',
+      },
+      {
+        path: 'verify-email',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/auth').then((m) => m.VerifyEmailPageComponent),
+        title: 'E-Mail bestätigen | Tanzmoment',
+      },
+    ],
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)
   ...bookingRoutes,

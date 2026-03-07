@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
+const SPLASH_SHOWN_KEY = 'tm_splash_shown';
+
 /**
  * Global service to manage splash screen visibility state
  * Allows the App component to conditionally show/hide header and footer
@@ -8,17 +10,14 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SplashScreenVisibilityService {
-  /** Signal indicating if splash screen is currently visible */
-  private readonly _showSplash = signal(true);
+  private readonly _showSplash = signal(!localStorage.getItem(SPLASH_SHOWN_KEY));
 
-  /** Read-only signal for splash screen visibility */
   readonly showSplash = this._showSplash.asReadonly();
 
-  /**
-   * Set splash screen visibility
-   * @param visible true to show splash screen, false to hide it
-   */
   setSplashVisible(visible: boolean): void {
     this._showSplash.set(visible);
+    if (!visible) {
+      localStorage.setItem(SPLASH_SHOWN_KEY, '1');
+    }
   }
 }

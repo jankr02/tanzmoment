@@ -1,0 +1,50 @@
+<tm-auth-layout title="E-Mail bestätigen" [showHomeLink]="false">
+  @switch (state()) {
+    @case ('loading') {
+      <div class="auth-form__state-card">
+        <div class="auth-form__spinner" aria-hidden="true"></div>
+        <p>E-Mail wird bestätigt...</p>
+      </div>
+    }
+
+    @case ('success') {
+      <div class="auth-form__success-banner" role="status">
+        {{ message() || 'Deine E-Mail-Adresse wurde erfolgreich bestätigt!' }}
+      </div>
+      <div class="auth-form__state-card">
+        <a routerLink="/auth/login">Zum Login →</a>
+      </div>
+    }
+
+    @case ('error') {
+      <div class="auth-form__error-banner" role="alert">
+        {{ message() }}
+      </div>
+      <div class="auth-form__state-card">
+        @if (authState.isAuthenticated()) {
+          <p>Wir können dir eine neue Bestätigungs-E-Mail schicken.</p>
+          <app-button
+            variant="primary"
+            [loading]="resending()"
+            [disabled]="resending()"
+            (clicked)="resendVerification()"
+          >
+            Erneut senden
+          </app-button>
+        } @else {
+          <p>Bitte melde dich an und fordere dann eine neue Bestätigungs-E-Mail an.</p>
+          <a routerLink="/auth/login">Zum Login →</a>
+        }
+      </div>
+    }
+
+    @case ('no-token') {
+      <div class="auth-form__error-banner" role="alert">
+        Ungültiger Link. Bitte nutze den Link aus deiner Bestätigungs-E-Mail.
+      </div>
+      <div class="auth-form__state-card">
+        <a routerLink="/">Zur Startseite</a>
+      </div>
+    }
+  }
+</tm-auth-layout>

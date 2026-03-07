@@ -1,0 +1,105 @@
+<tm-auth-layout
+  title="Konto erstellen"
+  subtitle="Werde Teil der Tanzmoment-Community."
+>
+  <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    @if (errorMessage()) {
+      <div class="auth-form__error-banner" role="alert">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <app-input
+      id="firstName"
+      label="Vorname"
+      placeholder="Anna"
+      formControlName="firstName"
+      [required]="true"
+      [hasError]="firstNameControl.invalid && firstNameControl.touched"
+      errorMessage="Vorname ist erforderlich."
+    />
+    <app-input
+      id="lastName"
+      label="Nachname"
+      placeholder="Schmidt"
+      formControlName="lastName"
+      [required]="true"
+      [hasError]="lastNameControl.invalid && lastNameControl.touched"
+      errorMessage="Nachname ist erforderlich."
+    />
+
+    <app-input
+      id="email"
+      type="email"
+      label="E-Mail-Adresse"
+      placeholder="deine@email.de"
+      formControlName="email"
+      [required]="true"
+      [hasError]="emailControl.invalid && emailControl.touched"
+      errorMessage="Bitte gib eine gültige E-Mail-Adresse ein."
+    />
+
+    <app-input
+      id="phone"
+      type="tel"
+      label="Telefon (optional)"
+      placeholder="+49 123 456789"
+      formControlName="phone"
+      autocomplete="tel"
+      [hasError]="phoneControl.invalid && phoneControl.touched"
+      errorMessage="Bitte gib eine gültige Telefonnummer ein (z. B. +49 123 456789)."
+    />
+
+    <app-input
+      id="password"
+      type="password"
+      label="Passwort"
+      placeholder="Mindestens 8 Zeichen"
+      formControlName="password"
+      [required]="true"
+      [showPasswordToggle]="true"
+      [hasError]="!!passwordError"
+      [errorMessage]="passwordError ?? ''"
+    />
+
+    <app-input
+      id="passwordConfirm"
+      type="password"
+      label="Passwort bestätigen"
+      placeholder="Passwort wiederholen"
+      formControlName="passwordConfirm"
+      [required]="true"
+      [showPasswordToggle]="true"
+      [hasError]="!!passwordConfirmError"
+      [errorMessage]="passwordConfirmError ?? ''"
+    />
+
+    <app-checkbox
+      id="privacy"
+      formControlName="privacy"
+      [hasError]="privacyControl.invalid && privacyControl.touched"
+      errorMessage="Bitte stimme der Datenschutzerklärung zu."
+    >
+      <span>
+        Ich habe die
+        <a href="/legal/privacy" target="_blank" rel="noopener">Datenschutzerklärung</a>
+        gelesen und stimme ihr zu.
+      </span>
+    </app-checkbox>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [fullWidth]="true"
+      [loading]="loading()"
+      [disabled]="loading()"
+      class="auth-form__submit"
+    >
+      Konto erstellen
+    </app-button>
+  </form>
+
+  <div auth-footer>
+    Bereits ein Konto?&nbsp;<a routerLink="/auth/login">Anmelden</a>
+  </div>
+</tm-auth-layout>

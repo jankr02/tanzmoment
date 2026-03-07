@@ -24,7 +24,9 @@ export type TemplateName =
   | 'waitlist-joined'
   | 'waitlist-promoted'
   | 'session-reminder'
-  | 'refund-processed';
+  | 'refund-processed'
+  | 'email-verification'
+  | 'password-reset';
 
 @Injectable()
 export class TemplateService implements OnModuleInit {

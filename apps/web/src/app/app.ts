@@ -1,16 +1,12 @@
-import { Component, inject, computed, signal, ViewChild } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import {
   HeaderComponent,
   FooterComponent,
-  LoginModalComponent,
   UserMenuData,
 } from '@tanzmoment/shared/ui';
-import {
-  AuthStateService,
-  AuthApiService,
-} from '@tanzmoment/shared/services';
+import { AuthStateService } from '@tanzmoment/shared/services';
 import { SplashScreenVisibilityService } from '@tanzmoment/web/features/landing';
 import { filter } from 'rxjs';
 
@@ -22,7 +18,6 @@ import { filter } from 'rxjs';
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    LoginModalComponent,
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
@@ -30,14 +25,10 @@ import { filter } from 'rxjs';
 export class AppComponent {
   title = 'Tanzmoment';
   private readonly authState = inject(AuthStateService);
-  private readonly authApi = inject(AuthApiService);
   protected readonly splashScreenVisibility = inject(SplashScreenVisibilityService);
   private readonly router = inject(Router);
 
-  @ViewChild(LoginModalComponent) loginModal?: LoginModalComponent;
-
   private readonly currentRoute = signal('/');
-  protected readonly showLoginModal = signal(false);
 
   protected readonly isAuthenticated = computed(() => this.authState.isAuthenticated());
 
@@ -88,33 +79,11 @@ export class AppComponent {
   }
 
   onLoginClicked(): void {
-    this.showLoginModal.set(true);
+    this.router.navigate(['/auth/login']);
   }
 
-  onLoginSubmitted(credentials: { email: string; password: string }): void {
-    this.authApi.login(credentials.email, credentials.password).subscribe({
-      next: (response) => {
-        this.authState.setAuth(response.accessToken, {
-          id: response.user.id,
-          email: response.user.email,
-          firstName: response.user.firstName,
-          lastName: response.user.lastName,
-          role: response.user.role,
-        });
-        this.showLoginModal.set(false);
-      },
-      error: (err) => {
-        const message =
-          err.status === 401
-            ? 'E-Mail oder Passwort ist falsch.'
-            : 'Anmeldung fehlgeschlagen. Bitte versuche es erneut.';
-        this.loginModal?.setError(message);
-      },
-    });
-  }
-
-  onLoginModalClosed(): void {
-    this.showLoginModal.set(false);
+  onRegisterClicked(): void {
+    this.router.navigate(['/auth/register']);
   }
 
   private onLogout(): void {

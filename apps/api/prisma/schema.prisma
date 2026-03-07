@@ -22,7 +22,12 @@ model User {
   
   emailVerified Boolean       @default(false)
   isActive      Boolean       @default(true)
-  
+
+  emailVerificationToken    String?   @unique
+  emailVerificationExpires  DateTime?
+  passwordResetToken        String?   @unique
+  passwordResetExpires      DateTime?
+
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   

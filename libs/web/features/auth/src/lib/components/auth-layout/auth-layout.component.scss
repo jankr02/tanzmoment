@@ -1,0 +1,118 @@
+.auth-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-6) var(--space-4);
+  position: relative;
+  overflow: hidden;
+  background: var(--color-accent, #fdf8f3);
+
+  &__background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &__blob {
+    position: absolute;
+    width: 100%;
+    max-width: 800px;
+
+    &--top {
+      top: -60px;
+      left: -100px;
+    }
+
+    &--bottom {
+      bottom: -40px;
+      right: -100px;
+    }
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    padding: var(--space-10) var(--space-8);
+    background: #fff;
+    border-radius: var(--radius-lg, 18px);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.07),
+      0 10px 30px -5px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 480px) {
+      padding: var(--space-8) var(--space-6);
+      border-radius: var(--radius-md, 12px);
+    }
+  }
+
+  &__logo-link {
+    display: block;
+    text-align: center;
+    margin-bottom: var(--space-8);
+    text-decoration: none;
+  }
+
+  &__logo {
+    height: 60px;
+    width: auto;
+  }
+
+  &__title {
+    font-family: var(--font-headline, 'DM Serif Display', serif);
+    font-size: 1.75rem;
+    color: var(--color-text-primary, #2e2a25);
+    text-align: center;
+    margin: 0 0 var(--space-2) 0;
+    line-height: 1.2;
+  }
+
+  &__subtitle {
+    font-family: var(--font-body, 'Nunito', sans-serif);
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary, #5e5a55);
+    text-align: center;
+    margin: 0 0 var(--space-8) 0;
+    line-height: 1.6;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  &__footer {
+    margin-top: var(--space-6);
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #5e5a55);
+
+    a {
+      color: var(--color-primary-dark, #688b68);
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__home-link {
+    position: relative;
+    z-index: 1;
+    margin-top: var(--space-6);
+    font-family: var(--font-body, 'Nunito', sans-serif);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #5e5a55);
+    text-decoration: none;
+    transition: color 200ms ease;
+
+    &:hover {
+      color: var(--color-primary-dark, #688b68);
+    }
+  }
+}
