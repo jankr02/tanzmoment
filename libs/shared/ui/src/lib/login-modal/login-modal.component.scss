@@ -64,14 +64,14 @@
   }
 
   &__title {
-    font-family: 'DM Serif Display', serif;
+    font-family: var(--font-headline);
     font-size: 1.5rem;
     color: var(--color-text-primary, #2e2a25);
     margin: 0 0 var(--space-1, 4px);
   }
 
   &__subtitle {
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.875rem;
     color: var(--color-text-secondary, #5e5a55);
     margin: 0;
@@ -86,7 +86,7 @@
     border: 1px solid rgba(200, 80, 80, 0.2);
     border-radius: var(--radius-sm, 8px);
     margin-bottom: var(--space-4, 16px);
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.875rem;
     color: #a03030;
   }
@@ -104,7 +104,7 @@
   }
 
   &__label {
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.8125rem;
     font-weight: 600;
     color: var(--color-text-primary, #2e2a25);
@@ -115,7 +115,7 @@
     padding: var(--space-3, 12px) var(--space-4, 16px);
     border: 1.5px solid var(--color-border, #e6ded7);
     border-radius: var(--radius-sm, 8px);
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-body);
     font-size: 0.9375rem;
     color: var(--color-text-primary, #2e2a25);
     background: var(--color-surface, #fff);
@@ -152,7 +152,7 @@
     color: #fff;
     border: none;
     border-radius: var(--radius-sm, 8px);
-    font-family: 'Rubik', sans-serif;
+    font-family: var(--font-cta);
     font-weight: 500;
     font-size: 0.9375rem;
     cursor: pointer;

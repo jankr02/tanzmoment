@@ -101,9 +101,9 @@ libs/
 
 ### Typografie
 
-- **Headlines:** DM Serif Display
-- **Body:** Nunito (400, 500, 700)
-- **CTAs:** Rubik (500)
+- **Single-Family:** Inter (Google Fonts, weights 400–900) für Headlines, Body und CTAs
+- **Body weight:** 500 (`--font-weight-regular`), CTAs/Emphasis in 600 (`--font-weight-medium`)
+- **Headlines:** 900 (`--font-weight-heading`) — Black, maximaler Kontrast für Display-Größen
 
 ### Spacing & Radius
 
