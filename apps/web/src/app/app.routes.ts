@@ -110,6 +110,20 @@ export const appRoutes: Route[] = [
       },
     ],
   },
+  // News
+  {
+    path: 'news',
+    loadChildren: () =>
+      import('@tanzmoment/web/features/news').then((m) => m.newsRoutes),
+  },
+  // Newsletter (confirm + unsubscribe pages)
+  {
+    path: 'newsletter',
+    loadChildren: () =>
+      import('@tanzmoment/web/features/newsletter').then(
+        (m) => m.newsletterRoutes,
+      ),
+  },
   // Booking Routes (payment redirect, guest cancellation, waitlist)
   ...bookingRoutes,
   // Admin Panel (lazy-loaded, guarded)

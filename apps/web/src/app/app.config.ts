@@ -1,11 +1,20 @@
 import {
   ApplicationConfig,
   APP_INITIALIZER,
+  LOCALE_ID,
   isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+} from '@angular/router';
+
+registerLocaleData(localeDe);
 import { appRoutes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -26,6 +35,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       appRoutes,
+      withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
     provideHttpClient(withInterceptors([authInterceptor])),
@@ -36,5 +46,6 @@ export const appConfig: ApplicationConfig = {
       deps: [AuthStateService, AuthApiService],
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: 'de' },
   ],
 };

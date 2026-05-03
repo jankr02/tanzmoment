@@ -1,0 +1,51 @@
+<div class="send-modal" role="dialog" aria-modal="true" aria-labelledby="send-modal-title">
+  <div class="send-modal__overlay" (click)="cancel()"></div>
+
+  <div class="send-modal__panel">
+    <header class="send-modal__header">
+      <h2 id="send-modal-title">{{ title }}</h2>
+      <button type="button" class="send-modal__close" (click)="cancel()" aria-label="Schließen">×</button>
+    </header>
+
+    <div class="send-modal__tabs" role="tablist">
+      <button type="button" role="tab" [attr.aria-selected]="mode() === 'TEST'" [class.is-active]="mode() === 'TEST'" (click)="mode.set('TEST')">
+        Test-Mail
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="mode() === 'NOW'" [class.is-active]="mode() === 'NOW'" (click)="mode.set('NOW')">
+        Sofort senden
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="mode() === 'SCHEDULED'" [class.is-active]="mode() === 'SCHEDULED'" (click)="mode.set('SCHEDULED')">
+        Geplant senden
+      </button>
+    </div>
+
+    <div class="send-modal__body">
+      <ng-container [ngSwitch]="mode()">
+        <div *ngSwitchCase="'TEST'" class="send-modal__field">
+          <label for="test-email">Empfänger der Test-Mail</label>
+          <input id="test-email" type="email" [(ngModel)]="testEmail" placeholder="dein@email.de" />
+          <p class="send-modal__hint">Es wird eine Vorschau-Mail an diese Adresse gesendet. Abonnenten erhalten nichts.</p>
+        </div>
+
+        <div *ngSwitchCase="'NOW'">
+          <p>Der Newsletter wird sofort an alle bestätigten Abonnenten versendet.</p>
+        </div>
+
+        <div *ngSwitchCase="'SCHEDULED'" class="send-modal__field">
+          <label for="scheduled-at">Versand zum Zeitpunkt</label>
+          <input id="scheduled-at" type="datetime-local" [(ngModel)]="scheduledAt" />
+          <p class="send-modal__hint">Du kannst den Versand bis kurz vor dem Zeitpunkt noch stornieren.</p>
+        </div>
+      </ng-container>
+
+      <p class="send-modal__error" *ngIf="errorMessage()" role="alert">{{ errorMessage() }}</p>
+    </div>
+
+    <footer class="send-modal__footer">
+      <button type="button" class="send-modal__btn send-modal__btn--ghost" (click)="cancel()">Abbrechen</button>
+      <button type="button" class="send-modal__btn" (click)="submit()" [disabled]="saving">
+        {{ saving ? 'Wird verarbeitet…' : 'Senden' }}
+      </button>
+    </footer>
+  </div>
+</div>

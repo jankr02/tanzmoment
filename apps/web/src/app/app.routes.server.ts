@@ -14,6 +14,22 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server,
   },
   {
+    path: 'news',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'news/:slug',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'newsletter/bestaetigt',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'newsletter/abgemeldet',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Prerender,
   },

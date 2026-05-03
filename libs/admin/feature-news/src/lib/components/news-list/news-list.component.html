@@ -1,0 +1,70 @@
+<section class="news-list">
+  <header class="news-list__header">
+    <div>
+      <h1>News & Newsletter</h1>
+      <p class="news-list__subtitle">Veröffentliche Beiträge auf der Website und versende Newsletter an deine Abonnenten.</p>
+    </div>
+    <a routerLink="/admin/news/neu" class="news-list__btn news-list__btn--primary">+ Neuer Artikel</a>
+  </header>
+
+  <div class="news-list__filters">
+    <input
+      type="search"
+      [(ngModel)]="search"
+      placeholder="Nach Titel oder Slug suchen…"
+      class="news-list__search"
+      (keyup.enter)="reload()"
+    />
+    <select
+      [value]="statusFilter()"
+      (change)="onStatusChange(($any($event.target)).value)"
+      class="news-list__select"
+    >
+      <option value="">Alle Status</option>
+      <option value="DRAFT">Entwürfe</option>
+      <option value="PUBLISHED">Veröffentlicht</option>
+    </select>
+    <button type="button" class="news-list__btn" (click)="reload()">Filtern</button>
+  </div>
+
+  <div class="news-list__error" *ngIf="error()" role="alert">{{ error() }}</div>
+
+  <div class="news-list__loading" *ngIf="loading()" aria-live="polite">Lade News…</div>
+
+  <div class="news-list__empty" *ngIf="!loading() && !hasResults()">
+    Noch keine News-Artikel vorhanden. Lege den ersten Beitrag an.
+  </div>
+
+  <table class="news-list__table" *ngIf="hasResults()">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Status</th>
+        <th>Kategorie</th>
+        <th>Letzter Versand</th>
+        <th>Aktualisiert</th>
+        <th class="news-list__actions-col">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items()" (click)="open(item)" class="news-list__row">
+        <td>
+          <strong>{{ item.title }}</strong>
+          <span class="news-list__slug">/news/{{ item.slug }}</span>
+        </td>
+        <td><admin-status-badge [status]="item.status" /></td>
+        <td>{{ item.category ?? '—' }}</td>
+        <td>{{ item.lastSentAt ? (item.lastSentAt | date: 'd.M.yyyy HH:mm' : undefined : 'de') : '—' }}</td>
+        <td>{{ item.updatedAt | date: 'd.M.yyyy' : undefined : 'de' }}</td>
+        <td class="news-list__actions">
+          <button type="button" class="news-list__btn news-list__btn--ghost" (click)="togglePublish(item, $event)">
+            {{ item.status === 'PUBLISHED' ? 'Zurückziehen' : 'Veröffentlichen' }}
+          </button>
+          <button type="button" class="news-list__btn news-list__btn--ghost news-list__btn--danger" (click)="remove(item, $event)">
+            Löschen
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

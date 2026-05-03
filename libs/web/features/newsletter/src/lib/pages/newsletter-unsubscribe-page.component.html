@@ -1,0 +1,22 @@
+<main class="newsletter-page">
+  <div class="newsletter-page__card" *ngIf="!isError(); else errorBlock">
+    <div class="newsletter-page__icon" aria-hidden="true">✓</div>
+    <h1 class="newsletter-page__title">Du bist abgemeldet</h1>
+    <p class="newsletter-page__text">
+      Wir haben deine Abmeldung bestätigt — du erhältst keine weiteren Newsletter-E-Mails von uns.
+      Schade, dass du gehst! Falls du es dir anders überlegst, freuen wir uns über deine Rückkehr.
+    </p>
+    <a routerLink="/" class="newsletter-page__btn">Zur Startseite</a>
+  </div>
+
+  <ng-template #errorBlock>
+    <div class="newsletter-page__card newsletter-page__card--error">
+      <div class="newsletter-page__icon" aria-hidden="true">!</div>
+      <h1 class="newsletter-page__title">Abmeldung fehlgeschlagen</h1>
+      <p class="newsletter-page__text">
+        Der Abmelde-Link ist ungültig. Bitte schreibe uns direkt an, wenn du keine Newsletter mehr erhalten möchtest.
+      </p>
+      <a routerLink="/kontakt" class="newsletter-page__btn">Zum Kontakt</a>
+    </div>
+  </ng-template>
+</main>

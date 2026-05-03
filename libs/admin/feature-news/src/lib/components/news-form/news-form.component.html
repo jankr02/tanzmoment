@@ -1,0 +1,97 @@
+<section class="news-form">
+  <header class="news-form__header">
+    <div class="news-form__breadcrumb">
+      <a routerLink="/admin/news">← News</a>
+    </div>
+    <div class="news-form__title-row">
+      <h1>{{ isNew() ? 'Neuer Artikel' : 'Artikel bearbeiten' }}</h1>
+      <admin-status-badge *ngIf="!isNew()" [status]="status()" />
+    </div>
+  </header>
+
+  <p class="news-form__error" *ngIf="errorMessage()" role="alert">{{ errorMessage() }}</p>
+  <div class="news-form__loading" *ngIf="loading()" aria-live="polite">Lade Artikel…</div>
+
+  <div class="news-form__body" *ngIf="!loading()">
+    <div class="news-form__grid">
+      <div class="news-form__main">
+        <div class="news-form__field">
+          <label for="title">Titel *</label>
+          <input id="title" type="text" [(ngModel)]="title" required />
+        </div>
+
+        <div class="news-form__field">
+          <label for="slug">URL-Slug</label>
+          <input id="slug" type="text" [(ngModel)]="slug" placeholder="wird-aus-titel-erzeugt" />
+          <p class="news-form__hint">/news/{{ slug || 'slug' }}</p>
+        </div>
+
+        <div class="news-form__field">
+          <label for="excerpt">Kurzbeschreibung</label>
+          <textarea id="excerpt" rows="3" [(ngModel)]="excerpt" maxlength="280"></textarea>
+          <p class="news-form__hint">Wird in der News-Übersicht und im Newsletter angezeigt (max. 280 Zeichen).</p>
+        </div>
+
+        <div class="news-form__field">
+          <label>Inhalt *</label>
+          <admin-tiptap-editor
+            *ngIf="initialJson()"
+            [initialJson]="initialJson()"
+            (bodyChange)="onBodyChange($event)"
+          />
+        </div>
+      </div>
+
+      <aside class="news-form__sidebar">
+        <div class="news-form__field">
+          <label>Coverbild</label>
+          <admin-cover-image-upload
+            [value]="coverImageUrl"
+            (valueChange)="onCoverChange($event)"
+          />
+        </div>
+
+        <div class="news-form__field">
+          <label for="category">Kategorie</label>
+          <input id="category" type="text" [(ngModel)]="category" placeholder="z.B. Studio, Kurse, Events" />
+        </div>
+
+        <details class="news-form__seo">
+          <summary>SEO & Meta</summary>
+          <div class="news-form__field">
+            <label for="metaTitle">Meta-Titel</label>
+            <input id="metaTitle" type="text" [(ngModel)]="metaTitle" maxlength="120" />
+          </div>
+          <div class="news-form__field">
+            <label for="metaDescription">Meta-Beschreibung</label>
+            <textarea id="metaDescription" rows="3" [(ngModel)]="metaDescription" maxlength="280"></textarea>
+          </div>
+        </details>
+      </aside>
+    </div>
+
+    <footer class="news-form__footer">
+      <div class="news-form__actions">
+        <button type="button" class="news-form__btn news-form__btn--ghost" (click)="save(false)" [disabled]="saving()">
+          {{ saving() ? 'Speichert…' : 'Speichern' }}
+        </button>
+        <button type="button" class="news-form__btn" (click)="save(true)" [disabled]="saving()" *ngIf="status() !== 'PUBLISHED'">
+          Speichern & Veröffentlichen
+        </button>
+        <button type="button" class="news-form__btn news-form__btn--ghost" (click)="togglePublish()" [disabled]="saving() || isNew()" *ngIf="status() === 'PUBLISHED'">
+          Zurückziehen
+        </button>
+        <button type="button" class="news-form__btn news-form__btn--accent" (click)="openSend()" [disabled]="!canSend() || saving()">
+          Newsletter versenden…
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <admin-send-newsletter-modal
+    *ngIf="showSendModal()"
+    [saving]="sending()"
+    (send)="onSend($event)"
+    (cancelClick)="closeSend()"
+  />
+</section>

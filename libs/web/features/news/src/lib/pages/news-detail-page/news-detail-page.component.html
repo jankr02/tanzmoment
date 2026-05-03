@@ -1,0 +1,34 @@
+<main class="news-detail-page">
+  <div class="news-detail-page__loading" *ngIf="loading()" aria-live="polite">
+    Lade Artikel…
+  </div>
+
+  <div class="news-detail-page__not-found" *ngIf="notFound()">
+    <h1>Artikel nicht gefunden</h1>
+    <p>Der gesuchte Beitrag existiert nicht oder wurde noch nicht veröffentlicht.</p>
+    <a routerLink="/news" class="news-detail-page__btn">Zurück zur Übersicht</a>
+  </div>
+
+  <article class="news-detail-page__article" *ngIf="article() as a">
+    <header class="news-detail-page__header">
+      <a routerLink="/news" class="news-detail-page__back">← Alle News</a>
+
+      <div class="news-detail-page__meta">
+        <span class="news-detail-page__category" *ngIf="a.category">{{ a.category }}</span>
+        <time [attr.datetime]="a.publishedAt">
+          {{ a.publishedAt | date: 'd. MMMM yyyy' : undefined : 'de' }}
+        </time>
+      </div>
+
+      <h1 class="news-detail-page__title">{{ a.title }}</h1>
+
+      <p class="news-detail-page__lead" *ngIf="a.excerpt">{{ a.excerpt }}</p>
+    </header>
+
+    <figure class="news-detail-page__cover" *ngIf="a.coverImageUrl">
+      <img [src]="a.coverImageUrl" [alt]="a.title" />
+    </figure>
+
+    <div class="news-detail-page__body" [innerHTML]="safeBody()"></div>
+  </article>
+</main>

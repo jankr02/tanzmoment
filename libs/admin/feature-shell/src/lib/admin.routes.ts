@@ -62,6 +62,14 @@ export const adminRoutes: Route[] = [
           ),
         title: 'Einstellungen | Admin | Tanzmoment',
       },
+      {
+        path: 'news',
+        loadChildren: () =>
+          import('@tanzmoment/admin/feature-news').then(
+            (m) => m.adminNewsRoutes
+          ),
+        title: 'News | Admin | Tanzmoment',
+      },
     ],
   },
 ];

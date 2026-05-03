@@ -1,0 +1,75 @@
+.newsletter-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10, 64px) var(--space-5, 20px);
+  background: var(--color-accent, #fdf8f3);
+
+  &__card {
+    background: #ffffff;
+    border-radius: var(--radius-lg, 18px);
+    padding: var(--space-10, 64px) var(--space-8, 40px);
+    text-align: center;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4, 16px);
+
+    &--error .newsletter-page__icon {
+      background: #fde8e8;
+      color: #9b1c1c;
+    }
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--color-primary-light, #f2ece3);
+    color: var(--color-primary-dark, #688b68);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  &__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: var(--font-weight-heading, 900);
+    color: var(--color-text-primary, #2e2a25);
+    font-size: 26px;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  &__text {
+    color: var(--color-text-secondary, #5e5a55);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__btn {
+    margin-top: var(--space-3, 12px);
+    background: var(--color-primary-dark, #688b68);
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: var(--radius-md, 12px);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    transition: background 200ms ease;
+
+    &:hover {
+      background: #56754f;
+    }
+  }
+}

@@ -1,5 +1,21 @@
 export { adminAuthGuard } from './lib/guards/admin-auth.guard';
 export { AdminApiService } from './lib/services/admin-api.service';
+export { AdminNewsService } from './lib/services/admin-news.service';
+export type {
+  NewsArticleStatus,
+  NewsletterCampaignStatus,
+  NewsletterCampaignType,
+  AdminNewsListItem,
+  AdminNewsArticle,
+  PaginatedAdminNews,
+  AdminNewsListQuery,
+  CreateNewsArticleRequest,
+  UpdateNewsArticleRequest,
+  UploadResponse,
+  NewsletterCampaign,
+  SendNewsletterRequest,
+  TestSendNewsletterRequest,
+} from './lib/types/news.types';
 export type {
   DashboardResponse,
   DashboardStats,

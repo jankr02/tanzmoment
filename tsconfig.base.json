@@ -24,20 +24,51 @@
       ],
       "@tanzmoment/shared/services": ["libs/shared/services/src/index.ts"],
       "@tanzmoment/shared/types": ["libs/shared/types/src/index.ts"],
-      "@tanzmoment/web/features/about": ["libs/web/features/about/src/index.ts"],
-      "@tanzmoment/web/features/contact": ["libs/web/features/contact/src/index.ts"],
-      "@tanzmoment/web/features/target-groups": ["libs/web/features/target-groups/src/index.ts"],
-      "@tanzmoment/web/features/booking": ["libs/web/features/booking/src/index.ts"],
+      "@tanzmoment/web/features/about": [
+        "libs/web/features/about/src/index.ts"
+      ],
+      "@tanzmoment/web/features/contact": [
+        "libs/web/features/contact/src/index.ts"
+      ],
+      "@tanzmoment/web/features/target-groups": [
+        "libs/web/features/target-groups/src/index.ts"
+      ],
+      "@tanzmoment/web/features/booking": [
+        "libs/web/features/booking/src/index.ts"
+      ],
       "@tanzmoment/web/features/auth": ["libs/web/features/auth/src/index.ts"],
-      "@tanzmoment/admin/feature-shell": ["libs/admin/feature-shell/src/index.ts"],
-      "@tanzmoment/admin/feature-dashboard": ["libs/admin/feature-dashboard/src/index.ts"],
+      "@tanzmoment/admin/feature-shell": [
+        "libs/admin/feature-shell/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-dashboard": [
+        "libs/admin/feature-dashboard/src/index.ts"
+      ],
       "@tanzmoment/admin/data-access": ["libs/admin/data-access/src/index.ts"],
-      "@tanzmoment/admin/feature-courses": ["libs/admin/feature-courses/src/index.ts"],
-      "@tanzmoment/admin/feature-bookings": ["libs/admin/feature-bookings/src/index.ts"],
-      "@tanzmoment/admin/feature-calendar": ["libs/admin/feature-calendar/src/index.ts"],
-      "@tanzmoment/admin/feature-customers": ["libs/admin/feature-customers/src/index.ts"],
-      "@tanzmoment/admin/feature-finance": ["libs/admin/feature-finance/src/index.ts"],
-      "@tanzmoment/admin/feature-settings": ["libs/admin/feature-settings/src/index.ts"]
+      "@tanzmoment/admin/feature-courses": [
+        "libs/admin/feature-courses/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-bookings": [
+        "libs/admin/feature-bookings/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-calendar": [
+        "libs/admin/feature-calendar/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-customers": [
+        "libs/admin/feature-customers/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-finance": [
+        "libs/admin/feature-finance/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-settings": [
+        "libs/admin/feature-settings/src/index.ts"
+      ],
+      "@tanzmoment/web/features/news": ["libs/web/features/news/src/index.ts"],
+      "@tanzmoment/web/features/newsletter": [
+        "libs/web/features/newsletter/src/index.ts"
+      ],
+      "@tanzmoment/admin/feature-news": [
+        "libs/admin/feature-news/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,32 @@
+<div class="tiptap">
+  <div class="tiptap__toolbar" role="toolbar" aria-label="Editor-Werkzeuge">
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['bold']" (click)="toggleBold()" aria-label="Fett">B</button>
+    <button type="button" class="tiptap__btn tiptap__btn--italic" [class.is-active]="activeMarks()['italic']" (click)="toggleItalic()" aria-label="Kursiv">I</button>
+    <span class="tiptap__divider"></span>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['h1']" (click)="toggleHeading(1)" aria-label="Überschrift 1">H1</button>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['h2']" (click)="toggleHeading(2)" aria-label="Überschrift 2">H2</button>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['h3']" (click)="toggleHeading(3)" aria-label="Überschrift 3">H3</button>
+    <span class="tiptap__divider"></span>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['bulletList']" (click)="toggleBulletList()" aria-label="Aufzählung">•</button>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['orderedList']" (click)="toggleOrderedList()" aria-label="Nummerierte Liste">1.</button>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['blockquote']" (click)="toggleBlockquote()" aria-label="Zitat">»</button>
+    <span class="tiptap__divider"></span>
+    <button type="button" class="tiptap__btn" [class.is-active]="activeMarks()['link']" (click)="setLink()" aria-label="Link">🔗</button>
+    <button type="button" class="tiptap__btn" (click)="triggerImageUpload()" [disabled]="uploading()" aria-label="Bild hochladen">
+      {{ uploading() ? '…' : '🖼' }}
+    </button>
+    <span class="tiptap__divider"></span>
+    <button type="button" class="tiptap__btn" (click)="undo()" aria-label="Rückgängig">↶</button>
+    <button type="button" class="tiptap__btn" (click)="redo()" aria-label="Wiederholen">↷</button>
+  </div>
+
+  <div #editorEl class="tiptap__content"></div>
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/png,image/jpeg,image/webp"
+    hidden
+    (change)="onFileSelected($event)"
+  />
+</div>

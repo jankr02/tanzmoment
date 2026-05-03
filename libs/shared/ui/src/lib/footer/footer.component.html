@@ -138,13 +138,25 @@
                 </button>
               </form>
               
+              <label class="footer__newsletter-consent">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="newsletterConsent"
+                  name="newsletter-consent"
+                  [disabled]="newsletterLoading()"
+                />
+                <span>
+                  Ich akzeptiere die <a href="/datenschutz">Datenschutzerklärung</a> und stimme dem Empfang des Newsletters zu.
+                </span>
+              </label>
+
               @if (newsletterError()) {
                 <p class="footer__newsletter-error">{{ newsletterError() }}</p>
               }
             } @else {
               <div class="footer__newsletter-success">
                 <app-icon name="check-circle" size="md" color="success" />
-                <p>Vielen Dank! Wir haben deine Anmeldung erhalten.</p>
+                <p>{{ newsletterSuccessMessage() }}</p>
               </div>
             }
           </div>

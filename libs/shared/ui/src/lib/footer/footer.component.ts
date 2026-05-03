@@ -6,11 +6,13 @@ import {
   OnInit,
   OnDestroy,
   HostListener,
+  inject,
   signal,
   computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NewsletterApiService } from '@tanzmoment/shared/services';
 import { IconComponent } from '../icon/icon.component';
 import { WaveDividerComponent } from '../wave-divider/wave-divider.component';
 import { WaveVariant, WaveHeight, WaveDirection } from '../wave-divider/wave-divider.types';
@@ -114,9 +116,13 @@ export class FooterComponent implements OnInit, OnDestroy {
   // ============================================================================
 
   newsletterEmail = '';
+  newsletterConsent = false;
   newsletterLoading = signal(false);
   newsletterSuccess = signal(false);
   newsletterError = signal('');
+  newsletterSuccessMessage = signal('Bitte prüfe dein Postfach und bestätige die Anmeldung.');
+
+  private readonly newsletterApi = inject(NewsletterApiService, { optional: true });
 
   showScrollTopButton = signal(false);
 
@@ -172,46 +178,61 @@ export class FooterComponent implements OnInit, OnDestroy {
   // NEWSLETTER
   // ============================================================================
 
-  async onNewsletterSubmit(): Promise<void> {
-    // Validate email
+  onNewsletterSubmit(): void {
     if (!this.newsletterEmail || !this.isValidEmail(this.newsletterEmail)) {
       this.newsletterError.set('Bitte gib eine gültige E-Mail-Adresse ein.');
+      return;
+    }
+    if (!this.newsletterConsent) {
+      this.newsletterError.set('Bitte akzeptiere die Datenschutzerklärung.');
       return;
     }
 
     this.newsletterLoading.set(true);
     this.newsletterError.set('');
 
-    try {
-      // Emit to parent component for handling
-      this.newsletterSubmit.emit(this.newsletterEmail);
+    this.newsletterSubmit.emit(this.newsletterEmail);
 
-      // Simulate API call (replace with actual service)
-      await this.delay(1500);
-
+    if (!this.newsletterApi) {
+      this.newsletterLoading.set(false);
       this.newsletterSuccess.set(true);
       this.newsletterEmail = '';
-
-      // Reset success message after 3 seconds
-      setTimeout(() => {
-        this.newsletterSuccess.set(false);
-      }, 3000);
-    } catch (error) {
-      this.newsletterError.set(
-        'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.'
-      );
-    } finally {
-      this.newsletterLoading.set(false);
+      this.newsletterConsent = false;
+      return;
     }
+
+    this.newsletterApi
+      .subscribe({
+        email: this.newsletterEmail,
+        consent: this.newsletterConsent,
+        source: 'footer',
+      })
+      .subscribe({
+        next: (res) => {
+          this.newsletterLoading.set(false);
+          this.newsletterSuccess.set(true);
+          this.newsletterEmail = '';
+          this.newsletterConsent = false;
+          if (res.status === 'CONFIRMED') {
+            this.newsletterSuccessMessage.set('Du bist bereits angemeldet — danke!');
+          } else {
+            this.newsletterSuccessMessage.set(
+              'Bitte prüfe dein Postfach und bestätige die Anmeldung.',
+            );
+          }
+        },
+        error: () => {
+          this.newsletterLoading.set(false);
+          this.newsletterError.set(
+            'Anmeldung fehlgeschlagen. Bitte versuche es später erneut.',
+          );
+        },
+      });
   }
 
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  }
-
-  private delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // ============================================================================

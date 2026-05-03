@@ -1,0 +1,103 @@
+.tiptap {
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: var(--radius-md, 12px);
+  background: #ffffff;
+  overflow: hidden;
+
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: var(--space-2, 8px);
+    border-bottom: 1px solid var(--color-border, #e6ded7);
+    background: var(--color-primary-light, #f2ece3);
+  }
+
+  &__btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-primary, #2e2a25);
+    padding: 6px 10px;
+    min-width: 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 150ms ease, border-color 150ms ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    &.is-active {
+      background: var(--color-primary-dark, #688b68);
+      color: #ffffff;
+      border-color: var(--color-primary-dark, #688b68);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--italic {
+      font-style: italic;
+    }
+  }
+
+  &__divider {
+    width: 1px;
+    background: var(--color-border, #e6ded7);
+    margin: 0 4px;
+  }
+
+  &__content {
+    padding: var(--space-5, 20px);
+    min-height: 320px;
+    color: var(--color-text-primary, #2e2a25);
+    font-size: 15px;
+    line-height: 1.7;
+
+    ::ng-deep {
+      .ProseMirror {
+        outline: none;
+        min-height: 300px;
+      }
+
+      .ProseMirror p { margin: 0 0 var(--space-3, 12px); }
+      .ProseMirror h1, .ProseMirror h2, .ProseMirror h3 {
+        font-family: 'Inter', sans-serif;
+        font-weight: var(--font-weight-heading, 900);
+        margin: var(--space-5, 20px) 0 var(--space-2, 8px);
+        line-height: 1.2;
+      }
+      .ProseMirror h1 { font-size: 24px; }
+      .ProseMirror h2 { font-size: 20px; }
+      .ProseMirror h3 { font-size: 17px; }
+      .ProseMirror ul, .ProseMirror ol { padding-left: var(--space-6, 24px); margin: 0 0 var(--space-3, 12px); }
+      .ProseMirror img.tm-news-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-md, 12px);
+        margin: var(--space-3, 12px) 0;
+      }
+      .ProseMirror blockquote {
+        border-left: 3px solid var(--color-secondary-dark, #d0a373);
+        padding-left: var(--space-3, 12px);
+        color: var(--color-text-secondary, #5e5a55);
+        margin: var(--space-3, 12px) 0;
+      }
+      .ProseMirror a { color: var(--color-primary-dark, #688b68); text-decoration: underline; }
+
+      .ProseMirror p.is-editor-empty:first-child::before {
+        content: attr(data-placeholder);
+        color: var(--color-text-secondary, #5e5a55);
+        opacity: 0.6;
+        float: left;
+        height: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}

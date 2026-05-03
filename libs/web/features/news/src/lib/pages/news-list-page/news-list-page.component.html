@@ -1,0 +1,33 @@
+<main class="news-list-page">
+  <header class="news-list-page__header">
+    <span class="news-list-page__eyebrow">Neuigkeiten</span>
+    <h1 class="news-list-page__title">Was bei Tanzmoment passiert</h1>
+    <p class="news-list-page__subtitle">
+      Studio-News, neue Kurse, Veranstaltungen und Geschichten aus unserem Tanzraum.
+    </p>
+  </header>
+
+  <section class="news-list-page__content">
+    <div class="news-list-page__error" *ngIf="error()" role="alert">
+      {{ error() }}
+    </div>
+
+    <div class="news-list-page__empty" *ngIf="isEmpty()">
+      Aktuell sind keine News verfügbar — schau bald wieder vorbei!
+    </div>
+
+    <div class="news-list-page__grid" *ngIf="articles().length > 0">
+      <tm-news-card *ngFor="let article of articles()" [article]="article" />
+    </div>
+
+    <div class="news-list-page__loading" *ngIf="loading()" aria-live="polite">
+      Lade News…
+    </div>
+
+    <div class="news-list-page__more" *ngIf="hasMore() && !loading()">
+      <button type="button" class="news-list-page__btn" (click)="loadMore()">
+        Mehr anzeigen
+      </button>
+    </div>
+  </section>
+</main>

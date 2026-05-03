@@ -1,0 +1,21 @@
+<main class="newsletter-page">
+  <div class="newsletter-page__card" *ngIf="!isError(); else errorBlock">
+    <div class="newsletter-page__icon" aria-hidden="true">✓</div>
+    <h1 class="newsletter-page__title">Anmeldung bestätigt!</h1>
+    <p class="newsletter-page__text">
+      Du erhältst ab sofort unsere Neuigkeiten per E-Mail. Schön, dass du dabei bist.
+    </p>
+    <a routerLink="/" class="newsletter-page__btn">Zur Startseite</a>
+  </div>
+
+  <ng-template #errorBlock>
+    <div class="newsletter-page__card newsletter-page__card--error">
+      <div class="newsletter-page__icon" aria-hidden="true">!</div>
+      <h1 class="newsletter-page__title">Bestätigung fehlgeschlagen</h1>
+      <p class="newsletter-page__text">
+        Der Bestätigungs-Link ist ungültig oder abgelaufen. Bitte melde dich erneut für den Newsletter an.
+      </p>
+      <a routerLink="/" class="newsletter-page__btn">Zur Startseite</a>
+    </div>
+  </ng-template>
+</main>

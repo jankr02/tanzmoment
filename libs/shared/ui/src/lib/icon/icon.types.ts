@@ -53,6 +53,7 @@ export type IconName =
   | 'chevron-left'
   | 'trash-2'
   | 'download'
+  | 'newspaper'
   // Social Media
   | 'instagram'
   | 'facebook'

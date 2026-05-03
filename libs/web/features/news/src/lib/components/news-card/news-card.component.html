@@ -1,0 +1,20 @@
+<a class="news-card" [routerLink]="['/news', article().slug]">
+  <div class="news-card__media" *ngIf="article().coverImageUrl">
+    <img [src]="article().coverImageUrl" [alt]="article().title" loading="lazy" />
+  </div>
+
+  <div class="news-card__content">
+    <div class="news-card__meta">
+      <span class="news-card__category" *ngIf="article().category">{{ article().category }}</span>
+      <time [attr.datetime]="article().publishedAt">
+        {{ article().publishedAt | date: 'd. MMMM yyyy' : undefined : 'de' }}
+      </time>
+    </div>
+
+    <h3 class="news-card__title">{{ article().title }}</h3>
+
+    <p class="news-card__excerpt" *ngIf="article().excerpt">{{ article().excerpt }}</p>
+
+    <span class="news-card__cta">Weiterlesen →</span>
+  </div>
+</a>
