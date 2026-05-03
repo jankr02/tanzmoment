@@ -30,7 +30,7 @@ import {
 } from './dto/booking-response.dto';
 import { CancellationPolicyService } from './cancellation-policy.service';
 import { BookingEmailService } from '../email/booking-email.service';
-import { RefundType } from '@tanzmoment/shared/types';
+import { CancellationPreview, RefundType } from '@tanzmoment/shared/types';
 
 type TransactionClient = Parameters<Parameters<PrismaService['$transaction']>[0]>[0];
 
@@ -423,6 +423,7 @@ export class BookingsService {
     bookingId: string,
     userId: string | null,
     cancellationToken: string | null,
+    reason?: string,
   ): Promise<CancelBookingResponseDto> {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
@@ -487,6 +488,8 @@ export class BookingsService {
       refundAmountInCents = refundCalc.refundAmountInCents;
     }
 
+    const trimmedReason = reason?.trim() || null;
+
     await this.prisma.$transaction(async (tx) => {
       await tx.booking.update({
         where: { id: bookingId },
@@ -497,6 +500,13 @@ export class BookingsService {
           cancelledAt: new Date(),
         },
       });
+
+      if (trimmedReason && booking.payment) {
+        await tx.payment.update({
+          where: { id: booking.payment.id },
+          data: { refundReason: trimmedReason },
+        });
+      }
 
       // Reorder waitlist positions when a waitlisted booking is cancelled
       if (
@@ -590,6 +600,12 @@ export class BookingsService {
             slug: true,
             danceStyle: true,
             imageUrl: true,
+            instructor: {
+              select: {
+                imageUrl: true,
+                user: { select: { firstName: true, lastName: true } },
+              },
+            },
           },
         },
         session: {
@@ -600,6 +616,7 @@ export class BookingsService {
             location: { select: { name: true } },
           },
         },
+        payment: true,
       },
     });
 
@@ -654,6 +671,12 @@ export class BookingsService {
               slug: true,
               danceStyle: true,
               imageUrl: true,
+              instructor: {
+                select: {
+                  imageUrl: true,
+                  user: { select: { firstName: true, lastName: true } },
+                },
+              },
             },
           },
           session: {
@@ -664,6 +687,7 @@ export class BookingsService {
               location: { select: { name: true } },
             },
           },
+          payment: true,
         },
       }),
       this.prisma.booking.count({ where }),
@@ -684,6 +708,171 @@ export class BookingsService {
   }
 
   // ===========================================================================
+  // CANCELLATION PREVIEW
+  // ===========================================================================
+
+  /**
+   * Returns a refund preview without modifying the booking.
+   * Used by the frontend to inform the user before they confirm cancellation.
+   */
+  async getCancellationPreview(
+    bookingId: string,
+    userId: string,
+  ): Promise<CancellationPreview> {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        session: { select: { startTime: true } },
+        payment: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Buchung nicht gefunden.');
+    }
+
+    if (booking.userId !== userId) {
+      throw new ForbiddenException();
+    }
+
+    const cancellableStatuses = ['PENDING', 'CONFIRMED', 'WAITLISTED'];
+    const canCancel = cancellableStatuses.includes(booking.status);
+
+    const policy = await this.cancellationPolicyService.getPolicyForCourse(
+      booking.courseId,
+    );
+
+    const originalAmountInCents = booking.payment?.amountInCents ?? 0;
+
+    if (!canCancel) {
+      return {
+        bookingId,
+        canCancel: false,
+        refundType: 'none',
+        refundAmountInCents: 0,
+        refundPercent: 0,
+        originalAmountInCents,
+        policyName: policy.name,
+        explanation: 'Diese Buchung kann nicht mehr storniert werden.',
+      };
+    }
+
+    if (!booking.payment || originalAmountInCents === 0) {
+      return {
+        bookingId,
+        canCancel: true,
+        refundType: 'none',
+        refundAmountInCents: 0,
+        refundPercent: 0,
+        originalAmountInCents,
+        policyName: policy.name,
+        explanation: 'Kostenlose Buchung – keine Erstattung erforderlich.',
+      };
+    }
+
+    const refundCalc = booking.session?.startTime
+      ? this.cancellationPolicyService.calculateRefund(
+          policy,
+          booking.session.startTime,
+          originalAmountInCents,
+        )
+      : this.cancellationPolicyService.calculateAdminRefund(originalAmountInCents);
+
+    const refundType: 'full' | 'partial' | 'none' =
+      refundCalc.type === RefundType.FULL
+        ? 'full'
+        : refundCalc.type === RefundType.PARTIAL
+          ? 'partial'
+          : 'none';
+
+    return {
+      bookingId,
+      canCancel: true,
+      refundType,
+      refundAmountInCents: refundCalc.refundAmountInCents,
+      refundPercent: refundCalc.refundPercent,
+      originalAmountInCents,
+      policyName: policy.name,
+      explanation: refundCalc.explanation,
+    };
+  }
+
+  // ===========================================================================
+  // RESUME CHECKOUT
+  // ===========================================================================
+
+  /**
+   * Creates a fresh Stripe Checkout Session for a PENDING booking whose
+   * original session expired or was abandoned.
+   */
+  async resumeCheckout(
+    bookingId: string,
+    userId: string,
+  ): Promise<{ checkoutUrl: string }> {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        course: { select: { title: true, priceInCents: true, isFree: true } },
+        payment: true,
+        user: { select: { email: true } },
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Buchung nicht gefunden.');
+    }
+
+    if (booking.userId !== userId) {
+      throw new ForbiddenException();
+    }
+
+    if (booking.status !== 'PENDING') {
+      throw new BadRequestException(
+        'Nur ausstehende Buchungen können fortgesetzt werden.',
+      );
+    }
+
+    if (!booking.payment || booking.course.isFree) {
+      throw new BadRequestException(
+        'Für diese Buchung ist keine Zahlung erforderlich.',
+      );
+    }
+
+    if (booking.payment.status === 'PAID') {
+      throw new BadRequestException(
+        'Diese Buchung wurde bereits bezahlt.',
+      );
+    }
+
+    const checkoutResult = await this.stripeService.createCheckoutSession({
+      bookingId: booking.id,
+      courseTitle: booking.course.title,
+      amountInCents: booking.payment.amountInCents,
+      currency: booking.payment.currency,
+      customerEmail: booking.user?.email,
+    });
+
+    await this.prisma.payment.update({
+      where: { id: booking.payment.id },
+      data: {
+        stripePaymentId: checkoutResult.sessionId,
+        stripeStatus: 'open',
+        status: 'PENDING',
+      },
+    });
+
+    this.waitlistService
+      .scheduleExpiry(booking.id, 'pending_timeout')
+      .catch((err) =>
+        this.logger.error(`Failed to schedule expiry for ${booking.id}`, err),
+      );
+
+    this.logger.log(`Checkout resumed for booking ${booking.id}`);
+
+    return { checkoutUrl: checkoutResult.checkoutUrl };
+  }
+
+  // ===========================================================================
   // GET SINGLE BOOKING
   // ===========================================================================
 
@@ -701,6 +890,12 @@ export class BookingsService {
             slug: true,
             danceStyle: true,
             imageUrl: true,
+            instructor: {
+              select: {
+                imageUrl: true,
+                user: { select: { firstName: true, lastName: true } },
+              },
+            },
           },
         },
         session: {
@@ -711,6 +906,7 @@ export class BookingsService {
             location: { select: { name: true } },
           },
         },
+        payment: true,
       },
     });
 
@@ -922,12 +1118,24 @@ export class BookingsService {
       slug: string;
       danceStyle: string;
       imageUrl: string | null;
+      instructor?: {
+        imageUrl: string | null;
+        user: { firstName: string; lastName: string };
+      } | null;
     };
     session: {
       id: string;
       startTime: Date;
       endTime: Date;
       location: { name: string };
+    } | null;
+    payment?: {
+      id: string;
+      status: string;
+      amountInCents: number;
+      currency: string;
+      paidAt: Date | null;
+      refundedAmount: number | null;
     } | null;
   }): BookingResponseDto {
     const isGuest = !booking.userId;
@@ -951,6 +1159,13 @@ export class BookingsService {
         slug: booking.course.slug,
         danceStyle: booking.course.danceStyle,
         imageUrl: booking.course.imageUrl ?? undefined,
+        instructor: booking.course.instructor
+          ? {
+              firstName: booking.course.instructor.user.firstName,
+              lastName: booking.course.instructor.user.lastName,
+              imageUrl: booking.course.instructor.imageUrl ?? undefined,
+            }
+          : undefined,
       },
       session: booking.session
         ? {
@@ -958,6 +1173,16 @@ export class BookingsService {
             startTime: booking.session.startTime.toISOString(),
             endTime: booking.session.endTime.toISOString(),
             location: booking.session.location.name,
+          }
+        : undefined,
+      payment: booking.payment
+        ? {
+            id: booking.payment.id,
+            status: booking.payment.status.toLowerCase(),
+            amountInCents: booking.payment.amountInCents,
+            currency: booking.payment.currency,
+            paidAt: booking.payment.paidAt?.toISOString() ?? undefined,
+            refundedAmount: booking.payment.refundedAmount ?? undefined,
           }
         : undefined,
       waitlistPosition: booking.waitlistPosition ?? undefined,

@@ -6,6 +6,7 @@ import {
   Param,
   Query,
   Body,
+  Res,
   UseGuards,
   BadRequestException,
   ValidationPipe,
@@ -18,8 +19,11 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
+import type { Response } from 'express';
 import { BookingsService } from './bookings.service';
+import { ReceiptPdfService } from './receipt-pdf.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { CancelBookingDto } from './dto/cancel-booking.dto';
 import { BookingQueryDto } from './dto/booking-query.dto';
 import {
   BookingResponseDto,
@@ -31,11 +35,15 @@ import {
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OptionalAuthGuard } from '../auth/guards/optional-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { CancellationPreview } from '@tanzmoment/shared/types';
 
 @ApiTags('Bookings')
 @Controller('bookings')
 export class BookingsController {
-  constructor(private readonly bookingsService: BookingsService) {}
+  constructor(
+    private readonly bookingsService: BookingsService,
+    private readonly receiptPdfService: ReceiptPdfService,
+  ) {}
 
   // ===========================================================================
   // POST /bookings – Create booking (auth optional)
@@ -155,6 +163,29 @@ export class BookingsController {
   }
 
   // ===========================================================================
+  // GET /bookings/:id/cancellation-preview – Refund preview (auth required)
+  // ===========================================================================
+
+  @Get(':id/cancellation-preview')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Preview refund for a booking cancellation',
+    description:
+      'Returns refund amount and policy explanation without modifying the booking.',
+  })
+  @ApiParam({ name: 'id', description: 'Booking ID' })
+  @ApiResponse({ status: 200, description: 'Cancellation preview returned' })
+  @ApiResponse({ status: 403, description: 'Not the booking owner' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  async getCancellationPreview(
+    @Param('id') id: string,
+    @CurrentUser() user: { id: string },
+  ): Promise<CancellationPreview> {
+    return this.bookingsService.getCancellationPreview(id, user.id);
+  }
+
+  // ===========================================================================
   // PATCH /bookings/:id/cancel – Cancel booking (auth required)
   // ===========================================================================
 
@@ -175,8 +206,69 @@ export class BookingsController {
   async cancelBooking(
     @Param('id') id: string,
     @CurrentUser() user: { id: string },
+    @Body(new ValidationPipe({ whitelist: true, transform: true }))
+    dto: CancelBookingDto = {},
   ): Promise<CancelBookingResponseDto> {
-    return this.bookingsService.cancelBooking(id, user.id, null);
+    return this.bookingsService.cancelBooking(id, user.id, null, dto.reason);
+  }
+
+  // ===========================================================================
+  // POST /bookings/:id/resume-checkout – Restart Stripe checkout (auth required)
+  // ===========================================================================
+
+  @Post(':id/resume-checkout')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Resume Stripe checkout for a pending booking',
+    description:
+      'Creates a fresh Stripe Checkout Session for a PENDING booking ' +
+      'whose original session expired or was abandoned.',
+  })
+  @ApiParam({ name: 'id', description: 'Booking ID' })
+  @ApiResponse({ status: 200, description: 'New checkout URL returned' })
+  @ApiResponse({ status: 400, description: 'Booking not eligible for resume' })
+  @ApiResponse({ status: 403, description: 'Not the booking owner' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  async resumeCheckout(
+    @Param('id') id: string,
+    @CurrentUser() user: { id: string },
+  ): Promise<{ checkoutUrl: string }> {
+    return this.bookingsService.resumeCheckout(id, user.id);
+  }
+
+  // ===========================================================================
+  // GET /bookings/:id/receipt.pdf – Download payment receipt (auth required)
+  // ===========================================================================
+
+  @Get(':id/receipt.pdf')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Download a PDF receipt for a paid booking',
+  })
+  @ApiParam({ name: 'id', description: 'Booking ID' })
+  @ApiResponse({ status: 200, description: 'PDF receipt' })
+  @ApiResponse({ status: 400, description: 'Receipt not available yet' })
+  @ApiResponse({ status: 403, description: 'Not the booking owner' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  async downloadReceipt(
+    @Param('id') id: string,
+    @CurrentUser() user: { id: string },
+    @Res() res: Response,
+  ): Promise<void> {
+    const { filename, buffer } = await this.receiptPdfService.generateReceipt(
+      id,
+      user.id,
+    );
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${filename}"`,
+    );
+    res.setHeader('Content-Length', buffer.length.toString());
+    res.end(buffer);
   }
 
   // ===========================================================================

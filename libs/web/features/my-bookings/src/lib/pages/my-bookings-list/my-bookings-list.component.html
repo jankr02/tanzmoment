@@ -1,0 +1,86 @@
+<section class="page">
+  <header class="page__header">
+    <h1>Meine Buchungen</h1>
+    <p class="page__subtitle">
+      Hier findest du deine Kursbuchungen, kannst Zahlungen abschließen und
+      Termine verwalten.
+    </p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Buchungen filtern">
+    @for (tab of tabs; track tab) {
+      <button
+        type="button"
+        role="tab"
+        class="tabs__button"
+        [class.tabs__button--active]="store.activeTab() === tab"
+        [attr.aria-selected]="store.activeTab() === tab"
+        (click)="selectTab(tab)"
+      >
+        <span>{{ tabLabels[tab] }}</span>
+        <span class="tabs__count">{{ store.tabCounts()[tab] }}</span>
+      </button>
+    }
+  </nav>
+
+  @if (resumeError()) {
+    <div class="banner banner--error" role="alert">{{ resumeError() }}</div>
+  }
+
+  <div class="page__content">
+    @if (store.isLoading()) {
+      <div class="skeleton-stack">
+        @for (i of [0, 1, 2]; track i) {
+          <tm-skeleton-box width="100%" height="180px" borderRadius="18px" />
+        }
+      </div>
+    } @else if (store.state() === 'error') {
+      <ui-empty-state
+        variant="error"
+        [title]="'Buchungen konnten nicht geladen werden'"
+        [message]="store.error()"
+        (retry)="retry()"
+      />
+    } @else if (store.isEmpty()) {
+      <ui-empty-state
+        variant="custom"
+        [title]="'Du hast noch keine Buchungen'"
+        [message]="'Stöbere durch unsere Kurse und finde deinen passenden Tanz.'"
+        [illustration]="'dance'"
+      >
+      </ui-empty-state>
+
+      <div class="empty-cta">
+        <a routerLink="/courses">
+          <app-button variant="primary">Kurse entdecken</app-button>
+        </a>
+      </div>
+    } @else if (hasNoVisibleBookings()) {
+      <ui-empty-state
+        variant="custom"
+        [title]="emptyMessage().title"
+        [message]="emptyMessage().message"
+        [illustration]="'calendar'"
+      />
+    } @else {
+      <div class="bookings-list">
+        @for (booking of store.visibleBookings(); track booking.id) {
+          <lib-booking-card
+            [booking]="booking"
+            (cancelClicked)="onCancelRequested($event)"
+            (resumeCheckoutClicked)="onResumeCheckout($event)"
+            (rebookClicked)="onRebook($event)"
+          />
+        }
+      </div>
+    }
+  </div>
+
+  @if (cancellingBooking(); as booking) {
+    <lib-cancel-booking-modal
+      [booking]="booking"
+      (closed)="onCancelClosed()"
+      (cancelled)="onCancelCompleted()"
+    />
+  }
+</section>

@@ -22,6 +22,17 @@ export class GuestInfoDto {
 // BOOKING COURSE INFO (minimal, for list view)
 // =============================================================================
 
+export class BookingInstructorInfoDto {
+  @ApiProperty({ example: 'Sarah' })
+  firstName: string;
+
+  @ApiProperty({ example: 'Becker' })
+  lastName: string;
+
+  @ApiPropertyOptional({ example: '/assets/images/instructors/sarah.jpg' })
+  imageUrl?: string;
+}
+
 export class BookingCourseInfoDto {
   @ApiProperty({ example: 'clx1234567890' })
   id: string;
@@ -37,6 +48,9 @@ export class BookingCourseInfoDto {
 
   @ApiPropertyOptional({ example: '/assets/images/courses/expressive.jpg' })
   imageUrl?: string;
+
+  @ApiPropertyOptional({ type: BookingInstructorInfoDto })
+  instructor?: BookingInstructorInfoDto;
 }
 
 // =============================================================================
@@ -61,6 +75,28 @@ export class BookingSessionInfoDto {
 // BOOKING RESPONSE DTO
 // =============================================================================
 
+export class BookingPaymentInfoDto {
+  @ApiProperty({ example: 'clpay123' })
+  id: string;
+
+  @ApiProperty({
+    enum: ['pending', 'processing', 'paid', 'failed', 'refunded', 'partial_refund', 'cancelled', 'expired'],
+  })
+  status: string;
+
+  @ApiProperty({ example: 2500 })
+  amountInCents: number;
+
+  @ApiProperty({ example: 'EUR' })
+  currency: string;
+
+  @ApiPropertyOptional({ example: '2026-02-25T12:00:00.000Z' })
+  paidAt?: string;
+
+  @ApiPropertyOptional({ example: 1250 })
+  refundedAmount?: number;
+}
+
 export class BookingResponseDto {
   @ApiProperty({ example: 'clbook123' })
   id: string;
@@ -81,6 +117,9 @@ export class BookingResponseDto {
 
   @ApiPropertyOptional({ type: BookingSessionInfoDto })
   session?: BookingSessionInfoDto;
+
+  @ApiPropertyOptional({ type: BookingPaymentInfoDto })
+  payment?: BookingPaymentInfoDto;
 
   @ApiPropertyOptional({ example: 3 })
   waitlistPosition?: number;

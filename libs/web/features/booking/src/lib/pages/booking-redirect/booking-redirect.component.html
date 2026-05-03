@@ -18,7 +18,7 @@
 
       @if (bookingStore.bookingDetail(); as booking) {
         <p>
-          Deine Buchung für <strong>{{ booking.session.course.title }}</strong> ist bestätigt.
+          Deine Buchung für <strong>{{ booking.course.title }}</strong> ist bestätigt.
           @if (booking.isGuestBooking) {
             Wir haben dir eine Bestätigung per E-Mail gesendet.
           } @else {
@@ -29,12 +29,14 @@
         <div class="booking-redirect__details">
           <div class="booking-redirect__detail-row">
             <span>Kurs</span>
-            <strong>{{ booking.session.course.title }}</strong>
+            <strong>{{ booking.course.title }}</strong>
           </div>
-          <div class="booking-redirect__detail-row">
-            <span>Ort</span>
-            <strong>{{ booking.session.location }}</strong>
-          </div>
+          @if (booking.session?.location; as location) {
+            <div class="booking-redirect__detail-row">
+              <span>Ort</span>
+              <strong>{{ location }}</strong>
+            </div>
+          }
         </div>
       }
 

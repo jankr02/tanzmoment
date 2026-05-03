@@ -1,0 +1,77 @@
+<div class="backdrop" (click)="onBackdropClick($event)" role="presentation">
+  <div
+    class="dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cancel-modal-title"
+  >
+    <header class="dialog__header">
+      <h2 id="cancel-modal-title">Buchung stornieren</h2>
+      <p class="dialog__subtitle">{{ booking().course.title }}</p>
+    </header>
+
+    <section class="dialog__body">
+      @if (isLoadingPreview()) {
+        <p class="loading">Erstattungsdetails werden geladen…</p>
+      } @else if (previewError()) {
+        <p class="error">{{ previewError() }}</p>
+      } @else if (preview(); as p) {
+        @if (!p.canCancel) {
+          <div class="notice notice--blocked">
+            <p>{{ p.explanation }}</p>
+          </div>
+        } @else {
+          <div class="refund">
+            <span class="refund__label">Erstattung</span>
+            <span class="refund__amount">{{ refundAmountLabel() }}</span>
+            @if (p.originalAmountInCents > 0) {
+              <span class="refund__meta">
+                von {{ originalAmountLabel() }}
+                ({{ p.refundPercent }}%)
+              </span>
+            }
+          </div>
+
+          <p class="explanation">{{ p.explanation }}</p>
+
+          <label class="reason">
+            <span class="reason__label">Grund (optional)</span>
+            <textarea
+              [(ngModel)]="reason"
+              rows="3"
+              maxlength="500"
+              placeholder="Warum möchtest du stornieren?"
+              class="reason__input"
+            ></textarea>
+          </label>
+        }
+      }
+
+      @if (submitError()) {
+        <p class="error">{{ submitError() }}</p>
+      }
+    </section>
+
+    <footer class="dialog__footer">
+      <app-button
+        variant="ghost"
+        size="medium"
+        [disabled]="isSubmitting()"
+        (clicked)="closed.emit()"
+      >
+        Abbrechen
+      </app-button>
+
+      @if (preview()?.canCancel) {
+        <app-button
+          variant="primary"
+          size="medium"
+          [loading]="isSubmitting()"
+          (clicked)="onConfirm()"
+        >
+          Stornierung bestätigen
+        </app-button>
+      }
+    </footer>
+  </div>
+</div>

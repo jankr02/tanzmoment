@@ -5,8 +5,7 @@
 // Supports both authenticated and guest booking flows.
 // ============================================================================
 
-import { BookingStatus, CancellationReason } from './booking.types';
-import { PaymentStatus } from './payment.types';
+import { BookingStatus } from './booking.types';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SESSION AVAILABILITY
@@ -91,46 +90,51 @@ export interface CreateBookingApiResponse {
 
 /**
  * GET /bookings/:id – Full booking detail.
+ *
+ * Mirrors the backend `BookingResponseDto` shape (status/payment.status are
+ * lowercase strings on the wire).
  */
 export interface BookingDetail {
   id: string;
-  status: BookingStatus;
+  status: string;
   waitlistPosition?: number;
-  cancellationReason?: CancellationReason;
+  cancellationReason?: string;
   notes?: string;
   createdAt: string;
-  updatedAt: string;
   cancelledAt?: string;
 
-  /** True for guest bookings */
   isGuestBooking: boolean;
 
-  /** Guest info (only for guest bookings, admin view) */
-  guestEmail?: string;
-  guestFirstName?: string;
+  guestInfo?: {
+    email: string;
+    firstName: string;
+    lastName?: string;
+    phone?: string;
+  };
 
-  session: {
+  course: {
+    id: string;
+    title: string;
+    slug: string;
+    danceStyle: string;
+    imageUrl?: string;
+    instructor?: {
+      firstName: string;
+      lastName: string;
+      imageUrl?: string;
+    };
+  };
+
+  session?: {
     id: string;
     startTime: string;
     endTime: string;
     location: string;
-    course: {
-      id: string;
-      title: string;
-      slug: string;
-      danceStyle: string;
-      imageUrl?: string;
-      instructor: {
-        firstName: string;
-        lastName: string;
-        imageUrl?: string;
-      };
-    };
   };
 
   payment?: {
     id: string;
-    status: PaymentStatus;
+    status: string;
     amountInCents: number;
     currency: string;
     paidAt?: string;

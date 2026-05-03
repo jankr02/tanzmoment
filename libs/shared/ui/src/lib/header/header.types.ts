@@ -79,24 +79,9 @@ export type HeaderSize = 'default' | 'compact';
 
 export const DEFAULT_USER_MENU_ITEMS: UserMenuItem[] = [
   {
-    label: 'Mein Profil',
-    iconName: 'user',
-    route: '/profile',
-  },
-  {
     label: 'Meine Buchungen',
     iconName: 'calendar',
-    route: '/bookings',
-  },
-  {
-    label: 'Favoriten',
-    iconName: 'heart',
-    route: '/favorites',
-  },
-  {
-    label: 'Einstellungen',
-    iconName: 'settings',
-    route: '/settings',
+    route: '/meine-buchungen',
   },
   {
     label: 'Abmelden',

@@ -13,18 +13,18 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../button/button.component';
 import { IconComponent } from '../icon/icon.component';
 import { AvatarComponent } from '../avatar/avatar.component';
-import { HeaderConfig, NavItem, UserMenuData, DEFAULT_NAV_ITEMS } from './header.types';
+import { HeaderConfig, NavItem, UserMenuData, UserMenuItem, DEFAULT_NAV_ITEMS } from './header.types';
 
 @Component({
   selector: 'tm-header',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, IconComponent, AvatarComponent],
+  imports: [CommonModule, RouterLink, ButtonComponent, IconComponent, AvatarComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -269,6 +269,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   closeUserMenu(): void {
     this.userMenuOpen.set(false);
+  }
+
+  onUserMenuLinkClick(menuItem: UserMenuItem): void {
+    if (menuItem.action) {
+      menuItem.action();
+    }
+    this.closeUserMenu();
   }
   
   @HostListener('document:click', ['$event'])

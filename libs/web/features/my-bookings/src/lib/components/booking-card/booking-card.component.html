@@ -1,0 +1,77 @@
+<article class="card" [style.--card-accent]="accent()">
+  <a class="card__main" [routerLink]="['/meine-buchungen', booking().id]">
+    <header class="card__header">
+      <div class="card__title-row">
+        <h3 class="card__title">{{ booking().course.title }}</h3>
+        <lib-booking-status-badge [status]="booking().status" />
+      </div>
+      @if (instructorName()) {
+        <p class="card__instructor">mit {{ instructorName() }}</p>
+      }
+    </header>
+
+    @if (sessionLabel(); as info) {
+      <dl class="card__meta">
+        <div class="card__meta-row">
+          <dt>Termin</dt>
+          <dd>{{ info.date }} · {{ info.time }} Uhr</dd>
+        </div>
+        @if (booking().session?.location; as location) {
+          <div class="card__meta-row">
+            <dt>Ort</dt>
+            <dd>{{ location }}</dd>
+          </div>
+        }
+      </dl>
+    }
+
+    @if (waitlistInfo() !== null) {
+      <p class="card__hint">
+        Du stehst auf Position
+        <strong>#{{ waitlistInfo() }}</strong>
+        der Warteliste.
+      </p>
+    }
+  </a>
+
+  <footer class="card__actions">
+    <a
+      class="card__details-link"
+      [routerLink]="['/meine-buchungen', booking().id]"
+    >
+      Details ansehen
+    </a>
+
+    <div class="card__quick-actions">
+      @if (canResumeCheckout()) {
+        <app-button
+          variant="primary"
+          size="small"
+          (clicked)="resumeCheckoutClicked.emit(booking())"
+        >
+          Zahlung abschließen
+        </app-button>
+      }
+
+      @if (canCancel()) {
+        <app-button
+          variant="ghost"
+          size="small"
+          (clicked)="cancelClicked.emit(booking())"
+        >
+          Stornieren
+        </app-button>
+      }
+
+      @if (canRebook()) {
+        <app-button
+          variant="secondary"
+          size="small"
+          (clicked)="rebookClicked.emit(booking())"
+        >
+          Wieder buchen
+        </app-button>
+      }
+    </div>
+  </footer>
+</article>

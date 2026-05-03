@@ -1,0 +1,129 @@
+:host {
+  display: block;
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: var(--font-weight-heading, 900);
+    color: var(--color-text-primary);
+  }
+}
+
+.page__subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tabs__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-weight: var(--font-weight-medium, 600);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: -1px;
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-dark);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.tabs__button--active {
+  color: var(--color-primary-dark);
+  border-bottom-color: var(--color-primary-dark);
+}
+
+.tabs__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 0 6px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-primary-light);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.tabs__button--active .tabs__count {
+  background: color-mix(in srgb, var(--color-primary-dark) 18%, transparent);
+  color: var(--color-primary-dark);
+}
+
+.banner {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+}
+
+.banner--error {
+  background: color-mix(in srgb, #c44 12%, transparent);
+  color: #b03a3a;
+}
+
+.skeleton-stack {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.bookings-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.empty-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(var(--space-4) * -1);
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: var(--space-5) var(--space-4);
+  }
+}

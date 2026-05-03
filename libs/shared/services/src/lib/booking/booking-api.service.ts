@@ -57,16 +57,15 @@ export class BookingApiService {
     status?: string;
     page?: number;
     limit?: number;
-  }): Observable<{ data: BookingDetail[]; meta: unknown }> {
+  }): Observable<MyBookingsResponse> {
     let httpParams = new HttpParams();
     if (params?.status) httpParams = httpParams.set('status', params.status);
     if (params?.page) httpParams = httpParams.set('page', params.page.toString());
     if (params?.limit) httpParams = httpParams.set('limit', params.limit.toString());
 
-    return this.http.get<{ data: BookingDetail[]; meta: unknown }>(
-      `${this.baseUrl}/bookings/my`,
-      { params: httpParams }
-    );
+    return this.http.get<MyBookingsResponse>(`${this.baseUrl}/bookings`, {
+      params: httpParams,
+    });
   }
 
   getCancellationPreview(bookingId: string): Observable<CancellationPreview> {
@@ -76,7 +75,7 @@ export class BookingApiService {
   }
 
   cancelBooking(bookingId: string, reason?: string): Observable<unknown> {
-    return this.http.post(`${this.baseUrl}/bookings/${bookingId}/cancel`, {
+    return this.http.patch(`${this.baseUrl}/bookings/${bookingId}/cancel`, {
       reason,
     });
   }
@@ -89,9 +88,34 @@ export class BookingApiService {
     );
   }
 
+  resumeCheckout(bookingId: string): Observable<{ checkoutUrl: string }> {
+    return this.http.post<{ checkoutUrl: string }>(
+      `${this.baseUrl}/bookings/${bookingId}/resume-checkout`,
+      {}
+    );
+  }
+
+  downloadReceipt(bookingId: string): Observable<Blob> {
+    return this.http.get(
+      `${this.baseUrl}/bookings/${bookingId}/receipt.pdf`,
+      { responseType: 'blob' }
+    );
+  }
+
   verifyBookingPayment(bookingId: string): Observable<BookingDetail> {
     return this.http.get<BookingDetail>(
       `${this.baseUrl}/bookings/${bookingId}/verify-payment`
     );
   }
+}
+
+export interface MyBookingsResponse {
+  data: BookingDetail[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasMore: boolean;
+  };
 }

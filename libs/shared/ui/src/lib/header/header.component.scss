@@ -429,10 +429,15 @@
     align-items: center;
     gap: 10px;
     padding: 10px 12px;
+    width: 100%;
     font-family: var(--font-body);
     font-size: 14px;
     color: var(--color-text-primary);
     text-decoration: none;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
     border-radius: var(--radius-md);
     @include transition(all);
 

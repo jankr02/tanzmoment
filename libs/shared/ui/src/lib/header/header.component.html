@@ -150,16 +150,40 @@
                     }
                     
                     <li class="header__user-menu-item">
-                      <a 
-                        [href]="menuItem.url || menuItem.route"
-                        class="header__user-menu-link"
-                        (click)="menuItem.action ? menuItem.action() : null"
-                      >
-                        @if (menuItem.iconName) {
-                          <app-icon [name]="menuItem.iconName" size="sm" color="text-secondary" />
-                        }
-                        {{ menuItem.label }}
-                      </a>
+                      @if (menuItem.route) {
+                        <a
+                          [routerLink]="menuItem.route"
+                          class="header__user-menu-link"
+                          (click)="onUserMenuLinkClick(menuItem)"
+                        >
+                          @if (menuItem.iconName) {
+                            <app-icon [name]="menuItem.iconName" size="sm" color="text-secondary" />
+                          }
+                          {{ menuItem.label }}
+                        </a>
+                      } @else if (menuItem.url) {
+                        <a
+                          [href]="menuItem.url"
+                          class="header__user-menu-link"
+                          (click)="onUserMenuLinkClick(menuItem)"
+                        >
+                          @if (menuItem.iconName) {
+                            <app-icon [name]="menuItem.iconName" size="sm" color="text-secondary" />
+                          }
+                          {{ menuItem.label }}
+                        </a>
+                      } @else {
+                        <button
+                          type="button"
+                          class="header__user-menu-link"
+                          (click)="onUserMenuLinkClick(menuItem)"
+                        >
+                          @if (menuItem.iconName) {
+                            <app-icon [name]="menuItem.iconName" size="sm" color="text-secondary" />
+                          }
+                          {{ menuItem.label }}
+                        </button>
+                      }
                     </li>
                   }
                 </ul>

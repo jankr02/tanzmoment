@@ -1,0 +1,142 @@
+<section class="page">
+  <a class="back-link" routerLink="/meine-buchungen">← Zurück zur Übersicht</a>
+
+  @if (isLoading()) {
+    <div class="skeleton-stack">
+      <tm-skeleton-box width="100%" height="120px" borderRadius="18px" />
+      <tm-skeleton-box width="100%" height="200px" borderRadius="18px" />
+      <tm-skeleton-box width="100%" height="160px" borderRadius="18px" />
+    </div>
+  } @else if (loadError()) {
+    <ui-empty-state
+      variant="error"
+      [title]="'Buchung nicht verfügbar'"
+      [message]="loadError()"
+    />
+  } @else if (booking(); as b) {
+    <header class="hero">
+      <div class="hero__top">
+        <h1>{{ b.course.title }}</h1>
+        <lib-booking-status-badge [status]="b.status" />
+      </div>
+      @if (b.course.instructor; as instructor) {
+        <p class="hero__instructor">
+          mit {{ instructor.firstName }} {{ instructor.lastName }}
+        </p>
+      }
+      @if (waitlistPosition() !== null) {
+        <p class="hero__waitlist">
+          Du stehst auf Position
+          <strong>#{{ waitlistPosition() }}</strong>
+          der Warteliste.
+        </p>
+      }
+    </header>
+
+    <div class="grid">
+      <article class="panel">
+        <h2>Termin</h2>
+        @if (sessionInfo(); as info) {
+          <dl class="panel__list">
+            <div>
+              <dt>Datum</dt>
+              <dd>{{ info.date }}</dd>
+            </div>
+            <div>
+              <dt>Uhrzeit</dt>
+              <dd>{{ info.time }}</dd>
+            </div>
+            @if (b.session?.location; as location) {
+              <div>
+                <dt>Ort</dt>
+                <dd>{{ location }}</dd>
+              </div>
+            }
+          </dl>
+        } @else {
+          <p class="panel__empty">Kein Termin hinterlegt.</p>
+        }
+      </article>
+
+      <article class="panel">
+        <h2>Zahlung</h2>
+        @if (b.payment; as payment) {
+          <dl class="panel__list">
+            <div>
+              <dt>Betrag</dt>
+              <dd>{{ priceLabel() }}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{{ payment.status }}</dd>
+            </div>
+            @if (paidAtLabel(); as label) {
+              <div>
+                <dt>Bezahlt am</dt>
+                <dd>{{ label }}</dd>
+              </div>
+            }
+            @if (payment.refundedAmount && payment.refundedAmount > 0) {
+              <div>
+                <dt>Erstattung</dt>
+                <dd>{{ payment.refundedAmount / 100 | currency: 'EUR' : 'symbol' : '1.2-2' : 'de-DE' }}</dd>
+              </div>
+            }
+          </dl>
+        } @else {
+          <p class="panel__empty">Kostenfreier Kurs — keine Zahlung erforderlich.</p>
+        }
+      </article>
+    </div>
+
+    @if (resumeError()) {
+      <div class="banner banner--error" role="alert">{{ resumeError() }}</div>
+    }
+
+    @if (receiptError()) {
+      <div class="banner banner--error" role="alert">{{ receiptError() }}</div>
+    }
+
+    <footer class="actions">
+      @if (canResumeCheckout()) {
+        <app-button
+          variant="primary"
+          [loading]="isResuming()"
+          (clicked)="resumeCheckout()"
+        >
+          Zahlung abschließen
+        </app-button>
+      }
+
+      @if (canDownloadReceipt()) {
+        <app-button
+          variant="secondary"
+          [loading]="isDownloadingReceipt()"
+          (clicked)="downloadReceipt()"
+        >
+          Quittung herunterladen
+        </app-button>
+      }
+
+      @if (canCancel()) {
+        <app-button variant="ghost" (clicked)="openCancel()">
+          Buchung stornieren
+        </app-button>
+      }
+
+      @if (canRebook()) {
+        <app-button variant="secondary" (clicked)="rebook()">
+          Wieder buchen
+        </app-button>
+      }
+    </footer>
+
+    @if (cancelOpen()) {
+      <lib-cancel-booking-modal
+        [booking]="b"
+        (closed)="closeCancel()"
+        (cancelled)="onCancelCompleted()"
+      />
+    }
+  }
+</section>

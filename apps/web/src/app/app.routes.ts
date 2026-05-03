@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { bookingRoutes } from '@tanzmoment/web/features/booking';
 import { adminAuthGuard } from '@tanzmoment/admin/data-access';
-import { guestGuard } from '@tanzmoment/web/features/auth';
+import { authGuard, guestGuard } from '@tanzmoment/web/features/auth';
 
 export const appRoutes: Route[] = [
   {
@@ -122,6 +122,15 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@tanzmoment/web/features/newsletter').then(
         (m) => m.newsletterRoutes,
+      ),
+  },
+  // My Bookings (authenticated user area)
+  {
+    path: 'meine-buchungen',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('@tanzmoment/web/features/my-bookings').then(
+        (m) => m.myBookingsRoutes,
       ),
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)

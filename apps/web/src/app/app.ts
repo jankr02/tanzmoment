@@ -39,7 +39,11 @@ export class AppComponent {
     const isAdmin = user.role === 'ADMIN' || user.role === 'INSTRUCTOR';
 
     const menuItems = [
-      { label: 'Meine Buchungen', iconName: 'calendar' as const },
+      {
+        label: 'Meine Buchungen',
+        iconName: 'calendar' as const,
+        route: '/meine-buchungen',
+      },
       ...(isAdmin
         ? [{ label: 'Admin Panel', iconName: 'layout-dashboard' as const, route: '/admin' }]
         : []),
