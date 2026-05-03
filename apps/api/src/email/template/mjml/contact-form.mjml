@@ -1,0 +1,68 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Neue Kontaktanfrage
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0" color="#5E5A55">
+          Es ist eine neue Nachricht über das Kontaktformular eingegangen. Du kannst direkt auf diese E-Mail antworten — die Antwort geht an {{senderName}}.
+        </mj-text>
+
+        <mj-section background-color="#F5F0EB" border-radius="8px" padding="20px 24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>Name</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0 0 16px 0">
+              {{senderName}}
+            </mj-text>
+
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>E-Mail</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0 0 16px 0">
+              <a href="mailto:{{senderEmail}}" style="color: #688B68; text-decoration: none;">{{senderEmail}}</a>
+            </mj-text>
+
+            {{#if senderPhone}}
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>Telefon</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0 0 16px 0">
+              {{senderPhone}}
+            </mj-text>
+            {{/if}}
+
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>Betreff</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0">
+              {{subject}}
+            </mj-text>
+          </mj-column>
+        </mj-section>
+
+        <mj-text font-size="13px" color="#5E5A55" padding="24px 0 4px 0">
+          <strong>Nachricht</strong>
+        </mj-text>
+
+        <mj-text font-size="15px" color="#2E2A25" padding="0">
+          {{message}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

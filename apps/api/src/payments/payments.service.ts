@@ -4,12 +4,21 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import Stripe from 'stripe';
 import { PaymentMethod } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { StripeService } from './stripe.service';
 import { WaitlistService } from '../waitlist/waitlist.service';
 import { WebhookEventLogService } from './webhook-event-log.service';
+import { BookingEmailService } from '../email/booking-email.service';
+import {
+  QUEUE_NAMES,
+  JOB_NAMES,
+  TIMING,
+  type SessionReminderJobData,
+} from '../queue';
 
 /**
  * Processes Stripe webhook events and manages payment state.
@@ -26,6 +35,9 @@ export class PaymentsService {
     private readonly stripeService: StripeService,
     private readonly waitlistService: WaitlistService,
     private readonly webhookLog: WebhookEventLogService,
+    private readonly bookingEmailService: BookingEmailService,
+    @InjectQueue(QUEUE_NAMES.SESSION_REMINDER)
+    private readonly reminderQueue: Queue<SessionReminderJobData>,
   ) {}
 
   // ===========================================================================
@@ -147,6 +159,62 @@ export class PaymentsService {
       `Checkout completed: booking ${bookingId} → CONFIRMED, ` +
         `payment ${payment.id} → PAID`,
     );
+
+    await this.scheduleConfirmationSideEffects(bookingId);
+  }
+
+  // ===========================================================================
+  // POST-CONFIRMATION SIDE EFFECTS
+  // ===========================================================================
+
+  /**
+   * Fires confirmation email and reminder job after a booking transitions to CONFIRMED.
+   * Idempotent — both the email queue (BullMQ) and the reminder job (jobId-deduped)
+   * tolerate retries.
+   */
+  private async scheduleConfirmationSideEffects(bookingId: string): Promise<void> {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        session: { select: { id: true, startTime: true } },
+      },
+    });
+
+    if (!booking) {
+      this.logger.warn(`Booking ${bookingId} vanished before side-effects could run`);
+      return;
+    }
+
+    this.bookingEmailService
+      .sendBookingConfirmation(bookingId)
+      .catch((err) =>
+        this.logger.error(
+          `Failed to send confirmation email for ${bookingId}`,
+          err,
+        ),
+      );
+
+    const delay = Math.max(
+      0,
+      booking.session.startTime.getTime() - TIMING.REMINDER_BEFORE_MS - Date.now(),
+    );
+
+    if (delay <= 0) return;
+
+    this.reminderQueue
+      .add(
+        JOB_NAMES.SEND_REMINDER,
+        {
+          bookingId,
+          sessionId: booking.session.id,
+          userId: booking.userId,
+          guestEmail: booking.guestEmail,
+        },
+        { delay, jobId: `reminder-${bookingId}` },
+      )
+      .catch((err) =>
+        this.logger.error(`Failed to schedule reminder for ${bookingId}`, err),
+      );
   }
 
   // ===========================================================================

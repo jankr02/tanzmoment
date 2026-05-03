@@ -26,7 +26,9 @@ export type TemplateName =
   | 'session-reminder'
   | 'refund-processed'
   | 'email-verification'
-  | 'password-reset';
+  | 'password-reset'
+  | 'contact-form'
+  | 'contact-confirmation';
 
 @Injectable()
 export class TemplateService implements OnModuleInit {

@@ -30,13 +30,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['booking-confirmed'],
       template: 'booking-confirmed',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -61,13 +61,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['booking-cancelled'],
       template: 'booking-cancelled',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -93,13 +93,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['booking-cancelled-by-studio'],
       template: 'booking-cancelled-by-studio',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -118,13 +118,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['waitlist-joined'],
       template: 'waitlist-joined',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -142,13 +142,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['waitlist-promoted'],
       template: 'waitlist-promoted',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -169,13 +169,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['session-reminder'],
       template: 'session-reminder',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         sessionDate: data.session.startTime.toISOString(),
         sessionStart: data.session.startTime.toISOString(),
@@ -200,13 +200,13 @@ export class BookingEmailService {
     if (!data) return;
 
     await this.enqueue({
-      to: data.user.email,
+      to: data.recipient.email,
       subject: EMAIL_SUBJECTS['refund-processed'],
       template: 'refund-processed',
       bookingId,
-      userId: data.user.id,
+      userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.user.firstName,
+        firstName: data.recipient.firstName,
         courseName: data.session.course.title,
         refundType: refund.type,
         refundAmount: refund.amountInCents,
@@ -236,10 +236,6 @@ export class BookingEmailService {
   // HELPERS
   // ──────────────────────────────────────────────────────────────────────────
 
-  /**
-   * Loads booking with all related data needed for email templates.
-   * Only works for registered users (guests receive no emails in this flow).
-   */
   private async loadBookingWithDetails(bookingId: string) {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
@@ -270,12 +266,39 @@ export class BookingEmailService {
       return null;
     }
 
-    if (!booking.user) {
-      this.logger.debug(`Booking ${bookingId} is a guest booking – skipping email`);
+    const recipient = this.resolveRecipient(booking);
+    if (!recipient) {
+      this.logger.warn(
+        `Booking ${bookingId} has neither user nor guest contact info – skipping email`,
+      );
       return null;
     }
 
-    return booking;
+    return { ...booking, recipient };
+  }
+
+  private resolveRecipient(booking: {
+    user: { id: string; email: string; firstName: string } | null;
+    guestEmail: string | null;
+    guestFirstName: string | null;
+  }): { email: string; firstName: string; userId: string | null } | null {
+    if (booking.user) {
+      return {
+        email: booking.user.email,
+        firstName: booking.user.firstName,
+        userId: booking.user.id,
+      };
+    }
+
+    if (booking.guestEmail) {
+      return {
+        email: booking.guestEmail,
+        firstName: booking.guestFirstName ?? 'Gast',
+        userId: null,
+      };
+    }
+
+    return null;
   }
 
   /**

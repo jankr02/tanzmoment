@@ -1,0 +1,53 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Vielen Dank für deine Nachricht, {{firstName}}!
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Wir haben deine Anfrage erhalten und melden uns schnellstmöglich bei dir zurück — meistens innerhalb von ein bis zwei Werktagen.
+        </mj-text>
+
+        <mj-text padding="0 0 24px 0" color="#5E5A55">
+          Hier nochmal eine kurze Zusammenfassung deiner Nachricht:
+        </mj-text>
+
+        <mj-section background-color="#F5F0EB" border-radius="8px" padding="20px 24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>Betreff</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0 0 16px 0">
+              {{subject}}
+            </mj-text>
+
+            <mj-text font-size="13px" color="#5E5A55" padding="0 0 4px 0">
+              <strong>Nachricht</strong>
+            </mj-text>
+            <mj-text font-size="15px" color="#2E2A25" padding="0">
+              {{message}}
+            </mj-text>
+          </mj-column>
+        </mj-section>
+
+        <mj-text padding="32px 0 0 0" color="#5E5A55" font-size="13px">
+          Bis bald,<br />
+          dein Tanzmoment-Team
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

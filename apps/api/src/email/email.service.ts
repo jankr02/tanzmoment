@@ -55,6 +55,7 @@ export class EmailService implements OnModuleInit {
     subject: string,
     template: TemplateName,
     variables: Record<string, unknown>,
+    options?: { replyTo?: string },
   ): Promise<EmailSendResult> {
     if (!this.emailConfig?.enabled) {
       this.logger.debug(`Email disabled – skipping send to ${to}: ${subject}`);
@@ -78,7 +79,7 @@ export class EmailService implements OnModuleInit {
 
       const info = await this.transporter.sendMail({
         from: this.emailConfig.from,
-        replyTo: this.emailConfig.replyTo,
+        replyTo: options?.replyTo ?? this.emailConfig.replyTo,
         to,
         subject: resolvedSubject,
         html,

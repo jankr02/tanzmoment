@@ -15,4 +15,6 @@ export const EMAIL_SUBJECTS = {
   'waitlist-promoted': '🎉 Platz frei! – {{courseName}}',
   'session-reminder': 'Erinnerung: Morgen {{courseName}}',
   'refund-processed': 'Erstattung veranlasst – {{courseName}}',
+  'contact-form': 'Neue Kontaktanfrage: {{subject}}',
+  'contact-confirmation': 'Wir haben deine Nachricht erhalten',
 } as const;

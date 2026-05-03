@@ -390,17 +390,14 @@ export class BookingsService {
           );
       }
 
-      // Send booking confirmation email for registered users
-      if (userId) {
-        this.bookingEmailService
-          .sendBookingConfirmation(rawBookingId)
-          .catch((err) =>
-            this.logger.error(`Failed to send confirmation email for ${rawBookingId}`, err),
-          );
-      }
+      this.bookingEmailService
+        .sendBookingConfirmation(rawBookingId)
+        .catch((err) =>
+          this.logger.error(`Failed to send confirmation email for ${rawBookingId}`, err),
+        );
     }
 
-    if (rawStatus === 'WAITLISTED' && userId) {
+    if (rawStatus === 'WAITLISTED') {
       const waitlistPosition = response.booking.waitlistPosition ?? 1;
       this.bookingEmailService
         .sendWaitlistJoined(rawBookingId, waitlistPosition)
@@ -548,29 +545,26 @@ export class BookingsService {
       }
     }
 
-    // Send cancellation email for registered users
-    if (userId) {
-      const refundCalcForEmail = booking.payment && booking.session?.startTime
-        ? this.cancellationPolicyService.calculateRefund(
-            policy,
-            booking.session.startTime,
-            booking.payment.amountInCents,
-          )
-        : null;
+    const refundCalcForEmail = booking.payment && booking.session?.startTime
+      ? this.cancellationPolicyService.calculateRefund(
+          policy,
+          booking.session.startTime,
+          booking.payment.amountInCents,
+        )
+      : null;
 
-      this.bookingEmailService
-        .sendBookingCancelled(bookingId, refundCalcForEmail
-          ? {
-              type: refundCalcForEmail.type,
-              amountInCents: refundCalcForEmail.refundAmountInCents,
-              percent: refundCalcForEmail.refundPercent,
-              policyHours: policy.partialRefundHours || policy.fullRefundHours,
-            }
-          : undefined)
-        .catch((err) =>
-          this.logger.error(`Failed to send cancellation email for ${bookingId}`, err),
-        );
-    }
+    this.bookingEmailService
+      .sendBookingCancelled(bookingId, refundCalcForEmail
+        ? {
+            type: refundCalcForEmail.type,
+            amountInCents: refundCalcForEmail.refundAmountInCents,
+            percent: refundCalcForEmail.refundPercent,
+            policyHours: policy.partialRefundHours || policy.fullRefundHours,
+          }
+        : undefined)
+      .catch((err) =>
+        this.logger.error(`Failed to send cancellation email for ${bookingId}`, err),
+      );
 
     // Promote the next person on the waitlist if a real spot was freed
     await this.waitlistService

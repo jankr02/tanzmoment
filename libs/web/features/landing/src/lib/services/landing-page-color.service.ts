@@ -1,27 +1,21 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
-/**
- * Service to set the last section background color CSS variable
- * for the Footer Wave divider component.
- *
- * This is needed because the footer is rendered globally in app.html,
- * outside the page component hierarchy. CSS variables only inherit
- * down the DOM tree, not across sibling elements.
- *
- * Solution: Set the CSS variable on document.documentElement (html tag)
- * so it's available globally for the footer to inherit.
- */
 @Injectable({
   providedIn: 'root',
 })
 export class LandingPageColorService {
   private readonly COLOR = 'var(--color-neutral-xl)';
+  private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   setLandingPageColor(): void {
-    document.documentElement.style.setProperty('--last-section-bg', this.COLOR);
+    if (!this.isBrowser) return;
+    this.document.documentElement.style.setProperty('--last-section-bg', this.COLOR);
   }
 
   resetToDefault(): void {
-    document.documentElement.style.removeProperty('--last-section-bg');
+    if (!this.isBrowser) return;
+    this.document.documentElement.style.removeProperty('--last-section-bg');
   }
 }
