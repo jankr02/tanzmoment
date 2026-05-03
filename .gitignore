@@ -57,3 +57,7 @@ vitest.config.*.timestamp*
 storybook-static
 
 .mcp.json
+
+.nx/polygraph
+.claude/worktrees
+.claude/settings.local.json

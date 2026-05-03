@@ -13,23 +13,23 @@
 
 ## ⚙️ Tech Stack
 
-| Layer | Technologie |
-|-------|-------------|
-| **Monorepo** | Nx (apps + libs Workspace) |
-| **Frontend** | Angular 20 (Standalone Components, Signals, zoneless wo möglich) |
-| **State** | TanStack Query (Server State), RxJS (Reactivity) |
-| **Styling** | SCSS + CSS Custom Properties (Design Tokens) |
-| **Backend** | NestJS (Node 20, TypeScript) |
-| **API** | REST + OpenAPI/Swagger |
-| **Auth** | JWT (E-Mail/Passwort, optional Social Login) |
-| **DB** | PostgreSQL + Prisma ORM |
-| **Payments** | Stripe Checkout + Webhooks |
-| **Queue** | BullMQ (Redis) |
-| **E-Mail** | Resend/SendGrid + MJML Templates |
-| **Testing** | Jest (Backend), Vitest (Frontend), Playwright (E2E) |
-| **CI/CD** | GitHub Actions |
-| **Container** | Docker Compose (Postgres, Redis, Backend, Frontend) |
-| **i18n** | Angular i18n (DE/EN) |
+| Layer         | Technologie                                                      |
+| ------------- | ---------------------------------------------------------------- |
+| **Monorepo**  | Nx (apps + libs Workspace)                                       |
+| **Frontend**  | Angular 20 (Standalone Components, Signals, zoneless wo möglich) |
+| **State**     | TanStack Query (Server State), RxJS (Reactivity)                 |
+| **Styling**   | SCSS + CSS Custom Properties (Design Tokens)                     |
+| **Backend**   | NestJS (Node 20, TypeScript)                                     |
+| **API**       | REST + OpenAPI/Swagger                                           |
+| **Auth**      | JWT (E-Mail/Passwort, optional Social Login)                     |
+| **DB**        | PostgreSQL + Prisma ORM                                          |
+| **Payments**  | Stripe Checkout + Webhooks                                       |
+| **Queue**     | BullMQ (Redis)                                                   |
+| **E-Mail**    | Resend/SendGrid + MJML Templates                                 |
+| **Testing**   | Jest (Backend), Vitest (Frontend), Playwright (E2E)              |
+| **CI/CD**     | GitHub Actions                                                   |
+| **Container** | Docker Compose (Postgres, Redis, Backend, Frontend)              |
+| **i18n**      | Angular i18n (DE/EN)                                             |
 
 ---
 
@@ -87,16 +87,16 @@ libs/
 ### Farben (CSS Custom Properties)
 
 ```scss
---color-primary-dark: #688B68;    // Brand / CTA
---color-primary: #FBD8CF;         // Sanftes Rosa
---color-primary-light: #F2ECE3;   // Heller Hintergrund
---color-secondary-dark: #D0A373;  // Wärme
---color-secondary: #E6B854;       // Akzent/Gold
---color-accent: #FDF8F3;          // Helle Fläche
---color-soft-accent: #A9CDD4;     // Info/Soft Blue
---color-text-primary: #2E2A25;    // Haupttext
---color-text-secondary: #5E5A55;  // Sekundärtext
---color-border: #E6DED7;          // Rahmen
+--color-primary-dark: #688b68; // Brand / CTA
+--color-primary: #fbd8cf; // Sanftes Rosa
+--color-primary-light: #f2ece3; // Heller Hintergrund
+--color-secondary-dark: #d0a373; // Wärme
+--color-secondary: #e6b854; // Akzent/Gold
+--color-accent: #fdf8f3; // Helle Fläche
+--color-soft-accent: #a9cdd4; // Info/Soft Blue
+--color-text-primary: #2e2a25; // Haupttext
+--color-text-secondary: #5e5a55; // Sekundärtext
+--color-border: #e6ded7; // Rahmen
 ```
 
 ### Typografie
@@ -151,6 +151,7 @@ libs/features/courses/
 ```
 
 **Namenskonventionen:**
+
 - Components: `kebab-case` (Angular CLI Standard)
 - Services: `*.service.ts`
 - Types/Interfaces: `*.types.ts` oder `*.model.ts`
@@ -186,7 +187,7 @@ $breakpoints: (
   sm: 480px,
   md: 768px,
   lg: 1024px,
-  xl: 1280px
+  xl: 1280px,
 );
 ```
 
@@ -228,16 +229,19 @@ $breakpoints: (
 ## 💬 Kommunikation mit Claude Code
 
 ### Sprache
+
 - **Code, Kommentare, Variablen, Commit-Messages:** IMMER Englisch
 - **Chat / Erklärungen:** Deutsch ist okay
 - Keine deutschen Wörter in Code – auch nicht in Kommentaren
 
 ### Code-Kommentare
+
 - **Nur sinnvolle Kommentare:** Erklären WARUM, nicht WAS
 - **Kein Debugging-Code:** Keine `console.log`, `debugger`, `// TODO: remove`, `// test`, auskommentierter Code oder temporäre Notizen
 - **Keine überflüssigen Kommentare:** Kein `// get user by id` über `getUserById()` – der Code spricht für sich
 
 ### Antwortformat
+
 - **Klarer Überblick zuerst:** Was → Warum → Wie
 - **Dateistruktur mitliefern** wenn Dateien erstellt/geändert werden
 - **Bei UI:** Screens, Layouts, Token-Referenzen klar benennen
@@ -245,3 +249,27 @@ $breakpoints: (
 - **Bei Architektur:** Mermaid-Diagramme oder kurze Flows
 - **Bei offenen Entscheidungen:** Pro/Contra + Empfehlung mit Begründung
 - **Kein unnötiges Blabla** – strukturiert, klar, actionable
+
+<!-- nx configuration start-->
+<!-- Leave the start & end comments to automatically receive updates. -->
+
+## General Guidelines for working with Nx
+
+- For navigating/exploring the workspace, invoke the `nx-workspace` skill first - it has patterns for querying projects, targets, and dependencies
+- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
+- Prefix nx commands with the workspace's package manager (e.g., `pnpm nx build`, `npm exec nx test`) - avoids using globally installed CLI
+- You have access to the Nx MCP server and its tools, use them to help the user
+- For Nx plugin best practices, check `node_modules/@nx/<plugin>/PLUGIN.md`. Not all plugins have this file - proceed without it if unavailable.
+- NEVER guess CLI flags - always check nx_docs or `--help` first when unsure
+
+## Scaffolding & Generators
+
+- For scaffolding tasks (creating apps, libs, project structure, setup), ALWAYS invoke the `nx-generate` skill FIRST before exploring or calling MCP tools
+
+## When to use nx_docs
+
+- USE for: advanced config options, unfamiliar flags, migration guides, plugin configuration, edge cases
+- DON'T USE for: basic generator syntax (`nx g @nx/react:app`), standard commands, things you already know
+- The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
+
+<!-- nx configuration end-->

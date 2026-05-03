@@ -43,6 +43,40 @@ This project uses [Nx](https://nx.dev) as a build system and consists of the fol
 - Docker & Docker Compose
 - npm or yarn
 
+### macOS Setup
+
+Install prerequisites via [Homebrew](https://brew.sh):
+
+```sh
+# Install Homebrew (if not already installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Node.js 20 (via nvm recommended for version management)
+brew install nvm
+nvm install 20
+nvm use 20
+
+# Install Docker Desktop
+brew install --cask docker
+
+# Start Docker Desktop manually after install
+open -a Docker
+```
+
+#### Apple Silicon (M1/M2/M3/M4)
+
+The `docker-compose.yml` uses multi-arch images (Postgres, Redis), so no platform flags are required. If you encounter image pull issues with custom images, add to the affected service:
+
+```yaml
+platform: linux/arm64
+```
+
+#### Common macOS Issues
+
+- **Port 5000 conflict:** macOS AirPlay Receiver uses port 5000. Disable it in `System Settings → General → AirDrop & Handoff → AirPlay Receiver` if a service needs that port.
+- **Docker Desktop resources:** Increase Memory to at least 4 GB and CPUs to 4 in `Docker Desktop → Settings → Resources` for smoother local development.
+- **File watcher limits:** If `nx serve` reports too many open files, run `ulimit -n 10240` in your shell or persist it in `~/.zshrc`.
+
 ## Installation
 
 ```sh
