@@ -1,10 +1,17 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   DanceStylesSectionComponent,
   DanceStyleCardData,
   DEFAULT_DANCE_STYLES,
 } from '@tanzmoment/shared/ui';
+import { SeoService } from '@tanzmoment/shared/services';
 
 import { HeroSectionComponent } from './sections/hero-section/hero-section.component';
 import { MissionVisionSectionComponent } from './sections/mission-vision-section/mission-vision-section.component';
@@ -27,7 +34,17 @@ import { ContactSectionData } from './sections/contact-section/contact-section.t
   styleUrl: './about-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutPageComponent {
+export class AboutPageComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Über uns — Daniela Savasta & Tanzmoment',
+      description:
+        'Lerne Daniela Savasta und die Geschichte von Tanzmoment kennen. Inklusiver, ausdrucksstarker Tanz ohne Leistungsdruck in Mössingen.',
+      url: '/about',
+    });
+  }
 
   // ───────────────────────────────────────────────────────────────────────────
   // HERO DATA (Mock)

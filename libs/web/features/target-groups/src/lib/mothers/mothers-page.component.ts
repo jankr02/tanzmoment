@@ -1,9 +1,16 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
+import { SeoService } from '@tanzmoment/shared/services';
 
 // Section Components
 import { MothersHeroComponent } from './sections/mothers-hero/mothers-hero.component';
@@ -40,7 +47,19 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   styleUrl: './mothers-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MothersPageComponent {
+export class MothersPageComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Tanzkurse für Mütter — Zeit für dich',
+      description:
+        'Sanfte Tanzkurse für Mütter in jeder Lebensphase. Postnatal-gerecht, ohne Leistungsdruck, mit Rücksicht auf Beckenboden und Rückbildung.',
+      url: '/fuer-muetter',
+      image: '/assets/images/target-groups/mothers-hero.jpg',
+    });
+  }
+
   // ───────────────────────────────────────────────────────────────────────────
   // HERO DATA
   // ───────────────────────────────────────────────────────────────────────────

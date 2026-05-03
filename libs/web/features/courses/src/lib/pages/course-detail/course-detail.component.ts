@@ -23,10 +23,10 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Meta, Title } from '@angular/platform-browser';
 
 // Services
 import { CourseDetailService } from '../../services/course-detail.service';
+import { SeoService } from '@tanzmoment/shared/services';
 
 // Types
 import {
@@ -81,8 +81,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   // ─── Services ───────────────────────────────────────────────────────────
   private readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
-  private readonly meta = inject(Meta);
-  private readonly titleService = inject(Title);
+  private readonly seo = inject(SeoService);
   private readonly ngZone = inject(NgZone);
   private readonly courseDetailService = inject(CourseDetailService);
   private readonly platformId = inject(PLATFORM_ID);
@@ -178,28 +177,18 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     };
   }
 
-  // ─── SEO Effect ─────────────────────────────────────────────────────────
-  // Sets meta tags when course data loads.
-
   private readonly seoEffect = effect(() => {
     const c = this.course();
     if (!c) return;
 
-    const title = c.metaTitle ?? `${c.title} | Tanzmoment`;
-    const description =
-      c.metaDescription ?? c.shortDescription ?? c.catchPhrase ?? '';
-
-    this.titleService.setTitle(title);
-    this.meta.updateTag({ name: 'description', content: description });
-    this.meta.updateTag({ property: 'og:title', content: title });
-    this.meta.updateTag({ property: 'og:description', content: description });
-
-    if (c.ogImageUrl ?? c.imageUrl) {
-      this.meta.updateTag({
-        property: 'og:image',
-        content: c.ogImageUrl ?? c.imageUrl!,
-      });
-    }
+    this.seo.setMetadata({
+      title: c.metaTitle ?? c.title,
+      description:
+        c.metaDescription ?? c.shortDescription ?? c.catchPhrase ?? undefined,
+      url: `/courses/${c.slug}`,
+      image: c.ogImageUrl ?? c.imageUrl ?? undefined,
+      type: 'article',
+    });
   });
 
   // ─── Lifecycle ──────────────────────────────────────────────────────────

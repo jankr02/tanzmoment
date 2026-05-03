@@ -43,6 +43,7 @@ import {
 
 import { SplashScreenVisibilityService } from '../services/splash-screen-visibility.service';
 import { LandingPageColorService } from '../services/landing-page-color.service';
+import { SeoService } from '@tanzmoment/shared/services';
 
 @Component({
   selector: 'tm-landing-page',
@@ -100,6 +101,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   private readonly ngZone = inject(NgZone);
   private readonly splashVisibility = inject(SplashScreenVisibilityService);
   private readonly colorService = inject(LandingPageColorService);
+  private readonly seo = inject(SeoService);
 
   // ==========================================================================
   // Splash Screen Configuration
@@ -169,7 +171,8 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   // ==========================================================================
 
   ngOnInit(): void {
-    // Set the footer wave pre-color to match this page's last section
+    this.seo.setMetadata({ url: '/' });
+
     this.colorService.setLandingPageColor();
   }
 

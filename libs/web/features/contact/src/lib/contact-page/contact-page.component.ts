@@ -1,6 +1,13 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WaveDividerComponent } from '@tanzmoment/shared/ui';
+import { SeoService } from '@tanzmoment/shared/services';
 
 import { ContactFormComponent } from '../contact-form/contact-form.component';
 import { ContactInfoComponent } from '../contact-info/contact-info.component';
@@ -24,7 +31,18 @@ import { DirectionsInfo } from '../contact-directions/contact-directions.types';
   styleUrl: './contact-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactPageComponent {
+export class ContactPageComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Kontakt — Tanzmoment in Mössingen',
+      description:
+        'Kontaktiere uns für Fragen zu Kursen, Anmeldung oder einer persönlichen Beratung. Studio in Mössingen, telefonisch und per E-Mail erreichbar.',
+      url: '/kontakt',
+    });
+  }
+
   // ───────────────────────────────────────────────────────────────────────────
   // CONTACT INFO DATA
   // ───────────────────────────────────────────────────────────────────────────

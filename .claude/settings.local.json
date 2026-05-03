@@ -27,7 +27,11 @@
       "Bash(git -C /c/Projects/tanzmoment show HEAD~5:CLAUDE.md)",
       "Bash(git -C /c/Projects/tanzmoment log --all --oneline -30)",
       "Bash(git -C /c/Projects/tanzmoment log --all --full-history --diff-filter=D -- \"*admin*\" \"*plan*\" \"*Phase*\")",
-      "Bash(ls -la \"c:\\\\Projects\\\\tanzmoment\\\\libs\\\\admin\"\" | grep -E \"^d \")"
+      "Bash(ls -la \"c:\\\\Projects\\\\tanzmoment\\\\libs\\\\admin\"\" | grep -E \"^d \")",
+      "Bash(awk '{print $NF}')",
+      "Bash(git -C /Users/moldi/Documents/Programming/tanzmoment log --oneline)",
+      "Bash(xargs cat *)",
+      "Bash(pnpm nx *)"
     ],
     "deny": [],
     "ask": []

@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { AuthStateService } from '@tanzmoment/shared/services';
+import { AuthStateService, SeoService } from '@tanzmoment/shared/services';
 
 @Component({
   selector: 'tm-expressive-page',
@@ -79,9 +79,19 @@ import { AuthStateService } from '@tanzmoment/shared/services';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpressivePageComponent {
+export class ExpressivePageComponent implements OnInit {
   protected readonly authState = inject(AuthStateService);
   private readonly router = inject(Router);
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Ausdruckstanz — Bewegung als Sprache',
+      description:
+        'Freier, kreativer Ausdruck durch Bewegung. Entdecke deinen eigenen Tanzstil ohne Schritte oder Choreographien.',
+      url: '/ausdruckstanz',
+    });
+  }
 
   onLoginClicked(): void {
     this.router.navigate(['/auth/login']);

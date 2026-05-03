@@ -1,4 +1,10 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   HeaderComponent,
@@ -6,6 +12,7 @@ import {
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
+import { SeoService } from '@tanzmoment/shared/services';
 
 // Section Components
 import { AccessibleHeroComponent } from './sections/accessible-hero/accessible-hero.component';
@@ -47,7 +54,18 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   styleUrl: './accessible-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccessiblePageComponent {
+export class AccessiblePageComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Tanz für alle — Inklusiver Tanz für Menschen mit Behinderung',
+      description:
+        'Barrierefreier Tanzunterricht für Menschen mit und ohne Behinderung. Inklusiv, einfühlsam und mit qualifizierter Begleitung in Mössingen.',
+      url: '/fuer-alle',
+    });
+  }
+
   // ───────────────────────────────────────────────────────────────────────────
   // HERO DATA
   // ───────────────────────────────────────────────────────────────────────────

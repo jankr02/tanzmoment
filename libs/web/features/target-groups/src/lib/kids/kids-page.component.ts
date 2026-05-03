@@ -1,9 +1,16 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectionStrategy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
+import { SeoService } from '@tanzmoment/shared/services';
 
 // Section Components
 import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
@@ -43,7 +50,18 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   styleUrl: './kids-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KidsPageComponent {
+export class KidsPageComponent implements OnInit {
+  private readonly seo = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Tanzkurse für Kinder — Spielerisch und kreativ',
+      description:
+        'Tanzkurse für Kinder in Mössingen. Spielerisches Bewegungslernen in einem sicheren, kreativen Umfeld — altersgerecht und individuell begleitet.',
+      url: '/fuer-kinder',
+    });
+  }
+
   // ───────────────────────────────────────────────────────────────────────────
   // HERO DATA
   // ───────────────────────────────────────────────────────────────────────────

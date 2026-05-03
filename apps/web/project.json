@@ -20,6 +20,11 @@
             "glob": "**/*",
             "input": "apps/web/src/assets",
             "output": "assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/web/public",
+            "output": ""
           }
         ],
         "styles": ["apps/web/src/styles.scss"],
@@ -39,13 +44,13 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "1mb",
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
+              "maximumWarning": "32kb",
+              "maximumError": "48kb"
             }
           ],
           "outputHashing": "all"

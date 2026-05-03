@@ -54,6 +54,7 @@ import {
 import { CourseFilterService } from '../../services/course-filter.service';
 import { FilterUrlSyncService } from '../../services/filter-url-sync.service';
 import { CourseOverviewColorService } from '../course-overview-color.service';
+import { SeoService } from '@tanzmoment/shared/services';
 
 @Component({
   selector: 'app-course-overview',
@@ -85,6 +86,7 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
   private readonly colorService = inject(CourseOverviewColorService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly router = inject(Router);
+  private readonly seo = inject(SeoService);
 
   /** Nur im Browser ausführen */
   private get isBrowser(): boolean {
@@ -286,6 +288,13 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
   // ───────────────────────────────────────────────────────────────────────────
 
   ngOnInit(): void {
+    this.seo.setMetadata({
+      title: 'Kurse — Tanzkurse in Mössingen',
+      description:
+        'Entdecke unser Tanzkursangebot in Mössingen — für Mütter, Kinder, Ausdruckstanz und barrierefreier Tanz für Menschen mit Behinderung.',
+      url: '/courses',
+    });
+
     // Set the footer wave pre-color to match this page's last section
     this.colorService.setCourseOverviewColor();
 

@@ -7,3 +7,4 @@ export * from './lib/preload';
 export * from './lib/image-preload';
 export * from './lib/auth';
 export * from './lib/booking';
+export * from './lib/seo';

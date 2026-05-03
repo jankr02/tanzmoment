@@ -1,0 +1,27 @@
+{
+  "name": "Tanzmoment",
+  "short_name": "Tanzmoment",
+  "description": "Inklusives Tanzstudio in Mössingen — Kurse für Mütter, Kinder, Ausdruckstanz und barrierefreier Tanz.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf8f3",
+  "theme_color": "#688b68",
+  "lang": "de-DE",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/images/logo-without-name.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/logo-with-name.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
