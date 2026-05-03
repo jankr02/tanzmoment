@@ -5,5 +5,7 @@ export {
   type SessionReminderJobData,
   type MaintenanceJobData,
   type BatchRefundJobData,
+  type DispatchCampaignJobData,
+  type SendRecipientJobData,
 } from './queue.types';
 export { QueueModule } from './queue.module';

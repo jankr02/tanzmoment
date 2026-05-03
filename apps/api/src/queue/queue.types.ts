@@ -33,3 +33,17 @@ export interface BatchRefundJobData {
   reason: string;
   bookingIds: string[];
 }
+
+/** Fan-out: enqueue per-recipient send jobs for a campaign */
+export interface DispatchCampaignJobData {
+  campaignId: string;
+}
+
+/** Per-recipient send job */
+export interface SendRecipientJobData {
+  campaignId: string;
+  deliveryId: string;
+  email: string;
+  subscriberId: string | null;
+  unsubscribeToken: string;
+}

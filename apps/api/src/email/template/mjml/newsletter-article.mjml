@@ -1,0 +1,92 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      .tm-news-body p { margin: 0 0 14px 0; }
+      .tm-news-body h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 26px; line-height: 32px; color: #2E2A25; margin: 24px 0 12px; }
+      .tm-news-body h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 28px; color: #2E2A25; margin: 20px 0 10px; }
+      .tm-news-body h3 { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 24px; color: #2E2A25; margin: 16px 0 8px; }
+      .tm-news-body a { color: #688B68; text-decoration: underline; }
+      .tm-news-body img.tm-news-img { max-width: 100%; height: auto; border-radius: 8px; margin: 12px 0; }
+      .tm-news-body ul, .tm-news-body ol { padding-left: 22px; margin: 0 0 14px 0; }
+      .tm-news-body blockquote { border-left: 3px solid #D0A373; padding-left: 14px; color: #5E5A55; margin: 12px 0; }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="0 0 0 0" border-radius="0 0 0 0">
+      {{#if coverImageUrl}}
+      <mj-column>
+        <mj-image src="{{coverImageUrl}}" alt="{{title}}" padding="0" />
+      </mj-column>
+      {{/if}}
+    </mj-section>
+
+    <mj-section background-color="#FFFFFF" padding="32px 32px 8px 32px">
+      <mj-column>
+        {{#if category}}
+        <mj-text font-size="12px" letter-spacing="1px" text-transform="uppercase" color="#688B68" padding="0 0 8px 0">
+          {{category}}
+        </mj-text>
+        {{/if}}
+
+        <mj-text font-size="26px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0" line-height="32px">
+          {{title}}
+        </mj-text>
+
+        {{#if excerpt}}
+        <mj-text font-size="16px" color="#5E5A55" padding="0 0 16px 0" line-height="24px">
+          {{excerpt}}
+        </mj-text>
+        {{/if}}
+
+        <mj-divider border-color="#E6DED7" border-width="1px" padding="8px 0 16px 0" />
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#FFFFFF" padding="0 32px 32px 32px">
+      <mj-column>
+        <mj-raw>
+          <div class="tm-news-body" style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; line-height: 24px; color: #2E2A25;">
+            {{{bodyHtml}}}
+          </div>
+        </mj-raw>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{baseUrl}}/news/{{slug}}"
+          padding="32px 0 0 0"
+        >
+          Auf der Website weiterlesen
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#F5F0EB" padding="20px 24px 0 24px">
+      <mj-column>
+        <mj-text
+          align="center"
+          color="#9A958F"
+          font-size="12px"
+          line-height="18px"
+          padding="0"
+        >
+          Du erhältst diese E-Mail, weil du dich für den Tanzmoment-Newsletter angemeldet hast.<br />
+          <a href="{{baseUrl}}/api/newsletter/unsubscribe?token={{unsubscribeToken}}" style="color: #688B68; text-decoration: underline;">Newsletter abbestellen</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

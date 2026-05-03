@@ -17,4 +17,6 @@ export const EMAIL_SUBJECTS = {
   'refund-processed': 'Erstattung veranlasst – {{courseName}}',
   'contact-form': 'Neue Kontaktanfrage: {{subject}}',
   'contact-confirmation': 'Wir haben deine Nachricht erhalten',
+  'newsletter-doi': 'Bitte bestätige deine Newsletter-Anmeldung',
+  'newsletter-unsubscribed': 'Du wurdest vom Newsletter abgemeldet',
 } as const;

@@ -1,0 +1,43 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Du wurdest vom Newsletter abgemeldet
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Wir haben deine Abmeldung bestätigt. Du erhältst keine weiteren Newsletter-E-Mails von uns.
+        </mj-text>
+
+        <mj-text padding="0 0 8px 0">
+          Schade, dass du gehst! Falls du es dir anders überlegst, kannst du dich jederzeit wieder anmelden:
+        </mj-text>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{baseUrl}}"
+          padding="16px 0 0 0"
+        >
+          Zur Website
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

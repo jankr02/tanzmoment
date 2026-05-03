@@ -31,7 +31,8 @@
       "Bash(awk '{print $NF}')",
       "Bash(git -C /Users/moldi/Documents/Programming/tanzmoment log --oneline)",
       "Bash(xargs cat *)",
-      "Bash(pnpm nx *)"
+      "Bash(pnpm nx *)",
+      "Bash(npx prisma *)"
     ],
     "deny": [],
     "ask": []

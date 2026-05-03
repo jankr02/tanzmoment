@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
+import { NewsModule } from '../news/news.module';
+import { NewsletterModule } from '../newsletter/newsletter.module';
 import { AdminDashboardController } from './dashboard/admin-dashboard.controller';
 import { AdminDashboardService } from './dashboard/admin-dashboard.service';
 import { AdminCoursesController } from './courses/admin-courses.controller';
@@ -19,9 +21,12 @@ import { AdminFinanceController } from './finance/admin-finance.controller';
 import { AdminFinanceService } from './finance/admin-finance.service';
 import { AdminSettingsController } from './settings/admin-settings.controller';
 import { AdminSettingsService } from './settings/admin-settings.service';
+import { AdminCampaignsController } from './news/admin-campaigns.controller';
+import { AdminNewsController } from './news/admin-news.controller';
+import { AdminNewsService } from './news/admin-news.service';
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, NewsModule, NewsletterModule],
   controllers: [
     AdminDashboardController,
     AdminCoursesController,
@@ -32,6 +37,8 @@ import { AdminSettingsService } from './settings/admin-settings.service';
     AdminCustomerNotesController,
     AdminFinanceController,
     AdminSettingsController,
+    AdminNewsController,
+    AdminCampaignsController,
   ],
   providers: [
     AdminDashboardService,
@@ -42,6 +49,7 @@ import { AdminSettingsService } from './settings/admin-settings.service';
     AdminCustomersService,
     AdminFinanceService,
     AdminSettingsService,
+    AdminNewsService,
   ],
 })
 export class AdminModule {}

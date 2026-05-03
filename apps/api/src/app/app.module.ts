@@ -8,6 +8,9 @@ import { BookingsModule } from '../bookings/bookings.module';
 import { PaymentsModule } from '../payments/payments.module';
 import { EmailModule } from '../email/email.module';
 import { AdminModule } from '../admin/admin.module';
+import { NewsModule } from '../news/news.module';
+import { NewsletterModule } from '../newsletter/newsletter.module';
+import { UploadsModule } from '../uploads/uploads.module';
 import { emailConfig } from '../config/email.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,7 +30,10 @@ import { AppService } from './app.service';
     BookingsModule,
     PaymentsModule,
     EmailModule,
+    NewsModule,
+    NewsletterModule,
     AdminModule,
+    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,11 +1,17 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { join } from 'path';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     rawBody: true, // required for Stripe webhook signature verification
+  });
+
+  app.useStaticAssets(join(process.cwd(), 'apps/api/uploads'), {
+    prefix: '/uploads',
   });
 
   app.useGlobalPipes(

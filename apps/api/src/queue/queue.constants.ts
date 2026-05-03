@@ -8,6 +8,7 @@ export const QUEUE_NAMES = {
   SESSION_REMINDER: 'session-reminder',
   MAINTENANCE: 'maintenance',
   BATCH_REFUND: 'batch-refund',
+  NEWSLETTER_SEND: 'newsletter-send',
 } as const;
 
 /**
@@ -26,6 +27,10 @@ export const JOB_NAMES = {
 
   // batch-refund queue
   PROCESS_BATCH_REFUND: 'process-batch-refund',
+
+  // newsletter-send queue
+  DISPATCH_CAMPAIGN: 'dispatch-campaign',
+  SEND_RECIPIENT: 'send-recipient',
 } as const;
 
 /**

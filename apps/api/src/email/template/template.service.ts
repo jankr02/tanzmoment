@@ -28,7 +28,10 @@ export type TemplateName =
   | 'email-verification'
   | 'password-reset'
   | 'contact-form'
-  | 'contact-confirmation';
+  | 'contact-confirmation'
+  | 'newsletter-article'
+  | 'newsletter-doi'
+  | 'newsletter-unsubscribed';
 
 @Injectable()
 export class TemplateService implements OnModuleInit {
