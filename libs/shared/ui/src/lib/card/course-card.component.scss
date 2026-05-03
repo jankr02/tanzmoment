@@ -1,7 +1,20 @@
 // ============================================================================
 // COURSE CARD COMPONENT V9 – Fixed Header Alignment
-// Card: 635px × 327.5px | Image: 232px × 232px
+// Desktop: 635px × 327.5px | Image: 232px × 232px
+// Mobile (<= 768px): horizontal row, 110px square thumb, body on the right
 // ============================================================================
+
+// Pill colors are local to this card (warning palette per design handoff).
+$pill-warn-bg: #f7e3d4;
+$pill-warn-text: #a35632;
+$pill-neutral-bg: var(--color-neutral-extra-light);
+$pill-neutral-text: var(--color-text-secondary);
+
+// Mobile-only elements: hidden on desktop by default, shown via media query.
+.course-card__mobile-body,
+.course-card__featured-pill {
+  display: none;
+}
 
 .course-card {
   position: relative;
@@ -351,6 +364,195 @@
 
     &:hover {
       transform: none;
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // MOBILE: Horizontal Row Variant (≤ 768px)
+  // Per design_handoff_horizontal_course_card. Overrides desktop layout.
+  // ──────────────────────────────────────────────────────────────────────────
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: transform var(--transition-base),
+                box-shadow var(--transition-base),
+                border-color var(--transition-fast);
+
+    &:hover {
+      transform: none;
+      box-shadow: var(--shadow-sm);
+      border-color: var(--card-accent-color);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+
+      &:active {
+        transform: none;
+      }
+    }
+
+    // SVG background shape is desktop-only.
+    .course-card__bg-shape {
+      display: none;
+    }
+
+    .course-card__container {
+      flex-direction: row;
+      gap: 14px;
+      padding: 12px;
+      align-items: stretch;
+      height: auto;
+    }
+
+    // Compact 110px square thumbnail without the SVG frame.
+    .course-card__left {
+      align-items: stretch;
+    }
+
+    .course-card__image-container {
+      width: 110px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .course-card__image-frame {
+      display: none;
+    }
+
+    .course-card__image-wrapper {
+      position: static;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--radius-md);
+      background-color: var(--card-bg-color);
+    }
+
+    // The desktop body sub-sections are not used on mobile.
+    .course-card__right {
+      gap: 0;
+    }
+
+    .course-card__header,
+    .course-card__content,
+    .course-card__horizontal-divider,
+    .course-card__footer {
+      display: none;
+    }
+
+    // Show the dedicated mobile body.
+    .course-card__mobile-body {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      flex-direction: column;
+      gap: 2px;
+      padding: 2px 0;
+      color: var(--card-text-color);
+    }
+
+    .course-card__mobile-eyebrow {
+      font-family: var(--font-cta);
+      font-size: 11px;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--card-accent-color);
+    }
+
+    .course-card__mobile-title {
+      font-family: var(--font-headline);
+      font-weight: var(--font-weight-heading);
+      font-size: 19px;
+      line-height: 1.2;
+      margin: 2px 0 4px;
+      color: inherit;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .course-card__mobile-meta {
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-regular);
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--card-text-secondary);
+      margin: 0;
+    }
+
+    .course-card__mobile-bottom {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 6px;
+    }
+
+    .course-card__mobile-price {
+      font-family: var(--font-headline);
+      font-weight: var(--font-weight-heading);
+      font-size: 17px;
+      line-height: 1;
+      color: inherit;
+    }
+
+    .course-card__pill {
+      flex-shrink: 0;
+      font-family: var(--font-cta);
+      font-size: 11px;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      letter-spacing: 0.3px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: $pill-neutral-bg;
+      color: $pill-neutral-text;
+
+      &--warn {
+        background: $pill-warn-bg;
+        color: $pill-warn-text;
+      }
+    }
+
+    // Featured "Empfohlen" sticker, top-right.
+    .course-card__featured-pill {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--color-secondary);
+      color: #ffffff;
+      font-family: var(--font-cta);
+      font-size: 11px;
+      font-weight: var(--font-weight-medium);
+      letter-spacing: 0.3px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    // Sold-out: dim the whole card and grayscale the thumbnail.
+    &--sold-out {
+      opacity: 0.78;
+
+      .course-card__image,
+      tm-course-placeholder {
+        filter: grayscale(0.5);
+      }
     }
   }
 }

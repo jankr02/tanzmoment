@@ -1,7 +1,10 @@
-<article 
+<article
   class="course-card"
   [class.course-card--highlighted]="course.isHighlighted"
+  [class.course-card--sold-out]="isSoldOut"
+  [class.course-card--low-availability]="availabilityState === 'low'"
   [ngStyle]="cardStyles"
+  [attr.aria-label]="course.title"
   (click)="onCardClick()"
 >
   <!-- Organic SVG Background Shape -->
@@ -36,6 +39,15 @@
       />
     </g>
   </svg>
+
+  @if (course.isHighlighted) {
+    <span class="course-card__featured-pill" aria-hidden="true">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/>
+      </svg>
+      Empfohlen
+    </span>
+  }
 
   <!-- Content Container -->
   <div class="course-card__container">
@@ -79,7 +91,21 @@
 
     <!-- RIGHT SIDE: Content -->
     <div class="course-card__right">
-      
+
+      <!-- MOBILE-ONLY: eyebrow + title + schedule + price/pill row -->
+      <div class="course-card__mobile-body">
+        <span class="course-card__mobile-eyebrow">{{ groupLabel }}</span>
+        <h3 class="course-card__mobile-title" [attr.title]="course.title">{{ course.title }}</h3>
+        <p class="course-card__mobile-meta">{{ course.dateTime }}</p>
+        <div class="course-card__mobile-bottom">
+          <span class="course-card__mobile-price">{{ formattedPrice }}</span>
+          <span
+            class="course-card__pill"
+            [class.course-card__pill--warn]="availabilityState !== 'available'"
+          >{{ availabilityLabel }}</span>
+        </div>
+      </div>
+
       <!-- HEADER -->
       <header class="course-card__header">
         @if (course.isHighlighted) {

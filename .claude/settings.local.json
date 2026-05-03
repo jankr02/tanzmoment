@@ -32,7 +32,11 @@
       "Bash(git -C /Users/moldi/Documents/Programming/tanzmoment log --oneline)",
       "Bash(xargs cat *)",
       "Bash(pnpm nx *)",
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "Bash(mkdir -p /tmp/course-card-handoff)",
+      "Bash(unzip -o /Users/moldi/Downloads/design_handoff_horizontal_course_card.zip -d /tmp/course-card-handoff/)",
+      "Read(//tmp/course-card-handoff/**)",
+      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && head -20 {}')"
     ],
     "deny": [],
     "ask": []

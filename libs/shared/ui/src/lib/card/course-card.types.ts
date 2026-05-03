@@ -89,6 +89,15 @@ export const DANCE_STYLE_COLORS: Record<DanceStyle, CourseCardColorScheme> = {
   },
 };
 
+// Compact labels used as eyebrow on the horizontal mobile card.
+// Kept short so they read as a single line in uppercase at 11px.
+export const DANCE_STYLE_CARD_LABELS: Record<DanceStyle, string> = {
+  accessible: 'Accessible Dance',
+  expressive: 'Ausdruckstanz',
+  kids: 'Kids',
+  mothers: 'Mama tanzt',
+};
+
 // Icons for Dance Styles (Lucide icon names or custom SVG paths)
 export const DANCE_STYLE_ICONS: Record<DanceStyle, string> = {
   accessible: 'M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5',

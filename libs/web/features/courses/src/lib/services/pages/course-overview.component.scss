@@ -254,8 +254,11 @@ $bp-sidebar: 1024px;
       transform: scale(0.95);
     }
 
+    // Below 768px the card switches to its responsive horizontal-row variant,
+    // so we drop the desktop scale and let the card fill the wrapper width.
     @media (max-width: 768px) {
-      transform: scale(0.85);
+      transform: none;
+      width: 100%;
     }
   }
 
@@ -264,7 +267,8 @@ $bp-sidebar: 1024px;
   }
 
   @media (max-width: 768px) {
-    gap: 40px;
+    gap: 16px;
+    align-items: stretch;
   }
 }
 
@@ -286,6 +290,16 @@ $bp-sidebar: 1024px;
   &.is-animated {
     animation: cardStackIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: var(--animation-delay, 0ms);
+  }
+
+  // Mobile: full-width row card, no centering needed.
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: stretch;
+
+    app-course-card {
+      width: 100%;
+    }
   }
 }
 

@@ -4,9 +4,12 @@ import { ButtonComponent } from '../button/button.component';
 import { CoursePlaceholderComponent } from '../course-placeholder/course-placeholder.component';
 import {
   CourseCardData,
+  DANCE_STYLE_CARD_LABELS,
   DANCE_STYLE_COLORS,
   DANCE_STYLE_ICONS,
 } from './course-card.types';
+
+export type CourseAvailabilityState = 'available' | 'low' | 'sold-out';
 
 @Component({
   selector: 'app-course-card',
@@ -40,6 +43,38 @@ export class CourseCardComponent {
    */
   get danceStyleIcon(): string {
     return DANCE_STYLE_ICONS[this.course.danceStyle] || DANCE_STYLE_ICONS['expressive'];
+  }
+
+  /**
+   * Group label for the mobile eyebrow (e.g. "Mama tanzt").
+   */
+  get groupLabel(): string {
+    return DANCE_STYLE_CARD_LABELS[this.course.danceStyle] ?? this.course.danceStyle;
+  }
+
+  /**
+   * Three-way availability state derived from `availableSpots`.
+   * `undefined` is treated as available (we don't have a count).
+   */
+  get availabilityState(): CourseAvailabilityState {
+    const spots = this.course.availableSpots;
+    if (spots === 0) return 'sold-out';
+    if (spots !== undefined && spots <= 2) return 'low';
+    return 'available';
+  }
+
+  get isSoldOut(): boolean {
+    return this.availabilityState === 'sold-out';
+  }
+
+  /**
+   * German pill label following the handoff spec.
+   */
+  get availabilityLabel(): string {
+    const spots = this.course.availableSpots;
+    if (this.availabilityState === 'sold-out') return 'Ausgebucht';
+    if (this.availabilityState === 'low') return `Noch ${spots} frei`;
+    return 'Frei';
   }
 
   /**
