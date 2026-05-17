@@ -32,6 +32,34 @@ $card-width-xl: 700px;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// MOBILE / DESKTOP SWITCH
+// ─────────────────────────────────────────────────────────────────────────────
+
+.dance-styles-section__mobile {
+  display: none;
+  position: relative;
+}
+
+.dance-styles-section__desktop {
+  display: contents;
+}
+
+@media (max-width: 767px) {
+  .dance-styles-section {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .dance-styles-section__mobile {
+    display: block;
+  }
+
+  .dance-styles-section__desktop {
+    display: none;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // HEADER ZONE (Title + top wave)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -439,99 +467,9 @@ $card-width-xl: 700px;
 // ─────────────────────────────────────────────────────────────────────────────
 // RESPONSIVE - Mobile (below 768px)
 // ─────────────────────────────────────────────────────────────────────────────
-
-@media (max-width: 767px) {
-  .dance-styles-section {
-    padding: 0 16px 40px;
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .dance-styles-section__content {
-    min-height: auto;
-  }
-
-  .dance-styles-section__header {
-    padding-top: 24px;
-    margin-left: -16px;
-    margin-right: -16px;
-    padding-left: 16px;
-    padding-right: 16px;
-
-    &::before {
-      bottom: 0; // No wave on mobile
-    }
-  }
-
-  .dance-styles-section__header-content {
-    padding: 0;
-  }
-
-  // Hide wave on mobile (layout is different)
-  .dance-styles-section__wave-top,
-  .dance-styles-section__wave {
-    display: none;
-  }
-
-  // Background image centered at top
-  .dance-styles-section__background {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    width: 100%;
-    max-width: none;
-    height: auto;
-    aspect-ratio: 4/3;
-    margin-top: 24px;
-    margin-bottom: -60px;
-    border-radius: 16px;
-  }
-
-  // Cards stacked vertically (stack layout)
-  .dance-styles-section__cards {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    height: auto;
-    padding: 0;
-  }
-
-  .dance-styles-section__card {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: 100% !important;
-    transform: none !important;
-    animation: none;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
-
-    &:hover {
-      transform: translateY(-2px) !important;
-      filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
-    }
-  }
-
-  // First card overlaps the image
-  .dance-styles-section__card--kids {
-    z-index: 4;
-  }
-
-  .dance-styles-section__card--accessible {
-    z-index: 3;
-  }
-
-  .dance-styles-section__card--mothers {
-    z-index: 2;
-  }
-
-  .dance-styles-section__card--expressive {
-    z-index: 1;
-  }
-}
+// On mobile, the desktop layout is hidden via `.dance-styles-section__desktop`
+// (see top of file) and the journey component takes over the viewport.
+// No further desktop overrides are needed here.
 
 // ─────────────────────────────────────────────────────────────────────────────
 // REDUCED MOTION

@@ -1,0 +1,373 @@
+// ============================================================================
+// DANCE STYLES JOURNEY STYLES — Mobile (≤ 768px) scroll-snap journey
+// ============================================================================
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.tm-journey {
+  position: relative;
+  width: 100%;
+  // Header offset on mobile is 90px; gives the user a clean full-viewport scene.
+  height: calc(100dvh - 90px);
+  min-height: 560px;
+  background: var(--color-neutral-extra-light);
+  overflow: hidden;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FLOATING TOP BAR
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__topbar {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  pointer-events: none;
+}
+
+.tm-journey__eyebrow {
+  font-family: var(--font-cta);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: color var(--transition-base, 250ms cubic-bezier(0.2, 0.7, 0.2, 1));
+}
+
+.tm-journey__counter {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SIDE-RAIL DOT NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__dots {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tm-journey__dot {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition:
+    height var(--transition-base, 250ms cubic-bezier(0.2, 0.7, 0.2, 1)),
+    background var(--transition-base, 250ms cubic-bezier(0.2, 0.7, 0.2, 1));
+
+  &:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: 2px;
+  }
+}
+
+.tm-journey__dot--active {
+  height: 28px;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL-SNAP CONTAINER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__scroller {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCENE
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__scene {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  // Vertical pan stays with the scroll-snap container; tap activation handles
+  // navigation in JS via a pointerdown/up movement threshold.
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-text-primary);
+    outline-offset: -6px;
+    border-radius: var(--radius-md, 12px);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DECORATIVE BLOBS
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__blob {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tm-journey__blob--top {
+  top: -100px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  opacity: 0.55;
+}
+
+.tm-journey__blob--bottom {
+  bottom: 80px;
+  right: -120px;
+  width: 280px;
+  height: 280px;
+  opacity: 0.4;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HERO ILLUSTRATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__hero {
+  flex: 0 0 auto;
+  margin: 70px 0 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.tm-journey__halo {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-journey__illustration {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+@keyframes tm-journey-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tm-journey__scene--active .tm-journey__halo {
+    animation: tm-journey-bob 6s ease-in-out infinite;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STEP INDICATOR
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.tm-journey__step-number {
+  font-family: var(--font-headline);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.tm-journey__step-rule {
+  width: 24px;
+  height: 1px;
+  opacity: 0.4;
+}
+
+.tm-journey__step-label {
+  font-family: var(--font-cta);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COPY: HEADLINE / BODY / AUDIENCE PILL
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__copy {
+  padding: 0 28px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.tm-journey__headline {
+  font-family: var(--font-headline);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.tm-journey__body {
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 300px;
+  opacity: 0.82;
+  text-wrap: pretty;
+}
+
+.tm-journey__audience {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCROLL HINT
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__actions {
+  margin-top: auto;
+  padding: 20px 24px 36px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.tm-journey__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.65;
+  padding: 4px 6px;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    opacity: 1;
+  }
+}
+
+.tm-journey__hint-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tm-journey__finale {
+  font-family: var(--font-body);
+  font-size: 13px;
+  opacity: 0.55;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WAVE DIVIDER
+// ─────────────────────────────────────────────────────────────────────────────
+
+.tm-journey__wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+  z-index: 1;
+  display: block;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REDUCED MOTION
+// ─────────────────────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-journey__scroller {
+    scroll-behavior: auto;
+  }
+}

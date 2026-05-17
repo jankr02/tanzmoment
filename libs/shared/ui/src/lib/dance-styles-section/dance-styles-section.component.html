@@ -1,106 +1,143 @@
 <!-- ============================================================================
-     DANCE STYLES SECTION TEMPLATE - V2 (Asymmetric Layout)
+     DANCE STYLES SECTION TEMPLATE
      ============================================================================
-     Asymmetrisches Layout mit Hintergrundbild
-     4 Karten schwebend über dem Bild positioniert
-     Header-Zone mit invertierter Wave für Titel
+     Desktop / Tablet (> 768px): asymmetric floating-card layout with hero image
+     Mobile        (≤ 768px):  full-viewport scroll-snap "visual journey"
      ============================================================================ -->
 
 <section class="dance-styles-section">
-  <!-- Header Zone mit Titel -->
-  <header class="dance-styles-section__header">
-    <div class="dance-styles-section__header-content">
-      <h2 class="dance-styles-section__title">{{ headline }}</h2>
-      @if (subheadline) {
-        <p class="dance-styles-section__subtitle">{{ subheadline }}</p>
-      }
-    </div>
-    <!-- Wave Übergang nach unten zum Bild -->
-    <div class="dance-styles-section__wave-top" aria-hidden="true">
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-          fill="var(--wave-top-fill)"
-        />
-      </svg>
-    </div>
-  </header>
+  <!-- Mobile journey -->
+  <div class="dance-styles-section__mobile">
+    <!-- Wave INTO the journey: when `boundaryWavesFollowActive` is true the
+         colour tracks the active scene; otherwise it stays anchored to the
+         first scene (kids), which reads as a fixed entry-point on pages
+         where the boundary is regularly visible mid-page (e.g. about). -->
+    <tm-wave-divider
+      class="dance-styles-section__wave-mobile dance-styles-section__wave-mobile--top"
+      [from]="previousSectionBackground"
+      [to]="topBoundaryBg()"
+      height="sm"
+      direction="down"
+    />
 
-  <!-- Content Wrapper (Bild + Karten zusammen positioniert) -->
-  <div class="dance-styles-section__content">
-    <!-- Background Image Container -->
-    <div class="dance-styles-section__background">
-      <img
-        [src]="backgroundImageUrl"
-        [alt]="backgroundImageAlt"
-        class="dance-styles-section__background-img"
-        loading="eager"
-      />
+    <ui-dance-styles-journey
+      [danceStyles]="danceStyles"
+      [navigationMode]="navigationMode"
+      (styleSelected)="onCardClick($event)"
+      (activeStyleChange)="onActiveStyleChange($event)"
+    />
+
+    <!-- Wave OUT of the journey: overlays the bottom of the journey so the
+         non-wave area stays transparent and the active scene shows through.
+         The wave fill peeks the *next* scene's colour (or
+         `nextSectionBackground` when the active scene is the last one). -->
+    <tm-wave-divider
+      class="dance-styles-section__wave-mobile dance-styles-section__wave-mobile--bottom"
+      from="transparent"
+      [to]="nextBoundaryBg()"
+      [overlay]="true"
+      height="sm"
+      direction="down"
+    />
+  </div>
+
+  <!-- Desktop / tablet layout -->
+  <div class="dance-styles-section__desktop">
+    <!-- Header Zone mit Titel -->
+    <header class="dance-styles-section__header">
+      <div class="dance-styles-section__header-content">
+        <h2 class="dance-styles-section__title">{{ headline }}</h2>
+        @if (subheadline) {
+          <p class="dance-styles-section__subtitle">{{ subheadline }}</p>
+        }
+      </div>
+      <!-- Wave Übergang nach unten zum Bild -->
+      <div class="dance-styles-section__wave-top" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+            fill="var(--wave-top-fill)"
+          />
+        </svg>
+      </div>
+    </header>
+
+    <!-- Content Wrapper (Bild + Karten zusammen positioniert) -->
+    <div class="dance-styles-section__content">
+      <!-- Background Image Container -->
+      <div class="dance-styles-section__background">
+        <img
+          [src]="backgroundImageUrl"
+          [alt]="backgroundImageAlt"
+          class="dance-styles-section__background-img"
+          loading="eager"
+        />
+        <div
+          class="dance-styles-section__background-overlay"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <!-- Wave Border (between background and cards) -->
+      <div class="dance-styles-section__wave" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+            fill="var(--wave-bottom-fill)"
+          />
+        </svg>
+      </div>
+
+      <!-- Cards Container -->
+      <div class="dance-styles-section__cards">
+      <!-- Kids Card (oben links) -->
+      <div class="dance-styles-section__card dance-styles-section__card--kids">
+        <ui-dance-style-card
+          [data]="getStyleData('kids')"
+          [navigationMode]="navigationMode"
+          (cardClick)="onCardClick($event)"
+        />
+      </div>
+
+      <!-- Accessible Card (oben rechts, versetzt) -->
       <div
-        class="dance-styles-section__background-overlay"
-        aria-hidden="true"
-      ></div>
-    </div>
-
-    <!-- Wave Border (between background and cards) -->
-    <div class="dance-styles-section__wave" aria-hidden="true">
-      <svg
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-        xmlns="http://www.w3.org/2000/svg"
+        class="dance-styles-section__card dance-styles-section__card--accessible"
       >
-        <path
-          d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-          fill="var(--wave-bottom-fill)"
+        <ui-dance-style-card
+          [data]="getStyleData('accessible')"
+          [navigationMode]="navigationMode"
+          (cardClick)="onCardClick($event)"
         />
-      </svg>
-    </div>
+      </div>
 
-    <!-- Cards Container -->
-    <div class="dance-styles-section__cards">
-    <!-- Kids Card (oben links) -->
-    <div class="dance-styles-section__card dance-styles-section__card--kids">
-      <ui-dance-style-card
-        [data]="getStyleData('kids')"
-        [navigationMode]="navigationMode"
-        (cardClick)="onCardClick($event)"
-      />
-    </div>
+      <!-- Mothers Card (mitte links) -->
+      <div class="dance-styles-section__card dance-styles-section__card--mothers">
+        <ui-dance-style-card
+          [data]="getStyleData('mothers')"
+          [navigationMode]="navigationMode"
+          (cardClick)="onCardClick($event)"
+        />
+      </div>
 
-    <!-- Accessible Card (oben rechts, versetzt) -->
-    <div
-      class="dance-styles-section__card dance-styles-section__card--accessible"
-    >
-      <ui-dance-style-card
-        [data]="getStyleData('accessible')"
-        [navigationMode]="navigationMode"
-        (cardClick)="onCardClick($event)"
-      />
-    </div>
-
-    <!-- Mothers Card (mitte links) -->
-    <div class="dance-styles-section__card dance-styles-section__card--mothers">
-      <ui-dance-style-card
-        [data]="getStyleData('mothers')"
-        [navigationMode]="navigationMode"
-        (cardClick)="onCardClick($event)"
-      />
-    </div>
-
-    <!-- Expressive Card (unten rechts, ragt hinaus) -->
-    <div
-      class="dance-styles-section__card dance-styles-section__card--expressive"
-    >
-      <ui-dance-style-card
-        [data]="getStyleData('expressive')"
-        [navigationMode]="navigationMode"
-        (cardClick)="onCardClick($event)"
-      />
-    </div>
+      <!-- Expressive Card (unten rechts, ragt hinaus) -->
+      <div
+        class="dance-styles-section__card dance-styles-section__card--expressive"
+      >
+        <ui-dance-style-card
+          [data]="getStyleData('expressive')"
+          [navigationMode]="navigationMode"
+          (cardClick)="onCardClick($event)"
+        />
+      </div>
+      </div>
     </div>
   </div>
 </section>

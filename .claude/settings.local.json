@@ -36,7 +36,13 @@
       "Bash(mkdir -p /tmp/course-card-handoff)",
       "Bash(unzip -o /Users/moldi/Downloads/design_handoff_horizontal_course_card.zip -d /tmp/course-card-handoff/)",
       "Read(//tmp/course-card-handoff/**)",
-      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && head -20 {}')"
+      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && head -20 {}')",
+      "Read(//Users/moldi/Downloads/**)",
+      "Bash(unzip -l \"/Users/moldi/Downloads/Dance Style Mobile Design.zip\")",
+      "Read(//private/tmp/**)",
+      "Bash(rm -rf dance_styles_mobile_extracted)",
+      "Bash(mkdir dance_styles_mobile_extracted)",
+      "Bash(unzip -q \"/Users/moldi/Downloads/Dance Style Mobile Design.zip\" -d dance_styles_mobile_extracted)"
     ],
     "deny": [],
     "ask": []

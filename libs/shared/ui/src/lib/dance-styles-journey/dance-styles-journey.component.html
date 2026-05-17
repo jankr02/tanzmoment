@@ -1,0 +1,180 @@
+<!-- ============================================================================
+     DANCE STYLES JOURNEY TEMPLATE — Mobile scroll-snap visual journey
+     ============================================================================ -->
+
+<div class="tm-journey">
+  <!-- Floating top bar: eyebrow + counter -->
+  <div class="tm-journey__topbar" aria-hidden="true">
+    <span
+      class="tm-journey__eyebrow"
+      [style.color]="activeScene().theme.accent"
+    >
+      Unsere Tanzwelten
+    </span>
+    <span
+      class="tm-journey__counter"
+      [style.color]="activeScene().theme.ink"
+    >
+      {{ activeScene().counter }}
+    </span>
+  </div>
+
+  <!-- Side rail dot navigation -->
+  <nav
+    class="tm-journey__dots"
+    aria-label="Tanzwelt-Navigation"
+  >
+    @for (scene of scenes(); track trackById($index, scene); let i = $index) {
+      <button
+        type="button"
+        class="tm-journey__dot"
+        [class.tm-journey__dot--active]="i === activeIndex()"
+        [style.background]="
+          i === activeIndex() ? scene.theme.accent : 'rgba(255,255,255,0.7)'
+        "
+        [attr.aria-label]="'Zu ' + scene.title"
+        [attr.aria-current]="i === activeIndex() ? 'true' : null"
+        (click)="goTo(i)"
+      ></button>
+    }
+  </nav>
+
+  <!-- Scroll-snap container with one scene per dance style -->
+  <div #scroller class="tm-journey__scroller">
+    @for (scene of scenes(); track trackById($index, scene); let i = $index) {
+      <article
+        class="tm-journey__scene"
+        [class.tm-journey__scene--active]="i === activeIndex()"
+        [style.background]="scene.theme.bg"
+        role="link"
+        [attr.tabindex]="i === activeIndex() ? 0 : -1"
+        [attr.aria-label]="'Mehr über ' + scene.title + ' erfahren'"
+        (pointerdown)="onScenePointerDown($event)"
+        (pointerup)="onScenePointerUp($event, scene)"
+        (pointercancel)="onScenePointerCancel()"
+        (keydown.enter)="onSceneKeydown($event, scene)"
+        (keydown.space)="onSceneKeydown($event, scene)"
+      >
+        <!-- Decorative organic blobs -->
+        <span
+          class="tm-journey__blob tm-journey__blob--top"
+          aria-hidden="true"
+          [style.background]="scene.theme.bgDeep"
+        ></span>
+        <span
+          class="tm-journey__blob tm-journey__blob--bottom"
+          aria-hidden="true"
+          [style.background]="scene.theme.bgDeep"
+        ></span>
+
+        <!-- Hero illustration in halo -->
+        <div class="tm-journey__hero">
+          <div class="tm-journey__halo">
+            <img
+              class="tm-journey__illustration"
+              [src]="scene.illustrationUrl"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <!-- Step indicator: number · rule · catchphrase -->
+        <div
+          class="tm-journey__step"
+          [style.color]="scene.theme.accent"
+        >
+          <span class="tm-journey__step-number">{{ scene.number }}</span>
+          <span
+            class="tm-journey__step-rule"
+            [style.background]="scene.theme.accent"
+          ></span>
+          <span class="tm-journey__step-label">
+            {{ scene.theme.catchphrase }}
+          </span>
+        </div>
+
+        <!-- Headline + body + audience pill -->
+        <div class="tm-journey__copy">
+          <h3
+            class="tm-journey__headline"
+            [id]="'tm-journey-headline-' + scene.id"
+            [style.color]="scene.theme.ink"
+          >
+            {{ scene.title }}
+          </h3>
+          <p
+            class="tm-journey__body"
+            [style.color]="scene.theme.ink"
+          >
+            {{ scene.theme.description }}
+          </p>
+          <span
+            class="tm-journey__audience"
+            [style.color]="scene.theme.ink"
+          >
+            {{ scene.theme.audience }}
+          </span>
+        </div>
+
+        <!-- Scroll hint / finale -->
+        <div class="tm-journey__actions">
+          @if (scene.next) {
+            <button
+              type="button"
+              class="tm-journey__hint"
+              [style.color]="scene.theme.ink"
+              (click)="goTo(i + 1)"
+            >
+              <span
+                class="tm-journey__hint-icon"
+                [style.borderColor]="scene.theme.ink"
+              >
+                <svg
+                  aria-hidden="true"
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M6 9l6 6 6-6"
+                    [attr.stroke]="scene.theme.ink"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              Weiter zu {{ scene.next.shortLabel }}
+            </button>
+          } @else {
+            <span
+              class="tm-journey__finale"
+              [style.color]="scene.theme.ink"
+              aria-hidden="true"
+            >
+              Du hast alle vier entdeckt ✿
+            </span>
+          }
+        </div>
+
+        <!-- Wave divider into next scene's color -->
+        @if (scene.next) {
+          <svg
+            class="tm-journey__wave"
+            aria-hidden="true"
+            viewBox="0 0 390 60"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,30 C90,55 180,5 280,25 C340,37 380,30 390,28 L390,60 L0,60 Z"
+              [attr.fill]="scene.next.bg"
+            />
+          </svg>
+        }
+      </article>
+    }
+  </div>
+</div>

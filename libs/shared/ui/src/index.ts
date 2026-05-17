@@ -4,6 +4,8 @@ export * from './lib/button/button.component';
 export * from './lib/card/course-card.component';
 export * from './lib/checkbox/checkbox.component';
 export * from './lib/dance-style-card/dance-style-card.component';
+export * from './lib/dance-styles-journey/dance-styles-journey.component';
+export * from './lib/dance-styles-journey/dance-styles-journey.types';
 export * from './lib/dance-styles-section/dance-styles-section.component';
 export * from './lib/faq-accordion/faq-accordion.component';
 export * from './lib/filter-bar/filter-bar.component';
