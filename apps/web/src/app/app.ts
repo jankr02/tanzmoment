@@ -40,6 +40,11 @@ export class AppComponent {
 
     const menuItems = [
       {
+        label: 'Mein Konto',
+        iconName: 'user' as const,
+        route: '/mein-konto',
+      },
+      {
         label: 'Meine Buchungen',
         iconName: 'calendar' as const,
         route: '/meine-buchungen',
