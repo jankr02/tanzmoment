@@ -69,6 +69,9 @@
       "@tanzmoment/web/features/newsletter": [
         "libs/web/features/newsletter/src/index.ts"
       ],
+      "@tanzmoment/web/features/legal": [
+        "libs/web/features/legal/src/index.ts"
+      ],
       "@tanzmoment/admin/feature-news": [
         "libs/admin/feature-news/src/index.ts"
       ]

@@ -1,0 +1,39 @@
+<section class="legal-shell">
+  <div class="container">
+    <header class="legal-shell__header">
+      <p class="legal-shell__eyebrow">Rechtliches</p>
+      <h1 class="legal-shell__title">{{ title() }}</h1>
+      @if (intro()) {
+        <p class="legal-shell__intro">{{ intro() }}</p>
+      }
+      @if (lastUpdated()) {
+        <p class="legal-shell__meta">Zuletzt aktualisiert: {{ lastUpdated() }}</p>
+      }
+    </header>
+
+    <div class="legal-shell__body">
+      <aside class="legal-shell__sidebar" aria-label="Rechtliche Seiten">
+        <nav class="legal-shell__nav">
+          <ul class="legal-shell__nav-list">
+            @for (item of navItems; track item.key) {
+              <li class="legal-shell__nav-item">
+                <a
+                  [routerLink]="item.route"
+                  routerLinkActive="legal-shell__nav-link--active"
+                  [class.legal-shell__nav-link--active]="item.key === currentPage()"
+                  class="legal-shell__nav-link"
+                >
+                  {{ item.label }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </aside>
+
+      <article class="legal-shell__article">
+        <ng-content />
+      </article>
+    </div>
+  </div>
+</section>

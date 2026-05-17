@@ -135,15 +135,15 @@ export const DEFAULT_SOCIAL_LINKS: SocialLink[] = [
 export const DEFAULT_LEGAL_LINKS: LegalLink[] = [
   {
     label: 'Impressum',
-    route: '/legal/imprint',
+    route: '/impressum',
   },
   {
     label: 'Datenschutz',
-    route: '/legal/privacy',
+    route: '/datenschutz',
   },
   {
     label: 'AGB',
-    route: '/legal/terms',
+    route: '/agb',
   },
 ];
 

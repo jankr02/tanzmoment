@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { bookingRoutes } from '@tanzmoment/web/features/booking';
+import { legalRoutes } from '@tanzmoment/web/features/legal';
 import { adminAuthGuard } from '@tanzmoment/admin/data-access';
 import { authGuard, guestGuard } from '@tanzmoment/web/features/auth';
 
@@ -135,6 +136,8 @@ export const appRoutes: Route[] = [
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)
   ...bookingRoutes,
+  // Legal Pages (Impressum, Datenschutz, AGB)
+  ...legalRoutes,
   // Admin Panel (lazy-loaded, guarded)
   {
     path: 'admin',
