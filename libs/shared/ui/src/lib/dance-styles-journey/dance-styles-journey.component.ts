@@ -76,13 +76,6 @@ export class DanceStylesJourneyComponent implements AfterViewInit, OnDestroy {
 
   @Output() readonly styleSelected = new EventEmitter<DanceStyleId>();
 
-  /**
-   * Fires whenever the visible scene changes (scroll-snap, dot click,
-   * "Weiter zu …" hint). Parents can use it to sync surrounding chrome —
-   * e.g. boundary wave-divider colors — with the active scene.
-   */
-  @Output() readonly activeStyleChange = new EventEmitter<DanceStyleId>();
-
   private readonly danceStylesInput = signal<DanceStyleCardData[]>(
     DEFAULT_DANCE_STYLES,
   );
@@ -180,8 +173,6 @@ export class DanceStylesJourneyComponent implements AfterViewInit, OnDestroy {
   private setActiveIndex(index: number): void {
     if (index === this.activeIndex()) return;
     this.activeIndex.set(index);
-    const scene = this.scenes()[index];
-    if (scene) this.activeStyleChange.emit(scene.id);
   }
 
   private pointerStart: { x: number; y: number } | null = null;

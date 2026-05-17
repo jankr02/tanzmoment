@@ -8,14 +8,13 @@
 <section class="dance-styles-section">
   <!-- Mobile journey -->
   <div class="dance-styles-section__mobile">
-    <!-- Wave INTO the journey: when `boundaryWavesFollowActive` is true the
-         colour tracks the active scene; otherwise it stays anchored to the
-         first scene (kids), which reads as a fixed entry-point on pages
-         where the boundary is regularly visible mid-page (e.g. about). -->
+    <!-- Wave INTO the journey: matches the section ABOVE so the divider
+         reads as that section's bottom edge, independent of the active
+         scene's dance-style colour. -->
     <tm-wave-divider
       class="dance-styles-section__wave-mobile dance-styles-section__wave-mobile--top"
       [from]="previousSectionBackground"
-      [to]="topBoundaryBg()"
+      [to]="previousSectionBackground"
       height="sm"
       direction="down"
     />
@@ -24,17 +23,16 @@
       [danceStyles]="danceStyles"
       [navigationMode]="navigationMode"
       (styleSelected)="onCardClick($event)"
-      (activeStyleChange)="onActiveStyleChange($event)"
     />
 
     <!-- Wave OUT of the journey: overlays the bottom of the journey so the
          non-wave area stays transparent and the active scene shows through.
-         The wave fill peeks the *next* scene's colour (or
-         `nextSectionBackground` when the active scene is the last one). -->
+         The wave fill is the section BELOW, so the divider reads as that
+         section's top edge — never a dance-style colour. -->
     <tm-wave-divider
       class="dance-styles-section__wave-mobile dance-styles-section__wave-mobile--bottom"
       from="transparent"
-      [to]="nextBoundaryBg()"
+      [to]="nextSectionBackground"
       [overlay]="true"
       height="sm"
       direction="down"
