@@ -6,6 +6,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   AbstractControl,
@@ -15,6 +16,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { AuthStateService } from '@tanzmoment/shared/services';
 import { ButtonComponent, InputComponent } from '@tanzmoment/shared/ui';
 import { AccountStore } from '../../services/account.store';
 
@@ -36,6 +38,8 @@ function matchPasswordValidator(group: AbstractControl): ValidationErrors | null
 })
 export class PasswordTabComponent {
   private readonly store = inject(AccountStore);
+  private readonly authState = inject(AuthStateService);
+  private readonly router = inject(Router);
 
   protected readonly form = new FormGroup(
     {
@@ -61,7 +65,6 @@ export class PasswordTabComponent {
   );
 
   protected readonly saving = signal(false);
-  protected readonly success = signal<string | null>(null);
   protected readonly error = signal<string | null>(null);
 
   protected readonly currentControl = computed(
@@ -82,7 +85,6 @@ export class PasswordTabComponent {
 
     this.saving.set(true);
     this.error.set(null);
-    this.success.set(null);
 
     const value = this.form.getRawValue();
     this.store
@@ -91,14 +93,16 @@ export class PasswordTabComponent {
         newPassword: value.newPassword,
       })
       .then(() => {
-        this.success.set('Dein Passwort wurde geändert.');
-        this.form.reset();
+        this.authState.clearAuth(false);
+        void this.router.navigate(['/auth/login'], {
+          queryParams: { 'password-changed': '1' },
+        });
       })
       .catch((err: HttpErrorResponse) => {
         this.error.set(
           err.error?.message ?? 'Passwort konnte nicht geändert werden.',
         );
-      })
-      .finally(() => this.saving.set(false));
+        this.saving.set(false);
+      });
   }
 }

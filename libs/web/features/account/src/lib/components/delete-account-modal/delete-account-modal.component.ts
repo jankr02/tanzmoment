@@ -1,7 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
   computed,
   inject,
   output,
@@ -27,8 +31,10 @@ const CONFIRMATION_PHRASE = 'KONTO LÖSCHEN';
   templateUrl: './delete-account-modal.component.html',
   styleUrl: './delete-account-modal.component.scss',
 })
-export class DeleteAccountModalComponent {
+export class DeleteAccountModalComponent implements OnInit, OnDestroy {
   private readonly store = inject(AccountStore);
+  private readonly platformId = inject(PLATFORM_ID);
+  private previousOverflow: string | null = null;
 
   readonly closed = output<void>();
   readonly deleted = output<void>();
@@ -64,6 +70,23 @@ export class DeleteAccountModalComponent {
       v.currentPassword.length >= 8
     );
   });
+
+  ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+
+  ngOnDestroy(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    document.body.style.overflow = this.previousOverflow ?? '';
+  }
+
+  @HostListener('document:keydown.escape')
+  protected onEscapeKey(): void {
+    if (this.submitting()) return;
+    this.closed.emit();
+  }
 
   protected onBackdropClick(event: MouseEvent): void {
     if (event.target === event.currentTarget && !this.submitting()) {

@@ -33,6 +33,7 @@
           formControlName="currentPassword"
           [required]="true"
           [showPasswordToggle]="true"
+          [autofocus]="true"
           autocomplete="current-password"
           [hasError]="passwordControl().invalid && passwordControl().touched"
           errorMessage="Passwort ist erforderlich."

@@ -5,6 +5,7 @@ import {
   ConflictException,
   UnauthorizedException,
   NotFoundException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
@@ -206,23 +207,34 @@ export class UsersService {
 
     const verifyLink = `${this.configService.get('FRONTEND_URL')}/auth/confirm-email-change?token=${token}`;
 
-    this.emailService
-      .send(
+    const confirmation = await this.emailService.send(
+      newEmail,
+      'Bestätige deine neue E-Mail-Adresse – Tanzmoment',
+      'email-change-confirmation',
+      {
+        firstName: user.firstName,
+        verifyLink,
+        oldEmail: user.email,
         newEmail,
-        'Bestätige deine neue E-Mail-Adresse – Tanzmoment',
-        'email-change-confirmation',
-        {
-          firstName: user.firstName,
-          verifyLink,
-          oldEmail: user.email,
-          newEmail,
+      },
+    );
+
+    if (!confirmation.success) {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: {
+          pendingEmail: null,
+          emailChangeToken: null,
+          emailChangeExpires: null,
         },
-      )
-      .catch((err) => {
-        this.logger.error(
-          `Failed to send email-change confirmation to ${newEmail}: ${err.message}`,
-        );
       });
+      this.logger.error(
+        `Email-change confirmation send failed for userId=${userId}: ${confirmation.error}`,
+      );
+      throw new ServiceUnavailableException(
+        'Der Bestätigungslink konnte nicht versendet werden. Bitte versuche es später erneut.',
+      );
+    }
 
     this.emailService
       .send(
@@ -236,13 +248,11 @@ export class UsersService {
       )
       .catch((err) => {
         this.logger.error(
-          `Failed to send email-change notice to ${user.email}: ${err.message}`,
+          `Failed to send email-change notice for userId=${userId}: ${err.message}`,
         );
       });
 
-    this.logger.log(
-      `Email change requested: userId=${userId}, newEmail=${newEmail}`,
-    );
+    this.logger.log(`Email change requested: userId=${userId}`);
 
     return {
       message:
@@ -333,15 +343,15 @@ export class UsersService {
       throw new UnauthorizedException('Aktuelles Passwort ist falsch');
     }
 
+    const valid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
+    if (!valid) {
+      throw new UnauthorizedException('Aktuelles Passwort ist falsch');
+    }
+
     if (user.role === 'ADMIN') {
       throw new BadRequestException(
         'Admin-Konten können nicht über das Profil gelöscht werden',
       );
-    }
-
-    const valid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
-    if (!valid) {
-      throw new UnauthorizedException('Aktuelles Passwort ist falsch');
     }
 
     const anonymizedEmail = `deleted-${userId}@${ANONYMIZED_DOMAIN}`;
