@@ -38,6 +38,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'mein-konto/**',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'auth/confirm-email-change',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: '**',
     renderMode: RenderMode.Prerender,
   },

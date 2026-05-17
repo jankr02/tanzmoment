@@ -26,6 +26,8 @@ export type TemplateName =
   | 'session-reminder'
   | 'refund-processed'
   | 'email-verification'
+  | 'email-change-confirmation'
+  | 'email-change-notice'
   | 'password-reset'
   | 'contact-form'
   | 'contact-confirmation'

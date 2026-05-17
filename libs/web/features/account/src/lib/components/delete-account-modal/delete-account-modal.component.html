@@ -1,0 +1,85 @@
+<div class="backdrop" (click)="onBackdropClick($event)" role="presentation">
+  <div
+    class="dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-modal-title"
+  >
+    <header class="dialog__header">
+      <h2 id="delete-modal-title">Konto endgültig löschen</h2>
+      <p class="dialog__subtitle">
+        Diese Aktion kann nicht rückgängig gemacht werden.
+      </p>
+    </header>
+
+    <section class="dialog__body">
+      <p class="warning">
+        Dein Konto und persönliche Daten (Name, E-Mail, Telefon) werden
+        anonymisiert. Aus gesetzlichen Gründen (Steuer, Buchhaltung) bleiben
+        Buchungs- und Zahlungseinträge anonymisiert erhalten. Login ist danach
+        nicht mehr möglich.
+      </p>
+
+      <form
+        class="form"
+        [formGroup]="form"
+        (ngSubmit)="onConfirm()"
+        id="delete-account-form"
+      >
+        <app-input
+          id="delete-password"
+          type="password"
+          label="Aktuelles Passwort"
+          formControlName="currentPassword"
+          [required]="true"
+          [showPasswordToggle]="true"
+          autocomplete="current-password"
+          [hasError]="passwordControl().invalid && passwordControl().touched"
+          errorMessage="Passwort ist erforderlich."
+        />
+
+        <div class="confirmation">
+          <app-input
+            id="delete-confirmation"
+            label="Bestätigungstext"
+            [placeholder]="confirmationPhrase"
+            formControlName="confirmation"
+            [required]="true"
+          />
+          <p class="confirmation__hint">
+            Tippe
+            <code class="confirmation__phrase">{{ confirmationPhrase }}</code>
+            zur Bestätigung.
+          </p>
+        </div>
+
+        @if (submitError(); as err) {
+          <p class="form__banner form__banner--error" role="alert">{{ err }}</p>
+        }
+      </form>
+    </section>
+
+    <footer class="dialog__footer">
+      <app-button
+        variant="ghost"
+        size="medium"
+        [disabled]="submitting()"
+        (clicked)="onCancel()"
+      >
+        Abbrechen
+      </app-button>
+      <app-button
+        type="submit"
+        variant="custom"
+        size="medium"
+        color="#b03a3a"
+        textColor="#FFFFFF"
+        [loading]="submitting()"
+        [disabled]="!canSubmit()"
+        (clicked)="onConfirm()"
+      >
+        Konto endgültig löschen
+      </app-button>
+    </footer>
+  </div>
+</div>

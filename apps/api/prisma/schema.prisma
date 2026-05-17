@@ -28,6 +28,12 @@ model User {
   passwordResetToken        String?   @unique
   passwordResetExpires      DateTime?
 
+  pendingEmail              String?
+  emailChangeToken          String?   @unique
+  emailChangeExpires        DateTime?
+
+  deletedAt     DateTime?
+
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   

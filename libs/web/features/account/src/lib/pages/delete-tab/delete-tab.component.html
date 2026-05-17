@@ -1,0 +1,42 @@
+<section class="card" aria-labelledby="delete-title">
+  <header class="card__header">
+    <h2 id="delete-title">Konto löschen</h2>
+    <p class="card__subtitle">
+      Du möchtest dein Tanzmoment-Konto nicht mehr nutzen.
+    </p>
+  </header>
+
+  <div class="info">
+    <h3>Was passiert beim Löschen?</h3>
+    <ul>
+      <li>
+        Deine persönlichen Daten (Name, E-Mail, Telefon) werden anonymisiert.
+      </li>
+      <li>Login und Buchungen sind danach nicht mehr möglich.</li>
+      <li>
+        Buchungs- und Zahlungseinträge bleiben aus gesetzlichen Gründen
+        (Steuer- und Aufbewahrungspflicht) anonymisiert erhalten.
+      </li>
+      <li>Diese Aktion kann nicht rückgängig gemacht werden.</li>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <app-button
+      variant="custom"
+      size="medium"
+      color="#b03a3a"
+      textColor="#FFFFFF"
+      (clicked)="open()"
+    >
+      Konto löschen…
+    </app-button>
+  </div>
+</section>
+
+@if (modalOpen()) {
+  <tm-delete-account-modal
+    (closed)="onClosed()"
+    (deleted)="onDeleted()"
+  ></tm-delete-account-modal>
+}

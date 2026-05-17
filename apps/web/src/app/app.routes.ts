@@ -109,6 +109,14 @@ export const appRoutes: Route[] = [
           import('@tanzmoment/web/features/auth').then((m) => m.VerifyEmailPageComponent),
         title: 'E-Mail bestätigen | Tanzmoment',
       },
+      {
+        path: 'confirm-email-change',
+        loadComponent: () =>
+          import('@tanzmoment/web/features/account').then(
+            (m) => m.EmailChangeConfirmComponent,
+          ),
+        title: 'E-Mail-Änderung bestätigen | Tanzmoment',
+      },
     ],
   },
   // News
@@ -132,6 +140,15 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('@tanzmoment/web/features/my-bookings').then(
         (m) => m.myBookingsRoutes,
+      ),
+  },
+  // Account (authenticated user area)
+  {
+    path: 'mein-konto',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('@tanzmoment/web/features/account').then(
+        (m) => m.accountRoutes,
       ),
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)

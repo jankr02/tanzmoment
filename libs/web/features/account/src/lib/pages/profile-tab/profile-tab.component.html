@@ -1,0 +1,158 @@
+<div class="tab">
+  <section class="card" aria-labelledby="profile-data-title">
+    <header class="card__header">
+      <h2 id="profile-data-title">Persönliche Daten</h2>
+      <p class="card__subtitle">Name und Telefonnummer für Buchungen.</p>
+    </header>
+
+    <form class="form" [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()">
+      @if (profileError(); as err) {
+        <p class="form__banner form__banner--error" role="alert">{{ err }}</p>
+      }
+      @if (profileSuccess(); as msg) {
+        <p class="form__banner form__banner--success" role="status">{{ msg }}</p>
+      }
+
+      <div class="form__row">
+        <app-input
+          id="profile-firstName"
+          label="Vorname"
+          placeholder="Max"
+          formControlName="firstName"
+          [required]="true"
+          [hasError]="profileFirstName().invalid && profileFirstName().touched"
+          errorMessage="Vorname muss mindestens 2 Zeichen lang sein."
+        />
+        <app-input
+          id="profile-lastName"
+          label="Nachname"
+          placeholder="Mustermann"
+          formControlName="lastName"
+          [required]="true"
+          [hasError]="profileLastName().invalid && profileLastName().touched"
+          errorMessage="Nachname muss mindestens 2 Zeichen lang sein."
+        />
+      </div>
+
+      <app-input
+        id="profile-phone"
+        type="tel"
+        label="Telefon (optional)"
+        placeholder="+49 176 12345678"
+        formControlName="phone"
+        autocomplete="tel"
+      />
+
+      <div class="form__actions">
+        <app-button
+          type="submit"
+          variant="primary"
+          [loading]="profileSaving()"
+          [disabled]="profileSaving() || profileForm.pristine"
+        >
+          Änderungen speichern
+        </app-button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="profile-email-title">
+    <header class="card__header">
+      <h2 id="profile-email-title">E-Mail-Adresse</h2>
+      <p class="card__subtitle">
+        Wir verwenden deine E-Mail für Buchungsbestätigungen und Logins.
+      </p>
+    </header>
+
+    <div class="email">
+      <div class="email__current">
+        <span class="email__label">Aktuelle Adresse</span>
+        <span class="email__value">{{ store.profile()?.email }}</span>
+      </div>
+
+      @if (hasPendingEmailChange()) {
+        <div class="email__pending" role="status">
+          <strong>Ausstehend:</strong> {{ pendingEmail() }}
+          <span class="email__pending-meta">
+            Bitte bestätige den Link in der E-Mail. Bis dahin bleibt deine
+            bisherige Adresse aktiv.
+          </span>
+          <app-button
+            variant="ghost"
+            size="small"
+            [loading]="cancellingEmailChange()"
+            [disabled]="cancellingEmailChange()"
+            (clicked)="cancelEmailChange()"
+          >
+            Änderung abbrechen
+          </app-button>
+        </div>
+      }
+
+      @if (emailSuccess(); as msg) {
+        <p class="form__banner form__banner--success" role="status">{{ msg }}</p>
+      }
+
+      @if (!emailFormOpen() && !hasPendingEmailChange()) {
+        <app-button
+          variant="ghost"
+          size="medium"
+          (clicked)="openEmailForm()"
+        >
+          E-Mail-Adresse ändern
+        </app-button>
+      }
+
+      @if (emailFormOpen()) {
+        <form class="form" [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()">
+          @if (emailError(); as err) {
+            <p class="form__banner form__banner--error" role="alert">{{ err }}</p>
+          }
+
+          <app-input
+            id="email-new"
+            type="email"
+            label="Neue E-Mail-Adresse"
+            placeholder="neue@email.de"
+            formControlName="newEmail"
+            [required]="true"
+            autocomplete="email"
+            [hasError]="emailNewEmail().invalid && emailNewEmail().touched"
+            errorMessage="Bitte gib eine gültige E-Mail-Adresse ein."
+          />
+
+          <app-input
+            id="email-password"
+            type="password"
+            label="Aktuelles Passwort"
+            placeholder="Zur Bestätigung"
+            formControlName="currentPassword"
+            [required]="true"
+            [showPasswordToggle]="true"
+            autocomplete="current-password"
+            [hasError]="emailPassword().invalid && emailPassword().touched"
+            errorMessage="Passwort ist erforderlich."
+          />
+
+          <div class="form__actions form__actions--split">
+            <app-button
+              variant="ghost"
+              [disabled]="emailSaving()"
+              (clicked)="closeEmailForm()"
+            >
+              Abbrechen
+            </app-button>
+            <app-button
+              type="submit"
+              variant="primary"
+              [loading]="emailSaving()"
+              [disabled]="emailSaving()"
+            >
+              Bestätigungslink senden
+            </app-button>
+          </div>
+        </form>
+      }
+    </div>
+  </section>
+</div>

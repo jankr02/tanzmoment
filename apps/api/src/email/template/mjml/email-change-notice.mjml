@@ -1,0 +1,38 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Hallo {{firstName}}, wir wollten dich kurz informieren
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Für dein Tanzmoment-Konto wurde eine Änderung der E-Mail-Adresse zu <strong>{{newEmail}}</strong> angefordert.
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Solange die neue Adresse nicht bestätigt ist, bleibt diese E-Mail-Adresse aktiv. Sobald die neue bestätigt wurde, wird sie automatisch übernommen.
+        </mj-text>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="16px 24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0">
+              <strong>Warst das nicht du?</strong> Setze umgehend dein Passwort zurück und kontaktiere uns unter <a href="mailto:{{replyTo}}" style="color:#688B68;">{{replyTo}}</a>.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

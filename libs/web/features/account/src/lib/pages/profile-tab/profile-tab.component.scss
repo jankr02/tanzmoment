@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.tab {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.card {
+  background: var(--color-accent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-heading, 900);
+    color: var(--color-text-primary);
+  }
+}
+
+.card__subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form__banner {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+}
+
+.form__banner--error {
+  background: color-mix(in srgb, #c44 12%, transparent);
+  color: #b03a3a;
+}
+
+.form__banner--success {
+  background: color-mix(in srgb, var(--color-primary-dark) 12%, transparent);
+  color: var(--color-primary-dark);
+}
+
+.form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.form__actions--split {
+  justify-content: space-between;
+}
+
+.email {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.email__current {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  background: var(--color-primary-light);
+  border-radius: var(--radius-md);
+}
+
+.email__label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.email__value {
+  font-size: 1.05rem;
+  font-weight: var(--font-weight-medium, 600);
+  color: var(--color-text-primary);
+}
+
+.email__pending {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+
+  strong {
+    font-weight: var(--font-weight-medium, 600);
+  }
+}
+
+.email__pending-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,51 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Helvetica Neue', Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="24px" color="#2E2A25" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body background-color="#FDF8F3">
+    {{> header}}
+
+    <mj-section background-color="#FFFFFF" padding="40px 32px" border-radius="0 0 8px 8px">
+      <mj-column>
+        <mj-text font-size="22px" font-family="Georgia, 'Times New Roman', serif" color="#2E2A25" padding="0 0 8px 0">
+          Hallo {{firstName}}, bestätige deine neue E-Mail-Adresse
+        </mj-text>
+
+        <mj-text padding="0 0 16px 0">
+          Du hast in deinem Tanzmoment-Konto die E-Mail-Adresse von <strong>{{oldEmail}}</strong> zu <strong>{{newEmail}}</strong> geändert. Bitte bestätige die neue Adresse, um die Änderung abzuschließen.
+        </mj-text>
+
+        <mj-text padding="0 0 32px 0">
+          Der Link ist <strong>24 Stunden</strong> gültig.
+        </mj-text>
+
+        <mj-button
+          background-color="#688B68"
+          color="#FFFFFF"
+          font-size="15px"
+          font-weight="500"
+          border-radius="8px"
+          inner-padding="14px 32px"
+          href="{{verifyLink}}"
+          padding="0 0 32px 0"
+        >
+          Neue E-Mail bestätigen
+        </mj-button>
+
+        <mj-section background-color="#FDF8F3" border-radius="8px" padding="16px 24px">
+          <mj-column>
+            <mj-text font-size="13px" color="#5E5A55" padding="0">
+              Falls du diese Änderung nicht angefordert hast, ignoriere diese E-Mail. Deine bisherige Adresse bleibt aktiv, bis du den Link oben klickst.
+            </mj-text>
+          </mj-column>
+        </mj-section>
+      </mj-column>
+    </mj-section>
+
+    {{> footer}}
+  </mj-body>
+</mjml>

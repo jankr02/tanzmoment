@@ -1,0 +1,38 @@
+<div class="page">
+  <header class="page__header">
+    <h1>Mein Konto</h1>
+    <p class="page__subtitle">
+      Verwalte deine persönlichen Daten, Sicherheitseinstellungen und
+      Datenschutz-Optionen.
+    </p>
+  </header>
+
+  <nav class="tabs" aria-label="Konto-Bereiche">
+    @for (tab of tabs; track tab.path) {
+      <a
+        class="tabs__button"
+        [routerLink]="tab.path"
+        routerLinkActive="tabs__button--active"
+      >
+        {{ tab.label }}
+      </a>
+    }
+  </nav>
+
+  @if (store.loadError(); as err) {
+    <div class="banner banner--error" role="alert">
+      <span>{{ err }}</span>
+      <app-button variant="ghost" size="small" (clicked)="retry()">
+        Erneut laden
+      </app-button>
+    </div>
+  }
+
+  @if (store.isLoading() && !store.profile()) {
+    <p class="loading">Profil wird geladen…</p>
+  } @else {
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  }
+</div>
