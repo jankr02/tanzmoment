@@ -19,7 +19,7 @@ import { IconComponent, ButtonComponent } from '@tanzmoment/shared/ui';
 import { BookingStore } from '../../services/booking.store';
 import { AuthStateService } from '@tanzmoment/shared/services';
 
-type RedirectState = 'verifying' | 'success' | 'error' | 'cancelled';
+type RedirectState = 'verifying' | 'success' | 'error' | 'cancelled' | 'processing';
 
 @Component({
   selector: 'app-booking-redirect',
@@ -57,20 +57,31 @@ export class BookingRedirectComponent implements OnInit, OnDestroy {
 
     this.bookingStore.verifyPayment(bookingId);
 
+    // The checkout.session.completed webhook can arrive after the browser
+    // redirect, so re-poll until the payment has actually cleared rather than
+    // declaring success on the first response.
     this.checkInterval = setInterval(() => {
-      const s = this.bookingStore.state();
-      if (s === 'success') {
-        this.state.set('success');
-        this.clearTimers();
-      } else if (s === 'error') {
+      if (this.bookingStore.state() === 'error') {
         this.state.set('error');
         this.clearTimers();
+        return;
       }
-    }, 200);
+
+      const detail = this.bookingStore.bookingDetail();
+      if (detail?.payment?.status === 'paid' || detail?.status === 'confirmed') {
+        this.state.set('success');
+        this.clearTimers();
+        return;
+      }
+
+      this.bookingStore.verifyPayment(bookingId);
+    }, 2000);
 
     this.timeoutId = setTimeout(() => {
       this.clearTimers();
-      if (this.state() === 'verifying') this.state.set('error');
+      // Payment not confirmed in time — most likely a slow webhook or an async
+      // SEPA debit still settling. Reassure rather than show an error.
+      if (this.state() === 'verifying') this.state.set('processing');
     }, 30_000);
   }
 
