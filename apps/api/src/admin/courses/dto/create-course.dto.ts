@@ -5,35 +5,51 @@ import {
   Min,
   Max,
   IsEnum,
+  IsIn,
   IsOptional,
   IsBoolean,
+  MinLength,
   MaxLength,
   IsObject,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BookingMode, CourseLevel, CourseVisibility } from '@prisma/client';
 
+// Allowed values mirrored on the admin course form (step-basics). Keep in sync.
+export const DANCE_STYLES = ['accessible', 'expressive', 'kids', 'mothers'];
+export const TARGET_GROUPS = [
+  'Erwachsene',
+  'Kinder',
+  'Jugendliche',
+  'Mütter mit Babys',
+  'Alle',
+];
+
 export class CreateCourseDto {
   @ApiProperty({ example: 'Ausdruckstanz - frei & verbunden' })
   @IsString()
-  @MaxLength(200)
+  @MinLength(3)
+  @MaxLength(120)
   title: string;
 
   @ApiProperty({ example: 'Deinen wahren Ausdruck findest du nicht im Spiegel...' })
   @IsString()
+  @MinLength(30)
   @MaxLength(500)
   shortDescription: string;
 
   @ApiProperty({ example: 'Full course description...' })
   @IsString()
+  @MinLength(80)
+  @MaxLength(5000)
   description: string;
 
-  @ApiProperty({ example: 'expressive' })
-  @IsString()
+  @ApiProperty({ example: 'expressive', enum: DANCE_STYLES })
+  @IsIn(DANCE_STYLES)
   danceStyle: string;
 
-  @ApiProperty({ example: 'Erwachsene' })
-  @IsString()
+  @ApiProperty({ example: 'Erwachsene', enum: TARGET_GROUPS })
+  @IsIn(TARGET_GROUPS)
   targetGroup: string;
 
   @ApiProperty({ enum: CourseLevel, example: 'ALL_LEVELS' })
@@ -55,6 +71,7 @@ export class CreateCourseDto {
   @ApiProperty({ description: 'Price in EUROS (e.g. 19.50)', example: 19.5 })
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
+  @Max(1000)
   priceInEuros: number;
 
   @ApiProperty({ enum: BookingMode, example: 'FULL_COURSE' })

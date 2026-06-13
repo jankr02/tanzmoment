@@ -9,6 +9,7 @@
         class="field__input"
         step="0.01"
         min="0"
+        max="1000"
         placeholder="0,00"
       />
     </div>
@@ -20,6 +21,19 @@
       </label>
     </div>
   </div>
+
+  @if (
+    !form.get('isFree')?.value &&
+    form.get('priceInEuros')?.touched &&
+    (form.get('priceInEuros')?.value ?? 0) <= 0
+  ) {
+    <span class="field__error">
+      Bitte gib einen Preis ein oder markiere den Kurs als „Kostenlos".
+    </span>
+  }
+  @if (form.get('priceInEuros')?.hasError('max')) {
+    <span class="field__error">Der Preis darf höchstens 1000 € betragen.</span>
+  }
 
   <div class="field-row">
     <div class="field">
@@ -39,7 +53,14 @@
         formControlName="maxParticipants"
         class="field__input"
         min="1"
+        max="100"
       />
+      @if (form.get('maxParticipants')?.hasError('min')) {
+        <span class="field__error">Mindestens 1 Teilnehmer.</span>
+      }
+      @if (form.get('maxParticipants')?.hasError('max')) {
+        <span class="field__error">Höchstens 100 Teilnehmer.</span>
+      }
     </div>
   </div>
 
@@ -75,42 +96,4 @@
     </div>
   </div>
 
-  <button type="button" class="toggle-advanced" (click)="toggleAdvanced()">
-    {{ showAdvanced() ? '▾ Erweitert ausblenden' : '▸ Erweitert anzeigen' }}
-  </button>
-
-  @if (showAdvanced()) {
-    <div class="field">
-      <label class="field__label" for="metaTitle">Meta-Titel (SEO)</label>
-      <input
-        id="metaTitle"
-        type="text"
-        formControlName="metaTitle"
-        class="field__input"
-        placeholder="Wird im Browser-Tab angezeigt"
-      />
-    </div>
-
-    <div class="field">
-      <label class="field__label" for="metaDescription">Meta-Beschreibung (SEO)</label>
-      <textarea
-        id="metaDescription"
-        formControlName="metaDescription"
-        class="field__textarea"
-        rows="2"
-        placeholder="Wird in Suchergebnissen angezeigt"
-      ></textarea>
-    </div>
-
-    <div class="field">
-      <label class="field__label" for="cancellationPolicyId">Stornierungsrichtlinie (ID)</label>
-      <input
-        id="cancellationPolicyId"
-        type="text"
-        formControlName="cancellationPolicyId"
-        class="field__input"
-        placeholder="Optional"
-      />
-    </div>
-  }
 </div>

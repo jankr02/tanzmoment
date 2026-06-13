@@ -82,18 +82,45 @@ export class CourseFormComponent implements OnInit {
   });
 
   readonly form = this.fb.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
+    title: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(120),
+      ],
+    ],
     danceStyle: ['', Validators.required],
-    targetGroup: ['ADULTS', Validators.required],
+    targetGroup: ['', Validators.required],
     level: ['ALL_LEVELS', Validators.required],
-    shortDescription: ['', [Validators.required, Validators.maxLength(200)]],
-    description: ['', Validators.required],
-    catchPhrase: [''],
+    shortDescription: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(30),
+        Validators.maxLength(500),
+      ],
+    ],
+    description: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(80),
+        Validators.maxLength(5000),
+      ],
+    ],
+    catchPhrase: ['', Validators.maxLength(200)],
     imageUrl: [''],
-    priceInEuros: [0, [Validators.required, Validators.min(0)]],
+    priceInEuros: [
+      0,
+      [Validators.required, Validators.min(0), Validators.max(1000)],
+    ],
     isFree: [false],
     duration: [90, Validators.required],
-    maxParticipants: [12, [Validators.required, Validators.min(1)]],
+    maxParticipants: [
+      12,
+      [Validators.required, Validators.min(1), Validators.max(100)],
+    ],
     bookingMode: ['FULL_COURSE', Validators.required],
     visibility: ['PUBLIC', Validators.required],
     isMarkedAsHighlighted: [false],
@@ -127,6 +154,7 @@ export class CourseFormComponent implements OnInit {
           (course.detailContent as CourseDetailContent) ?? {},
         );
         this.loading.set(false);
+        this.applyRequestedStep();
       },
       error: () => {
         this.error.set('Kurs konnte nicht geladen werden.');
@@ -158,6 +186,21 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
+  /**
+   * Jumps to the step requested via the `step` query param (e.g. landing on
+   * "Termine" right after creating a course). Bypasses step-validity gating
+   * so the user reaches the intended step directly.
+   */
+  private applyRequestedStep(): void {
+    const stepKey = this.route.snapshot.queryParamMap.get('step');
+    if (!stepKey) return;
+
+    const index = this.steps().findIndex((s) => s.key === stepKey);
+    if (index >= 0) {
+      this.currentStep.set(index);
+    }
+  }
+
   isStepValid(stepIndex: number): boolean {
     const stepKey = this.steps()[stepIndex]?.key;
     switch (stepKey) {
@@ -173,12 +216,22 @@ export class CourseFormComponent implements OnInit {
       }
       case 'details':
         return this.form.controls.description.valid;
-      case 'content':
-        return true;
+      case 'content': {
+        const content = this.detailContent();
+        const hasCourseFlow = (content.courseFlow?.steps?.length ?? 0) > 0;
+        const hasFaq = (content.faq?.items?.length ?? 0) > 0;
+        return hasCourseFlow && hasFaq;
+      }
       case 'settings': {
         const c = this.form.controls;
+        // When the course is free the price control is disabled (and thus
+        // reports invalid), so only enforce a positive price for paid courses.
+        const isFree = c.isFree.value === true;
+        const priceOk = isFree
+          ? true
+          : c.priceInEuros.valid && (c.priceInEuros.value ?? 0) > 0;
         return (
-          c.priceInEuros.valid &&
+          priceOk &&
           c.duration.valid &&
           c.maxParticipants.valid &&
           c.bookingMode.valid
@@ -283,7 +336,11 @@ export class CourseFormComponent implements OnInit {
       next: (result) => {
         this.saving.set(false);
         if (!this.isEditMode()) {
-          this.router.navigate(['/admin', 'courses', result.id]);
+          // A freshly created course has no sessions yet, and the sessions
+          // step only exists in edit mode — land the user there directly.
+          this.router.navigate(['/admin', 'courses', result.id], {
+            queryParams: { step: 'sessions' },
+          });
         }
       },
       error: () => {

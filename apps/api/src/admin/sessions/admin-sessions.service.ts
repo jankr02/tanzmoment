@@ -17,6 +17,7 @@ export class AdminSessionsService {
   async create(dto: CreateSessionDto): Promise<AdminSessionDto> {
     await this.validateCourseExists(dto.courseId);
     await this.validateLocationExists(dto.locationId);
+    this.validateSessionTiming(dto.startTime, dto.endTime);
 
     const course = await this.prisma.course.findUnique({
       where: { id: dto.courseId },
@@ -237,6 +238,23 @@ export class AdminSessionsService {
     }
 
     return dates;
+  }
+
+  private validateSessionTiming(startTime: string, endTime: string): void {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+
+    if (start.getTime() < Date.now()) {
+      throw new BadRequestException(
+        'Der Termin liegt in der Vergangenheit. Bitte wähle ein Datum in der Zukunft.',
+      );
+    }
+
+    if (end.getTime() <= start.getTime()) {
+      throw new BadRequestException(
+        'Das Ende des Termins muss nach dem Start liegen.',
+      );
+    }
   }
 
   private async validateCourseExists(courseId: string): Promise<void> {

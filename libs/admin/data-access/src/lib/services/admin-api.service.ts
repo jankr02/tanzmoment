@@ -37,6 +37,7 @@ import {
   UpdateStudioSettingsRequest,
   ChangePasswordRequest,
 } from '../types/settings.types';
+import { UploadResponse } from '../types/news.types';
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
@@ -106,6 +107,15 @@ export class AdminApiService {
     return this.http.post<AdminCourseDetail>(
       `${this.baseUrl}/courses/${id}/duplicate`,
       {},
+    );
+  }
+
+  uploadCourseImage(file: File): Observable<UploadResponse> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<UploadResponse>(
+      `${this.baseUrl}/uploads/course-cover`,
+      form,
     );
   }
 

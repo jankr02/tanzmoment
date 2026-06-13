@@ -16,6 +16,18 @@ export class UploadsService {
   constructor(@Inject(STORAGE_DRIVER) private readonly storage: StorageDriver) {}
 
   async saveNewsImage(file: Express.Multer.File, options: ResizeOptions): Promise<StoredFile> {
+    return this.processAndStore(file, options, 'news');
+  }
+
+  async saveCourseImage(file: Express.Multer.File, options: ResizeOptions): Promise<StoredFile> {
+    return this.processAndStore(file, options, 'courses');
+  }
+
+  private async processAndStore(
+    file: Express.Multer.File,
+    options: ResizeOptions,
+    category: string,
+  ): Promise<StoredFile> {
     this.assertImageFile(file);
 
     const processed = await sharp(file.buffer)
@@ -28,7 +40,7 @@ export class UploadsService {
     const yyyy = now.getUTCFullYear();
     const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
     const filename = `${randomUUID()}.webp`;
-    const relativePath = `news/${yyyy}/${mm}/${filename}`;
+    const relativePath = `${category}/${yyyy}/${mm}/${filename}`;
 
     return this.storage.save(processed, relativePath, 'image/webp');
   }

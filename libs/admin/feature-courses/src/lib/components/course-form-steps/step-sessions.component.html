@@ -24,7 +24,12 @@
       <div class="add-form__row">
         <div class="add-form__field">
           <label class="add-form__label">Datum</label>
-          <input type="date" formControlName="date" class="add-form__input" />
+          <input
+            type="date"
+            formControlName="date"
+            class="add-form__input"
+            [min]="minDate"
+          />
         </div>
         <div class="add-form__field">
           <label class="add-form__label">Start</label>
@@ -44,11 +49,15 @@
           </select>
         </div>
       </div>
+      @if (addError()) {
+        <p class="add-form__error">{{ addError() }}</p>
+      }
+
       <div class="add-form__actions">
         <button
           type="button"
           class="btn btn--ghost"
-          (click)="showAddForm.set(false)"
+          (click)="showAddForm.set(false); addError.set(null)"
         >
           Abbrechen
         </button>
