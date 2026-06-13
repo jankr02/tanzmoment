@@ -3,7 +3,13 @@
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"]
+    "types": ["node"],
+    // Resolve the buildable dependency from its compiled output (built first via
+    // ^build) instead of source, so tsc does not pull shared-types sources outside
+    // this lib's rootDir (TS6059). Editor/dev resolution still uses source via tsconfig.json.
+    "paths": {
+      "@tanzmoment/shared/types": ["dist/libs/shared/types"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts", "**/*.spec.ts"],

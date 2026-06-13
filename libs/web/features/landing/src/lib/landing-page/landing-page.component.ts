@@ -41,9 +41,11 @@ import {
   LandingPageSection,
 } from './landing-page-state.service';
 
-import { SplashScreenVisibilityService } from '../services/splash-screen-visibility.service';
 import { LandingPageColorService } from '../services/landing-page-color.service';
-import { SeoService } from '@tanzmoment/shared/services';
+import {
+  SeoService,
+  SplashScreenVisibilityService,
+} from '@tanzmoment/shared/services';
 
 @Component({
   selector: 'tm-landing-page',

@@ -38,7 +38,8 @@ jobs:
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
-      - run: npx nx run-many -t lint test build
-      # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
-      - run: npx nx fix-ci
-        if: always()
+      #
+      # api-e2e is excluded here: its only spec is an end-to-end test that needs a
+      # running API + database and is covered by the dedicated `e2e` target, not the
+      # unit `test` sweep.
+      - run: npx nx run-many -t lint test build --exclude=api-e2e

@@ -553,7 +553,9 @@ describe('ImagePreloadService', () => {
           }
         }
 
-        removeEventListener() {}
+        removeEventListener() {
+          // Mock implementation - no-op for tests
+        }
       } as any;
 
       const requests: ImagePreloadRequest[] = [

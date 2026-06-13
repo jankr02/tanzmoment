@@ -22,7 +22,6 @@
       "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "config": "libs/shared/services/vitest.config.ts",
         "passWithNoTests": true
       }
     }

@@ -6,8 +6,10 @@ import {
   FooterComponent,
   UserMenuData,
 } from '@tanzmoment/shared/ui';
-import { AuthStateService } from '@tanzmoment/shared/services';
-import { SplashScreenVisibilityService } from '@tanzmoment/web/features/landing';
+import {
+  AuthStateService,
+  SplashScreenVisibilityService,
+} from '@tanzmoment/shared/services';
 import { filter } from 'rxjs';
 
 @Component({

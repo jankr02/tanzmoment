@@ -28,7 +28,15 @@ export default [
   },
   {
     files: ['**/*.html'],
-    // Override or add rules here
-    rules: {},
+    rules: {
+      // The content and cover-image fields are labelled custom form components,
+      // which the rule does not recognise as controls by default.
+      '@angular-eslint/template/label-has-associated-control': [
+        'error',
+        {
+          controlComponents: ['admin-tiptap-editor', 'admin-cover-image-upload'],
+        },
+      ],
+    },
   },
 ];

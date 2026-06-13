@@ -9,3 +9,4 @@ export * from './lib/auth';
 export * from './lib/booking';
 export * from './lib/seo';
 export * from './lib/newsletter';
+export * from './lib/splash-screen';
