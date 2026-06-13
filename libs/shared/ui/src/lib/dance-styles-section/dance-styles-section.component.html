@@ -5,7 +5,10 @@
      Mobile        (≤ 768px):  full-viewport scroll-snap "visual journey"
      ============================================================================ -->
 
-<section class="dance-styles-section">
+<section
+  class="dance-styles-section"
+  [class.dance-styles-section--flush]="!showHeader"
+>
   <!-- Mobile journey -->
   <div class="dance-styles-section__mobile">
     <!-- Wave INTO the journey: matches the section ABOVE so the divider
@@ -43,12 +46,14 @@
   <div class="dance-styles-section__desktop">
     <!-- Header Zone mit Titel -->
     <header class="dance-styles-section__header">
-      <div class="dance-styles-section__header-content">
-        <h2 class="dance-styles-section__title">{{ headline }}</h2>
-        @if (subheadline) {
-          <p class="dance-styles-section__subtitle">{{ subheadline }}</p>
-        }
-      </div>
+      @if (showHeader) {
+        <div class="dance-styles-section__header-content">
+          <h2 class="dance-styles-section__title">{{ headline }}</h2>
+          @if (subheadline) {
+            <p class="dance-styles-section__subtitle">{{ subheadline }}</p>
+          }
+        </div>
+      }
       <!-- Wave Übergang nach unten zum Bild -->
       <div class="dance-styles-section__wave-top" aria-hidden="true">
         <svg

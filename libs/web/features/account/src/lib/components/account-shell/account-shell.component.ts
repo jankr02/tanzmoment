@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { PageHeaderComponent } from '@tanzmoment/shared/ui';
 import { AuthStateService } from '@tanzmoment/shared/services';
 
 interface AccountTab {
@@ -11,7 +12,7 @@ interface AccountTab {
 @Component({
   selector: 'lib-account-shell',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, PageHeaderComponent],
   templateUrl: './account-shell.component.html',
   styleUrls: ['./account-shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

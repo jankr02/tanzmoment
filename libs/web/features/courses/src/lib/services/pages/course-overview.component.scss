@@ -41,6 +41,15 @@ $bp-sidebar: 1024px;
   background: var(--color-surface);
 }
 
+.course-overview__page-header {
+  display: block;
+  padding: var(--space-12) var(--space-4) var(--space-4);
+
+  @media (max-width: 768px) {
+    padding: var(--space-10) var(--space-4) var(--space-2);
+  }
+}
+
 .course-overview__container {
   max-width: $container-max;
   margin: 0 auto;
@@ -55,11 +64,7 @@ $bp-sidebar: 1024px;
 // ─────────────────────────────────────────────────────────────────────────────
 
 .course-overview__hero {
-  background: linear-gradient(
-    to bottom,
-    var(--color-neutral-xl) 0%,
-    var(--color-surface) 100%
-  );
+  background: var(--color-surface);
 
   @media (max-width: 768px) {
     padding: 0 0 var(--space-6);
@@ -134,7 +139,7 @@ $bp-sidebar: 1024px;
 .course-overview__section-title {
   font-family: var(--font-headline);
   font-size: 2.9rem;
-  font-weight: 400;
+  font-weight: var(--font-weight-heading);
   color: var(--color-text);
   margin: 0;
   line-height: 1.2;

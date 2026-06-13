@@ -21,6 +21,7 @@ export * from './lib/select/select.component';
 export * from './lib/splash-screen/splash-screen.component';
 export * from './lib/textarea/textarea.component';
 export * from './lib/empty-state/empty-state.component';
+export * from './lib/page-header/page-header.component';
 export * from './lib/filter-sidebar/filter-sidebar.component';
 export * from './lib/testimonial-section/testimonial-section.component';
 export * from './lib/session-selector/session-selector.component';

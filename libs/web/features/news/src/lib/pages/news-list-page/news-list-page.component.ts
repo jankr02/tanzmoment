@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { PageHeaderComponent } from '@tanzmoment/shared/ui';
 import { SeoService } from '@tanzmoment/shared/services';
 import { NewsApiService } from '../../services/news-api.service';
 import {
@@ -20,7 +21,7 @@ const PAGE_SIZE = 12;
 @Component({
   selector: 'tm-news-list-page',
   standalone: true,
-  imports: [NgIf, NgFor, NewsCardComponent],
+  imports: [NgIf, NgFor, NewsCardComponent, PageHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './news-list-page.component.html',
   styleUrl: './news-list-page.component.scss',

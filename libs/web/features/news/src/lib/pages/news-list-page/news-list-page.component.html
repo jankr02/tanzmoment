@@ -1,11 +1,10 @@
 <main class="news-list-page">
-  <header class="news-list-page__header">
-    <span class="news-list-page__eyebrow">Neuigkeiten</span>
-    <h1 class="news-list-page__title">Was bei Tanzmoment passiert</h1>
-    <p class="news-list-page__subtitle">
-      Studio-News, neue Kurse, Veranstaltungen und Geschichten aus unserem Tanzraum.
-    </p>
-  </header>
+  <ui-page-header
+    class="news-list-page__header"
+    eyebrow="Neuigkeiten"
+    title="Was bei Tanzmoment passiert"
+    subtitle="Studio-News, neue Kurse, Veranstaltungen und Geschichten aus unserem Tanzraum."
+  />
 
   <section class="news-list-page__content">
     <div class="news-list-page__error" *ngIf="error()" role="alert">

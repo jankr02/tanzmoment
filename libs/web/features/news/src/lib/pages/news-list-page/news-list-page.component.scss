@@ -4,38 +4,7 @@
   padding: var(--space-10, 64px) var(--space-5, 20px) var(--space-12, 96px);
 
   &__header {
-    text-align: center;
     margin-bottom: var(--space-10, 64px);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3, 12px);
-    align-items: center;
-  }
-
-  &__eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 13px;
-    color: var(--color-primary-dark, #688b68);
-    font-weight: 600;
-  }
-
-  &__title {
-    font-family: 'Inter', sans-serif;
-    font-weight: var(--font-weight-heading, 900);
-    color: var(--color-text-primary, #2e2a25);
-    font-size: clamp(32px, 5vw, 48px);
-    line-height: 1.15;
-    margin: 0;
-    max-width: 700px;
-  }
-
-  &__subtitle {
-    color: var(--color-text-secondary, #5e5a55);
-    font-size: 17px;
-    line-height: 1.6;
-    max-width: 580px;
-    margin: 0;
   }
 
   &__content {

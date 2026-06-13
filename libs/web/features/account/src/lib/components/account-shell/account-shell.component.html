@@ -1,11 +1,7 @@
 <section class="account">
-  <header class="account__header">
+  <ui-page-header eyebrow="Mein Bereich" [title]="'Hallo ' + displayName()">
     <span class="account__avatar" aria-hidden="true">{{ initials() }}</span>
-    <div>
-      <p class="account__eyebrow">Mein Bereich</p>
-      <h1 class="account__title">Hallo {{ displayName() }}</h1>
-    </div>
-  </header>
+  </ui-page-header>
 
   <nav class="account__tabs" aria-label="Konto-Navigation">
     @for (tab of tabs; track tab.route) {

@@ -134,13 +134,10 @@
         [hasError]="hasError('privacyAccepted')"
         [errorMessage]="getErrorMessage('privacyAccepted')"
       >
-      </app-checkbox>
-      <label class="contact-form__privacy-label">
         Ich habe die
         <a href="/datenschutz" class="contact-form__link">Datenschutzerklärung</a>
         gelesen und bin mit der Verarbeitung meiner Daten einverstanden.
-        <span class="contact-form__required">*</span>
-      </label>
+      </app-checkbox>
     </div>
 
     <!-- Submit Button -->
@@ -148,7 +145,7 @@
       <app-button
         type="submit"
         variant="primary"
-        [fullWidth]="true"
+        size="large"
         [disabled]="isSubmitting()"
         [loading]="isSubmitting()"
       >

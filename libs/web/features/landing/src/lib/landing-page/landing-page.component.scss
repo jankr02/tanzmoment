@@ -111,11 +111,10 @@
 .features-title {
   font-family: var(--font-headline);
   font-size: clamp(2rem, 5vw, 2.5rem);
-  font-weight: 400;
+  font-weight: var(--font-weight-heading);
   color: var(--color-text-primary);
   text-align: center;
   margin: 0 0 var(--space-12);
-  letter-spacing: 0.02em;
 }
 
 // ==============================================================================

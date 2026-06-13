@@ -64,6 +64,9 @@ export class DanceStylesSectionComponent {
   /** Section Subheadline (optional) */
   @Input() subheadline = 'Vier einzigartige Wege, Bewegung und Ausdruck zu erleben';
 
+  /** Hide the section title when the page already provides a header above it. */
+  @Input() showHeader = true;
+
   /** Zeigt Kurs-Anzahl auf den Cards */
   @Input() showCourseCounts = true;
 
