@@ -1,12 +1,12 @@
 export interface AccessibilityFeature {
+  /** Asset path to the line-style SVG icon (tinted via CSS mask). */
+  icon: string;
+  /** Uppercase eyebrow shown above the title. */
+  kicker: string;
   title: string;
   description: string;
-  /** Emoji or short illustration glyph. Omitted on quote-eyecatcher cards. */
-  icon?: string;
-  /** Optional short muted secondary line shown under the title. */
-  accent?: string;
-  /** When set, the card renders as a quote eyecatcher instead of a feature. */
-  quote?: string;
+  /** Additional text revealed when the card is expanded. */
+  details: string;
 }
 
 export interface AccessibilityFeaturesSectionData {

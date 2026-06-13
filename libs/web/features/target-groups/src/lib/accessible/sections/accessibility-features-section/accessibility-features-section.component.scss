@@ -2,6 +2,12 @@
   padding: var(--space-24) 0;
   background-color: var(--color-surface);
 
+  &__defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
   &__container {
     max-width: 1100px;
     margin: 0 auto;
@@ -32,96 +38,104 @@
     }
   }
 
-  /**
-   * Masonry layout via CSS multi-column flow.
-   * Native `grid-template-rows: masonry` is not shipped in stable browsers
-   * yet, so column-count gives the organic, uneven-height arrangement
-   * reliably across browsers. Cards keep their natural height from content.
-   */
   &__grid {
-    columns: 2;
-    column-gap: var(--space-6);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    align-items: start;
 
     @media (max-width: 640px) {
-      columns: 1;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+
+  // Static vertical offset on the right column for an organic, staggered feel
+  &__card:nth-child(even) {
+    @media (min-width: 641px) {
+      transform: translateY(var(--space-10));
     }
   }
 
   &__card {
-    break-inside: avoid;
-    width: 100%;
-    margin-bottom: var(--space-6);
+    --card-fill: var(--color-surface-sage);
+    --card-accent: var(--color-brand);
+
+    position: relative;
     padding: var(--space-8);
     border-radius: var(--radius-xl);
-    background-color: var(--color-surface);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    background-color: var(--card-fill);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    transition: box-shadow var(--transition-base);
 
     &:hover {
-      transform: translateY(-3px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
 
-    // Background tints cycle across cards for an organic, non-uniform feel
+    // Hand-drawn border: a displaced outline traced just inside the card edge
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--card-accent);
+      border-radius: inherit;
+      filter: url(#tm-sketch-border);
+      pointer-events: none;
+    }
+
     &--tint-0 {
-      background-color: var(--color-surface);
+      --card-fill: var(--color-surface-sage);
+      --card-accent: var(--color-brand);
     }
 
     &--tint-1 {
-      background-color: var(--color-surface-sage);
-      padding: var(--space-10);
+      --card-fill: var(--color-surface-champagne);
+      --card-accent: var(--color-secondary-dark);
     }
 
     &--tint-2 {
-      background-color: var(--color-primary-light);
+      --card-fill: var(--color-surface-rose);
+      --card-accent: var(--color-accent-dark);
     }
   }
 
-  &__icon {
-    display: block;
-    font-size: 2.25rem;
-    line-height: 1;
-    margin-bottom: var(--space-4);
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: var(--space-5);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
 
-    // Occasionally a larger icon to break the rhythm
-    .accessibility-features__card--tint-2 & {
-      font-size: 2.75rem;
-    }
+  &__icon {
+    width: 28px;
+    height: 28px;
+    background-color: var(--card-accent);
+    -webkit-mask: var(--feature-icon) center / contain no-repeat;
+    mask: var(--feature-icon) center / contain no-repeat;
+  }
+
+  &__kicker {
+    font-family: var(--font-body);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--card-accent);
+    margin: 0 0 var(--space-2);
   }
 
   &__title {
     font-family: var(--font-headline);
     font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-h3);
     color: var(--color-text-primary);
     margin: 0 0 var(--space-3);
-    text-align: left;
-
-    // Thin, slightly skewed hand-drawn-style underline accent
-    &--accent {
-      margin-bottom: var(--space-2);
-
-      &::after {
-        content: '';
-        display: block;
-        width: 52px;
-        height: 3px;
-        margin-top: var(--space-2);
-        background-color: var(--color-accessible-accent, var(--color-brand));
-        border-radius: var(--radius-full);
-        transform: rotate(-1.5deg);
-        opacity: 0.7;
-      }
-    }
-  }
-
-  &__accent {
-    font-family: var(--font-body);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    letter-spacing: 0.02em;
-    color: var(--color-accessible-accent, var(--color-brand));
-    margin: 0 0 var(--space-3);
-    text-align: left;
   }
 
   &__description {
@@ -130,32 +144,42 @@
     line-height: 1.7;
     color: var(--color-text-secondary);
     margin: 0;
-    text-align: left;
   }
 
-  // Quote eyecatcher card: no icon, reuses the editorial pull-quote motif
-  &__card--quote {
-    background-color: var(--color-surface-sage);
-  }
-
-  &__quote {
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
     font-family: var(--font-body);
-    font-size: 1.25rem;
-    font-style: italic;
-    line-height: 1.5;
-    color: var(--color-text-primary);
-    margin: 0;
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-medium);
+    color: var(--card-accent);
 
-    &::before {
-      content: '\201C';
-      display: block;
-      font-family: var(--font-headline);
-      font-size: 4rem;
-      line-height: 0.6;
-      font-weight: var(--font-weight-heading);
-      color: var(--color-accessible-accent, var(--color-brand));
-      opacity: 0.25;
-      margin-bottom: var(--space-2);
+    &:focus-visible {
+      outline: 2px solid var(--card-accent);
+      outline-offset: 4px;
+      border-radius: var(--radius-sm);
     }
+  }
+
+  &__chevron {
+    transition: transform var(--transition-fast);
+
+    &.is-open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__details {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
   }
 }

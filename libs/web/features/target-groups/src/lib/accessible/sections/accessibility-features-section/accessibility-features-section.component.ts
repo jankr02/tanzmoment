@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccessibilityFeaturesSectionData } from './accessibility-features-section.types';
 
@@ -12,4 +17,24 @@ import { AccessibilityFeaturesSectionData } from './accessibility-features-secti
 })
 export class AccessibilityFeaturesSectionComponent {
   @Input({ required: true }) data!: AccessibilityFeaturesSectionData;
+
+  private readonly openIndices = signal<ReadonlySet<number>>(new Set());
+
+  isOpen(index: number): boolean {
+    return this.openIndices().has(index);
+  }
+
+  toggle(index: number): void {
+    const next = new Set(this.openIndices());
+    if (next.has(index)) {
+      next.delete(index);
+    } else {
+      next.add(index);
+    }
+    this.openIndices.set(next);
+  }
+
+  iconVar(path: string): string {
+    return `url('${path}')`;
+  }
 }

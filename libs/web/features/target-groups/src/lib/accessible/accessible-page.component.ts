@@ -100,47 +100,58 @@ export class AccessiblePageComponent implements OnInit {
       'Unser Studio wurde von Grund auf inklusiv gestaltet. Hier die konkreten Details.',
     features: [
       {
-        icon: '🚪',
+        icon: '/assets/icons/features/stufenloser-zugang.svg',
+        kicker: 'Ankommen ohne Hürden',
         title: 'Stufenloser Zugang',
-        accent: 'Ankommen ohne Hürden',
         description:
-          'Rampe vom Eingang, Aufzug zu allen Etagen, breite Türen (min. 90cm). Rollstuhlgerechte Toiletten und Umkleiden.',
+          'Rampe vom Eingang, Aufzug zu allen Etagen, breite Türen (min. 90 cm). Rollstuhlgerechte Toiletten und Umkleiden.',
+        details:
+          'Behindertenparkplätze liegen direkt vor der Tür, der Empfang ist ebenerdig erreichbar und unser Team unterstützt dich beim Ankommen – wenn du möchtest.',
       },
       {
-        icon: '🏢',
+        icon: '/assets/icons/features/raeumliche-anpassung.svg',
+        kicker: 'Platz, der mitdenkt',
         title: 'Räumliche Anpassung',
         description:
           'Grosszügiger Tanzraum mit genug Platz für Rollstühle, Gehhilfen oder Assistenzhunde. Variable Raumaufteilung je nach Bedarf.',
+        details:
+          'Sag uns vorab, was du brauchst – wir richten den Saal entsprechend ein. Bei Bedarf reduzieren wir die Gruppengröße, damit alle genug Raum haben.',
       },
       {
-        icon: '🔊',
+        icon: '/assets/icons/features/sensorische-ruecksicht.svg',
+        kicker: 'Reize nach deinem Maß',
         title: 'Sensorische Rücksicht',
         description:
           'Individuelle Lautstärke-Anpassung möglich. Vibrationsplatten für gehörlose Teilnehmer. Gute Beleuchtung ohne Blendung.',
+        details:
+          'Auf Wunsch dimmen wir das Licht, drehen die Musik leiser oder arbeiten ganz ohne Ton. Reizarme Zeitfenster lassen sich gezielt einplanen.',
       },
       {
-        quote: 'Wir passen den Tanz an dich an – nicht umgekehrt.',
-        title: '',
-        description: '',
-      },
-      {
-        icon: '👁️',
+        icon: '/assets/icons/features/visuelle-unterstuetzung.svg',
+        kicker: 'Sehen, fühlen, verstehen',
         title: 'Visuelle Unterstützung',
         description:
           'Kontrastreiche Markierungen, taktile Leitsysteme, Gebärdensprach-Dolmetscher auf Anfrage verfügbar.',
+        details:
+          'Abläufe werden zusätzlich angesagt und ertastbar gemacht. Eine Gebärdensprach-Dolmetschung organisieren wir gerne im Voraus für dich.',
       },
       {
-        icon: '🤝',
+        icon: '/assets/icons/features/assistenz-willkommen.svg',
+        kicker: 'Begleitung tanzt kostenfrei mit',
         title: 'Assistenz willkommen',
-        accent: 'Begleitung tanzt kostenfrei mit',
         description:
           'Begleitpersonen und Assistenten sind herzlich willkommen und nehmen kostenfrei teil.',
+        details:
+          'Ob Assistenzperson, Freund:in oder Familienmitglied – wer dich begleitet, ist Teil des Kurses und zahlt nichts. Mehrere Begleitungen sind möglich.',
       },
       {
-        icon: '🛋️',
+        icon: '/assets/icons/features/ruheraeume.svg',
+        kicker: 'Pause, wann du sie brauchst',
         title: 'Ruheräume',
         description:
           'Ruhezone für Pausen bei Erschöpfung, Schmerzen oder Reizüberflutung.',
+        details:
+          'Ein ruhiger Rückzugsort steht jederzeit offen. Du kannst den Kurs jederzeit verlassen und wieder einsteigen – ganz ohne Erklärung.',
       },
     ],
   });
