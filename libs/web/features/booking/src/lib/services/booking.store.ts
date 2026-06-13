@@ -77,14 +77,15 @@ export class BookingStore {
   // BOOKING VERIFICATION (post Stripe redirect)
   // ──────────────────────────────────────────────────────────────────────────
 
+  /**
+   * Fetches the latest booking/payment status for the post-Stripe success page.
+   * Only stores the detail (and flags HTTP errors) — the success page decides
+   * whether the payment has cleared and re-polls until it has, because the
+   * Stripe webhook can arrive after the browser redirect.
+   */
   verifyPayment(bookingId: string): void {
-    this._state.set('loading-sessions');
-
     this.bookingApi.verifyBookingPayment(bookingId).subscribe({
-      next: (detail) => {
-        this._bookingDetail.set(detail);
-        this._state.set('success');
-      },
+      next: (detail) => this._bookingDetail.set(detail),
       error: () => {
         this._error.set('Zahlungsstatus konnte nicht verifiziert werden.');
         this._state.set('error');

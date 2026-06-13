@@ -31,7 +31,7 @@
   <!-- ================================================================== -->
   @if (step() === 'details') {
     <div class="booking-form__step">
-      <p class="booking-form__step-label">Schritt 2 · Deine Daten</p>
+      <p class="booking-form__step-label">Schritt {{ currentStepNumber() }} · Deine Daten</p>
 
       <p class="booking-form__hint">
         Kein Konto nötig – gib einfach deine Kontaktdaten ein.
@@ -112,12 +112,12 @@
       </div>
 
       <!-- Booking Summary -->
-      @if (selectedSession(); as session) {
-        <div class="booking-form__summary">
-          <div class="booking-form__summary-row">
-            <span>Kurs</span>
-            <strong>{{ courseTitle }}</strong>
-          </div>
+      <div class="booking-form__summary">
+        <div class="booking-form__summary-row">
+          <span>Kurs</span>
+          <strong>{{ courseTitle }}</strong>
+        </div>
+        @if (selectedSession(); as session) {
           <div class="booking-form__summary-row">
             <span>Termin</span>
             <strong>
@@ -130,12 +130,12 @@
             <span>Ort</span>
             <strong>{{ session.location }}</strong>
           </div>
-          <div class="booking-form__summary-row booking-form__summary-row--price">
-            <span>Preis</span>
-            <strong>{{ formattedPrice() }}</strong>
-          </div>
+        }
+        <div class="booking-form__summary-row booking-form__summary-row--price">
+          <span>Preis</span>
+          <strong>{{ formattedPrice() }}</strong>
         </div>
-      }
+      </div>
 
       <!-- Waitlist Notice -->
       @if (isWaitlist()) {

@@ -23,6 +23,7 @@ import {
   computed,
   ChangeDetectionStrategy,
   PLATFORM_ID,
+  OnInit,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
@@ -69,7 +70,7 @@ interface GuestFormValue {
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.scss',
 })
-export class BookingFormComponent {
+export class BookingFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly bookingApi = inject(BookingApiService);
   readonly authState = inject(AuthStateService);
@@ -84,6 +85,8 @@ export class BookingFormComponent {
   @Input({ required: true }) priceInCents!: number;
   @Input({ required: true }) sessions: SessionAvailability[] = [];
   @Input() cancellationPolicyName?: string;
+  /** FULL_COURSE skips session selection; SINGLE_SESSION requires a session. */
+  @Input() bookingMode = 'SINGLE_SESSION';
 
   @Output() bookingCompleted = new EventEmitter<CreateBookingApiResponse>();
   @Output() bookingError = new EventEmitter<string>();
@@ -118,11 +121,20 @@ export class BookingFormComponent {
     return 'Jetzt buchen';
   });
 
-  readonly totalSteps = computed(() => this.isAuthenticated() ? 2 : 3);
+  /** Full-course bookings cover the whole course, so there is no session step. */
+  get isFullCourse(): boolean {
+    return this.bookingMode === 'FULL_COURSE';
+  }
+
+  readonly totalSteps = computed(() => {
+    const base = this.isAuthenticated() ? 2 : 3;
+    return this.isFullCourse ? base - 1 : base;
+  });
   readonly currentStepNumber = computed(() => {
     const s = this.step();
     if (s === 'select-session') return 1;
-    if (s === 'details') return 2;
+    if (s === 'details') return this.isFullCourse ? 1 : 2;
+    if (this.isFullCourse) return this.isAuthenticated() ? 1 : 2;
     return this.isAuthenticated() ? 2 : 3;
   });
 
@@ -163,6 +175,18 @@ export class BookingFormComponent {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
+  // LIFECYCLE
+  // ──────────────────────────────────────────────────────────────────────────
+
+  ngOnInit(): void {
+    // Full-course bookings have no session to pick — start past the
+    // session-selection step.
+    if (this.isFullCourse) {
+      this.step.set(this.isAuthenticated() ? 'confirm' : 'details');
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
   // STEP NAVIGATION
   // ──────────────────────────────────────────────────────────────────────────
 
@@ -187,7 +211,7 @@ export class BookingFormComponent {
     const s = this.step();
     if (s === 'confirm' && !this.isAuthenticated()) {
       this.step.set('details');
-    } else if (s === 'confirm' || s === 'details') {
+    } else if ((s === 'confirm' || s === 'details') && !this.isFullCourse) {
       this.step.set('select-session');
     }
   }
@@ -203,14 +227,14 @@ export class BookingFormComponent {
     }
 
     const session = this.selectedSession();
-    if (!session) return;
+    if (!this.isFullCourse && !session) return;
 
     this.step.set('processing');
     this.error.set(null);
 
     const request: CreateBookingApiRequest = {
       courseId: this.courseId,
-      sessionId: session.id,
+      sessionId: session?.id,
       notes: this.confirmForm.value.notes || undefined,
     };
 

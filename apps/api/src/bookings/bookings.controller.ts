@@ -140,6 +140,24 @@ export class BookingsController {
   }
 
   // ===========================================================================
+  // GET /bookings/:id/verify-payment – Public post-checkout verification
+  // ===========================================================================
+
+  @Get(':id/verify-payment')
+  @ApiOperation({
+    summary: 'Verify booking payment status after the Stripe redirect',
+    description:
+      'Public endpoint called by the success page after returning from Stripe. ' +
+      'Returns booking status and course info by booking ID. No contact data is exposed.',
+  })
+  @ApiParam({ name: 'id', description: 'Booking ID' })
+  @ApiResponse({ status: 200, type: BookingResponseDto })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  async verifyPayment(@Param('id') id: string): Promise<BookingResponseDto> {
+    return this.bookingsService.verifyBookingPayment(id);
+  }
+
+  // ===========================================================================
   // GET /bookings/:id – Get single booking (auth required)
   // ===========================================================================
 

@@ -8,6 +8,23 @@
     </div>
   }
 
+  <!-- Processing (payment not confirmed yet – slow webhook / async SEPA debit) -->
+  @if (state() === 'processing') {
+    <div class="booking-redirect__result">
+      <div class="booking-redirect__icon">
+        <app-icon name="clock" size="xl" />
+      </div>
+      <h1>Zahlung wird verarbeitet</h1>
+      <p>
+        Deine Zahlung ist eingegangen und wird gerade bestätigt. Du erhältst in
+        Kürze eine Bestätigung per E-Mail.
+      </p>
+      <div class="booking-redirect__actions">
+        <app-button variant="primary" (clicked)="goToCourses()">Zurück zu Kursen</app-button>
+      </div>
+    </div>
+  }
+
   <!-- Success -->
   @if (state() === 'success') {
     <div class="booking-redirect__result booking-redirect__result--success">

@@ -84,8 +84,8 @@ export class StripeService implements OnModuleInit {
         bookingId: options.bookingId,
         ...options.metadata,
       },
-      success_url: `${frontendUrl}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${frontendUrl}/booking/cancelled?booking_id=${options.bookingId}`,
+      success_url: `${frontendUrl}/buchung/bezahlung-erfolgreich?bookingId=${options.bookingId}`,
+      cancel_url: `${frontendUrl}/buchung/bezahlung-abgebrochen?bookingId=${options.bookingId}`,
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
 

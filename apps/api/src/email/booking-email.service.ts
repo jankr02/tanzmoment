@@ -37,12 +37,12 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
-        sessionEnd: data.session.endTime.toISOString(),
-        location: data.session.location.name,
-        instructorName: `${data.session.course.instructor.user.firstName} ${data.session.course.instructor.user.lastName}`,
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        sessionEnd: data.effectiveSession?.endTime.toISOString(),
+        location: data.effectiveSession?.location?.name,
+        instructorName: `${data.course.instructor.user.firstName} ${data.course.instructor.user.lastName}`,
         amountPaid: data.payment?.amountInCents ?? null,
         bookingId: data.id,
       },
@@ -68,9 +68,9 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
         cancelledAt: data.cancelledAt?.toISOString() ?? new Date().toISOString(),
         refundType: refund?.type ?? 'none',
         refundAmount: refund?.amountInCents ?? 0,
@@ -100,9 +100,9 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
         adminReason,
         refundAmount: refundAmountInCents ?? 0,
       },
@@ -125,9 +125,9 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
         waitlistPosition: position,
       },
     });
@@ -149,11 +149,11 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
-        location: data.session.location.name,
-        priceInCents: data.session.course.priceInCents,
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        location: data.effectiveSession?.location?.name,
+        priceInCents: data.course.priceInCents,
         expiresAt: expiresAt.toISOString(),
         bookingId: data.id,
       },
@@ -176,12 +176,12 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
-        sessionDate: data.session.startTime.toISOString(),
-        sessionStart: data.session.startTime.toISOString(),
-        sessionEnd: data.session.endTime.toISOString(),
-        location: data.session.location.name,
-        instructorName: `${data.session.course.instructor.user.firstName} ${data.session.course.instructor.user.lastName}`,
+        courseName: data.course.title,
+        sessionDate: data.effectiveSession?.startTime.toISOString(),
+        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        sessionEnd: data.effectiveSession?.endTime.toISOString(),
+        location: data.effectiveSession?.location?.name,
+        instructorName: `${data.course.instructor.user.firstName} ${data.course.instructor.user.lastName}`,
         bookingId: data.id,
         notes: data.notes,
       },
@@ -207,7 +207,7 @@ export class BookingEmailService {
       userId: data.recipient.userId ?? undefined,
       variables: {
         firstName: data.recipient.firstName,
-        courseName: data.session.course.title,
+        courseName: data.course.title,
         refundType: refund.type,
         refundAmount: refund.amountInCents,
         refundPercent: refund.percent,
@@ -243,18 +243,33 @@ export class BookingEmailService {
         user: {
           select: { id: true, email: true, firstName: true, lastName: true },
         },
-        session: {
-          include: {
-            location: { select: { name: true } },
-            course: {
-              include: {
-                instructor: {
-                  include: {
-                    user: { select: { firstName: true, lastName: true } },
-                  },
-                },
+        course: {
+          select: {
+            title: true,
+            priceInCents: true,
+            instructor: {
+              select: {
+                user: { select: { firstName: true, lastName: true } },
               },
             },
+            // Earliest session – used as a fallback for full-course bookings,
+            // which have no single session of their own.
+            sessions: {
+              orderBy: { startTime: 'asc' },
+              take: 1,
+              select: {
+                startTime: true,
+                endTime: true,
+                location: { select: { name: true } },
+              },
+            },
+          },
+        },
+        session: {
+          select: {
+            startTime: true,
+            endTime: true,
+            location: { select: { name: true } },
           },
         },
         payment: true,
@@ -274,7 +289,11 @@ export class BookingEmailService {
       return null;
     }
 
-    return { ...booking, recipient };
+    // Single-session bookings use their own session; full-course bookings fall
+    // back to the course's earliest session for date/location display.
+    const effectiveSession = booking.session ?? booking.course.sessions[0] ?? null;
+
+    return { ...booking, recipient, effectiveSession };
   }
 
   private resolveRecipient(booking: {
