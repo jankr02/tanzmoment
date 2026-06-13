@@ -2,7 +2,6 @@ import {
   Component,
   ChangeDetectionStrategy,
   Input,
-  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
@@ -18,18 +17,12 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 export class StepSettingsComponent {
   @Input({ required: true }) form!: FormGroup;
 
-  readonly showAdvanced = signal(false);
-
   readonly durations = [30, 45, 60, 75, 90, 120];
   readonly visibilityOptions = [
     { value: 'PUBLIC', label: 'Öffentlich' },
     { value: 'UNLISTED', label: 'Nicht gelistet' },
     { value: 'PRIVATE', label: 'Privat' },
   ];
-
-  toggleAdvanced(): void {
-    this.showAdvanced.update((v) => !v);
-  }
 
   onFreeToggle(): void {
     const isFree = this.form.get('isFree')?.value;

@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -53,6 +54,7 @@ export class StepSessionsComponent {
   readonly showSeriesDialog = signal(false);
   readonly cancelSessionId = signal<string | null>(null);
   readonly saving = signal(false);
+  readonly addError = signal<string | null>(null);
 
   readonly addForm = this.fb.group({
     date: ['', Validators.required],
@@ -61,13 +63,32 @@ export class StepSessionsComponent {
     locationId: ['', Validators.required],
   });
 
+  /** Today as YYYY-MM-DD for the date input's min attribute. */
+  get minDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
   addSession(): void {
     if (this.addForm.invalid) return;
-    this.saving.set(true);
 
     const v = this.addForm.getRawValue();
     const startTime = `${v.date}T${v.startTime}:00.000Z`;
     const endTime = `${v.date}T${v.endTime}:00.000Z`;
+
+    if (new Date(startTime).getTime() < Date.now()) {
+      this.addError.set(
+        'Der Termin liegt in der Vergangenheit. Bitte wähle ein Datum in der Zukunft.',
+      );
+      return;
+    }
+
+    if (new Date(endTime).getTime() <= new Date(startTime).getTime()) {
+      this.addError.set('Das Ende muss nach dem Start liegen.');
+      return;
+    }
+
+    this.addError.set(null);
+    this.saving.set(true);
 
     this.adminApi
       .createSession({
@@ -83,8 +104,12 @@ export class StepSessionsComponent {
           this.addForm.reset({ startTime: '17:00', endTime: '18:30' });
           this.sessionCreated.emit();
         },
-        error: () => {
+        error: (err: HttpErrorResponse) => {
           this.saving.set(false);
+          this.addError.set(
+            err.error?.message ??
+              'Termin konnte nicht erstellt werden. Bitte erneut versuchen.',
+          );
         },
       });
   }

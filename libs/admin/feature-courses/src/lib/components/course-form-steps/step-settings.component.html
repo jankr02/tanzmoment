@@ -21,6 +21,16 @@
     </div>
   </div>
 
+  @if (
+    !form.get('isFree')?.value &&
+    form.get('priceInEuros')?.touched &&
+    (form.get('priceInEuros')?.value ?? 0) <= 0
+  ) {
+    <span class="field__error">
+      Bitte gib einen Preis ein oder markiere den Kurs als „Kostenlos".
+    </span>
+  }
+
   <div class="field-row">
     <div class="field">
       <label class="field__label" for="duration">Dauer (Minuten)</label>
@@ -75,42 +85,4 @@
     </div>
   </div>
 
-  <button type="button" class="toggle-advanced" (click)="toggleAdvanced()">
-    {{ showAdvanced() ? '▾ Erweitert ausblenden' : '▸ Erweitert anzeigen' }}
-  </button>
-
-  @if (showAdvanced()) {
-    <div class="field">
-      <label class="field__label" for="metaTitle">Meta-Titel (SEO)</label>
-      <input
-        id="metaTitle"
-        type="text"
-        formControlName="metaTitle"
-        class="field__input"
-        placeholder="Wird im Browser-Tab angezeigt"
-      />
-    </div>
-
-    <div class="field">
-      <label class="field__label" for="metaDescription">Meta-Beschreibung (SEO)</label>
-      <textarea
-        id="metaDescription"
-        formControlName="metaDescription"
-        class="field__textarea"
-        rows="2"
-        placeholder="Wird in Suchergebnissen angezeigt"
-      ></textarea>
-    </div>
-
-    <div class="field">
-      <label class="field__label" for="cancellationPolicyId">Stornierungsrichtlinie (ID)</label>
-      <input
-        id="cancellationPolicyId"
-        type="text"
-        formControlName="cancellationPolicyId"
-        class="field__input"
-        placeholder="Optional"
-      />
-    </div>
-  }
 </div>

@@ -71,6 +71,11 @@
     <p class="content-section__hint">
       Phasen einer typischen Kursstunde (z.B. Warm-up, Kern-Session, Cool-down)
     </p>
+    @if (!courseFlowSteps.length) {
+      <p class="content-section__required">
+        Pflichtfeld — mindestens eine Phase ist erforderlich.
+      </p>
+    }
 
     @if (expandedSections().courseFlow) {
       <div class="content-section__body">
@@ -239,6 +244,11 @@
     <p class="content-section__hint">
       Haeufig gestellte Fragen und Antworten (Markdown fuer Antworten erlaubt)
     </p>
+    @if (!faqItems.length) {
+      <p class="content-section__required">
+        Pflichtfeld — mindestens eine Frage ist erforderlich.
+      </p>
+    }
 
     @if (expandedSections().faq) {
       <div class="content-section__body">

@@ -173,12 +173,22 @@ export class CourseFormComponent implements OnInit {
       }
       case 'details':
         return this.form.controls.description.valid;
-      case 'content':
-        return true;
+      case 'content': {
+        const content = this.detailContent();
+        const hasCourseFlow = (content.courseFlow?.steps?.length ?? 0) > 0;
+        const hasFaq = (content.faq?.items?.length ?? 0) > 0;
+        return hasCourseFlow && hasFaq;
+      }
       case 'settings': {
         const c = this.form.controls;
+        // When the course is free the price control is disabled (and thus
+        // reports invalid), so only enforce a positive price for paid courses.
+        const isFree = c.isFree.value === true;
+        const priceOk = isFree
+          ? true
+          : c.priceInEuros.valid && (c.priceInEuros.value ?? 0) > 0;
         return (
-          c.priceInEuros.valid &&
+          priceOk &&
           c.duration.valid &&
           c.maxParticipants.valid &&
           c.bookingMode.valid

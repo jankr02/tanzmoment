@@ -62,6 +62,32 @@
   }
 }
 
+// Checkbox / radio controls: give the label text clear breathing room from the
+// control so toggles like "Kostenlos" don't sit cramped against their label.
+.checkbox,
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary, #2e2a25);
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .dance-styles {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

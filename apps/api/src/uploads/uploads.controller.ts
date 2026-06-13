@@ -7,6 +7,7 @@ import { UploadsService } from './uploads.service';
 
 const NEWS_INLINE_MAX_WIDTH = 1200;
 const NEWS_COVER_MAX_WIDTH = 1600;
+const COURSE_COVER_MAX_WIDTH = 1600;
 
 @ApiTags('Admin - Uploads')
 @Controller('admin/uploads')
@@ -46,6 +47,24 @@ export class UploadsController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadCover(@UploadedFile() file: Express.Multer.File): Promise<UploadResponseDto> {
     const result = await this.uploadsService.saveNewsImage(file, { maxWidth: NEWS_COVER_MAX_WIDTH });
+    return result;
+  }
+
+  @Post('course-cover')
+  @AdminOnly()
+  @ApiOperation({ summary: 'Kursbild hochladen' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: { file: { type: 'string', format: 'binary' } },
+      required: ['file'],
+    },
+  })
+  @ApiResponse({ status: 201, type: UploadResponseDto })
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadCourseCover(@UploadedFile() file: Express.Multer.File): Promise<UploadResponseDto> {
+    const result = await this.uploadsService.saveCourseImage(file, { maxWidth: COURSE_COVER_MAX_WIDTH });
     return result;
   }
 }

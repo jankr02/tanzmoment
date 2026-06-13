@@ -41,9 +41,9 @@ export class StepContentComponent implements OnInit {
 
   readonly expandedSections = signal<SectionState>({
     highlights: true,
-    courseFlow: false,
-    testimonials: false,
-    faq: false,
+    courseFlow: true,
+    testimonials: true,
+    faq: true,
   });
 
   highlights: CourseHighlight[] = [];

@@ -26,14 +26,50 @@
   </div>
 
   <div class="field">
-    <label class="field__label" for="imageUrl">Bild-URL</label>
-    <input
-      id="imageUrl"
-      type="url"
-      formControlName="imageUrl"
-      class="field__input"
-      placeholder="https://..."
-    />
-    <span class="field__hint">Optional — Link zum Kursbild</span>
+    <label class="field__label">Kursbild</label>
+
+    <div class="image-upload">
+      @if (form.get('imageUrl')?.value) {
+        <div class="image-upload__preview">
+          <img [src]="form.get('imageUrl')?.value" alt="Kursbild-Vorschau" />
+          <button
+            type="button"
+            class="image-upload__remove"
+            (click)="removeImage()"
+            aria-label="Kursbild entfernen"
+          >
+            &times;
+          </button>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="image-upload__btn"
+        (click)="triggerUpload()"
+        [disabled]="uploading()"
+      >
+        @if (uploading()) {
+          Lädt hoch…
+        } @else if (form.get('imageUrl')?.value) {
+          Bild austauschen
+        } @else {
+          Bild hochladen
+        }
+      </button>
+
+      <input
+        #imageInput
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        hidden
+        (change)="onImageSelected($event)"
+      />
+    </div>
+
+    @if (uploadError()) {
+      <span class="field__error">{{ uploadError() }}</span>
+    }
+    <span class="field__hint">Optional — JPG, PNG oder WebP (max. 8 MB)</span>
   </div>
 </div>

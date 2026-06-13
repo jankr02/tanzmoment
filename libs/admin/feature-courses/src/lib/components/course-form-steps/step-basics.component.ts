@@ -24,7 +24,7 @@ export class StepBasicsComponent {
   @Input({ required: true }) form!: FormGroup;
 
   readonly danceStyles: DanceStyleOption[] = [
-    { value: 'accessible', label: 'Accessible Dance', color: '#D5DEE2' },
+    { value: 'accessible', label: 'Tanzen mit Behinderung', color: '#D5DEE2' },
     { value: 'expressive', label: 'Ausdruckstanz', color: '#F2E6D9' },
     { value: 'kids', label: 'Kinderkurse', color: '#E8F0E8' },
     { value: 'mothers', label: 'Mütterkurse', color: '#F5E6F0' },
