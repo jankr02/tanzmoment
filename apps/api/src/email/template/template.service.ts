@@ -184,7 +184,33 @@ export class TemplateService implements OnModuleInit {
       );
     });
 
-    Handlebars.registerHelper('eq', (a: unknown, b: unknown) => a === b);
-    Handlebars.registerHelper('gt', (a: number, b: number) => a > b);
+    // Dual-purpose: as a block helper ({{#eq a b}}…{{/eq}}) the body renders only
+    // when the condition holds; as inline/subexpression ({{#if (eq a b)}}) it returns
+    // the boolean. Registering plain value helpers broke the block form (rendered
+    // "true"/"false" text instead of the block).
+    Handlebars.registerHelper('eq', function (
+      this: unknown,
+      a: unknown,
+      b: unknown,
+      options: Handlebars.HelperOptions,
+    ) {
+      const result = a === b;
+      if (options && typeof options.fn === 'function') {
+        return result ? options.fn(this) : options.inverse(this);
+      }
+      return result;
+    });
+    Handlebars.registerHelper('gt', function (
+      this: unknown,
+      a: number,
+      b: number,
+      options: Handlebars.HelperOptions,
+    ) {
+      const result = a > b;
+      if (options && typeof options.fn === 'function') {
+        return result ? options.fn(this) : options.inverse(this);
+      }
+      return result;
+    });
   }
 }
