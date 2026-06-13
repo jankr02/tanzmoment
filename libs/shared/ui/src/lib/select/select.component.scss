@@ -31,83 +31,48 @@
   &__container {
     position: relative;
     width: 100%;
-    aspect-ratio: 231 / 28;
-    min-height: 44px;
-  }
-
-  &__bg-shape {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    transition: all 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  // ──────────────────────────────────────────────────────────────────────────
-  // HOVER STATE
-  // ──────────────────────────────────────────────────────────────────────────
-
-  &__container:hover {
-    .select__bg-shape {
-      transform: translateY(-1px);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-    }
-
-    .select__chevron {
-      opacity: 0.85;
-    }
-  }
-
-  &--open &__container:hover,
-  &--focused &__container:hover {
-    .select__bg-shape {
-      transform: none;
-    }
-  }
-
-  &--disabled &__container {
-    cursor: not-allowed;
-
-    &:hover {
-      .select__bg-shape {
-        transform: none;
-        filter: none;
-      }
-    }
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // TRIGGER BUTTON
+  // The border lives directly on the trigger so its bottom edge aligns with the
+  // dropdown panel and the chevron stays clear of the rounded corner.
   // ──────────────────────────────────────────────────────────────────────────
 
   &__trigger {
-    position: relative;
-    z-index: 1;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-2);
     width: 100%;
-    height: 100%;
-    padding: 0 18px;
-    padding-right: 28px;
-    border: none;
-    background: transparent;
+    min-height: 52px;
+    padding: 0 20px;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: 14px;
     text-align: left;
     color: var(--color-text-primary);
+    transition: border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    &:hover {
+      border-color: var(--color-text-secondary);
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px
+        color-mix(in oklab, var(--color-brand) 18%, transparent);
+    }
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
-    }
-
-    &:focus {
-      outline: none;
     }
   }
 
@@ -126,7 +91,7 @@
   &__chevron {
     flex-shrink: 0;
     color: var(--color-text-secondary);
-    opacity: 0.6;
+    opacity: 0.8;
     transition: transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
@@ -142,13 +107,13 @@
 
   &__dropdown {
     position: absolute;
-    top: calc(100% + 4px);
+    top: calc(100% + 6px);
     left: 0;
     right: 0;
     z-index: 100;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     overflow: hidden;
     animation: selectDropdownIn 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -293,36 +258,28 @@
   // ──────────────────────────────────────────────────────────────────────────
 
   &--small {
-    .select__container {
-      min-height: 36px;
-    }
-
     .select__trigger {
-      padding: 0 14px;
-      padding-right: 24px;
+      min-height: 40px;
+      padding: 0 16px;
       font-size: 13px;
     }
 
     .select__chevron {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
     }
   }
 
   &--large {
-    .select__container {
-      min-height: 52px;
-    }
-
     .select__trigger {
-      padding: 0 22px;
-      padding-right: 32px;
+      min-height: 56px;
+      padding: 0 24px;
       font-size: 16px;
     }
 
     .select__chevron {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
     }
   }
 
@@ -332,8 +289,10 @@
 
   &--open,
   &--focused {
-    .select__bg-shape {
-      filter: drop-shadow(0 0 0 2px var(--color-brand));
+    .select__trigger {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px
+        color-mix(in oklab, var(--color-brand) 18%, transparent);
     }
 
     .select__chevron {
@@ -343,6 +302,10 @@
   }
 
   &--error {
+    .select__trigger {
+      border-color: var(--color-danger);
+    }
+
     .select__chevron {
       color: var(--color-danger);
     }
@@ -371,10 +334,8 @@
       animation: none;
     }
 
-    .select__container:hover {
-      .select__bg-shape {
-        transform: none;
-      }
+    .select__trigger {
+      transition: none;
     }
 
     .select__chevron {

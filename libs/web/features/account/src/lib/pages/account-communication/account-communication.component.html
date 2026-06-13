@@ -1,0 +1,115 @@
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">Newsletter</h2>
+    <p class="card__text">
+      Erhalte Neuigkeiten zu Kursen, Workshops und Angeboten von Tanzmoment.
+    </p>
+  </div>
+
+  @if (newsletterLoading()) {
+    <p class="hint">Einstellungen werden geladen…</p>
+  } @else {
+    <div class="toggle-row">
+      <button
+        type="button"
+        class="toggle"
+        role="switch"
+        [class.toggle--on]="isSubscribed"
+        [attr.aria-checked]="isSubscribed"
+        [disabled]="newsletterSaving()"
+        (click)="toggleNewsletter()"
+      >
+        <span class="toggle__knob"></span>
+      </button>
+      <span class="toggle-row__label">
+        {{ isSubscribed ? 'Newsletter abonniert' : 'Newsletter nicht abonniert' }}
+      </span>
+    </div>
+
+    @if (newsletterMessage()) {
+      <p class="hint" role="status">{{ newsletterMessage() }}</p>
+    }
+  }
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">Meine Daten</h2>
+    <p class="card__text">
+      Lade eine Kopie deiner bei uns gespeicherten Daten als JSON-Datei herunter.
+    </p>
+  </div>
+
+  @if (exportError()) {
+    <div class="alert alert--error" role="alert">{{ exportError() }}</div>
+  }
+
+  <div class="form__actions form__actions--start">
+    <app-button
+      variant="secondary"
+      [loading]="exporting()"
+      [disabled]="exporting()"
+      (clicked)="exportData()"
+    >
+      Daten exportieren
+    </app-button>
+  </div>
+</div>
+
+<div class="card card--danger">
+  <div class="card__header">
+    <h2 class="card__title">Konto löschen</h2>
+    <p class="card__text">
+      Dein Konto wird deaktiviert und deine persönlichen Daten werden anonymisiert.
+      Buchungs- und Zahlungsbelege bleiben aus gesetzlichen Gründen erhalten.
+      Diese Aktion kann nicht rückgängig gemacht werden.
+    </p>
+  </div>
+
+  <div class="form__actions form__actions--start">
+    <app-button variant="ghost" (clicked)="openDeleteModal()">
+      Konto löschen
+    </app-button>
+  </div>
+</div>
+
+@if (showDeleteModal()) {
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+    <div class="modal__backdrop" (click)="closeDeleteModal()"></div>
+    <div class="modal__panel">
+      <h2 class="card__title" id="delete-title">Konto wirklich löschen?</h2>
+      <p class="card__text">
+        Bitte gib zur Bestätigung dein aktuelles Passwort ein.
+      </p>
+
+      @if (deleteError()) {
+        <div class="alert alert--error" role="alert">{{ deleteError() }}</div>
+      }
+
+      <app-input
+        id="deletePassword"
+        type="password"
+        label="Aktuelles Passwort"
+        [showPasswordToggle]="true"
+        [fullWidth]="true"
+        [formControl]="deletePassword"
+        [hasError]="deletePassword.invalid && deletePassword.touched"
+        errorMessage="Bitte gib dein Passwort ein."
+      />
+
+      <div class="form__actions">
+        <app-button variant="ghost" [disabled]="deleting()" (clicked)="closeDeleteModal()">
+          Abbrechen
+        </app-button>
+        <app-button
+          variant="primary"
+          [loading]="deleting()"
+          [disabled]="deleting()"
+          (clicked)="confirmDelete()"
+        >
+          Endgültig löschen
+        </app-button>
+      </div>
+    </div>
+  </div>
+}

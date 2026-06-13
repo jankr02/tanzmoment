@@ -4,13 +4,13 @@ EMPTY STATE COMPONENT TEMPLATE
 
 <div [ngClass]="cssClasses()">
   <!-- Illustration -->
-  @if (showIllustration()) {
+  @if (showIllustration() && illustrationIcon(); as icon) {
   <div class="empty-state__illustration">
-    <img
-      [src]="illustrationPath()"
-      [alt]="config().title"
-      class="empty-state__illustration-img"
-      loading="lazy"
+    <app-icon
+      [name]="icon"
+      size="xl"
+      color="primary"
+      class="empty-state__illustration-icon"
     />
   </div>
   }

@@ -21,7 +21,7 @@ import {
   PLATFORM_ID,
   NgZone,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Services
@@ -85,6 +85,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   private readonly ngZone = inject(NgZone);
   private readonly courseDetailService = inject(CourseDetailService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
   readonly bookingStore = inject(BookingStore);
 
   // ─── State (delegated to Service) ───────────────────────────────────────
@@ -177,6 +178,19 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     };
   }
 
+  // Keeps the footer wave's top colour in sync with the last section so there
+  // is no white gap. The FAQ section is themed; the fallback (schedule) is white.
+  private readonly lastSectionBgEffect = effect(() => {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const root = this.document.documentElement;
+    if (this.hasFaq()) {
+      root.style.setProperty('--last-section-bg', this.currentTheme().background);
+    } else {
+      root.style.removeProperty('--last-section-bg');
+    }
+  });
+
   private readonly seoEffect = effect(() => {
     const c = this.course();
     if (!c) return;
@@ -211,6 +225,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Reset state when leaving the page
     this.courseDetailService.reset();
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.document.documentElement.style.removeProperty('--last-section-bg');
+    }
   }
 
   // ─── Actions ────────────────────────────────────────────────────────────

@@ -31,65 +31,23 @@
   &__container {
     position: relative;
     width: 100%;
-    min-height: 100px;
-    cursor: text;
-  }
-
-  &__bg-shape {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    transition: all 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-
-  // ──────────────────────────────────────────────────────────────────────────
-  // HOVER STATE
-  // ──────────────────────────────────────────────────────────────────────────
-
-  &__container:hover {
-    .textarea__bg-shape {
-      transform: translateY(-1px);
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-    }
-  }
-
-  // Don't apply hover when focused
-  &--focused &__container:hover {
-    .textarea__bg-shape {
-      transform: none;
-    }
-  }
-
-  // Don't apply hover when disabled
-  &--disabled &__container {
-    cursor: not-allowed;
-
-    &:hover {
-      .textarea__bg-shape {
-        transform: none;
-        filter: none;
-      }
-    }
   }
 
   // ──────────────────────────────────────────────────────────────────────────
   // TEXTAREA FIELD
+  // The border lives directly on the textarea so it always wraps the content
+  // and follows the native resize handle.
   // ──────────────────────────────────────────────────────────────────────────
 
   &__field {
-    position: relative;
-    z-index: 1;
     box-sizing: border-box;
+    display: block;
     width: 100%;
-    height: 100%;
-    min-height: inherit;
-    padding: 12px;
-    border: none;
-    background: transparent;
+    min-height: 120px;
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
     outline: none;
     font-family: var(--font-body);
     font-size: 14px;
@@ -98,10 +56,22 @@
     resize: vertical;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    transition: border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
 
     &::placeholder {
       color: var(--color-text-secondary);
       opacity: 0.6;
+    }
+
+    &:hover {
+      border-color: var(--color-text-secondary);
+    }
+
+    &:focus {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px
+        color-mix(in oklab, var(--color-brand) 18%, transparent);
     }
 
     &:disabled {
@@ -166,23 +136,17 @@
   // ──────────────────────────────────────────────────────────────────────────
 
   &--small {
-    .textarea__container {
-      min-height: 80px;
-    }
-
     .textarea__field {
-      padding: 10px;
+      min-height: 90px;
+      padding: 12px 14px;
       font-size: 13px;
     }
   }
 
   &--large {
-    .textarea__container {
-      min-height: 140px;
-    }
-
     .textarea__field {
-      padding: 14px;
+      min-height: 160px;
+      padding: 16px 18px;
       font-size: 16px;
     }
   }
@@ -192,20 +156,22 @@
   // ──────────────────────────────────────────────────────────────────────────
 
   &--focused {
-    .textarea__bg-shape {
-      filter: drop-shadow(0 0 0 2px var(--color-brand));
+    .textarea__field {
+      border-color: var(--color-brand);
+      box-shadow: 0 0 0 3px
+        color-mix(in oklab, var(--color-brand) 18%, transparent);
     }
   }
 
   &--error {
-    .textarea__bg-shape rect {
-      stroke: var(--color-danger);
+    .textarea__field {
+      border-color: var(--color-danger);
     }
   }
 
   &--success {
-    .textarea__bg-shape rect {
-      stroke: var(--color-success);
+    .textarea__field {
+      border-color: var(--color-success);
     }
   }
 
@@ -247,10 +213,8 @@
   // ──────────────────────────────────────────────────────────────────────────
 
   @media (prefers-reduced-motion: reduce) {
-    .textarea__container:hover {
-      .textarea__bg-shape {
-        transform: none;
-      }
+    .textarea__field {
+      transition: none;
     }
   }
 }

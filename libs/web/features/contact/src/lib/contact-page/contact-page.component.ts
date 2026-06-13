@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WaveDividerComponent } from '@tanzmoment/shared/ui';
+import { PageHeaderComponent, WaveDividerComponent } from '@tanzmoment/shared/ui';
 import { SeoService } from '@tanzmoment/shared/services';
 
 import { ContactFormComponent } from '../contact-form/contact-form.component';
@@ -26,6 +26,7 @@ import { DirectionsInfo } from '../contact-directions/contact-directions.types';
     ContactMapComponent,
     ContactDirectionsComponent,
     WaveDividerComponent,
+    PageHeaderComponent,
   ],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss',

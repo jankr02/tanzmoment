@@ -3,14 +3,20 @@ COURSE OVERVIEW PAGE TEMPLATE
 ============================================================================ -->
 
 <main class="course-overview">
-  <!-- Dance Styles Hero -->
+  <!-- Page Title + Dance Styles Hero (combined: page header replaces the
+       section's own title) -->
   <section class="course-overview__hero">
+    <ui-page-header
+      class="course-overview__page-header"
+      eyebrow="Kurse"
+      title="Unsere Kurse"
+      subtitle="Finde den Tanz, der zu dir passt – von Kindertanz über Mütter-Programme bis Accessible und Expressive Dance."
+    />
     <ui-dance-styles-section
-      headline="Unsere Tanzwelten"
-      subheadline="Entdecke den Tanzstil, der zu dir passt"
+      [showHeader]="false"
       [showCourseCounts]="true"
       navigationMode="navigate"
-      previousSectionBackground="neutral"
+      previousSectionBackground="surface"
       nextSectionBackground="surface"
     />
   </section>

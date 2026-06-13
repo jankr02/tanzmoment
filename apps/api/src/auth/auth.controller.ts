@@ -2,7 +2,10 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
+  Delete,
   Body,
+  Header,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,6 +21,10 @@ import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ChangeEmailDto } from './dto/change-email.dto';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 import { AuthResponseDto, UserDto } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -99,5 +106,68 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Verification email resent' })
   async resendVerification(@CurrentUser() user: any): Promise<{ message: string }> {
     return this.authService.resendVerification(user.id);
+  }
+
+  @Patch('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update own profile data' })
+  @ApiResponse({ status: 200, type: UserDto })
+  async updateProfile(
+    @CurrentUser() user: any,
+    @Body(ValidationPipe) dto: UpdateProfileDto,
+  ): Promise<UserDto> {
+    return this.authService.updateProfile(user.id, dto);
+  }
+
+  @Patch('me/password')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Change own password' })
+  @ApiResponse({ status: 200, description: 'Password changed' })
+  @ApiResponse({ status: 401, description: 'Current password is incorrect' })
+  async changePassword(
+    @CurrentUser() user: any,
+    @Body(ValidationPipe) dto: ChangePasswordDto,
+  ): Promise<{ message: string }> {
+    return this.authService.changePassword(user.id, dto);
+  }
+
+  @Patch('me/email')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Change own email (requires re-verification)' })
+  @ApiResponse({ status: 200, type: UserDto })
+  @ApiResponse({ status: 401, description: 'Current password is incorrect' })
+  @ApiResponse({ status: 409, description: 'Email already in use' })
+  async changeEmail(
+    @CurrentUser() user: any,
+    @Body(ValidationPipe) dto: ChangeEmailDto,
+  ): Promise<UserDto> {
+    return this.authService.changeEmail(user.id, dto);
+  }
+
+  @Get('me/export')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Header('Content-Type', 'application/json')
+  @Header('Content-Disposition', 'attachment; filename="tanzmoment-export.json"')
+  @ApiOperation({ summary: 'Export own personal data (GDPR)' })
+  @ApiResponse({ status: 200, description: 'User data export' })
+  async exportData(@CurrentUser() user: any): Promise<Record<string, unknown>> {
+    return this.authService.exportUserData(user.id);
+  }
+
+  @Delete('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete (anonymize) own account (GDPR)' })
+  @ApiResponse({ status: 200, description: 'Account deleted' })
+  @ApiResponse({ status: 401, description: 'Current password is incorrect' })
+  async deleteAccount(
+    @CurrentUser() user: any,
+    @Body(ValidationPipe) dto: DeleteAccountDto,
+  ): Promise<{ message: string }> {
+    return this.authService.deleteAccount(user.id, dto);
   }
 }

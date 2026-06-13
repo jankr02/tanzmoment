@@ -1,0 +1,89 @@
+@if (user(); as u) {
+  @if (!u.emailVerified) {
+    <div class="card card--notice" role="status">
+      <div class="card__body">
+        <h2 class="card__title">E-Mail-Adresse bestätigen</h2>
+        <p class="card__text">
+          Bitte bestätige <strong>{{ u.email }}</strong>, um alle Funktionen
+          nutzen zu können.
+        </p>
+        @if (resendMessage()) {
+          <p class="hint" role="status">{{ resendMessage() }}</p>
+        }
+      </div>
+      <app-button
+        variant="secondary"
+        [loading]="resending()"
+        [disabled]="resending()"
+        (clicked)="resendVerification()"
+      >
+        E-Mail erneut senden
+      </app-button>
+    </div>
+  }
+
+  <div class="card">
+    <div class="card__header">
+      <h2 class="card__title">Persönliche Daten</h2>
+      <p class="card__text">Aktualisiere deinen Namen und deine Telefonnummer.</p>
+    </div>
+
+    @if (profileError()) {
+      <div class="alert alert--error" role="alert">{{ profileError() }}</div>
+    }
+    @if (profileSuccess()) {
+      <div class="alert alert--success" role="status">{{ profileSuccess() }}</div>
+    }
+
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form__row">
+        <app-input
+          id="firstName"
+          label="Vorname"
+          formControlName="firstName"
+          [required]="true"
+          [fullWidth]="true"
+          [hasError]="firstNameControl.invalid && firstNameControl.touched"
+          errorMessage="Bitte gib deinen Vornamen ein."
+        />
+        <app-input
+          id="lastName"
+          label="Nachname"
+          formControlName="lastName"
+          [required]="true"
+          [fullWidth]="true"
+          [hasError]="lastNameControl.invalid && lastNameControl.touched"
+          errorMessage="Bitte gib deinen Nachnamen ein."
+        />
+      </div>
+
+      <app-input
+        id="phone"
+        type="tel"
+        label="Telefon (optional)"
+        placeholder="+49 176 12345678"
+        formControlName="phone"
+        [fullWidth]="true"
+      />
+
+      <div class="readonly-field">
+        <span class="readonly-field__label">E-Mail-Adresse</span>
+        <span class="readonly-field__value">{{ u.email }}</span>
+        <span class="readonly-field__hint">
+          E-Mail-Adresse im Tab „Sicherheit“ ändern.
+        </span>
+      </div>
+
+      <div class="form__actions">
+        <app-button
+          type="submit"
+          variant="primary"
+          [loading]="saving()"
+          [disabled]="saving()"
+        >
+          Speichern
+        </app-button>
+      </div>
+    </form>
+  </div>
+}

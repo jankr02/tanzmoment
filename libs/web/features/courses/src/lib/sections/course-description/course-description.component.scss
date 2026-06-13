@@ -70,7 +70,7 @@
   &__headline {
     font-family: var(--font-headline);
     font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 400;
+    font-weight: var(--font-weight-heading);
     color: var(--detail-text);
     margin: 0 0 var(--space-6);
     line-height: 1.2;

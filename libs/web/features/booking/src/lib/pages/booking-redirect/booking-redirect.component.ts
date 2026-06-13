@@ -90,7 +90,7 @@ export class BookingRedirectComponent implements OnInit, OnDestroy {
   }
 
   goToMyBookings(): void {
-    this.router.navigate(['/meine-buchungen']);
+    this.router.navigate(['/mein-bereich/buchungen']);
   }
 
   goToCourses(): void {

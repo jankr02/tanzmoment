@@ -42,9 +42,9 @@ export class AppComponent {
 
     const menuItems = [
       {
-        label: 'Meine Buchungen',
-        iconName: 'calendar' as const,
-        route: '/meine-buchungen',
+        label: 'Mein Bereich',
+        iconName: 'user' as const,
+        route: '/mein-bereich',
       },
       ...(isAdmin
         ? [{ label: 'Admin Panel', iconName: 'layout-dashboard' as const, route: '/admin' }]

@@ -17,6 +17,7 @@ import { RouterLink } from '@angular/router';
 
 import { ButtonComponent } from '../button/button.component';
 import { IconComponent } from '../icon/icon.component';
+import { IconName } from '../icon/icon.types';
 
 import {
   EmptyStateVariant,
@@ -96,12 +97,21 @@ export class EmptyStateComponent {
     };
   });
 
-  /** Illustration SVG Path */
-  readonly illustrationPath = computed(() => {
+  /** Maps an illustration variant to an icon from the shared icon registry. */
+  readonly illustrationIcon = computed<IconName | null>(() => {
     const ill = this.config().illustration;
     if (!ill || ill === 'none') return null;
 
-    return `/assets/illustrations/empty-state/${ill}.svg`;
+    const map: Record<Exclude<EmptyStateIllustration, 'none'>, IconName> = {
+      search: 'search',
+      'empty-box': 'clipboard-list',
+      calendar: 'calendar',
+      error: 'alert-circle',
+      offline: 'x-circle',
+      dance: 'music',
+    };
+
+    return map[ill];
   });
 
   /** Show illustration */

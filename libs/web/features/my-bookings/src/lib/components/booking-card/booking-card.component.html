@@ -1,5 +1,5 @@
 <article class="card" [style.--card-accent]="accent()">
-  <a class="card__main" [routerLink]="['/meine-buchungen', booking().id]">
+  <a class="card__main" [routerLink]="['/mein-bereich', 'buchungen', booking().id]">
     <header class="card__header">
       <div class="card__title-row">
         <h3 class="card__title">{{ booking().course.title }}</h3>
@@ -37,7 +37,7 @@
   <footer class="card__actions">
     <a
       class="card__details-link"
-      [routerLink]="['/meine-buchungen', booking().id]"
+      [routerLink]="['/mein-bereich', 'buchungen', booking().id]"
     >
       Details ansehen
     </a>

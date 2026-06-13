@@ -100,16 +100,8 @@
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // PRIVACY LABEL
+  // PRIVACY LINK
   // ──────────────────────────────────────────────────────────────────────────
-
-  &__privacy-label {
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--color-text-primary);
-    cursor: pointer;
-  }
 
   &__link {
     color: var(--color-brand);
@@ -132,6 +124,8 @@
 
   &__actions {
     margin-top: var(--space-4);
+    display: flex;
+    justify-content: center;
   }
 
   // ──────────────────────────────────────────────────────────────────────────

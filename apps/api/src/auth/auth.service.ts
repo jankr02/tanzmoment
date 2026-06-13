@@ -14,6 +14,10 @@ import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
+import { ChangeEmailDto } from './dto/change-email.dto';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 import { AuthResponseDto, UserDto } from './dto/auth-response.dto';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
@@ -283,6 +287,231 @@ export class AuthService {
     );
 
     return { message: 'Wir haben dir eine neue Bestätigungs-E-Mail gesendet.' };
+  }
+
+  // ── Update Profile ────────────────────────────────────────────────────────
+
+  async updateProfile(userId: string, dto: UpdateProfileDto): Promise<UserDto> {
+    const user = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        phone: dto.phone ?? null,
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        role: true,
+        emailVerified: true,
+        isActive: true,
+        createdAt: true,
+      },
+    });
+
+    this.logger.log(`Profile updated for: ${user.email}`);
+
+    return this.sanitizeUser(user);
+  }
+
+  // ── Change Password ───────────────────────────────────────────────────────
+
+  async changePassword(userId: string, dto: ChangePasswordDto): Promise<{ message: string }> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true, passwordHash: true },
+    });
+
+    if (!user || !user.passwordHash) {
+      throw new BadRequestException('Benutzer nicht gefunden');
+    }
+
+    const isValid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
+    if (!isValid) {
+      throw new UnauthorizedException('Das aktuelle Passwort ist falsch');
+    }
+
+    const newHash = await bcrypt.hash(dto.newPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { passwordHash: newHash },
+    });
+
+    this.logger.log(`Password changed for: ${user.email}`);
+
+    return { message: 'Dein Passwort wurde erfolgreich geändert.' };
+  }
+
+  // ── Change Email ──────────────────────────────────────────────────────────
+
+  async changeEmail(userId: string, dto: ChangeEmailDto): Promise<UserDto> {
+    const newEmail = dto.newEmail.toLowerCase();
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true, firstName: true, passwordHash: true },
+    });
+
+    if (!user || !user.passwordHash) {
+      throw new BadRequestException('Benutzer nicht gefunden');
+    }
+
+    const isValid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
+    if (!isValid) {
+      throw new UnauthorizedException('Das aktuelle Passwort ist falsch');
+    }
+
+    if (newEmail !== user.email) {
+      const existing = await this.prisma.user.findUnique({ where: { email: newEmail } });
+      if (existing) {
+        throw new ConflictException('Diese E-Mail-Adresse wird bereits verwendet');
+      }
+    }
+
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        email: newEmail,
+        emailVerified: false,
+        emailVerificationToken: verificationToken,
+        emailVerificationExpires: verificationExpires,
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        role: true,
+        emailVerified: true,
+        isActive: true,
+        createdAt: true,
+      },
+    });
+
+    this.emailService
+      .send(
+        newEmail,
+        'Bitte bestätige deine E-Mail-Adresse – Tanzmoment',
+        'email-verification',
+        {
+          firstName: updated.firstName,
+          verifyLink: `${this.configService.get('FRONTEND_URL')}/auth/verify-email?token=${verificationToken}`,
+        },
+      )
+      .catch((err) => {
+        this.logger.error(`Failed to send verification email to ${newEmail}: ${err.message}`);
+      });
+
+    this.logger.log(`Email changed to ${newEmail} for user ${userId}`);
+
+    return this.sanitizeUser(updated);
+  }
+
+  // ── Export User Data (GDPR) ───────────────────────────────────────────────
+
+  async exportUserData(userId: string): Promise<Record<string, unknown>> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true,
+        role: true,
+        emailVerified: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+        bookings: {
+          select: {
+            id: true,
+            status: true,
+            createdAt: true,
+            cancelledAt: true,
+            cancellationReason: true,
+            notes: true,
+            course: { select: { title: true } },
+            session: { select: { startTime: true, endTime: true } },
+          },
+        },
+        payments: {
+          select: {
+            id: true,
+            amountInCents: true,
+            currency: true,
+            status: true,
+            method: true,
+            paidAt: true,
+            refundedAmount: true,
+            refundedAt: true,
+            createdAt: true,
+          },
+        },
+        newsletterSubscriber: {
+          select: { status: true, confirmedAt: true, unsubscribedAt: true, createdAt: true },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Benutzer nicht gefunden');
+    }
+
+    return {
+      exportedAt: new Date().toISOString(),
+      account: user,
+    };
+  }
+
+  // ── Delete Account (GDPR – anonymize) ─────────────────────────────────────
+
+  async deleteAccount(userId: string, dto: DeleteAccountDto): Promise<{ message: string }> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true, passwordHash: true, isActive: true },
+    });
+
+    if (!user || !user.passwordHash) {
+      throw new BadRequestException('Benutzer nicht gefunden');
+    }
+
+    const isValid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
+    if (!isValid) {
+      throw new UnauthorizedException('Das aktuelle Passwort ist falsch');
+    }
+
+    // Anonymize instead of hard-delete so bookings/payments stay intact for
+    // accounting and Stripe reconciliation. Email is scrubbed to a unique
+    // placeholder to free up the original address while keeping the unique constraint.
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        email: `deleted-${userId}@deleted.tanzmoment.invalid`,
+        firstName: 'Gelöschtes',
+        lastName: 'Konto',
+        phone: null,
+        passwordHash: null,
+        isActive: false,
+        emailVerified: false,
+        emailVerificationToken: null,
+        emailVerificationExpires: null,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+      },
+    });
+
+    this.logger.log(`Account anonymized for user ${userId}`);
+
+    return { message: 'Dein Konto wurde gelöscht.' };
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────────

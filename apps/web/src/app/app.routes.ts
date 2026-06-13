@@ -125,14 +125,22 @@ export const appRoutes: Route[] = [
         (m) => m.newsletterRoutes,
       ),
   },
-  // My Bookings (authenticated user area)
+  // Account / Profile (authenticated user area, includes My Bookings)
   {
-    path: 'meine-buchungen',
+    path: 'mein-bereich',
     canActivate: [authGuard],
     loadChildren: () =>
-      import('@tanzmoment/web/features/my-bookings').then(
-        (m) => m.myBookingsRoutes,
-      ),
+      import('@tanzmoment/web/features/account').then((m) => m.accountRoutes),
+  },
+  // Legacy My Bookings URLs – redirect to the account area
+  {
+    path: 'meine-buchungen',
+    pathMatch: 'full',
+    redirectTo: 'mein-bereich/buchungen',
+  },
+  {
+    path: 'meine-buchungen/:id',
+    redirectTo: 'mein-bereich/buchungen/:id',
   },
   // Booking Routes (payment redirect, guest cancellation, waitlist)
   ...bookingRoutes,
