@@ -92,6 +92,11 @@ export class ScheduleSectionComponent implements OnChanges {
     return this.sessions.length > 0;
   }
 
+  /** Full-course bookings run as a semester block — no single-session list/CTA. */
+  get isFullCourse(): boolean {
+    return this.course?.bookingMode === 'FULL_COURSE';
+  }
+
   getSessionLabel(sessionId: string): string | undefined {
     return this.content?.sessionLabels?.[sessionId];
   }

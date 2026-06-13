@@ -7,12 +7,12 @@
       <p class="schedule-section__info">{{ infoText }}</p>
     }
 
-    @if (!hasSessions) {
+    @if (!hasSessions && !isFullCourse) {
       <div class="schedule-section__empty">
         <p>Aktuell sind keine Termine geplant.</p>
         <p>Schau bald wieder vorbei oder kontaktiere uns für weitere Infos.</p>
       </div>
-    } @else {
+    } @else if (hasSessions) {
       <div class="schedule-section__groups">
         @for (group of groupedSessions(); track group.dateKey) {
           <div class="schedule-section__group" tmScrollReveal="up">
@@ -58,7 +58,7 @@
                       {{ getSpotsText(session) }}
                     </span>
 
-                    @if (!session.isFullyBooked) {
+                    @if (!session.isFullyBooked && !isFullCourse) {
                       <app-button
                         variant="primary"
                         size="small"

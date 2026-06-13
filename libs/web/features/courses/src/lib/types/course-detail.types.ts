@@ -166,6 +166,7 @@ export interface CourseDetailData {
   level: string;
   duration: number;
   maxParticipants: number;
+  bookingMode: string;
   priceInCents: number;
   price: number;
   priceFormatted: string;

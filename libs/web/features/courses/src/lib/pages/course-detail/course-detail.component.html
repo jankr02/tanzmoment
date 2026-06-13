@@ -195,6 +195,7 @@
         [courseId]="c.id"
         [courseTitle]="c.title"
         [priceInCents]="c.priceInCents"
+        [bookingMode]="c.bookingMode"
         [sessions]="bookingStore.sessions()"
         (bookingCompleted)="onBookingCompleted($event)"
         (bookingError)="onBookingError($event)"

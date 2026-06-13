@@ -80,6 +80,11 @@ export class CourseDetailResponseDto {
   level: string;
   @ApiProperty({ description: 'Duration in minutes' }) duration: number;
   @ApiProperty() maxParticipants: number;
+  @ApiProperty({
+    enum: ['FULL_COURSE', 'SINGLE_SESSION'],
+    description: 'Whether the whole course or a single session is booked',
+  })
+  bookingMode: string;
   @ApiProperty({ description: 'Price in cents' }) priceInCents: number;
   @ApiProperty({ description: 'Price in euros (computed)' }) price: number;
   @ApiProperty({ description: 'Formatted price (e.g. "25 €" or "Kostenlos")' })

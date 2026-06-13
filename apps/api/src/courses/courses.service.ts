@@ -380,6 +380,7 @@ export class CoursesService {
       level: course.level,
       duration: course.duration,
       maxParticipants: course.maxParticipants,
+      bookingMode: course.bookingMode,
       priceInCents: course.priceInCents,
       price: priceInEuros,
       priceFormatted,

@@ -51,7 +51,8 @@ export interface SessionAvailability {
  */
 export interface CreateBookingApiRequest {
   courseId: string;
-  sessionId: string;
+  /** Required for SINGLE_SESSION courses; omitted for FULL_COURSE bookings. */
+  sessionId?: string;
   notes?: string;
 
   /** Guest fields (required when not authenticated) */
