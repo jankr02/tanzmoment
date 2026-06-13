@@ -36,6 +36,7 @@ interface CourseIllustration {
 
 // Shared UI Components
 import {
+  ButtonComponent,
   CourseCardComponent,
   CourseCardData,
   DanceStylesSectionComponent,
@@ -62,6 +63,7 @@ import { SeoService } from '@tanzmoment/shared/services';
   imports: [
     CommonModule,
     // UI Components
+    ButtonComponent,
     CourseCardComponent,
     DanceStylesSectionComponent,
     FilterBarComponent,
@@ -179,6 +181,22 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
     if (this.isLoadingMore()) return 2;
     return 0;
   });
+
+  /**
+   * Voll-Ladezustand: nur beim ersten Laden ohne bereits sichtbare Kurse.
+   * Verhindert, dass das Grid bei einem Filter-Refresh kollabiert.
+   */
+  readonly showInitialLoading = computed(
+    () => this.isInitialLoading() && this.courses().length === 0
+  );
+
+  /**
+   * Filter-Refresh mit bereits sichtbaren Kursen: Grid bleibt gemountet
+   * (nur gedimmt), damit die Scroll-Position des Users erhalten bleibt.
+   */
+  readonly isRefreshing = computed(
+    () => this.isInitialLoading() && this.courses().length > 0
+  );
 
   /** Ergebnis-Text */
   readonly resultText = computed(() => {

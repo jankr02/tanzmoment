@@ -59,7 +59,7 @@ COURSE OVERVIEW PAGE TEMPLATE
 
       <!-- Course Grid -->
       <div class="course-overview__content">
-        @if (isLoading()) {
+        @if (showInitialLoading()) {
           <div class="course-overview__loading">
             <p>Kurse werden geladen...</p>
           </div>
@@ -70,7 +70,11 @@ COURSE OVERVIEW PAGE TEMPLATE
             (actionClick)="clearFilters()"
           />
         } @else {
-          <div class="course-overview__grid">
+          <div
+            class="course-overview__grid"
+            [class.course-overview__grid--refreshing]="isRefreshing()"
+            [attr.aria-busy]="isLoading()"
+          >
             @for (course of courses(); track course.id; let i = $index) {
               @let illustration = getIllustration(course.id);
               <div
@@ -123,6 +127,20 @@ COURSE OVERVIEW PAGE TEMPLATE
               </div>
             }
           </div>
+
+          @if (hasMore()) {
+            <div class="course-overview__load-more">
+              <app-button
+                variant="secondary"
+                size="large"
+                [loading]="isLoadingMore()"
+                [disabled]="isLoadingMore()"
+                (clicked)="loadMore()"
+              >
+                Weitere Kurse anzeigen
+              </app-button>
+            </div>
+          }
         }
       </div>
     </div>
