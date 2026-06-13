@@ -135,7 +135,7 @@ export const DEFAULT_DANCE_STYLES: DanceStyleCardData[] = [
       'Inklusiver Tanz für Menschen mit und ohne Behinderung. Gemeinsam Bewegung erleben.',
     illustrationUrl: '/assets/illustrations/dance-styles/accessible.svg',
     ctaText: 'Mehr erfahren',
-    route: '/barrierefreier-tanz',
+    route: '/fuer-alle',
   },
   {
     id: 'expressive',
