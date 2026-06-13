@@ -59,3 +59,6 @@ export * from './lib/course-placeholder/course-placeholder.component';
 
 // Decorative Components
 export * from './lib/decorative-blob/decorative-blob.component';
+
+// Not Found Page
+export * from './lib/not-found-page/not-found-page.component';

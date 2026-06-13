@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  HeaderComponent,
-  FooterComponent,
   FaqAccordionComponent,
   TestimonialSectionComponent,
   FaqData,
@@ -33,8 +31,6 @@ import { CtaSectionData } from './sections/cta-section/cta-section.types';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     ExpressiveHeroComponent,
     IntroSectionComponent,
     MethodologySectionComponent,
@@ -68,15 +64,8 @@ export class ExpressivePageComponent implements OnInit {
     headline: 'Bewegung, die aus dir kommt.',
     subheadline:
       'Ausdruckstanz kennt keine richtigen Schritte. Hier zählt nicht, wie es aussieht – sondern wie es sich anfühlt.',
-    highlights: [
-      { icon: '🍃', text: 'Ohne Vorgaben' },
-      { icon: '💫', text: 'Kein Leistungsdruck' },
-      { icon: '🤍', text: 'Für jeden Körper' },
-    ],
     ctaText: 'Schnupperstunde sichern',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Mehr erfahren',
-    secondaryCtaRoute: '/ausdruckstanz#methode',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
