@@ -127,6 +127,7 @@ export class CourseFormComponent implements OnInit {
           (course.detailContent as CourseDetailContent) ?? {},
         );
         this.loading.set(false);
+        this.applyRequestedStep();
       },
       error: () => {
         this.error.set('Kurs konnte nicht geladen werden.');
@@ -156,6 +157,21 @@ export class CourseFormComponent implements OnInit {
       metaDescription: course.metaDescription ?? '',
       cancellationPolicyId: course.cancellationPolicyId ?? '',
     });
+  }
+
+  /**
+   * Jumps to the step requested via the `step` query param (e.g. landing on
+   * "Termine" right after creating a course). Bypasses step-validity gating
+   * so the user reaches the intended step directly.
+   */
+  private applyRequestedStep(): void {
+    const stepKey = this.route.snapshot.queryParamMap.get('step');
+    if (!stepKey) return;
+
+    const index = this.steps().findIndex((s) => s.key === stepKey);
+    if (index >= 0) {
+      this.currentStep.set(index);
+    }
   }
 
   isStepValid(stepIndex: number): boolean {
@@ -293,7 +309,11 @@ export class CourseFormComponent implements OnInit {
       next: (result) => {
         this.saving.set(false);
         if (!this.isEditMode()) {
-          this.router.navigate(['/admin', 'courses', result.id]);
+          // A freshly created course has no sessions yet, and the sessions
+          // step only exists in edit mode — land the user there directly.
+          this.router.navigate(['/admin', 'courses', result.id], {
+            queryParams: { step: 'sessions' },
+          });
         }
       },
       error: () => {
