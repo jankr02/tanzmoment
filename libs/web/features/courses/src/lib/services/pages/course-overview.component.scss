@@ -272,6 +272,20 @@ $bp-sidebar: 1024px;
   }
 }
 
+// Refresh state: keep the grid mounted (preserves scroll position) but dim it
+// and block interaction while the filtered results are loading.
+.course-overview__grid--refreshing {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-overview__grid--refreshing {
+    transition: none;
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // CARD WRAPPER WITH ILLUSTRATIONS
 // ─────────────────────────────────────────────────────────────────────────────
@@ -477,14 +491,16 @@ $bp-sidebar: 1024px;
 .course-overview__load-more {
   display: flex;
   justify-content: center;
-  margin-top: var(--space-8);
+  // Match the grid's inter-card gap so the button doesn't crowd the last
+  // (scaled-up) card, whose transform overflows its layout box.
+  margin-top: 80px;
+
+  @media (min-width: 1400px) {
+    margin-top: 100px;
+  }
 
   @media (max-width: 768px) {
-    margin-top: var(--space-6);
-
-    ui-button {
-      width: 100%;
-    }
+    margin-top: var(--space-8);
   }
 }
 
