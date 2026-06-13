@@ -1,0 +1,109 @@
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">Passwort ändern</h2>
+    <p class="card__text">Wähle ein starkes Passwort mit mindestens 8 Zeichen.</p>
+  </div>
+
+  @if (passwordError()) {
+    <div class="alert alert--error" role="alert">{{ passwordError() }}</div>
+  }
+  @if (passwordSuccess()) {
+    <div class="alert alert--success" role="status">{{ passwordSuccess() }}</div>
+  }
+
+  <form class="form" [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+    <app-input
+      id="currentPassword"
+      type="password"
+      label="Aktuelles Passwort"
+      formControlName="currentPassword"
+      [required]="true"
+      [showPasswordToggle]="true"
+      [fullWidth]="true"
+    />
+
+    <app-input
+      id="newPassword"
+      type="password"
+      label="Neues Passwort"
+      formControlName="newPassword"
+      [required]="true"
+      [showPasswordToggle]="true"
+      [fullWidth]="true"
+      [hasError]="newPasswordControl.invalid && newPasswordControl.touched"
+      errorMessage="Mindestens 8 Zeichen erforderlich."
+    />
+
+    <app-input
+      id="confirmPassword"
+      type="password"
+      label="Neues Passwort bestätigen"
+      formControlName="confirmPassword"
+      [required]="true"
+      [fullWidth]="true"
+      [hasError]="passwordForm.hasError('mismatch') && confirmPasswordControl.touched"
+      errorMessage="Die Passwörter stimmen nicht überein."
+    />
+
+    <div class="form__actions">
+      <app-button
+        type="submit"
+        variant="primary"
+        [loading]="passwordSaving()"
+        [disabled]="passwordSaving()"
+      >
+        Passwort ändern
+      </app-button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">E-Mail-Adresse ändern</h2>
+    <p class="card__text">
+      Nach der Änderung senden wir einen Bestätigungslink an die neue Adresse.
+    </p>
+  </div>
+
+  @if (emailError()) {
+    <div class="alert alert--error" role="alert">{{ emailError() }}</div>
+  }
+  @if (emailSuccess()) {
+    <div class="alert alert--success" role="status">{{ emailSuccess() }}</div>
+  }
+
+  <form class="form" [formGroup]="emailForm" (ngSubmit)="onSubmitEmail()">
+    <app-input
+      id="newEmail"
+      type="email"
+      label="Neue E-Mail-Adresse"
+      formControlName="newEmail"
+      [required]="true"
+      [fullWidth]="true"
+      [hasError]="newEmailControl.invalid && newEmailControl.touched"
+      errorMessage="Bitte gib eine gültige E-Mail-Adresse ein."
+    />
+
+    <app-input
+      id="emailCurrentPassword"
+      type="password"
+      label="Aktuelles Passwort"
+      formControlName="currentPassword"
+      [required]="true"
+      [showPasswordToggle]="true"
+      [fullWidth]="true"
+    />
+
+    <div class="form__actions">
+      <app-button
+        type="submit"
+        variant="primary"
+        [loading]="emailSaving()"
+        [disabled]="emailSaving()"
+      >
+        E-Mail ändern
+      </app-button>
+    </div>
+  </form>
+</div>

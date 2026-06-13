@@ -1,0 +1,25 @@
+<section class="account">
+  <header class="account__header">
+    <span class="account__avatar" aria-hidden="true">{{ initials() }}</span>
+    <div>
+      <p class="account__eyebrow">Mein Bereich</p>
+      <h1 class="account__title">Hallo {{ displayName() }}</h1>
+    </div>
+  </header>
+
+  <nav class="account__tabs" aria-label="Konto-Navigation">
+    @for (tab of tabs; track tab.route) {
+      <a
+        class="account__tab"
+        [routerLink]="tab.route"
+        routerLinkActive="account__tab--active"
+      >
+        {{ tab.label }}
+      </a>
+    }
+  </nav>
+
+  <div class="account__content">
+    <router-outlet />
+  </div>
+</section>

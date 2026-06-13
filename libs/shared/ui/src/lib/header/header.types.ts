@@ -81,7 +81,7 @@ export const DEFAULT_USER_MENU_ITEMS: UserMenuItem[] = [
   {
     label: 'Meine Buchungen',
     iconName: 'calendar',
-    route: '/meine-buchungen',
+    route: '/mein-bereich/buchungen',
   },
   {
     label: 'Abmelden',

@@ -39,6 +39,9 @@
       "@tanzmoment/web/features/my-bookings": [
         "libs/web/features/my-bookings/src/index.ts"
       ],
+      "@tanzmoment/web/features/account": [
+        "libs/web/features/account/src/index.ts"
+      ],
       "@tanzmoment/web/features/auth": ["libs/web/features/auth/src/index.ts"],
       "@tanzmoment/admin/feature-shell": [
         "libs/admin/feature-shell/src/index.ts"

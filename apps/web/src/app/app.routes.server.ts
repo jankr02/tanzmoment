@@ -30,6 +30,14 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'mein-bereich',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'mein-bereich/**',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'meine-buchungen',
     renderMode: RenderMode.Client,
   },
