@@ -73,8 +73,6 @@ export class KidsPageComponent implements OnInit {
       'Bei uns entdecken Kinder die Freude an Bewegung – spielerisch, ohne Druck und mit ganz viel Spass. Jedes Kind tanzt auf seine eigene Art.',
     ctaText: 'Schnupperstunde buchen',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Unsere Kurse entdecken',
-    secondaryCtaRoute: '/courses',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

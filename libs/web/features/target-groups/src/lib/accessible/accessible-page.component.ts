@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  HeaderComponent,
-  FooterComponent,
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
@@ -38,8 +36,6 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     AccessibleHeroComponent,
     IntroSectionComponent,
     AccessibilityFeaturesSectionComponent,
@@ -75,15 +71,8 @@ export class AccessiblePageComponent implements OnInit {
     headline: 'Dein Körper. Deine Bewegung. Deine Art zu tanzen.',
     subheadline:
       'Tanz kennt keine Grenzen. Bei uns zählt nicht, was du nicht kannst – sondern was du ausdrücken möchtest.',
-    highlights: [
-      { icon: '♿', text: 'Barrierefrei' },
-      { icon: '🎓', text: 'Qualifizierte Trainer' },
-      { icon: '✨', text: 'Individuelle Anpassung' },
-    ],
     ctaText: 'Persönliches Gespräch vereinbaren',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Mehr erfahren',
-    secondaryCtaRoute: '/fuer-alle#barrierefreiheit',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

@@ -20,10 +20,4 @@ export class KidsHeroComponent {
   onCtaClick(): void {
     this.router.navigate([this.data.ctaRoute]);
   }
-
-  onSecondaryCtaClick(): void {
-    if (this.data.secondaryCtaRoute) {
-      this.router.navigate([this.data.secondaryCtaRoute]);
-    }
-  }
 }

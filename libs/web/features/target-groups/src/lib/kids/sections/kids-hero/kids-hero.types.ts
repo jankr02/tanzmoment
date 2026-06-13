@@ -4,6 +4,4 @@ export interface KidsHeroData {
   subheadline: string;
   ctaText: string;
   ctaRoute: string;
-  secondaryCtaText?: string;
-  secondaryCtaRoute?: string;
 }
