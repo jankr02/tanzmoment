@@ -6,12 +6,31 @@
     </header>
 
     <div class="accessibility-features__grid">
-      @for (feature of data.features; track feature.title) {
-        <article class="accessibility-features__card">
-          <span class="accessibility-features__icon" aria-hidden="true">{{ feature.icon }}</span>
-          <h3 class="accessibility-features__title">{{ feature.title }}</h3>
-          <p class="accessibility-features__description">{{ feature.description }}</p>
-        </article>
+      @for (feature of data.features; track $index) {
+        @if (feature.quote) {
+          <article class="accessibility-features__card accessibility-features__card--quote">
+            <p class="accessibility-features__quote">{{ feature.quote }}</p>
+          </article>
+        } @else {
+          <article
+            class="accessibility-features__card"
+            [ngClass]="'accessibility-features__card--tint-' + ($index % 3)"
+          >
+            @if (feature.icon) {
+              <span class="accessibility-features__icon" aria-hidden="true">{{ feature.icon }}</span>
+            }
+            <h3
+              class="accessibility-features__title"
+              [class.accessibility-features__title--accent]="feature.accent"
+            >
+              {{ feature.title }}
+            </h3>
+            @if (feature.accent) {
+              <p class="accessibility-features__accent">{{ feature.accent }}</p>
+            }
+            <p class="accessibility-features__description">{{ feature.description }}</p>
+          </article>
+        }
       }
     </div>
   </div>

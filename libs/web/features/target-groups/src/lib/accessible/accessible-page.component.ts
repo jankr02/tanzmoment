@@ -102,6 +102,7 @@ export class AccessiblePageComponent implements OnInit {
       {
         icon: '🚪',
         title: 'Stufenloser Zugang',
+        accent: 'Ankommen ohne Hürden',
         description:
           'Rampe vom Eingang, Aufzug zu allen Etagen, breite Türen (min. 90cm). Rollstuhlgerechte Toiletten und Umkleiden.',
       },
@@ -118,6 +119,11 @@ export class AccessiblePageComponent implements OnInit {
           'Individuelle Lautstärke-Anpassung möglich. Vibrationsplatten für gehörlose Teilnehmer. Gute Beleuchtung ohne Blendung.',
       },
       {
+        quote: 'Wir passen den Tanz an dich an – nicht umgekehrt.',
+        title: '',
+        description: '',
+      },
+      {
         icon: '👁️',
         title: 'Visuelle Unterstützung',
         description:
@@ -126,6 +132,7 @@ export class AccessiblePageComponent implements OnInit {
       {
         icon: '🤝',
         title: 'Assistenz willkommen',
+        accent: 'Begleitung tanzt kostenfrei mit',
         description:
           'Begleitpersonen und Assistenten sind herzlich willkommen und nehmen kostenfrei teil.',
       },
