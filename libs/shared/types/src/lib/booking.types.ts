@@ -22,10 +22,10 @@
  */
 export enum BookingMode {
   /** Book entire course – all sessions included in one booking */
-  FULL_COURSE = 'full_course',
+  FULL_COURSE = 'FULL_COURSE',
 
   /** Book individual sessions – drop-in style */
-  SINGLE_SESSION = 'single_session',
+  SINGLE_SESSION = 'SINGLE_SESSION',
 }
 
 export const BOOKING_MODE_LABELS: Record<BookingMode, string> = {

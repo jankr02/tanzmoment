@@ -40,6 +40,7 @@ import {
 } from '@tanzmoment/shared/ui';
 import { BookingApiService, AuthStateService } from '@tanzmoment/shared/services';
 import {
+  BookingMode,
   SessionAvailability,
   CreateBookingApiRequest,
   CreateBookingApiResponse,
@@ -86,7 +87,7 @@ export class BookingFormComponent implements OnInit {
   @Input({ required: true }) sessions: SessionAvailability[] = [];
   @Input() cancellationPolicyName?: string;
   /** FULL_COURSE skips session selection; SINGLE_SESSION requires a session. */
-  @Input() bookingMode = 'SINGLE_SESSION';
+  @Input() bookingMode: BookingMode = BookingMode.SINGLE_SESSION;
 
   @Output() bookingCompleted = new EventEmitter<CreateBookingApiResponse>();
   @Output() bookingError = new EventEmitter<string>();
@@ -123,7 +124,7 @@ export class BookingFormComponent implements OnInit {
 
   /** Full-course bookings cover the whole course, so there is no session step. */
   get isFullCourse(): boolean {
-    return this.bookingMode === 'FULL_COURSE';
+    return this.bookingMode === BookingMode.FULL_COURSE;
   }
 
   readonly totalSteps = computed(() => {

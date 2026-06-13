@@ -35,7 +35,13 @@
         <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
           <mj-column>
             <mj-text padding="4px 0"><strong>Kurs:</strong> {{courseName}}</mj-text>
+            {{#if isFullCourse}}
+            <mj-text padding="4px 0"><strong>Umfang:</strong> Gesamter Kurs (alle Termine)</mj-text>
+            {{else}}
+            {{#if sessionDate}}
             <mj-text padding="4px 0"><strong>Termin:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} Uhr</mj-text>
+            {{/if}}
+            {{/if}}
             <mj-text padding="4px 0"><strong>Warteliste:</strong> Platz {{waitlistPosition}}</mj-text>
           </mj-column>
         </mj-section>

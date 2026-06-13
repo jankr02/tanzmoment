@@ -1082,10 +1082,7 @@ export class BookingsService {
       availableSpots,
       waitlistCount,
       status,
-      bookingMode:
-        course.bookingMode === 'FULL_COURSE'
-          ? 'full_course'
-          : 'single_session',
+      bookingMode: course.bookingMode,
     };
   }
 

@@ -5,6 +5,8 @@
 // Used by the public availability endpoint and the booking form UI.
 // ============================================================================
 
+import { BookingMode } from './booking.types';
+
 /**
  * Availability status for display logic
  */
@@ -91,7 +93,7 @@ export interface AvailabilityInfo {
   status: AvailabilityStatus;
 
   /** Booking mode of the course */
-  bookingMode: string;
+  bookingMode: BookingMode;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

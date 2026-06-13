@@ -12,6 +12,11 @@
         <p>Aktuell sind keine Termine geplant.</p>
         <p>Schau bald wieder vorbei oder kontaktiere uns für weitere Infos.</p>
       </div>
+    } @else if (isFullCourse && !hasSessions && !infoText) {
+      <div class="schedule-section__empty">
+        <p>Dieser Kurs läuft als fortlaufendes Angebot über das gesamte Semester.</p>
+        <p>Melde dich an, um deinen Platz zu sichern – die genauen Termine erhältst du nach der Buchung.</p>
+      </div>
     } @else if (hasSessions) {
       <div class="schedule-section__groups">
         @for (group of groupedSessions(); track group.dateKey) {
