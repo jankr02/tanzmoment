@@ -80,7 +80,7 @@ export class ExpressivePageComponent implements OnInit {
       'Wir arbeiten mit <strong>Bewegungsimpulsen</strong> statt festen Abläufen – mal sanft und meditativ, mal kraftvoll und wild. In jedem Moment entscheidest du selbst, wie weit du gehst, und wirst dabei einfühlsam begleitet.',
     ],
     highlightQuote:
-      '"Es geht nicht darum, gut auszusehen. Es geht darum, sich <strong>lebendig zu fühlen.</strong>"',
+      'Es geht nicht darum, gut auszusehen. Es geht darum, sich <strong>lebendig zu fühlen.</strong>',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
