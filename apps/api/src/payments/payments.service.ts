@@ -194,6 +194,10 @@ export class PaymentsService {
         ),
       );
 
+    // Session reminders only apply to single-session bookings. Full-course
+    // bookings have no specific session, so there is nothing to remind about.
+    if (!booking.session) return;
+
     const delay = Math.max(
       0,
       booking.session.startTime.getTime() - TIMING.REMINDER_BEFORE_MS - Date.now(),
