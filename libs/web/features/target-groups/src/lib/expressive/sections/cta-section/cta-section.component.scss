@@ -1,0 +1,69 @@
+.cta-section {
+  position: relative;
+  padding: var(--space-24) 0;
+  padding-top: calc(var(--space-24) + 60px);
+  background-color: var(--color-surface);
+
+  &__wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    pointer-events: none;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 80px;
+    }
+
+    @media (max-width: 768px) {
+      height: 60px;
+
+      svg {
+        height: 60px;
+      }
+    }
+  }
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    text-align: center;
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: var(--font-size-h2);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--space-4);
+  }
+
+  &__subheadline {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-body);
+    margin: 0 0 var(--space-10);
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: center;
+
+      ui-button {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+}
