@@ -922,6 +922,22 @@ export class BookingsService {
   }
 
   // ===========================================================================
+  // VERIFY PAYMENT (public, post-checkout redirect)
+  // ===========================================================================
+
+  /**
+   * Returns booking status and course info by ID without an owner check.
+   *
+   * Called by the success page after the Stripe redirect, where guests have
+   * no JWT. Guest contact data is stripped because this endpoint is reachable
+   * by booking ID alone.
+   */
+  async verifyBookingPayment(bookingId: string): Promise<BookingResponseDto> {
+    const booking = await this.findOne(bookingId, null);
+    return { ...booking, guestInfo: undefined };
+  }
+
+  // ===========================================================================
   // AVAILABILITY (public)
   // ===========================================================================
 
