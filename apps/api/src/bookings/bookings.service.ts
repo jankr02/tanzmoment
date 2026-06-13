@@ -926,15 +926,79 @@ export class BookingsService {
   // ===========================================================================
 
   /**
-   * Returns booking status and course info by ID without an owner check.
+   * Returns minimal booking + payment status by ID, without an owner check.
    *
-   * Called by the success page after the Stripe redirect, where guests have
-   * no JWT. Guest contact data is stripped because this endpoint is reachable
-   * by booking ID alone.
+   * Called by the success page after the Stripe redirect, where guests have no
+   * JWT. Because this endpoint is reachable by booking ID alone, it uses an
+   * explicit whitelist projection (not the full booking DTO): the success page
+   * only needs the booking/payment status and basic course info. Building the
+   * response from a narrow `select` is fail-closed — a future field added to the
+   * booking model cannot leak here unless it is explicitly added below.
    */
   async verifyBookingPayment(bookingId: string): Promise<BookingResponseDto> {
-    const booking = await this.findOne(bookingId, null);
-    return { ...booking, guestInfo: undefined };
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        id: true,
+        status: true,
+        userId: true,
+        createdAt: true,
+        course: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            danceStyle: true,
+            imageUrl: true,
+          },
+        },
+        session: {
+          select: {
+            id: true,
+            startTime: true,
+            endTime: true,
+            location: { select: { name: true } },
+          },
+        },
+        payment: {
+          select: { id: true, status: true, amountInCents: true, currency: true },
+        },
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Buchung nicht gefunden.');
+    }
+
+    return {
+      id: booking.id,
+      status: booking.status.toLowerCase(),
+      isGuestBooking: !booking.userId,
+      course: {
+        id: booking.course.id,
+        title: booking.course.title,
+        slug: booking.course.slug,
+        danceStyle: booking.course.danceStyle,
+        imageUrl: booking.course.imageUrl ?? undefined,
+      },
+      session: booking.session
+        ? {
+            id: booking.session.id,
+            startTime: booking.session.startTime.toISOString(),
+            endTime: booking.session.endTime.toISOString(),
+            location: booking.session.location.name,
+          }
+        : undefined,
+      payment: booking.payment
+        ? {
+            id: booking.payment.id,
+            status: booking.payment.status.toLowerCase(),
+            amountInCents: booking.payment.amountInCents,
+            currency: booking.payment.currency,
+          }
+        : undefined,
+      createdAt: booking.createdAt.toISOString(),
+    };
   }
 
   // ===========================================================================
