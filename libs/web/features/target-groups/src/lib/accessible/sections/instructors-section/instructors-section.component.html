@@ -7,17 +7,59 @@
 
     <div class="instructors-section__grid">
       @for (qualification of data.qualifications; track qualification.title) {
-        <article class="instructors-section__card">
-          <span class="instructors-section__icon" aria-hidden="true">{{ qualification.icon }}</span>
-          <h3 class="instructors-section__title">{{ qualification.title }}</h3>
-          <p class="instructors-section__description" [innerHTML]="qualification.description"></p>
+        <article
+          class="instructors-section__card"
+          [ngClass]="'instructors-section__card--tint-' + ($index % 3)"
+        >
+          <svg
+            class="instructors-section__shape"
+            viewBox="0 0 600 360"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path [attr.d]="shapePath($index)" vector-effect="non-scaling-stroke" />
+          </svg>
+
+          <div class="instructors-section__body">
+            <span class="instructors-section__badge">
+              <span
+                class="instructors-section__icon"
+                [style.--feature-icon]="iconVar(qualification.icon)"
+              ></span>
+            </span>
+
+            <h3 class="instructors-section__title">{{ qualification.title }}</h3>
+            <p
+              class="instructors-section__description"
+              [innerHTML]="qualification.description"
+            ></p>
+          </div>
         </article>
       }
     </div>
 
     @if (data.certificationNote) {
-      <div class="instructors-section__certification">
-        <p [innerHTML]="data.certificationNote"></p>
+      <div class="instructors-section__banner">
+        <svg
+          class="instructors-section__banner-shape"
+          viewBox="0 0 1200 180"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path [attr.d]="bannerPath" vector-effect="non-scaling-stroke" />
+        </svg>
+
+        <div class="instructors-section__banner-body">
+          <img
+            class="instructors-section__seal"
+            src="/assets/icons/features/siegel-geprueft.svg"
+            alt="Geprüfte Qualifikation"
+          />
+          <p
+            class="instructors-section__banner-text"
+            [innerHTML]="data.certificationNote"
+          ></p>
+        </div>
       </div>
     }
   </div>

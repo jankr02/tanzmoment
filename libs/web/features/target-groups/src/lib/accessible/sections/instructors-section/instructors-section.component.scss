@@ -24,10 +24,8 @@
     font-family: var(--font-body);
     font-size: var(--font-size-body-l);
     color: var(--color-text-secondary);
-    margin: 0;
+    margin: 0 auto;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
 
     @media (max-width: 768px) {
       font-size: var(--font-size-body);
@@ -37,48 +35,103 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
-    margin-bottom: var(--space-12);
+    gap: var(--space-8);
+    align-items: start;
+    margin-bottom: var(--space-16);
 
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+
+  // Static vertical offset on the right column for an organic, staggered feel
+  &__card:nth-child(even) {
+    @media (min-width: 641px) {
+      transform: translateY(var(--space-10));
     }
   }
 
   &__card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: var(--space-6);
+    --card-fill: var(--color-surface-sage);
+    --card-accent: var(--color-brand);
+
+    position: relative;
+    padding: var(--space-8);
+
+    &:hover .instructors-section__shape {
+      filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.09));
+    }
+
+    &--tint-0 {
+      --card-fill: var(--color-surface-sage);
+      --card-accent: var(--color-brand);
+    }
+
+    &--tint-1 {
+      --card-fill: var(--color-surface-champagne);
+      --card-accent: var(--color-secondary-dark);
+    }
+
+    &--tint-2 {
+      --card-fill: var(--color-surface-rose);
+      --card-accent: var(--color-accent-dark);
+    }
+  }
+
+  &__shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: visible;
+    fill: var(--card-fill);
+    stroke: var(--card-accent);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.05));
+    transition: filter var(--transition-base);
+    pointer-events: none;
+  }
+
+  &__body {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: var(--space-5);
     background-color: var(--color-surface);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 
   &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    background-color: var(--color-accessible-accent, var(--color-brand));
-    border-radius: var(--radius-md);
-    font-size: 1.5rem;
-    margin-bottom: var(--space-4);
-    opacity: 0.9;
+    width: 28px;
+    height: 28px;
+    background-color: var(--card-accent);
+    -webkit-mask: var(--feature-icon) center / contain no-repeat;
+    mask: var(--feature-icon) center / contain no-repeat;
   }
 
   &__title {
     font-family: var(--font-headline);
-    font-size: var(--font-size-h4);
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-h3);
     color: var(--color-text-primary);
-    margin: 0 0 var(--space-2);
+    margin: 0 0 var(--space-3);
   }
 
   &__description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
-    line-height: var(--line-height-body);
+    line-height: 1.7;
     color: var(--color-text-secondary);
     margin: 0;
 
@@ -88,23 +141,60 @@
     }
   }
 
-  &__certification {
-    text-align: center;
-    padding: var(--space-6);
-    background-color: var(--color-surface);
-    border-radius: var(--radius-lg);
-    border: 2px solid var(--color-accessible-accent, var(--color-brand));
+  // Certification banner with a hand-drawn organic outline and a verified seal
+  &__banner {
+    --card-fill: var(--color-surface-sage);
+    --card-accent: var(--color-brand);
 
-    p {
-      font-family: var(--font-body);
-      font-size: var(--font-size-body);
-      color: var(--color-text-secondary);
-      margin: 0;
+    position: relative;
+    padding: var(--space-8) var(--space-10);
+  }
 
-      strong {
-        color: var(--color-text-primary);
-        font-weight: var(--font-weight-bold);
-      }
+  &__banner-shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: visible;
+    fill: var(--card-fill);
+    stroke: var(--card-accent);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.05));
+    pointer-events: none;
+  }
+
+  &__banner-body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--space-4);
+    }
+  }
+
+  &__seal {
+    flex-shrink: 0;
+    width: 56px;
+    height: 70px;
+    display: block;
+  }
+
+  &__banner-text {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-bold);
     }
   }
 }

@@ -166,25 +166,25 @@ export class AccessiblePageComponent implements OnInit {
       'Inklusive Tanzarbeit erfordert besonderes Wissen, Empathie und Flexibilität. Unsere Kursleiter bringen all das mit.',
     qualifications: [
       {
-        icon: '🎓',
+        icon: '/assets/icons/features/kursleiter-ausbildung.svg',
         title: 'Spezialisierte Ausbildung',
         description:
           'Alle unsere Tanzpädagogen haben Fortbildungen in <strong>inklusiver Tanzpädagogik</strong> und <strong>Bewegungsarbeit mit Menschen mit Behinderung</strong> absolviert.',
       },
       {
-        icon: '⚕️',
+        icon: '/assets/icons/features/kursleiter-medizin.svg',
         title: 'Medizinisches Grundwissen',
         description:
           'Kenntnisse über verschiedene Behinderungsformen, Kontraindikationen und sichere Bewegungsausführung. <strong>Erste-Hilfe-Zertifizierung</strong> selbstverständlich.',
       },
       {
-        icon: '🔄',
+        icon: '/assets/icons/features/kursleiter-anpassung.svg',
         title: 'Individuelle Anpassung',
         description:
           'Jede Kursstunde wird an die aktuellen Bedürfnisse der Teilnehmenden angepasst. Schmerzen heute? Müdigkeit? Wir reagieren darauf.',
       },
       {
-        icon: '💬',
+        icon: '/assets/icons/features/kursleiter-kommunikation.svg',
         title: 'Kommunikative Kompetenz',
         description:
           'Grundkenntnisse in Gebärdensprache, Erfahrung mit Unterstützter Kommunikation, sensibel für verschiedene Kommunikationsbedürfnisse.',
