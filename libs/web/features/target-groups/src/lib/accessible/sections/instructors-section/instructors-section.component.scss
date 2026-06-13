@@ -53,7 +53,7 @@
   }
 
   &__card {
-    --card-fill: var(--color-surface-sage);
+    --card-fill: var(--color-surface);
     --card-accent: var(--color-brand);
 
     position: relative;
@@ -63,18 +63,19 @@
       filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.09));
     }
 
+    // Keep the per-card accent (border) colour, but a whiter fill across all
     &--tint-0 {
-      --card-fill: var(--color-surface-sage);
+      --card-fill: var(--color-surface);
       --card-accent: var(--color-brand);
     }
 
     &--tint-1 {
-      --card-fill: var(--color-surface-champagne);
+      --card-fill: var(--color-surface);
       --card-accent: var(--color-secondary-dark);
     }
 
     &--tint-2 {
-      --card-fill: var(--color-surface-rose);
+      --card-fill: var(--color-surface);
       --card-accent: var(--color-accent-dark);
     }
   }
