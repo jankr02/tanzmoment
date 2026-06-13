@@ -82,18 +82,45 @@ export class CourseFormComponent implements OnInit {
   });
 
   readonly form = this.fb.group({
-    title: ['', [Validators.required, Validators.minLength(3)]],
+    title: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(120),
+      ],
+    ],
     danceStyle: ['', Validators.required],
-    targetGroup: ['ADULTS', Validators.required],
+    targetGroup: ['', Validators.required],
     level: ['ALL_LEVELS', Validators.required],
-    shortDescription: ['', [Validators.required, Validators.maxLength(200)]],
-    description: ['', Validators.required],
-    catchPhrase: [''],
+    shortDescription: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(30),
+        Validators.maxLength(500),
+      ],
+    ],
+    description: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(80),
+        Validators.maxLength(5000),
+      ],
+    ],
+    catchPhrase: ['', Validators.maxLength(200)],
     imageUrl: [''],
-    priceInEuros: [0, [Validators.required, Validators.min(0)]],
+    priceInEuros: [
+      0,
+      [Validators.required, Validators.min(0), Validators.max(1000)],
+    ],
     isFree: [false],
     duration: [90, Validators.required],
-    maxParticipants: [12, [Validators.required, Validators.min(1)]],
+    maxParticipants: [
+      12,
+      [Validators.required, Validators.min(1), Validators.max(100)],
+    ],
     bookingMode: ['FULL_COURSE', Validators.required],
     visibility: ['PUBLIC', Validators.required],
     isMarkedAsHighlighted: [false],

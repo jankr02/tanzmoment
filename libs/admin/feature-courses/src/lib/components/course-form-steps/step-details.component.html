@@ -11,6 +11,12 @@
     @if (form.get('description')?.touched && form.get('description')?.hasError('required')) {
       <span class="field__error">Bitte gib eine Beschreibung ein</span>
     }
+    @if (form.get('description')?.touched && form.get('description')?.hasError('minlength')) {
+      <span class="field__error">Mindestens 80 Zeichen — beschreibe den Kurs etwas ausführlicher</span>
+    }
+    @if (form.get('description')?.touched && form.get('description')?.hasError('maxlength')) {
+      <span class="field__error">Höchstens 5000 Zeichen</span>
+    }
   </div>
 
   <div class="field">
@@ -23,6 +29,9 @@
       placeholder="z.B. Mein Tipp für alle, die sich frei bewegen wollen"
     />
     <span class="field__hint">Optional — wird auf der Kursseite prominent angezeigt</span>
+    @if (form.get('catchPhrase')?.touched && form.get('catchPhrase')?.hasError('maxlength')) {
+      <span class="field__error">Höchstens 200 Zeichen</span>
+    }
   </div>
 
   <div class="field">

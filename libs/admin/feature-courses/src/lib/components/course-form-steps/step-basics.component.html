@@ -11,6 +11,12 @@
     @if (form.get('title')?.touched && form.get('title')?.hasError('required')) {
       <span class="field__error">Bitte gib einen Titel ein</span>
     }
+    @if (form.get('title')?.touched && form.get('title')?.hasError('minlength')) {
+      <span class="field__error">Der Titel muss mindestens 3 Zeichen lang sein</span>
+    }
+    @if (form.get('title')?.touched && form.get('title')?.hasError('maxlength')) {
+      <span class="field__error">Der Titel darf höchstens 120 Zeichen lang sein</span>
+    }
   </div>
 
   <div class="field">
@@ -42,6 +48,9 @@
           <option [value]="group">{{ group }}</option>
         }
       </select>
+      @if (form.get('targetGroup')?.touched && form.get('targetGroup')?.hasError('required')) {
+        <span class="field__error">Bitte wähle eine Zielgruppe</span>
+      }
     </div>
 
     <div class="field">
@@ -68,6 +77,12 @@
     </span>
     @if (form.get('shortDescription')?.touched && form.get('shortDescription')?.hasError('required')) {
       <span class="field__error">Bitte gib eine Kurzbeschreibung ein</span>
+    }
+    @if (form.get('shortDescription')?.touched && form.get('shortDescription')?.hasError('minlength')) {
+      <span class="field__error">Mindestens 30 Zeichen — gib der Kurzbeschreibung etwas mehr Substanz</span>
+    }
+    @if (form.get('shortDescription')?.touched && form.get('shortDescription')?.hasError('maxlength')) {
+      <span class="field__error">Höchstens 500 Zeichen</span>
     }
   </div>
 </div>
