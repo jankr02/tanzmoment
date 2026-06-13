@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthStateService } from '@tanzmoment/shared/services';
+import { AuthStateService } from './auth-state.service';
 
 /**
  * Prevents authenticated users from accessing auth pages (login, register, etc.).

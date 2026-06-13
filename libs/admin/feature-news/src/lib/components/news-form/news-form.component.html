@@ -33,22 +33,25 @@
         </div>
 
         <div class="news-form__field">
-          <label>Inhalt *</label>
-          <admin-tiptap-editor
-            *ngIf="initialJson()"
-            [initialJson]="initialJson()"
-            (bodyChange)="onBodyChange($event)"
-          />
+          <label>
+            Inhalt *
+            <admin-tiptap-editor
+              [initialJson]="initialJson()"
+              (bodyChange)="onBodyChange($event)"
+            />
+          </label>
         </div>
       </div>
 
       <aside class="news-form__sidebar">
         <div class="news-form__field">
-          <label>Coverbild</label>
-          <admin-cover-image-upload
-            [value]="coverImageUrl"
-            (valueChange)="onCoverChange($event)"
-          />
+          <label>
+            Coverbild
+            <admin-cover-image-upload
+              [value]="coverImageUrl"
+              (valueChange)="onCoverChange($event)"
+            />
+          </label>
         </div>
 
         <div class="news-form__field">

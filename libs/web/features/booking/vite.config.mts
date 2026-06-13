@@ -6,14 +6,10 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../../../node_modules/.vite/libs/web/features/about',
+  cacheDir: '../../../../node_modules/.vite/libs/web/features/booking',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //   plugins: () => [ nxViteTsPaths() ],
-  // },
   test: {
-    name: 'about',
+    name: 'booking',
     watch: false,
     globals: true,
     environment: 'jsdom',
@@ -22,7 +18,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../../coverage/libs/web/features/about',
+      reportsDirectory: '../../../../coverage/libs/web/features/booking',
       provider: 'v8' as const,
     },
   },

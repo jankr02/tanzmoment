@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { bookingRoutes } from '@tanzmoment/web/features/booking';
 import { legalRoutes } from '@tanzmoment/web/features/legal';
 import { adminAuthGuard } from '@tanzmoment/admin/data-access';
-import { authGuard, guestGuard } from '@tanzmoment/web/features/auth';
+import { authGuard, guestGuard } from '@tanzmoment/shared/services';
 
 export const appRoutes: Route[] = [
   {

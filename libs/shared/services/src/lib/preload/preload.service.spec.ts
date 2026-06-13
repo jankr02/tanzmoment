@@ -247,6 +247,22 @@ describe('PreloadService', () => {
 
   describe('Image Loading', () => {
     it('should load image assets', async () => {
+      // jsdom never fires load events for Image.src, so stub the constructor
+      // to resolve the load synchronously on the next microtask.
+      class MockImage {
+        onload: (() => void) | null = null;
+        onerror: ((error: unknown) => void) | null = null;
+        private _src = '';
+        set src(value: string) {
+          this._src = value;
+          queueMicrotask(() => this.onload?.());
+        }
+        get src(): string {
+          return this._src;
+        }
+      }
+      vi.stubGlobal('Image', MockImage);
+
       const assets: PreloadAsset[] = [
         {
           id: 'hero',
@@ -256,20 +272,13 @@ describe('PreloadService', () => {
         },
       ];
 
-      // Note: Image loading uses Image() constructor, not HTTP
-      // We can only test that it attempts to load
       try {
         const results = await lastValueFrom(service.preloadAssets(assets));
         expect(results.length).toBe(1);
         expect(results[0].asset.id).toBe('hero');
-        // In test environment, image loading may fail
-        // We just verify the attempt was made
-      } catch (err) {
-        // Image loading may fail in test environment
-        expect(err).toBeTruthy();
+      } finally {
+        vi.unstubAllGlobals();
       }
-
-      // No HTTP mock needed for images
     });
   });
 

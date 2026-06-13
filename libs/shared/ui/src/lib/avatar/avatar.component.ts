@@ -80,7 +80,7 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  @Input() name: string = 'User';
+  @Input() name = 'User';
   @Input() imageUrl?: string;
   @Input() size: AvatarSize = 'md';
 

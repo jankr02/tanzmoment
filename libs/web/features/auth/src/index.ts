@@ -1,7 +1,3 @@
-// Guards
-export { authGuard } from './lib/guards/auth.guard';
-export { guestGuard } from './lib/guards/guest.guard';
-
 // Layout
 export { AuthLayoutComponent } from './lib/components/auth-layout/auth-layout.component';
 
