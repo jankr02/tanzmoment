@@ -50,7 +50,9 @@
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    padding: 0 var(--space-2);
+    // Horizontal breathing room so the label never touches the SVG border.
+    // The shape's stroke sits ~4% in from each edge; large overrides below.
+    padding: 0 var(--space-4);
   }
 
   // ──────────────────────────────────────────────────────────────────────────
