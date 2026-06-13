@@ -491,10 +491,16 @@ $bp-sidebar: 1024px;
 .course-overview__load-more {
   display: flex;
   justify-content: center;
-  margin-top: var(--space-8);
+  // Match the grid's inter-card gap so the button doesn't crowd the last
+  // (scaled-up) card, whose transform overflows its layout box.
+  margin-top: 80px;
+
+  @media (min-width: 1400px) {
+    margin-top: 100px;
+  }
 
   @media (max-width: 768px) {
-    margin-top: var(--space-6);
+    margin-top: var(--space-8);
   }
 }
 
