@@ -213,8 +213,8 @@ export class AvailabilityResponseDto {
   status: string;
 
   @ApiProperty({
-    enum: ['full_course', 'single_session'],
-    example: 'full_course',
+    enum: ['FULL_COURSE', 'SINGLE_SESSION'],
+    example: 'FULL_COURSE',
   })
   bookingMode: string;
 }

@@ -7,6 +7,7 @@
 
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
+import { BookingMode } from '@prisma/client';
 import { Queue } from 'bullmq';
 import { EMAIL_QUEUE, EmailJobName, EMAIL_SUBJECTS } from './email.constants';
 import { EmailJobData } from './email.types';
@@ -36,13 +37,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
-        sessionEnd: data.effectiveSession?.endTime.toISOString(),
-        location: data.effectiveSession?.location?.name,
-        instructorName: `${data.course.instructor.user.firstName} ${data.course.instructor.user.lastName}`,
+        ...this.buildCommonVariables(data),
         amountPaid: data.payment?.amountInCents ?? null,
         bookingId: data.id,
       },
@@ -67,10 +62,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        ...this.buildCommonVariables(data),
         cancelledAt: data.cancelledAt?.toISOString() ?? new Date().toISOString(),
         refundType: refund?.type ?? 'none',
         refundAmount: refund?.amountInCents ?? 0,
@@ -99,10 +91,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        ...this.buildCommonVariables(data),
         adminReason,
         refundAmount: refundAmountInCents ?? 0,
       },
@@ -124,10 +113,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
+        ...this.buildCommonVariables(data),
         waitlistPosition: position,
       },
     });
@@ -148,11 +134,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
-        location: data.effectiveSession?.location?.name,
+        ...this.buildCommonVariables(data),
         priceInCents: data.course.priceInCents,
         expiresAt: expiresAt.toISOString(),
         bookingId: data.id,
@@ -175,13 +157,7 @@ export class BookingEmailService {
       bookingId,
       userId: data.recipient.userId ?? undefined,
       variables: {
-        firstName: data.recipient.firstName,
-        courseName: data.course.title,
-        sessionDate: data.effectiveSession?.startTime.toISOString(),
-        sessionStart: data.effectiveSession?.startTime.toISOString(),
-        sessionEnd: data.effectiveSession?.endTime.toISOString(),
-        location: data.effectiveSession?.location?.name,
-        instructorName: `${data.course.instructor.user.firstName} ${data.course.instructor.user.lastName}`,
+        ...this.buildCommonVariables(data),
         bookingId: data.id,
         notes: data.notes,
       },
@@ -247,20 +223,10 @@ export class BookingEmailService {
           select: {
             title: true,
             priceInCents: true,
+            bookingMode: true,
             instructor: {
               select: {
                 user: { select: { firstName: true, lastName: true } },
-              },
-            },
-            // Earliest session – used as a fallback for full-course bookings,
-            // which have no single session of their own.
-            sessions: {
-              orderBy: { startTime: 'asc' },
-              take: 1,
-              select: {
-                startTime: true,
-                endTime: true,
-                location: { select: { name: true } },
               },
             },
           },
@@ -289,11 +255,36 @@ export class BookingEmailService {
       return null;
     }
 
-    // Single-session bookings use their own session; full-course bookings fall
-    // back to the course's earliest session for date/location display.
-    const effectiveSession = booking.session ?? booking.course.sessions[0] ?? null;
+    // Full-course bookings span the whole course and have no single session;
+    // their date/location is left out of emails rather than guessed from the
+    // (often past) earliest course session. Single-session bookings use their
+    // own session.
+    const isFullCourse = booking.course.bookingMode === BookingMode.FULL_COURSE;
+    const effectiveSession = isFullCourse ? null : booking.session ?? null;
 
-    return { ...booking, recipient, effectiveSession };
+    return { ...booking, recipient, effectiveSession, isFullCourse };
+  }
+
+  /**
+   * Variables shared across all booking lifecycle emails. For full-course
+   * bookings the single-session fields stay undefined so templates omit them.
+   */
+  private buildCommonVariables(data: {
+    recipient: { firstName: string };
+    course: { title: string; instructor: { user: { firstName: string; lastName: string } } };
+    effectiveSession: { startTime: Date; endTime: Date; location: { name: string } | null } | null;
+    isFullCourse: boolean;
+  }): Record<string, unknown> {
+    return {
+      firstName: data.recipient.firstName,
+      courseName: data.course.title,
+      isFullCourse: data.isFullCourse,
+      sessionDate: data.effectiveSession?.startTime.toISOString(),
+      sessionStart: data.effectiveSession?.startTime.toISOString(),
+      sessionEnd: data.effectiveSession?.endTime.toISOString(),
+      location: data.effectiveSession?.location?.name,
+      instructorName: `${data.course.instructor.user.firstName} ${data.course.instructor.user.lastName}`,
+    };
   }
 
   private resolveRecipient(booking: {

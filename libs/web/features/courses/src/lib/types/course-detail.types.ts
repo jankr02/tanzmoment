@@ -8,6 +8,7 @@
 // ============================================================================
 
 import {
+  BookingMode,
   CourseDetailContent,
   CourseDetailHeroContent,
   CourseDetailQuickFactsContent,
@@ -166,7 +167,7 @@ export interface CourseDetailData {
   level: string;
   duration: number;
   maxParticipants: number;
-  bookingMode: string;
+  bookingMode: BookingMode;
   priceInCents: number;
   price: number;
   priceFormatted: string;

@@ -22,8 +22,12 @@
         <mj-section background-color="#FDF8F3" border-radius="8px" padding="24px">
           <mj-column>
             <mj-text padding="4px 0"><strong>Kurs:</strong> {{courseName}}</mj-text>
+            {{#if sessionDate}}
             <mj-text padding="4px 0"><strong>Wann:</strong> {{formatDate sessionDate}}, {{formatTime sessionStart}} – {{formatTime sessionEnd}} Uhr</mj-text>
+            {{/if}}
+            {{#if location}}
             <mj-text padding="4px 0"><strong>Wo:</strong> {{location}}</mj-text>
+            {{/if}}
             <mj-text padding="4px 0"><strong>Leitung:</strong> {{instructorName}}</mj-text>
           </mj-column>
         </mj-section>

@@ -18,6 +18,7 @@ import {
 import { CommonModule } from '@angular/common';
 
 import { ButtonComponent, IconComponent, ScrollRevealDirective } from '@tanzmoment/shared/ui';
+import { BookingMode } from '@tanzmoment/shared/types';
 import {
   CourseDetailData,
   CourseDetailSession,
@@ -94,7 +95,7 @@ export class ScheduleSectionComponent implements OnChanges {
 
   /** Full-course bookings run as a semester block — no single-session list/CTA. */
   get isFullCourse(): boolean {
-    return this.course?.bookingMode === 'FULL_COURSE';
+    return this.course?.bookingMode === BookingMode.FULL_COURSE;
   }
 
   getSessionLabel(sessionId: string): string | undefined {
