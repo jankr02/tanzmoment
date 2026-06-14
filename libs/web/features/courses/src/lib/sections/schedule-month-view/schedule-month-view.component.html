@@ -1,0 +1,38 @@
+<div class="kp-month">
+  <div class="kp-month__grid">
+    @for (header of weekdayHeaders; track header) {
+      <div class="kp-month__dow">{{ header }}</div>
+    }
+
+    @for (cell of cells(); track cell.key) {
+      <div
+        class="kp-day"
+        [attr.data-out]="cell.outOfMonth"
+        [attr.data-weekend]="cell.isWeekend"
+        [attr.data-today]="cell.isToday"
+      >
+        <span class="kp-day__num">{{ cell.dayNumber }}</span>
+
+        @for (chip of cell.chips; track chip.session.id) {
+          <div
+            class="kp-mchip"
+            [ngStyle]="chip.vars"
+            [style.animation-delay.ms]="chip.delayMs"
+            role="button"
+            tabindex="0"
+            [title]="chip.timeLabel + ' ' + chip.session.course.title"
+            (click)="onSelect(chip.session)"
+            (keydown)="onKey($event, chip.session)"
+          >
+            <span class="kp-mchip__t">{{ chip.timeLabel }}</span>
+            <span class="kp-mchip__n">{{ chip.session.course.title }}</span>
+          </div>
+        }
+
+        @if (cell.moreCount > 0) {
+          <span class="kp-mchip-more">+{{ cell.moreCount }} weitere</span>
+        }
+      </div>
+    }
+  </div>
+</div>

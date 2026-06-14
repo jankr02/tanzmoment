@@ -43,3 +43,5 @@ export { COURSE_DETAIL_THEMES } from './lib/types/course-detail.types';
 export { CourseOverviewComponent } from './lib/services/pages/course-overview.component';
 
 export { CourseDetailComponent } from './lib/pages/course-detail/course-detail.component';
+
+export { CourseScheduleComponent } from './lib/pages/course-schedule/course-schedule.component';

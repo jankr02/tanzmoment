@@ -1,0 +1,281 @@
+// ============================================================================
+// COURSE SCHEDULE PAGE (KURSPLAN)
+// ============================================================================
+
+.tm-kursplan {
+  // Target-group calendar colors (decorative, not part of the global token set).
+  // Cascade into the child view components via custom-property inheritance.
+  --group-mama-fill: #fbd8cf;
+  --group-mama-edge: #c08969;
+  --group-mama-deep: #9c5f43;
+  --group-kids-fill: #d8e7ec;
+  --group-kids-edge: #6c8ebf;
+  --group-kids-deep: #4f6f96;
+  --group-inklusiv-fill: #e4ead6;
+  --group-inklusiv-edge: #7a8d5b;
+  --group-inklusiv-deep: #566640;
+  --group-ausdruck-fill: #f7e5c9;
+  --group-ausdruck-edge: #d4933e;
+  --group-ausdruck-deep: #a86d22;
+
+  --kp-grid-line: #efe3d6;
+
+  display: block;
+  min-height: 100vh;
+  background: radial-gradient(
+      1200px 520px at 88% -8%,
+      #ffffff 0%,
+      rgba(255, 255, 255, 0) 60%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #f6f1e9 100%);
+}
+
+// ---------- hero ----------
+.kp-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) clamp(16px, 4vw, 48px) clamp(12px, 2vw, 20px);
+}
+
+.kp-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: var(--space-4);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-secondary-dark);
+  }
+}
+
+.kp-hero__eyebrow {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-small);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  margin-bottom: 10px;
+}
+
+.kp-hero__title {
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  color: var(--color-primary-dark);
+}
+
+.kp-hero__sub {
+  font-size: var(--font-size-body-l);
+  color: var(--color-text-secondary);
+  margin-top: 10px;
+  max-width: 540px;
+}
+
+.kp-hero__bird {
+  position: absolute;
+  right: clamp(8px, 3vw, 40px);
+  top: 50%;
+  transform: translateY(-50%) rotate(8deg);
+  width: clamp(80px, 12vw, 150px);
+  height: auto;
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .kp-hero__bird {
+    display: none;
+  }
+}
+
+// ---------- toolbar ----------
+.kp-toolbar {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-3) clamp(16px, 4vw, 48px) var(--space-1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+.kp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.kp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  padding: var(--space-2) 15px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast),
+    background var(--transition-fast), color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  &[data-active='true'] {
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.kp-chip__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.kp-chip--all[data-active='true'] {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.kp-toolbar__spacer {
+  flex: 1 1 auto;
+}
+
+// week nav
+.kp-weeknav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kp-weeknav__btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--color-secondary-dark);
+  transition: background var(--transition-fast), color var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover {
+    background: var(--color-secondary);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+}
+
+.kp-weeknav__label {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  min-width: 168px;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  small {
+    display: block;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+}
+
+// segmented view toggle
+.kp-seg {
+  display: inline-flex;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: 999px;
+  padding: var(--space-1);
+  gap: 2px;
+}
+
+.kp-seg__btn {
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 7px var(--space-4);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color var(--transition-fast), background var(--transition-fast);
+
+  &[data-active='true'] {
+    color: #fff;
+    background: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+// ---------- canvas ----------
+.kp-canvas {
+  max-width: var(--container-max-width);
+  margin: var(--space-4) auto var(--space-16);
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+
+.kp-card {
+  background: var(--color-surface);
+  border: 1px solid rgba(192, 137, 105, 0.14);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.kp-state {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--space-12);
+  font-size: var(--font-size-body);
+}
+
+// ---------- legend ----------
+.kp-legend {
+  max-width: var(--container-max-width);
+  margin: 0 auto var(--space-12);
+  padding: 0 clamp(16px, 4vw, 48px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+}
+
+.kp-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.kp-legend__sw {
+  width: 14px;
+  height: 14px;
+  border-radius: 5px;
+  border: 1.5px solid;
+}

@@ -1801,43 +1801,82 @@ async function seedCourses(instructorId: string, locationIds: Record<string, str
     console.log(`  ✅ ${course.title} (${course.danceStyle})`);
 
     // Create sessions for each course
-    await seedSessionsForCourse(course.id, course.duration, locationIds);
+    await seedSessionsForCourse(
+      course.id,
+      course.duration,
+      locationIds,
+      createdCount - 1,
+    );
   }
 
   console.log(`  📊 Total courses: ${createdCount}`);
+}
+
+interface WeeklySlot {
+  /** ISO weekday 1=Mon … 6=Sat */
+  day: number;
+  hour: number;
+  minute: number;
+}
+
+/**
+ * Per-course weekly slots, spread across weekdays and times so the calendar
+ * shows a realistic, non-overlapping schedule. Each course recurs weekly at
+ * two slots (one per location) for SESSION_WEEKS weeks.
+ */
+const COURSE_SCHEDULES: { a: WeeklySlot; b: WeeklySlot }[] = [
+  { a: { day: 1, hour: 19, minute: 0 }, b: { day: 4, hour: 18, minute: 30 } },
+  { a: { day: 4, hour: 19, minute: 0 }, b: { day: 2, hour: 18, minute: 0 } },
+  { a: { day: 1, hour: 16, minute: 0 }, b: { day: 3, hour: 15, minute: 30 } },
+  { a: { day: 2, hour: 16, minute: 30 }, b: { day: 5, hour: 16, minute: 0 } },
+  { a: { day: 6, hour: 10, minute: 0 }, b: { day: 3, hour: 17, minute: 0 } },
+  { a: { day: 3, hour: 18, minute: 0 }, b: { day: 6, hour: 11, minute: 30 } },
+  { a: { day: 5, hour: 17, minute: 30 }, b: { day: 1, hour: 17, minute: 0 } },
+  { a: { day: 2, hour: 9, minute: 30 }, b: { day: 4, hour: 9, minute: 30 } },
+  { a: { day: 4, hour: 10, minute: 0 }, b: { day: 1, hour: 10, minute: 0 } },
+];
+
+const SESSION_WEEKS = 3;
+
+/**
+ * Date for `slot` anchored to the current ISO week (Mon-based), shifted by
+ * whole weeks. Week offset 0 lands in the week the calendar shows by default.
+ */
+function dateForSlot(slot: WeeklySlot, weekOffset: number): Date {
+  const date = new Date();
+  const isoDow = date.getDay() === 0 ? 7 : date.getDay(); // 1=Mon … 7=Sun
+  date.setDate(date.getDate() - (isoDow - 1) + (slot.day - 1) + weekOffset * 7);
+  date.setHours(slot.hour, slot.minute, 0, 0);
+  return date;
 }
 
 async function seedSessionsForCourse(
   courseId: string,
   duration: number,
   locationIds: Record<string, string>,
+  courseIndex: number,
 ) {
-  const sessionsPerLocation = 3;
+  const schedule = COURSE_SCHEDULES[courseIndex % COURSE_SCHEDULES.length];
   const locationNames = Object.keys(locationIds);
 
-  for (const locationName of locationNames) {
-    for (let week = 0; week < sessionsPerLocation; week++) {
-      const date = new Date();
+  // Map the two weekly slots to the (up to) two locations.
+  const slotByLocation = locationNames.map((name, idx) => ({
+    name,
+    slot: idx === 0 ? schedule.a : schedule.b,
+  }));
 
-      // Alternate days: Mössingen = Wednesday (3), Bodelshausen = Friday (5)
-      const targetDay = locationName === 'Mössingen' ? 3 : 5;
-      const daysUntilTarget = (targetDay - date.getDay() + 7) % 7 || 7;
-
-      date.setDate(date.getDate() + daysUntilTarget + week * 7);
-
-      // Alternate times based on course type
-      const hour = week % 2 === 0 ? 17 : 19; // 17:00 or 19:00
-      date.setHours(hour, 0, 0, 0);
-
-      const endDate = new Date(date);
-      endDate.setMinutes(endDate.getMinutes() + duration);
+  for (const { name, slot } of slotByLocation) {
+    for (let week = 0; week < SESSION_WEEKS; week++) {
+      const startTime = dateForSlot(slot, week);
+      const endTime = new Date(startTime);
+      endTime.setMinutes(endTime.getMinutes() + duration);
 
       await prisma.session.create({
         data: {
           courseId,
-          startTime: date,
-          endTime: endDate,
-          locationId: locationIds[locationName],
+          startTime,
+          endTime,
+          locationId: locationIds[name],
         },
       });
     }
@@ -1933,6 +1972,10 @@ async function main() {
 
   // Seed locations
   const locationIds = await seedLocations();
+
+  // Clear sessions (and dependent bookings) so re-seeding stays idempotent
+  await prisma.booking.deleteMany();
+  await prisma.session.deleteMany();
 
   // Seed courses with sessions
   await seedCourses(instructor.id, locationIds);

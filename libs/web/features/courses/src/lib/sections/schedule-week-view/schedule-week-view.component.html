@@ -1,0 +1,52 @@
+<div class="kp-week">
+  <div class="kp-week__head">
+    <div class="kp-week__corner"></div>
+    @for (day of days(); track day.dow) {
+      <div class="kp-daycol-head" [attr.data-today]="day.isToday">
+        <div class="kp-daycol-head__name">{{ day.shortName }}</div>
+        <div class="kp-daycol-head__date">{{ day.dayNumber }}</div>
+      </div>
+    }
+  </div>
+
+  <div class="kp-week__body" [style.height.px]="bodyHeight()">
+    <div class="kp-timecol">
+      <div [style.height.px]="topPad"></div>
+      @for (label of hourLabels(); track label) {
+        <div class="kp-timecol__slot" [style.height.px]="hourHeight">
+          <span class="kp-timecol__label">{{ label }}</span>
+        </div>
+      }
+    </div>
+
+    @for (day of days(); track day.dow) {
+      <div class="kp-daycol" [attr.data-weekend]="day.isWeekend">
+        <div [style.height.px]="topPad"></div>
+        @for (label of hourLabels(); track label) {
+          <div class="kp-daycol__slot" [style.height.px]="hourHeight"></div>
+        }
+
+        @for (evt of day.events; track evt.session.id) {
+          <div
+            class="kp-evt"
+            [class.kp-evt--sm]="evt.small"
+            [style.top.px]="evt.top"
+            [style.height.px]="evt.height"
+            [style.left]="'calc(' + evt.leftPct + '% + 5px)'"
+            [style.width]="'calc(' + evt.widthPct + '% - 10px)'"
+            [style.animation-delay.ms]="evt.delayMs"
+            [ngStyle]="evt.vars"
+            role="button"
+            tabindex="0"
+            (click)="onSelect(evt.session)"
+            (keydown)="onKey($event, evt.session)"
+          >
+            <div class="kp-evt__time">{{ evt.startLabel }}–{{ evt.endLabel }}</div>
+            <div class="kp-evt__title">{{ evt.session.course.title }}</div>
+            <div class="kp-evt__meta">{{ evt.groupLabel }} · {{ evt.session.location }}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

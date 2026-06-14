@@ -20,6 +20,14 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'kursplan',
+    loadComponent: () =>
+      import('@tanzmoment/web/features/courses').then(
+        (m) => m.CourseScheduleComponent
+      ),
+    title: 'Kursplan | Tanzmoment',
+  },
+  {
     path: 'courses/:slug',
     loadComponent: () =>
       import('@tanzmoment/web/features/courses').then(
