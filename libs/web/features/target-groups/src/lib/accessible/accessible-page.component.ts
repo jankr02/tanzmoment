@@ -298,6 +298,7 @@ export class AccessiblePageComponent implements OnInit {
           'Ich sitze seit 15 Jahren im Rollstuhl. Hier habe ich zum ersten Mal das Gefühl: Mein Körper ist nicht das Problem – er ist das Instrument.',
         author: 'Maria K.',
         context: 'Rollstuhlnutzerin',
+        accent: '--color-brand',
       },
       {
         id: '2',
@@ -305,6 +306,7 @@ export class AccessiblePageComponent implements OnInit {
           'Meine Tochter ist Autistin. Nach jeder Tanzstunde kommt sie strahlend heraus. Das ist unbezahlbar.',
         author: 'Familie Schneider',
         context: 'Eltern',
+        accent: '--color-accent-dark',
       },
       {
         id: '3',
@@ -312,6 +314,7 @@ export class AccessiblePageComponent implements OnInit {
           'Endlich ein Ort, wo ich nicht erklären muss. Wo ich einfach sein darf.',
         author: 'Tom W.',
         context: 'Sehbehinderung',
+        accent: '--color-accessible-accent',
       },
     ],
   });

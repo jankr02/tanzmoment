@@ -1,45 +1,46 @@
-<section class="testimonials-section">
-  <div class="testimonials-section__container">
-    <h2 class="testimonials-section__headline">{{ data.headline }}</h2>
+<section class="voices">
+  <div class="voices__wrap">
+    <h2 class="voices__headline">{{ data.headline }}</h2>
 
-    <div class="testimonials-grid">
+    @let active = data.testimonials[activeIndex()];
+
+    <figure
+      class="voices__stage"
+      role="tabpanel"
+      [attr.aria-labelledby]="'voice-tab-' + activeIndex()"
+      [style.--voice-accent]="accentVar(active)"
+    >
+      <span class="voices__mark" aria-hidden="true">&ldquo;</span>
+      <blockquote class="voices__quote">{{ active.quote }}</blockquote>
+      <figcaption class="voices__attribution">
+        <span class="voices__rule" aria-hidden="true"></span>
+        <span class="voices__name">{{ active.author }}</span>
+        @if (active.context) {
+          <span class="voices__role">{{ active.context }}</span>
+        }
+      </figcaption>
+    </figure>
+
+    <div class="voices__pager" role="tablist" aria-label="Stimmen auswählen">
       @for (testimonial of data.testimonials; track testimonial.id) {
-        <div class="testimonial-card">
-          @if (testimonial.imageUrl) {
-            <img
-              [src]="testimonial.imageUrl"
-              [alt]="testimonial.author"
-              class="testimonial-card__image"
-            />
-          }
-          <blockquote
-            class="testimonial-card__quote"
-            [style.border-color]="data.accentColor ? 'var(' + data.accentColor + ')' : 'var(--color-brand)'"
-          >
-            "{{ testimonial.quote }}"
-          </blockquote>
-          <div class="testimonial-card__author">
-            <p class="testimonial-card__name">{{ testimonial.author }}</p>
-            @if (testimonial.context) {
-              <p class="testimonial-card__context">{{ testimonial.context }}</p>
-            }
-          </div>
-        </div>
+        <button
+          #tab
+          type="button"
+          role="tab"
+          class="voices__tab"
+          [class.is-active]="activeIndex() === $index"
+          [id]="'voice-tab-' + $index"
+          [attr.aria-selected]="activeIndex() === $index"
+          [attr.tabindex]="activeIndex() === $index ? 0 : -1"
+          [style.--voice-accent]="accentVar(testimonial)"
+          (mouseenter)="select($index)"
+          (click)="select($index)"
+          (keydown)="onKeydown($event, $index)"
+        >
+          <span class="voices__dot" aria-hidden="true"></span>
+          <span class="voices__tab-name">{{ testimonial.author }}</span>
+        </button>
       }
     </div>
-  </div>
-
-  <!-- Wave Border am unteren Rand -->
-  <div class="testimonials-section__wave" aria-hidden="true">
-    <svg
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
-        fill="var(--wave-bottom-fill)"
-      />
-    </svg>
   </div>
 </section>
