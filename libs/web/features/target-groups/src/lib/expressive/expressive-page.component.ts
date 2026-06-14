@@ -16,13 +16,13 @@ import { SeoService } from '@tanzmoment/shared/services';
 
 import { ExpressiveHeroComponent } from './sections/expressive-hero/expressive-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 import { ExpressiveHeroData } from './sections/expressive-hero/expressive-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
 import { BenefitsData } from './sections/benefits-section/benefits-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 
@@ -33,7 +33,7 @@ import { CtaSectionData } from './sections/cta-section/cta-section.types';
     CommonModule,
     ExpressiveHeroComponent,
     IntroSectionComponent,
-    MethodologySectionComponent,
+    MethodologyTimelineComponent,
     BenefitsSectionComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
@@ -87,44 +87,42 @@ export class ExpressivePageComponent implements OnInit {
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
-    headline: 'Wie Ausdruckstanz funktioniert',
-    intro:
-      'Du brauchst keine Vorerfahrung und keine besondere Beweglichkeit. Unsere Methode lädt dich Schritt für Schritt ein, vom Kopf in den Körper zu kommen.',
-    points: [
+  readonly methodologyData = signal<MethodologyTimelineData>({
+    kicker: 'So arbeiten wir',
+    headline: 'So frei, wie <em>du dich fühlst</em>',
+    lede: 'Keine Schritte zum Auswendiglernen. Folge der Linie – vom Ankommen bis ins freie Tanzen.',
+    stations: [
       {
+        indexLabel: '01 — Ankommen',
         title: 'Ankommen & Spüren',
-        description:
-          'Jede Stunde beginnt mit einem sanften <strong>Body-Scan</strong>: Wo bin ich heute? Was braucht mein Körper? So legst du den Alltag ab und kommst im Hier und Jetzt an.',
+        body: 'Jede Stunde beginnt mit einem sanften <strong>Body-Scan</strong>: Wo bin ich heute? Was braucht mein Körper? So legst du den Alltag ab und kommst im Hier und Jetzt an.',
       },
       {
+        indexLabel: '02 — Impuls',
         title: 'Bewegungsimpulse',
-        description:
-          'Statt Schritten geben wir <strong>Impulse</strong> – ein Bild, ein Gefühl, einen Rhythmus. Du übersetzt sie in deine eigene Bewegung. Es gibt kein Richtig, nur deinen Ausdruck.',
+        body: 'Statt Schritten geben wir <strong>Impulse</strong> – ein Bild, ein Gefühl, einen Rhythmus. Du übersetzt sie in deine eigene Bewegung. Es gibt kein Richtig, nur deinen Ausdruck.',
       },
       {
+        indexLabel: '03 — Klang',
         title: 'Atem & Musik',
-        description:
-          'Wir nutzen <strong>Atem und Musik</strong> als Wegweiser. Mal trägt dich ein ruhiger Klang, mal fordert dich ein treibender Beat. <em>Du folgst dem, was in dir resoniert.</em>',
+        body: 'Wir nutzen <strong>Atem und Musik</strong> als Wegweiser. Mal trägt dich ein ruhiger Klang, mal fordert dich ein treibender Beat. <em>Du folgst dem, was in dir resoniert.</em>',
       },
       {
+        indexLabel: '04 — Freiheit',
         title: 'Freies Tanzen',
-        description:
-          'In offenen Phasen bewegst du dich völlig frei. Niemand schaut, niemand bewertet. <strong>Der Raum gehört in diesem Moment ganz dir.</strong>',
+        body: 'In offenen Phasen bewegst du dich völlig frei. Niemand schaut, niemand bewertet. <strong>Der Raum gehört in diesem Moment ganz dir.</strong>',
       },
       {
+        indexLabel: '05 — Begegnung',
         title: 'Begegnung',
-        description:
-          'In achtsamen Partner- und Gruppensequenzen entsteht <strong>Verbindung ohne Worte</strong> – ganz freiwillig und immer in deinem eigenen Tempo.',
+        body: 'In achtsamen Partner- und Gruppensequenzen entsteht <strong>Verbindung ohne Worte</strong> – ganz freiwillig und immer in deinem eigenen Tempo.',
       },
       {
+        indexLabel: '06 — Ausklang',
         title: 'Ausklang',
-        description:
-          'Zum Abschluss kommen wir zur Ruhe und spüren nach. <strong>Was hat sich verändert?</strong> Oft bleibt ein Gefühl von Leichtigkeit und Klarheit.',
+        body: 'Zum Abschluss kommen wir zur Ruhe und spüren nach. <strong>Was hat sich verändert?</strong> Oft bleibt ein Gefühl von Leichtigkeit und Klarheit.',
       },
     ],
-    qualificationNote:
-      'Unser Ansatz verbindet Elemente aus <strong>Tanzimprovisation</strong>, <strong>Authentic Movement</strong> und körperorientierter Achtsamkeit – angeleitet von erfahrenen Tanzpädagog:innen.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

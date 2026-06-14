@@ -16,7 +16,7 @@ import { SeoService } from '@tanzmoment/shared/services';
 import { MothersHeroComponent } from './sections/mothers-hero/mothers-hero.component';
 import { EmpathySectionComponent } from './sections/empathy-section/empathy-section.component';
 import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
@@ -24,7 +24,7 @@ import { CtaSectionComponent } from './sections/cta-section/cta-section.componen
 import { MothersHeroData } from './sections/mothers-hero/mothers-hero.types';
 import { EmpathySectionData } from './sections/empathy-section/empathy-section.types';
 import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
 import { BenefitsData } from './sections/benefits-section/benefits-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
@@ -37,7 +37,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     MothersHeroComponent,
     EmpathySectionComponent,
     WhatToExpectSectionComponent,
-    MethodologySectionComponent,
+    MethodologyTimelineComponent,
     BenefitsSectionComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
@@ -157,34 +157,32 @@ export class MothersPageComponent implements OnInit {
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
-    headline: 'So arbeiten wir mit dir',
-    intro:
-      'Unser Ansatz basiert auf Empathie, Fachwissen und der Überzeugung, dass jeder Körper seine eigene Weisheit hat.',
-    points: [
+  readonly methodologyData = signal<MethodologyTimelineData>({
+    kicker: 'So arbeiten wir',
+    headline: 'So sanft, wie <em>du es brauchst</em>',
+    lede: 'Kein Leistungsdruck, kein fester Ablauf. Folge der Linie – von der ersten Bewegung zurück zu dir.',
+    stations: [
       {
+        indexLabel: '01 — Dein Körper',
         title: 'Postpartale Rücksicht',
-        description:
-          'Wir wissen, was dein Körper gerade durchgemacht hat. Besondere Aufmerksamkeit liegt auf <strong>Beckenboden</strong>, <strong>Rektusdiastase</strong> und sanftem Wiederaufbau der Rumpfmuskulatur. <em>Kein Springen, keine abrupten Bewegungen.</em>',
+        body: 'Wir wissen, was dein Körper gerade durchgemacht hat. Besondere Aufmerksamkeit liegt auf <strong>Beckenboden</strong>, <strong>Rektusdiastase</strong> und sanftem Wiederaufbau der Rumpfmuskulatur. <em>Kein Springen, keine abrupten Bewegungen.</em>',
       },
       {
+        indexLabel: '02 — Dein Tempo',
         title: 'Kein Leistungsdruck',
-        description:
-          'Es gibt kein "gut genug" oder "nicht gut genug". <strong>Dein Körper, deine Grenzen, deine Bewegungen.</strong> Wenn du an einem Tag nur stehen und atmen magst – das ist vollkommen in Ordnung.',
+        body: 'Es gibt kein "gut genug" oder "nicht gut genug". <strong>Dein Körper, deine Grenzen, deine Bewegungen.</strong> Wenn du an einem Tag nur stehen und atmen magst – das ist vollkommen in Ordnung.',
       },
       {
+        indexLabel: '03 — Dein Ausdruck',
         title: 'Intuitive Bewegung',
-        description:
-          'Wir arbeiten nicht mit festen Choreographien, sondern mit <strong>Impulsen</strong>. Du entscheidest, wie du dich bewegen möchtest. <em>Dein Körper weiß, was er braucht</em> – wir helfen dir, wieder zuzuhören.',
+        body: 'Wir arbeiten nicht mit festen Choreographien, sondern mit <strong>Impulsen</strong>. Du entscheidest, wie du dich bewegen möchtest. <em>Dein Körper weiß, was er braucht</em> – wir helfen dir, wieder zuzuhören.',
       },
       {
+        indexLabel: '04 — Dein Raum',
         title: 'Safe Space',
-        description:
-          'Der Tanzraum ist ein <strong>geschützter Raum</strong>. Was hier besprochen wird, bleibt hier. Du darfst weinen, lachen, still sein oder dich austoben. <em>Alles hat seinen Platz.</em>',
+        body: 'Der Tanzraum ist ein <strong>geschützter Raum</strong>. Was hier besprochen wird, bleibt hier. Du darfst weinen, lachen, still sein oder dich austoben. <em>Alles hat seinen Platz.</em>',
       },
     ],
-    qualificationNote:
-      'Unsere Kursleitung hat eine Ausbildung in <strong>prä- und postnataler Fitness</strong> und langjährige Erfahrung in der Arbeit mit Müttern. <em>Deine Gesundheit steht immer an erster Stelle.</em>',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

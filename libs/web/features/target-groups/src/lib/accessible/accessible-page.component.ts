@@ -17,7 +17,7 @@ import { AccessibleHeroComponent } from './sections/accessible-hero/accessible-h
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { AccessibilityFeaturesSectionComponent } from './sections/accessibility-features-section/accessibility-features-section.component';
 import { InstructorsSectionComponent } from './sections/instructors-section/instructors-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
@@ -26,7 +26,7 @@ import { AccessibleHeroData } from './sections/accessible-hero/accessible-hero.t
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AccessibilityFeaturesSectionData } from './sections/accessibility-features-section/accessibility-features-section.types';
 import { InstructorsSectionData } from './sections/instructors-section/instructors-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
 import { BenefitsData } from './sections/benefits-section/benefits-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
@@ -40,7 +40,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     IntroSectionComponent,
     AccessibilityFeaturesSectionComponent,
     InstructorsSectionComponent,
-    MethodologySectionComponent,
+    MethodologyTimelineComponent,
     BenefitsSectionComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
@@ -198,7 +198,7 @@ export class AccessiblePageComponent implements OnInit {
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
+  readonly methodologyData = signal<MethodologyTimelineData>({
     kicker: 'So arbeiten wir',
     headline: 'So individuell, wie <em>Sie sich bewegen</em>',
     lede: 'Kein starrer Ablauf, keine zwei gleichen Stunden. Folgen Sie der Linie – vom ersten Gespräch bis in die Gruppe.',

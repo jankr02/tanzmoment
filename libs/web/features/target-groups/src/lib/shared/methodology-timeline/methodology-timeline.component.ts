@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MethodologyData } from './methodology-section.types';
+import { MethodologyTimelineData } from './methodology-timeline.types';
 
 interface Point {
   x: number;
@@ -20,18 +20,18 @@ interface Point {
 }
 
 @Component({
-  selector: 'tm-accessible-methodology-section',
+  selector: 'tm-methodology-timeline',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './methodology-section.component.html',
-  styleUrl: './methodology-section.component.scss',
+  templateUrl: './methodology-timeline.component.html',
+  styleUrl: './methodology-timeline.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   // None so styles reach <em>/<strong> injected via [innerHTML]; all
   // selectors are scoped under the unique .ansatz BEM prefix.
   encapsulation: ViewEncapsulation.None,
 })
-export class MethodologySectionComponent {
-  @Input({ required: true }) data!: MethodologyData;
+export class MethodologyTimelineComponent {
+  @Input({ required: true }) data!: MethodologyTimelineData;
 
   private readonly destroyRef = inject(DestroyRef);
 

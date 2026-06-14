@@ -1,4 +1,4 @@
-export interface MethodologyStation {
+export interface MethodologyTimelineStation {
   /** e.g. "01 — Der Anfang" */
   indexLabel: string;
   title: string;
@@ -6,10 +6,10 @@ export interface MethodologyStation {
   body: string;
 }
 
-export interface MethodologyData {
+export interface MethodologyTimelineData {
   kicker: string;
   /** Headline, may contain an <em> emphasis span. */
   headline: string;
   lede: string;
-  stations: MethodologyStation[];
+  stations: MethodologyTimelineStation[];
 }
