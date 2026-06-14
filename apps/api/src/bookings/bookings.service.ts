@@ -844,6 +844,12 @@ export class BookingsService {
       );
     }
 
+    if (booking.payment.status === 'PROCESSING') {
+      throw new BadRequestException(
+        'Für diese Buchung wird gerade eine Zahlung verarbeitet.',
+      );
+    }
+
     const checkoutResult = await this.stripeService.createCheckoutSession({
       bookingId: booking.id,
       courseTitle: booking.course.title,

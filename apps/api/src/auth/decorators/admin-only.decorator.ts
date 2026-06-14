@@ -7,7 +7,7 @@ import { Roles } from './roles.decorator';
 
 export function AdminOnly() {
   return applyDecorators(
-    Roles(UserRole.ADMIN, UserRole.INSTRUCTOR),
+    Roles(UserRole.ADMIN),
     UseGuards(JwtAuthGuard, RolesGuard),
     ApiBearerAuth(),
   );
