@@ -199,43 +199,41 @@ export class AccessiblePageComponent implements OnInit {
   // ───────────────────────────────────────────────────────────────────────────
 
   readonly methodologyData = signal<MethodologyData>({
-    headline: 'So passen wir Tanz an dich an',
-    intro:
-      'Es gibt nicht "den einen" inklusiven Tanzkurs. Jeder Mensch bringt andere Fähigkeiten, Herausforderungen und Ziele mit. Unsere Methode ist so flexibel wie unsere Teilnehmenden vielfältig sind.',
-    points: [
+    kicker: 'So arbeiten wir',
+    headline: 'So individuell, wie <em>Sie sich bewegen</em>',
+    lede: 'Kein starrer Ablauf, keine zwei gleichen Stunden. Folgen Sie der Linie – vom ersten Gespräch bis in die Gruppe.',
+    stations: [
       {
+        indexLabel: '01 — Der Anfang',
         title: 'Individuelles Vorgespräch',
-        description:
-          'Vor dem ersten Kurs sprechen wir ausführlich mit Ihnen (und ggf. Ihren Begleitpersonen): <strong>Welche Bewegungen sind möglich?</strong> Was sind Ihre Ziele? Was bereitet Freude, was Unbehagen?',
+        body: 'Vor dem ersten Kurs sprechen wir ausführlich mit Ihnen (und ggf. Ihren Begleitpersonen): <strong>Welche Bewegungen sind möglich?</strong> Was sind Ihre Ziele? Was bereitet Freude, was Unbehagen?',
       },
       {
+        indexLabel: '02 — Ihr Körper',
         title: 'Körperliche Anpassung',
-        description:
-          'Bewegungen werden so angepasst, dass sie <strong>für Ihren Körper funktionieren</strong>. Sitztanz für Rollstuhlnutzer. Vereinfachte Bewegungen bei motorischen Einschränkungen. Taktile Anleitungen bei Sehbeeinträchtigung.',
+        body: 'Bewegungen werden so angepasst, dass sie <strong>für Ihren Körper funktionieren</strong>. Sitztanz für Rollstuhlnutzer. Vereinfachte Bewegungen bei motorischen Einschränkungen. Taktile Anleitungen bei Sehbeeinträchtigung.',
       },
       {
-        title: 'Multi-Sensorischer Ansatz',
-        description:
-          'Musik spüren (Vibration), sehen (Bewegungsanleitung), hören – <em>wir nutzen verschiedene Sinneskanäle</em>, damit jeder teilhaben kann.',
+        indexLabel: '03 — Alle Sinne',
+        title: 'Multi-sensorischer Ansatz',
+        body: 'Musik spüren (Vibration), sehen (Bewegungsanleitung), hören – <em>wir nutzen verschiedene Sinneskanäle</em>, damit jeder teilhaben kann.',
       },
       {
+        indexLabel: '04 — Ihre Freiheit',
         title: 'Keine festen Choreographien',
-        description:
-          'Wir arbeiten mit <strong>Bewegungsimpulsen</strong>, nicht mit starren Abläufen. Sie entscheiden, wie Sie den Impuls umsetzen – mit Ihren Möglichkeiten.',
+        body: 'Wir arbeiten mit <strong>Bewegungsimpulsen</strong>, nicht mit starren Abläufen. Sie entscheiden, wie Sie den Impuls umsetzen – mit Ihren Möglichkeiten.',
       },
       {
+        indexLabel: '05 — Ihr Tempo',
         title: 'Tempo und Pausen',
-        description:
-          'Chronische Schmerzen? Erschöpfung? Sie bestimmen das Tempo. <strong>Pausen sind Teil des Tanzes</strong>, nicht Schwäche.',
+        body: 'Chronische Schmerzen? Erschöpfung? Sie bestimmen das Tempo. <strong>Pausen sind Teil des Tanzes</strong>, nicht Schwäche.',
       },
       {
+        indexLabel: '06 — Gemeinsam',
         title: 'Gruppendynamik',
-        description:
-          'Wir tanzen gemeinsam, aber nicht synchron. <strong>Vielfalt ist unser Programm.</strong> Jeder bewegt sich auf seine Art, und genau das macht die Gruppe reich.',
+        body: 'Wir tanzen gemeinsam, aber nicht synchron. <strong>Vielfalt ist unser Programm.</strong> Jeder bewegt sich auf seine Art, und genau das macht die Gruppe reich.',
       },
     ],
-    qualificationNote:
-      'Unser Ansatz basiert auf den Prinzipien der <strong>DanceAbility</strong>-Methode und <strong>Contact Improvisation</strong>, angepasst an die individuellen Bedürfnisse.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

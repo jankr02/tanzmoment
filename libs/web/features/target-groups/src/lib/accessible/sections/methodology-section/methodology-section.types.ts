@@ -1,11 +1,15 @@
-export interface MethodologyPoint {
+export interface MethodologyStation {
+  /** e.g. "01 — Der Anfang" */
+  indexLabel: string;
   title: string;
-  description: string;
+  /** Body copy, may contain <strong>/<em> markup. */
+  body: string;
 }
 
 export interface MethodologyData {
+  kicker: string;
+  /** Headline, may contain an <em> emphasis span. */
   headline: string;
-  intro: string;
-  points: MethodologyPoint[];
-  qualificationNote?: string;
+  lede: string;
+  stations: MethodologyStation[];
 }
