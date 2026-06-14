@@ -17,13 +17,13 @@ import { SeoService } from '@tanzmoment/shared/services';
 import { ExpressiveHeroComponent } from './sections/expressive-hero/expressive-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 import { ExpressiveHeroData } from './sections/expressive-hero/expressive-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 
 @Component({
@@ -34,7 +34,7 @@ import { CtaSectionData } from './sections/cta-section/cta-section.types';
     ExpressiveHeroComponent,
     IntroSectionComponent,
     MethodologyTimelineComponent,
-    BenefitsSectionComponent,
+    BenefitsSpotlightComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -129,52 +129,46 @@ export class ExpressivePageComponent implements OnInit {
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Ausdruckstanz in dir bewegt',
     subheadline:
       'Freier Tanz wirkt auf Körper, Geist und Seele – ganz ohne Leistungsdruck.',
     benefits: [
       {
-        icon: '🌬️',
+        category: 'physical',
         title: 'Stress löst sich',
         description:
           'Bewegung baut <strong>Anspannung und Stresshormone</strong> ab. Nach einer Stunde fühlst du dich gelöst, geerdet und klarer im Kopf.',
-        category: 'physical',
       },
       {
-        icon: '🤸',
+        category: 'physical',
         title: 'Neues Körpergefühl',
         description:
           'Du lernst deinen Körper neu kennen – seine Grenzen und seine Möglichkeiten. <strong>Beweglichkeit und Haltung</strong> verbessern sich ganz nebenbei.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Emotionaler Ausdruck',
         description:
           'Gefühle, die keine Worte finden, dürfen sich <strong>in Bewegung zeigen.</strong> Das befreit, entlastet und schafft Raum.',
-        category: 'emotional',
       },
       {
-        icon: '🌱',
+        category: 'emotional',
         title: 'Selbstvertrauen',
         description:
           'Wenn nichts falsch sein kann, wächst <strong>Vertrauen in dich selbst.</strong> Diese innere Erlaubnis nimmst du mit in den Alltag.',
-        category: 'emotional',
       },
       {
-        icon: '🎨',
+        category: 'emotional',
         title: 'Kreativität',
         description:
           'Freie Bewegung öffnet <strong>kreative Kanäle</strong>, die im Alltag oft verschüttet sind. Viele erleben sich danach spielerischer und inspirierter.',
-        category: 'emotional',
       },
       {
-        icon: '🤝',
+        category: 'social',
         title: 'Gemeinschaft',
         description:
           'Du tanzt in einer <strong>wertfreien Gruppe</strong> Gleichgesinnter. Begegnung ohne Bewertung, auf Augenhöhe.',
-        category: 'social',
       },
     ],
   });

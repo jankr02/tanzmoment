@@ -17,7 +17,7 @@ import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { AgeGroupsSectionComponent } from './sections/age-groups-section/age-groups-section.component';
 import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { SafetySectionComponent } from './sections/safety-section/safety-section.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
@@ -26,7 +26,7 @@ import { KidsHeroData } from './sections/kids-hero/kids-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AgeGroupsData } from './sections/age-groups-section/age-groups-section.types';
 import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { SafetySectionData } from './sections/safety-section/safety-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
@@ -40,7 +40,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     IntroSectionComponent,
     AgeGroupsSectionComponent,
     WhatToExpectSectionComponent,
-    BenefitsSectionComponent,
+    BenefitsSpotlightComponent,
     SafetySectionComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
@@ -219,52 +219,46 @@ export class KidsPageComponent implements OnInit {
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanzen für Ihr Kind bedeutet',
     subheadline:
       'Tanzen fördert die ganzheitliche Entwicklung – körperlich, emotional und sozial.',
     benefits: [
       {
-        icon: '🏃',
+        category: 'physical',
         title: 'Motorische Entwicklung',
         description:
           'Koordination, Balance und Körpergefühl werden spielerisch trainiert. <strong>Grundlage für alle Bewegungsarten</strong> im Leben.',
-        category: 'physical',
       },
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Gesunde Bewegung',
         description:
           'Ausdauer und Kraft entwickeln sich natürlich durch regelmässige Bewegung. <strong>Ohne Leistungsdruck</strong>, mit viel Freude.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Selbstausdruck',
         description:
           'Kinder lernen, Gefühle durch Bewegung auszudrücken. <strong>Eine Sprache, die keine Worte braucht.</strong>',
-        category: 'emotional',
       },
       {
-        icon: '🌟',
+        category: 'emotional',
         title: 'Selbstvertrauen',
         description:
           'Jeder kleine Erfolg stärkt das Selbstbewusstsein. <strong>Kinder erleben: "Ich kann das!"</strong>',
-        category: 'emotional',
       },
       {
-        icon: '👫',
+        category: 'social',
         title: 'Soziale Kompetenz',
         description:
           'Gemeinsam tanzen bedeutet aufeinander achten, sich absprechen, zusammen etwas schaffen. <strong>Freundschaften entstehen.</strong>',
-        category: 'social',
       },
       {
-        icon: '🎵',
+        category: 'emotional',
         title: 'Musikalität',
         description:
           'Rhythmusgefühl und Musikverständnis entwickeln sich ganz nebenbei. <strong>Ein Geschenk fürs Leben.</strong>',
-        category: 'emotional',
       },
     ],
   });

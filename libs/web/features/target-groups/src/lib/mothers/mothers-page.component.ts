@@ -17,7 +17,7 @@ import { MothersHeroComponent } from './sections/mothers-hero/mothers-hero.compo
 import { EmpathySectionComponent } from './sections/empathy-section/empathy-section.component';
 import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 // Types
@@ -25,7 +25,7 @@ import { MothersHeroData } from './sections/mothers-hero/mothers-hero.types';
 import { EmpathySectionData } from './sections/empathy-section/empathy-section.types';
 import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
 import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -38,7 +38,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     EmpathySectionComponent,
     WhatToExpectSectionComponent,
     MethodologyTimelineComponent,
-    BenefitsSectionComponent,
+    BenefitsSpotlightComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -189,51 +189,45 @@ export class MothersPageComponent implements OnInit {
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanz für dich tun kann',
     subheadline: 'Bewegung ist mehr als Fitness. Sie ist ein Weg zurück zu dir selbst.',
     benefits: [
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Körper neu kennenlernen',
         description:
           'Sanfter Wiederaufbau der Muskulatur, besonders im <strong>Beckenboden und Rumpf</strong>. Dein Körper wird wieder stark – in deinem Tempo.',
-        category: 'physical',
       },
       {
-        icon: '🌸',
+        category: 'physical',
         title: 'Körpergefühl verbessern',
         description:
           'Nach der Schwangerschaft fühlt sich der Körper oft fremd an. Durch Bewegung findest du wieder <strong>Zugang zu dir selbst</strong> und spürst, was dein Körper kann.',
-        category: 'physical',
       },
       {
-        icon: '🧘‍♀️',
+        category: 'emotional',
         title: 'Stress abbauen',
         description:
           'Eine Stunde, in der du den Kopf frei bekommst. Tanz <strong>senkt Cortisol</strong> (Stresshormon) und setzt <strong>Endorphine</strong> (Glückshormone) frei.',
-        category: 'emotional',
       },
       {
-        icon: '💭',
+        category: 'emotional',
         title: 'Emotionen verarbeiten',
         description:
           'Muttersein bringt viele Gefühle mit sich – Freude, Überforderung, Liebe, Erschöpfung. Im Tanz darfst du <strong>all das ausdrücken</strong>, ohne Worte finden zu müssen.',
-        category: 'emotional',
       },
       {
-        icon: '👭',
+        category: 'social',
         title: 'Gemeinschaft finden',
         description:
           '<strong>Du bist nicht allein.</strong> Hier triffst du andere Mütter, die ähnliche Herausforderungen durchleben. Austausch, der gut tut.',
-        category: 'social',
       },
       {
-        icon: '⏰',
+        category: 'emotional',
         title: 'Zeit für dich',
         description:
           'Eine Stunde in der Woche, die <strong>nur dir gehört</strong>. Keine To-Do-Liste, keine Anforderungen. Nur du und deine Bewegung.',
-        category: 'emotional',
       },
     ],
   });
