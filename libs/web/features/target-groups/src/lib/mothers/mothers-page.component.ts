@@ -15,17 +15,18 @@ import { SeoService } from '@tanzmoment/shared/services';
 // Section Components
 import { MothersHeroComponent } from './sections/mothers-hero/mothers-hero.component';
 import { EmpathySectionComponent } from './sections/empathy-section/empathy-section.component';
-import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 
 // Types
 import { MothersHeroData } from './sections/mothers-hero/mothers-hero.types';
 import { EmpathySectionData } from './sections/empathy-section/empathy-section.types';
-import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { CourseClockData } from '../shared/course-clock/course-clock.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -36,9 +37,10 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     CommonModule,
     MothersHeroComponent,
     EmpathySectionComponent,
-    WhatToExpectSectionComponent,
-    MethodologySectionComponent,
-    BenefitsSectionComponent,
+    CourseClockComponent,
+    MethodologyTimelineComponent,
+    BenefitsSpotlightComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -91,64 +93,63 @@ export class MothersPageComponent implements OnInit {
   // WHAT TO EXPECT DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly whatToExpectData = signal<WhatToExpectData>({
+  readonly whatToExpectData = signal<CourseClockData>({
     headline: 'Das erwartet dich',
     intro:
       'Unser Kurs für Mütter ist bewusst so gestaltet, dass er zu deinem Leben passt. Sanft, flexibel und ohne Leistungsdruck.',
-    courseFlow: {
-      headline: 'So läuft eine typische Kursstunde ab',
-      steps: [
-        {
-          phase: 'Ankommen',
-          duration: '5 Min',
-          description: 'Zeit zum Durchatmen. Du darfst erzählen, wie es dir geht – aber du musst nicht.',
-        },
-        {
-          phase: 'Aufwärmen',
-          duration: '10 Min',
-          description: 'Sanfte Bewegungen, die deinen Körper wecken, ohne zu überfordern. Besondere Rücksicht auf Beckenboden und Rumpfmuskulatur.',
-        },
-        {
-          phase: 'Bewegungsexploration',
-          duration: '30 Min',
-          description: 'Intuitive Bewegungen zu ruhiger Musik. Jede findet ihre eigene Art zu tanzen. Kein "richtig" oder "falsch".',
-        },
-        {
-          phase: 'Cool Down',
-          duration: '10 Min',
-          description: 'Entspannung und Dehnung. Zeit, um das Erlebte nachklingen zu lassen.',
-        },
-        {
-          phase: 'Austausch',
-          duration: '5 Min',
-          description: 'Raum für Fragen oder kurzen Austausch mit den anderen Müttern.',
-        },
-      ],
-    },
-    details: [
+    eyebrow: 'So läuft eine typische Kursstunde ab',
+    phases: [
       {
-        icon: '👥',
-        title: 'Gruppengröße',
-        description:
-          'Maximal 10 Mütter, damit jede gesehen wird und Raum für individuelle Betreuung bleibt.',
+        name: 'Ankommen',
+        minutes: 5,
+        color: 'var(--color-secondary)',
+        description: 'Zeit zum Durchatmen. Du darfst erzählen, wie es dir geht – aber du musst nicht.',
       },
       {
-        icon: '⏱️',
-        title: 'Dauer',
-        description:
-          '60 Minuten pro Kursstunde. Passt gut zwischen Stillzeiten und Kindergarten-Abholungen.',
+        name: 'Aufwärmen',
+        minutes: 10,
+        color: 'var(--color-accent-dark)',
+        description: 'Sanfte Bewegungen, die deinen Körper wecken, ohne zu überfordern. Besondere Rücksicht auf Beckenboden und Rumpfmuskulatur.',
       },
       {
-        icon: '👟',
-        title: 'Was du brauchst',
-        description:
-          'Bequeme Kleidung, in der du dich gut bewegen kannst. Barfuß oder rutschfeste Socken. Mehr nicht.',
+        name: 'Bewegungsexploration',
+        minutes: 30,
+        color: 'var(--color-brand)',
+        description: 'Intuitive Bewegungen zu ruhiger Musik. Jede findet ihre eigene Art zu tanzen. Kein „richtig" oder „falsch".',
       },
       {
-        icon: '🌱',
-        title: 'Für jedes Level',
-        description:
-          'Keine Vorkenntnisse nötig. Egal ob du vor der Schwangerschaft getanzt hast oder nicht – du bist willkommen.',
+        name: 'Cool Down',
+        minutes: 10,
+        color: 'var(--color-soft-accent)',
+        description: 'Entspannung und Dehnung. Zeit, um das Erlebte nachklingen zu lassen.',
+      },
+      {
+        name: 'Austausch',
+        minutes: 5,
+        color: 'var(--color-primary)',
+        description: 'Raum für Fragen oder kurzen Austausch mit den anderen Müttern.',
+      },
+    ],
+    facts: [
+      {
+        icon: 'group',
+        value: 'Max. 10 Mütter',
+        label: 'Damit jede gesehen wird und Raum für individuelle Betreuung bleibt.',
+      },
+      {
+        icon: 'clock',
+        value: '60 Minuten',
+        label: 'Passt gut zwischen Stillzeiten und Kindergarten-Abholungen.',
+      },
+      {
+        icon: 'wear',
+        value: 'Bequeme Kleidung',
+        label: 'Barfuß oder rutschfeste Socken. Mehr brauchst du nicht.',
+      },
+      {
+        icon: 'level',
+        value: 'Jedes Level',
+        label: 'Keine Vorkenntnisse nötig – egal ob du je getanzt hast.',
       },
     ],
   });
@@ -157,85 +158,77 @@ export class MothersPageComponent implements OnInit {
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
-    headline: 'So arbeiten wir mit dir',
-    intro:
-      'Unser Ansatz basiert auf Empathie, Fachwissen und der Überzeugung, dass jeder Körper seine eigene Weisheit hat.',
-    points: [
+  readonly methodologyData = signal<MethodologyTimelineData>({
+    kicker: 'So arbeiten wir',
+    headline: 'So sanft, wie <em>du es brauchst</em>',
+    lede: 'Kein Leistungsdruck, kein fester Ablauf. Folge der Linie – von der ersten Bewegung zurück zu dir.',
+    stations: [
       {
+        indexLabel: '01 — Dein Körper',
         title: 'Postpartale Rücksicht',
-        description:
-          'Wir wissen, was dein Körper gerade durchgemacht hat. Besondere Aufmerksamkeit liegt auf <strong>Beckenboden</strong>, <strong>Rektusdiastase</strong> und sanftem Wiederaufbau der Rumpfmuskulatur. <em>Kein Springen, keine abrupten Bewegungen.</em>',
+        body: 'Wir wissen, was dein Körper gerade durchgemacht hat. Besondere Aufmerksamkeit liegt auf <strong>Beckenboden</strong>, <strong>Rektusdiastase</strong> und sanftem Wiederaufbau der Rumpfmuskulatur. <em>Kein Springen, keine abrupten Bewegungen.</em>',
       },
       {
+        indexLabel: '02 — Dein Tempo',
         title: 'Kein Leistungsdruck',
-        description:
-          'Es gibt kein "gut genug" oder "nicht gut genug". <strong>Dein Körper, deine Grenzen, deine Bewegungen.</strong> Wenn du an einem Tag nur stehen und atmen magst – das ist vollkommen in Ordnung.',
+        body: 'Es gibt kein "gut genug" oder "nicht gut genug". <strong>Dein Körper, deine Grenzen, deine Bewegungen.</strong> Wenn du an einem Tag nur stehen und atmen magst – das ist vollkommen in Ordnung.',
       },
       {
+        indexLabel: '03 — Dein Ausdruck',
         title: 'Intuitive Bewegung',
-        description:
-          'Wir arbeiten nicht mit festen Choreographien, sondern mit <strong>Impulsen</strong>. Du entscheidest, wie du dich bewegen möchtest. <em>Dein Körper weiß, was er braucht</em> – wir helfen dir, wieder zuzuhören.',
+        body: 'Wir arbeiten nicht mit festen Choreographien, sondern mit <strong>Impulsen</strong>. Du entscheidest, wie du dich bewegen möchtest. <em>Dein Körper weiß, was er braucht</em> – wir helfen dir, wieder zuzuhören.',
       },
       {
+        indexLabel: '04 — Dein Raum',
         title: 'Safe Space',
-        description:
-          'Der Tanzraum ist ein <strong>geschützter Raum</strong>. Was hier besprochen wird, bleibt hier. Du darfst weinen, lachen, still sein oder dich austoben. <em>Alles hat seinen Platz.</em>',
+        body: 'Der Tanzraum ist ein <strong>geschützter Raum</strong>. Was hier besprochen wird, bleibt hier. Du darfst weinen, lachen, still sein oder dich austoben. <em>Alles hat seinen Platz.</em>',
       },
     ],
-    qualificationNote:
-      'Unsere Kursleitung hat eine Ausbildung in <strong>prä- und postnataler Fitness</strong> und langjährige Erfahrung in der Arbeit mit Müttern. <em>Deine Gesundheit steht immer an erster Stelle.</em>',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanz für dich tun kann',
     subheadline: 'Bewegung ist mehr als Fitness. Sie ist ein Weg zurück zu dir selbst.',
     benefits: [
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Körper neu kennenlernen',
         description:
           'Sanfter Wiederaufbau der Muskulatur, besonders im <strong>Beckenboden und Rumpf</strong>. Dein Körper wird wieder stark – in deinem Tempo.',
-        category: 'physical',
       },
       {
-        icon: '🌸',
+        category: 'physical',
         title: 'Körpergefühl verbessern',
         description:
           'Nach der Schwangerschaft fühlt sich der Körper oft fremd an. Durch Bewegung findest du wieder <strong>Zugang zu dir selbst</strong> und spürst, was dein Körper kann.',
-        category: 'physical',
       },
       {
-        icon: '🧘‍♀️',
+        category: 'emotional',
         title: 'Stress abbauen',
         description:
           'Eine Stunde, in der du den Kopf frei bekommst. Tanz <strong>senkt Cortisol</strong> (Stresshormon) und setzt <strong>Endorphine</strong> (Glückshormone) frei.',
-        category: 'emotional',
       },
       {
-        icon: '💭',
+        category: 'emotional',
         title: 'Emotionen verarbeiten',
         description:
           'Muttersein bringt viele Gefühle mit sich – Freude, Überforderung, Liebe, Erschöpfung. Im Tanz darfst du <strong>all das ausdrücken</strong>, ohne Worte finden zu müssen.',
-        category: 'emotional',
       },
       {
-        icon: '👭',
+        category: 'social',
         title: 'Gemeinschaft finden',
         description:
           '<strong>Du bist nicht allein.</strong> Hier triffst du andere Mütter, die ähnliche Herausforderungen durchleben. Austausch, der gut tut.',
-        category: 'social',
       },
       {
-        icon: '⏰',
+        category: 'emotional',
         title: 'Zeit für dich',
         description:
           'Eine Stunde in der Woche, die <strong>nur dir gehört</strong>. Keine To-Do-Liste, keine Anforderungen. Nur du und deine Bewegung.',
-        category: 'emotional',
       },
     ],
   });

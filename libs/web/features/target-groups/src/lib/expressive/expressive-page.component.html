@@ -1,13 +1,13 @@
-<tm-header />
-
 <main class="expressive-page">
   <tm-expressive-hero [data]="heroData()" />
 
   <tm-expressive-intro-section [data]="introData()" />
 
-  <tm-expressive-methodology-section [data]="methodologyData()" />
+  <tm-methodology-timeline [data]="methodologyData()" />
 
-  <tm-expressive-benefits-section [data]="benefitsData()" />
+  <tm-benefits-spotlight [data]="benefitsData()" />
+
+  <tm-trust-rings group="ausdruck" />
 
   <ui-testimonial-section [data]="testimonialsData()" />
 
@@ -15,5 +15,3 @@
 
   <tm-expressive-cta-section [data]="ctaData()" />
 </main>
-
-<tm-footer />

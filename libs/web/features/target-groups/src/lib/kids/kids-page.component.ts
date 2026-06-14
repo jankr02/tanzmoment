@@ -15,19 +15,16 @@ import { SeoService } from '@tanzmoment/shared/services';
 // Section Components
 import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
-import { AgeGroupsSectionComponent } from './sections/age-groups-section/age-groups-section.component';
-import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
-import { SafetySectionComponent } from './sections/safety-section/safety-section.component';
+import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 // Types
 import { KidsHeroData } from './sections/kids-hero/kids-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
-import { AgeGroupsData } from './sections/age-groups-section/age-groups-section.types';
-import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
-import { SafetySectionData } from './sections/safety-section/safety-section.types';
+import { CourseClockData } from '../shared/course-clock/course-clock.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -38,10 +35,9 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     CommonModule,
     KidsHeroComponent,
     IntroSectionComponent,
-    AgeGroupsSectionComponent,
-    WhatToExpectSectionComponent,
-    BenefitsSectionComponent,
-    SafetySectionComponent,
+    CourseClockComponent,
+    BenefitsSpotlightComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -73,8 +69,6 @@ export class KidsPageComponent implements OnInit {
       'Bei uns entdecken Kinder die Freude an Bewegung – spielerisch, ohne Druck und mit ganz viel Spass. Jedes Kind tanzt auf seine eigene Art.',
     ctaText: 'Schnupperstunde buchen',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Unsere Kurse entdecken',
-    secondaryCtaRoute: '/courses',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -93,126 +87,71 @@ export class KidsPageComponent implements OnInit {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  // AGE GROUPS DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly ageGroupsData = signal<AgeGroupsData>({
-    headline: 'Für jedes Alter das Richtige',
-    subheadline:
-      'Unsere Kurse sind speziell auf die Entwicklungsstufen von Kindern abgestimmt.',
-    groups: [
-      {
-        id: 'minis',
-        name: 'Tanzmäuse',
-        ageRange: '3–6 Jahre',
-        icon: '🐭',
-        description:
-          'Spielerische Bewegung für die Kleinsten. Hier steht das Entdecken im Vordergrund – durch Geschichten, Musik und viel Fantasie.',
-        highlights: [
-          'Grundlegende Koordination',
-          'Rhythmusgefühl entwickeln',
-          'Soziales Miteinander',
-          'Kreativität durch Bewegung',
-        ],
-      },
-      {
-        id: 'kids',
-        name: 'Tanzentdecker',
-        ageRange: '6–10 Jahre',
-        icon: '⭐',
-        description:
-          'Mehr Struktur, mehr Technik – aber immer noch mit viel Spass. Kinder lernen verschiedene Tanzstile kennen und entwickeln ihr eigenes Körpergefühl.',
-        highlights: [
-          'Verschiedene Tanzstile entdecken',
-          'Einfache Choreographien',
-          'Teamarbeit und Selbstvertrauen',
-          'Ausdruck und Kreativität',
-        ],
-      },
-      {
-        id: 'preteens',
-        name: 'Tanzprofis',
-        ageRange: '10–14 Jahre',
-        icon: '🚀',
-        description:
-          'Für ältere Kinder und Jugendliche, die tiefer eintauchen möchten. Hier werden Choreographien erarbeitet und individuelle Stärken gefördert.',
-        highlights: [
-          'Anspruchsvollere Choreographien',
-          'Stilfindung und Ausdruck',
-          'Auftrittsmöglichkeiten',
-          'Körperliche Fitness',
-        ],
-      },
-    ],
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
   // WHAT TO EXPECT DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly whatToExpectData = signal<WhatToExpectData>({
+  readonly whatToExpectData = signal<CourseClockData>({
     headline: 'So läuft eine Tanzstunde ab',
     intro:
       'Jede Stunde ist durchdacht strukturiert, lässt aber Raum für Spontanität und Kinderideen.',
-    courseFlow: {
-      headline: 'Ein typischer Kursablauf',
-      steps: [
-        {
-          phase: 'Ankommen & Begrüssung',
-          duration: '5 Min',
-          description:
-            'Ritual zum Start: Jedes Kind wird persönlich begrüsst. Zeit zum "Ankommen" im Raum.',
-        },
-        {
-          phase: 'Aufwärmen',
-          duration: '10 Min',
-          description:
-            'Spielerisches Warmup mit Musik. Bewegungsspiele, die den ganzen Körper aktivieren.',
-        },
-        {
-          phase: 'Hauptteil',
-          duration: '30 Min',
-          description:
-            'Tanzspiele, Choreographie-Elemente oder freie Bewegung – je nach Alter und Thema der Stunde.',
-        },
-        {
-          phase: 'Abschluss',
-          duration: '10 Min',
-          description:
-            'Gemeinsamer Abschluss mit Dehnübungen und einem Abschiedsritual.',
-        },
-        {
-          phase: 'Verabschiedung',
-          duration: '5 Min',
-          description:
-            'Eltern werden abgeholt, kurzer Austausch bei Bedarf möglich.',
-        },
-      ],
-    },
-    details: [
+    eyebrow: 'Ein typischer Kursablauf',
+    phases: [
       {
-        icon: '👥',
-        title: 'Kleine Gruppen',
+        name: 'Ankommen & Begrüssung',
+        minutes: 5,
+        color: 'var(--color-secondary)',
         description:
-          'Maximal 12 Kinder pro Kurs, damit jedes Kind gesehen wird und individuelle Betreuung möglich ist.',
+          'Ritual zum Start: Jedes Kind wird persönlich begrüsst. Zeit zum "Ankommen" im Raum.',
       },
       {
-        icon: '⏱️',
-        title: 'Kursdauer',
+        name: 'Aufwärmen',
+        minutes: 10,
+        color: 'var(--color-accent-dark)',
         description:
-          '45–60 Minuten je nach Altersgruppe. Optimal für die kindliche Konzentrationsspanne.',
+          'Spielerisches Warmup mit Musik. Bewegungsspiele, die den ganzen Körper aktivieren.',
       },
       {
-        icon: '👟',
-        title: 'Kleidung & Schuhe',
+        name: 'Hauptteil',
+        minutes: 30,
+        color: 'var(--color-brand)',
         description:
-          'Bequeme Sportkleidung und Turnschläppchen oder Socken. Keine spezielle Ausrüstung nötig.',
+          'Tanzspiele, Choreographie-Elemente oder freie Bewegung – je nach Alter und Thema der Stunde.',
       },
       {
-        icon: '🆕',
-        title: 'Einstieg jederzeit',
+        name: 'Abschluss',
+        minutes: 10,
+        color: 'var(--color-soft-accent)',
         description:
-          'Schnupperstunden sind jederzeit möglich. Keine Vorkenntnisse erforderlich.',
+          'Gemeinsamer Abschluss mit Dehnübungen und einem Abschiedsritual.',
+      },
+      {
+        name: 'Verabschiedung',
+        minutes: 5,
+        color: 'var(--color-primary)',
+        description:
+          'Eltern werden abgeholt, kurzer Austausch bei Bedarf möglich.',
+      },
+    ],
+    facts: [
+      {
+        icon: 'group',
+        value: 'Max. 12 Kinder',
+        label: 'Damit jedes Kind gesehen wird und individuelle Betreuung möglich ist.',
+      },
+      {
+        icon: 'clock',
+        value: '45–60 Minuten',
+        label: 'Je nach Altersgruppe – optimal für die kindliche Konzentrationsspanne.',
+      },
+      {
+        icon: 'wear',
+        value: 'Bequeme Kleidung',
+        label: 'Sportkleidung und Turnschläppchen oder Socken. Mehr braucht es nicht.',
+      },
+      {
+        icon: 'level',
+        value: 'Einstieg jederzeit',
+        label: 'Schnupperstunden sind jederzeit möglich. Keine Vorkenntnisse nötig.',
       },
     ],
   });
@@ -221,117 +160,48 @@ export class KidsPageComponent implements OnInit {
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanzen für Ihr Kind bedeutet',
     subheadline:
       'Tanzen fördert die ganzheitliche Entwicklung – körperlich, emotional und sozial.',
     benefits: [
       {
-        icon: '🏃',
+        category: 'physical',
         title: 'Motorische Entwicklung',
         description:
           'Koordination, Balance und Körpergefühl werden spielerisch trainiert. <strong>Grundlage für alle Bewegungsarten</strong> im Leben.',
-        category: 'physical',
       },
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Gesunde Bewegung',
         description:
           'Ausdauer und Kraft entwickeln sich natürlich durch regelmässige Bewegung. <strong>Ohne Leistungsdruck</strong>, mit viel Freude.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Selbstausdruck',
         description:
           'Kinder lernen, Gefühle durch Bewegung auszudrücken. <strong>Eine Sprache, die keine Worte braucht.</strong>',
-        category: 'emotional',
       },
       {
-        icon: '🌟',
+        category: 'emotional',
         title: 'Selbstvertrauen',
         description:
           'Jeder kleine Erfolg stärkt das Selbstbewusstsein. <strong>Kinder erleben: "Ich kann das!"</strong>',
-        category: 'emotional',
       },
       {
-        icon: '👫',
+        category: 'social',
         title: 'Soziale Kompetenz',
         description:
           'Gemeinsam tanzen bedeutet aufeinander achten, sich absprechen, zusammen etwas schaffen. <strong>Freundschaften entstehen.</strong>',
-        category: 'social',
       },
       {
-        icon: '🎵',
+        category: 'emotional',
         title: 'Musikalität',
         description:
           'Rhythmusgefühl und Musikverständnis entwickeln sich ganz nebenbei. <strong>Ein Geschenk fürs Leben.</strong>',
-        category: 'emotional',
       },
     ],
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // SAFETY DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly safetyData = signal<SafetySectionData>({
-    headline: 'Sicherheit und Vertrauen',
-    intro:
-      'Die Sicherheit Ihres Kindes steht bei uns an erster Stelle. Hier können Sie Ihr Kind mit gutem Gewissen abgeben.',
-    safetyPoints: [
-      {
-        icon: '👩‍🏫',
-        title: 'Qualifizierte Kursleitung',
-        description:
-          'Unsere Tanzpädagogen haben Erfahrung in der Arbeit mit Kindern und sind in Erster Hilfe geschult.',
-      },
-      {
-        icon: '🔒',
-        title: 'Sichere Umgebung',
-        description:
-          'Unser Studio ist kindersicher gestaltet: Weiche Böden, keine scharfen Kanten, gute Sichtverhältnisse.',
-      },
-      {
-        icon: '👀',
-        title: 'Transparenz',
-        description:
-          'Eltern sind bei Schnupperstunden herzlich willkommen. Regelmässig bieten wir "offene Stunden" zum Zuschauen.',
-      },
-      {
-        icon: '📞',
-        title: 'Erreichbarkeit',
-        description:
-          'Bei Fragen oder Anliegen sind wir jederzeit erreichbar. Offene Kommunikation ist uns wichtig.',
-      },
-    ],
-    methodologyHeadline: 'Unser pädagogischer Ansatz',
-    methodologyIntro:
-      'Wir arbeiten mit bewährten Methoden, die speziell auf die Bedürfnisse von Kindern abgestimmt sind.',
-    methodologyPoints: [
-      {
-        title: 'Spielerisches Lernen',
-        description:
-          'Kinder lernen am besten, wenn sie <strong>Spass haben</strong>. Daher verpacken wir Technik in Spiele, Geschichten und kreative Aufgaben. <em>Lernen passiert ganz nebenbei.</em>',
-      },
-      {
-        title: 'Kein Leistungsdruck',
-        description:
-          'Es gibt kein "zu langsam" oder "nicht gut genug". <strong>Jedes Kind entwickelt sich in seinem eigenen Tempo.</strong> Wir feiern jeden Fortschritt.',
-      },
-      {
-        title: 'Positive Verstärkung',
-        description:
-          'Wir arbeiten mit <strong>Ermutigung statt Kritik</strong>. Kinder sollen stolz auf sich sein dürfen – egal auf welchem Level sie sind.',
-      },
-      {
-        title: 'Altersgerechte Inhalte',
-        description:
-          'Musik, Bewegungen und Themen sind <strong>auf das jeweilige Alter abgestimmt</strong>. Was für 4-Jährige funktioniert, ist anders als für 10-Jährige.',
-      },
-    ],
-    certificationNote:
-      'Alle Kursleiter haben ein <strong>erweitertes Führungszeugnis</strong> und nehmen regelmässig an <strong>Fortbildungen</strong> teil.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

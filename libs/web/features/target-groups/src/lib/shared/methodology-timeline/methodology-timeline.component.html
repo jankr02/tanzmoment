@@ -1,0 +1,47 @@
+<section class="ansatz">
+  <div class="ansatz__wrap">
+    <header class="ansatz__head">
+      <span class="ansatz__kicker">{{ data.kicker }}</span>
+      <h2 class="ansatz__headline" [innerHTML]="data.headline"></h2>
+      <p class="ansatz__lede">{{ data.lede }}</p>
+    </header>
+
+    <div class="ansatz__trail" #trail>
+      <svg
+        class="ansatz__trail-svg"
+        #svg
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path #line class="ansatz__trail-halo"></path>
+        <path #line #mainLine class="ansatz__trail-line"></path>
+        <path #line class="ansatz__trail-dash"></path>
+        <circle #traveler class="ansatz__traveler-halo" r="16"></circle>
+        <circle #traveler class="ansatz__traveler" r="6"></circle>
+      </svg>
+
+      @for (station of data.stations; track station.indexLabel) {
+        <article
+          class="ansatz__station"
+          #station
+          [ngClass]="[
+            $index % 2 === 0 ? 'ansatz__station--left' : 'ansatz__station--right',
+            'ansatz__station--s' + ($index + 1)
+          ]"
+          [class.is-active]="isActive($index)"
+          [class.in-view]="isInView($index)"
+        >
+          <span class="ansatz__node">
+            <span class="ansatz__node-ring"></span>
+            <span class="ansatz__node-dot"></span>
+          </span>
+          <div class="ansatz__content">
+            <span class="ansatz__idx">{{ station.indexLabel }}</span>
+            <h3 class="ansatz__title">{{ station.title }}</h3>
+            <p class="ansatz__body" [innerHTML]="station.body"></p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

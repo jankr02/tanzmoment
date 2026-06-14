@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  HeaderComponent,
-  FooterComponent,
   FaqAccordionComponent,
   TestimonialSectionComponent,
 } from '@tanzmoment/shared/ui';
@@ -18,18 +16,17 @@ import { SeoService } from '@tanzmoment/shared/services';
 import { AccessibleHeroComponent } from './sections/accessible-hero/accessible-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { AccessibilityFeaturesSectionComponent } from './sections/accessibility-features-section/accessibility-features-section.component';
-import { InstructorsSectionComponent } from './sections/instructors-section/instructors-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 // Types
 import { AccessibleHeroData } from './sections/accessible-hero/accessible-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AccessibilityFeaturesSectionData } from './sections/accessibility-features-section/accessibility-features-section.types';
-import { InstructorsSectionData } from './sections/instructors-section/instructors-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -38,14 +35,12 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     AccessibleHeroComponent,
     IntroSectionComponent,
     AccessibilityFeaturesSectionComponent,
-    InstructorsSectionComponent,
-    MethodologySectionComponent,
-    BenefitsSectionComponent,
+    TrustRingsComponent,
+    MethodologyTimelineComponent,
+    BenefitsSpotlightComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -75,15 +70,8 @@ export class AccessiblePageComponent implements OnInit {
     headline: 'Dein Körper. Deine Bewegung. Deine Art zu tanzen.',
     subheadline:
       'Tanz kennt keine Grenzen. Bei uns zählt nicht, was du nicht kannst – sondern was du ausdrücken möchtest.',
-    highlights: [
-      { icon: '♿', text: 'Barrierefrei' },
-      { icon: '🎓', text: 'Qualifizierte Trainer' },
-      { icon: '✨', text: 'Individuelle Anpassung' },
-    ],
     ctaText: 'Persönliches Gespräch vereinbaren',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Mehr erfahren',
-    secondaryCtaRoute: '/fuer-alle#barrierefreiheit',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -109,40 +97,61 @@ export class AccessiblePageComponent implements OnInit {
     headline: 'Barrierefreiheit – nicht nur auf dem Papier',
     subheadline:
       'Unser Studio wurde von Grund auf inklusiv gestaltet. Hier die konkreten Details.',
+    prompt: 'Was brauchst du? Tippe an – wir zeigen, was passt',
+    needs: [
+      { label: 'Rollstuhl / Gehhilfe', matches: [0, 1] },
+      { label: 'Reizempfindlich', matches: [2, 5] },
+      { label: 'Gehörlos / höre eingeschränkt', matches: [2, 3] },
+      { label: 'Sehbeeinträchtigt', matches: [3, 0] },
+      { label: 'Brauche Begleitung', matches: [4] },
+      { label: 'Brauche Pausen', matches: [5] },
+    ],
     features: [
       {
-        icon: '🚪',
+        icon: '/assets/icons/features/stufenloser-zugang.svg',
+        eyebrow: 'Ankommen ohne Hürden',
         title: 'Stufenloser Zugang',
+        color: 'var(--color-brand)',
         description:
-          'Rampe vom Eingang, Aufzug zu allen Etagen, breite Türen (min. 90cm). Rollstuhlgerechte Toiletten und Umkleiden.',
+          'Rampe vom Eingang, Aufzug zu allen Etagen, breite Türen (min. 90 cm). Rollstuhlgerechte Toiletten und Umkleiden.',
       },
       {
-        icon: '🏢',
+        icon: '/assets/icons/features/raeumliche-anpassung.svg',
+        eyebrow: 'Platz, der mitdenkt',
         title: 'Räumliche Anpassung',
+        color: 'var(--color-secondary-dark)',
         description:
           'Grosszügiger Tanzraum mit genug Platz für Rollstühle, Gehhilfen oder Assistenzhunde. Variable Raumaufteilung je nach Bedarf.',
       },
       {
-        icon: '🔊',
+        icon: '/assets/icons/features/sensorische-ruecksicht.svg',
+        eyebrow: 'Reize nach deinem Maß',
         title: 'Sensorische Rücksicht',
+        color: 'var(--color-accent-dark)',
         description:
           'Individuelle Lautstärke-Anpassung möglich. Vibrationsplatten für gehörlose Teilnehmer. Gute Beleuchtung ohne Blendung.',
       },
       {
-        icon: '👁️',
+        icon: '/assets/icons/features/visuelle-unterstuetzung.svg',
+        eyebrow: 'Sehen, fühlen, verstehen',
         title: 'Visuelle Unterstützung',
+        color: 'var(--color-brand)',
         description:
           'Kontrastreiche Markierungen, taktile Leitsysteme, Gebärdensprach-Dolmetscher auf Anfrage verfügbar.',
       },
       {
-        icon: '🤝',
+        icon: '/assets/icons/features/assistenz-willkommen.svg',
+        eyebrow: 'Begleitung tanzt kostenfrei mit',
         title: 'Assistenz willkommen',
+        color: 'var(--color-secondary-dark)',
         description:
           'Begleitpersonen und Assistenten sind herzlich willkommen und nehmen kostenfrei teil.',
       },
       {
-        icon: '🛋️',
+        icon: '/assets/icons/features/ruheraeume.svg',
+        eyebrow: 'Pause, wann du sie brauchst',
         title: 'Ruheräume',
+        color: 'var(--color-accent-dark)',
         description:
           'Ruhezone für Pausen bei Erschöpfung, Schmerzen oder Reizüberflutung.',
       },
@@ -150,137 +159,91 @@ export class AccessiblePageComponent implements OnInit {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  // INSTRUCTORS DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly instructorsData = signal<InstructorsSectionData>({
-    headline: 'Erfahrung, die zählt',
-    intro:
-      'Inklusive Tanzarbeit erfordert besonderes Wissen, Empathie und Flexibilität. Unsere Kursleiter bringen all das mit.',
-    qualifications: [
-      {
-        icon: '🎓',
-        title: 'Spezialisierte Ausbildung',
-        description:
-          'Alle unsere Tanzpädagogen haben Fortbildungen in <strong>inklusiver Tanzpädagogik</strong> und <strong>Bewegungsarbeit mit Menschen mit Behinderung</strong> absolviert.',
-      },
-      {
-        icon: '⚕️',
-        title: 'Medizinisches Grundwissen',
-        description:
-          'Kenntnisse über verschiedene Behinderungsformen, Kontraindikationen und sichere Bewegungsausführung. <strong>Erste-Hilfe-Zertifizierung</strong> selbstverständlich.',
-      },
-      {
-        icon: '🔄',
-        title: 'Individuelle Anpassung',
-        description:
-          'Jede Kursstunde wird an die aktuellen Bedürfnisse der Teilnehmenden angepasst. Schmerzen heute? Müdigkeit? Wir reagieren darauf.',
-      },
-      {
-        icon: '💬',
-        title: 'Kommunikative Kompetenz',
-        description:
-          'Grundkenntnisse in Gebärdensprache, Erfahrung mit Unterstützter Kommunikation, sensibel für verschiedene Kommunikationsbedürfnisse.',
-      },
-    ],
-    certificationNote:
-      'Unsere Kursleiter nehmen regelmässig an <strong>Fortbildungen</strong> teil und haben ein <strong>erweitertes Führungszeugnis</strong>.',
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
-    headline: 'So passen wir Tanz an dich an',
-    intro:
-      'Es gibt nicht "den einen" inklusiven Tanzkurs. Jeder Mensch bringt andere Fähigkeiten, Herausforderungen und Ziele mit. Unsere Methode ist so flexibel wie unsere Teilnehmenden vielfältig sind.',
-    points: [
+  readonly methodologyData = signal<MethodologyTimelineData>({
+    kicker: 'So arbeiten wir',
+    headline: 'So individuell, wie <em>Sie sich bewegen</em>',
+    lede: 'Kein starrer Ablauf, keine zwei gleichen Stunden. Folgen Sie der Linie – vom ersten Gespräch bis in die Gruppe.',
+    stations: [
       {
+        indexLabel: '01 — Der Anfang',
         title: 'Individuelles Vorgespräch',
-        description:
-          'Vor dem ersten Kurs sprechen wir ausführlich mit Ihnen (und ggf. Ihren Begleitpersonen): <strong>Welche Bewegungen sind möglich?</strong> Was sind Ihre Ziele? Was bereitet Freude, was Unbehagen?',
+        body: 'Vor dem ersten Kurs sprechen wir ausführlich mit Ihnen (und ggf. Ihren Begleitpersonen): <strong>Welche Bewegungen sind möglich?</strong> Was sind Ihre Ziele? Was bereitet Freude, was Unbehagen?',
       },
       {
+        indexLabel: '02 — Ihr Körper',
         title: 'Körperliche Anpassung',
-        description:
-          'Bewegungen werden so angepasst, dass sie <strong>für Ihren Körper funktionieren</strong>. Sitztanz für Rollstuhlnutzer. Vereinfachte Bewegungen bei motorischen Einschränkungen. Taktile Anleitungen bei Sehbeeinträchtigung.',
+        body: 'Bewegungen werden so angepasst, dass sie <strong>für Ihren Körper funktionieren</strong>. Sitztanz für Rollstuhlnutzer. Vereinfachte Bewegungen bei motorischen Einschränkungen. Taktile Anleitungen bei Sehbeeinträchtigung.',
       },
       {
-        title: 'Multi-Sensorischer Ansatz',
-        description:
-          'Musik spüren (Vibration), sehen (Bewegungsanleitung), hören – <em>wir nutzen verschiedene Sinneskanäle</em>, damit jeder teilhaben kann.',
+        indexLabel: '03 — Alle Sinne',
+        title: 'Multi-sensorischer Ansatz',
+        body: 'Musik spüren (Vibration), sehen (Bewegungsanleitung), hören – <em>wir nutzen verschiedene Sinneskanäle</em>, damit jeder teilhaben kann.',
       },
       {
+        indexLabel: '04 — Ihre Freiheit',
         title: 'Keine festen Choreographien',
-        description:
-          'Wir arbeiten mit <strong>Bewegungsimpulsen</strong>, nicht mit starren Abläufen. Sie entscheiden, wie Sie den Impuls umsetzen – mit Ihren Möglichkeiten.',
+        body: 'Wir arbeiten mit <strong>Bewegungsimpulsen</strong>, nicht mit starren Abläufen. Sie entscheiden, wie Sie den Impuls umsetzen – mit Ihren Möglichkeiten.',
       },
       {
+        indexLabel: '05 — Ihr Tempo',
         title: 'Tempo und Pausen',
-        description:
-          'Chronische Schmerzen? Erschöpfung? Sie bestimmen das Tempo. <strong>Pausen sind Teil des Tanzes</strong>, nicht Schwäche.',
+        body: 'Chronische Schmerzen? Erschöpfung? Sie bestimmen das Tempo. <strong>Pausen sind Teil des Tanzes</strong>, nicht Schwäche.',
       },
       {
+        indexLabel: '06 — Gemeinsam',
         title: 'Gruppendynamik',
-        description:
-          'Wir tanzen gemeinsam, aber nicht synchron. <strong>Vielfalt ist unser Programm.</strong> Jeder bewegt sich auf seine Art, und genau das macht die Gruppe reich.',
+        body: 'Wir tanzen gemeinsam, aber nicht synchron. <strong>Vielfalt ist unser Programm.</strong> Jeder bewegt sich auf seine Art, und genau das macht die Gruppe reich.',
       },
     ],
-    qualificationNote:
-      'Unser Ansatz basiert auf den Prinzipien der <strong>DanceAbility</strong>-Methode und <strong>Contact Improvisation</strong>, angepasst an die individuellen Bedürfnisse.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanz für dich tun kann',
     subheadline:
       'Bewegung ist Medizin, Ausdruck und Lebensfreude – gerade für Menschen, die täglich mit Einschränkungen leben.',
     benefits: [
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Körperliche Selbstwirksamkeit',
         description:
           'Erlebe deinen Körper als <strong>handlungsfähig</strong> statt eingeschränkt. Entdecke Bewegungsmöglichkeiten, von denen du vielleicht nicht wusstest.',
-        category: 'physical',
       },
       {
-        icon: '🌸',
+        category: 'physical',
         title: 'Schmerzmanagement',
         description:
           'Sanfte Bewegung kann chronische Schmerzen lindern. Tanz <strong>aktiviert körpereigene Schmerzregulation</strong> und hilft, den Körper neu zu spüren.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Emotionaler Ausdruck',
         description:
           'Gefühle, die keine Worte finden – Frustration, Freude, Trauer, Kraft – <strong>im Tanz dürfen sie raus.</strong> Ohne Erklärungen.',
-        category: 'emotional',
       },
       {
-        icon: '🌟',
+        category: 'emotional',
         title: 'Selbstbestimmung erleben',
         description:
           'In einer Welt voller Barrieren ist Tanz ein Raum, in dem <strong>DU entscheidest.</strong> Deine Bewegung, deine Grenzen, deine Art.',
-        category: 'emotional',
       },
       {
-        icon: '👭',
+        category: 'social',
         title: 'Gemeinschaft ohne Mitleid',
         description:
           'Hier bist du nicht "der/die mit Behinderung", sondern <strong>Tänzer*in.</strong> Begegnungen auf Augenhöhe, echte Inklusion.',
-        category: 'social',
       },
       {
-        icon: '⭐',
+        category: 'emotional',
         title: 'Lebensqualität',
         description:
           'Studien zeigen: Tanz <strong>verbessert Lebensqualität, Selbstwertgefühl und psychisches Wohlbefinden</strong> bei Menschen mit Behinderung signifikant.',
-        category: 'emotional',
       },
     ],
   });
@@ -299,6 +262,7 @@ export class AccessiblePageComponent implements OnInit {
           'Ich sitze seit 15 Jahren im Rollstuhl. Hier habe ich zum ersten Mal das Gefühl: Mein Körper ist nicht das Problem – er ist das Instrument.',
         author: 'Maria K.',
         context: 'Rollstuhlnutzerin',
+        accent: '--color-brand',
       },
       {
         id: '2',
@@ -306,6 +270,7 @@ export class AccessiblePageComponent implements OnInit {
           'Meine Tochter ist Autistin. Nach jeder Tanzstunde kommt sie strahlend heraus. Das ist unbezahlbar.',
         author: 'Familie Schneider',
         context: 'Eltern',
+        accent: '--color-accent-dark',
       },
       {
         id: '3',
@@ -313,6 +278,7 @@ export class AccessiblePageComponent implements OnInit {
           'Endlich ein Ort, wo ich nicht erklären muss. Wo ich einfach sein darf.',
         author: 'Tom W.',
         context: 'Sehbehinderung',
+        accent: '--color-accessible-accent',
       },
     ],
   });

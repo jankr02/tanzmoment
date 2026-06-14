@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  HeaderComponent,
-  FooterComponent,
   FaqAccordionComponent,
   TestimonialSectionComponent,
   FaqData,
@@ -18,14 +16,15 @@ import { SeoService } from '@tanzmoment/shared/services';
 
 import { ExpressiveHeroComponent } from './sections/expressive-hero/expressive-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
-import { MethodologySectionComponent } from './sections/methodology-section/methodology-section.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 
 import { ExpressiveHeroData } from './sections/expressive-hero/expressive-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
-import { MethodologyData } from './sections/methodology-section/methodology-section.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 
 @Component({
@@ -33,12 +32,11 @@ import { CtaSectionData } from './sections/cta-section/cta-section.types';
   standalone: true,
   imports: [
     CommonModule,
-    HeaderComponent,
-    FooterComponent,
     ExpressiveHeroComponent,
     IntroSectionComponent,
-    MethodologySectionComponent,
-    BenefitsSectionComponent,
+    MethodologyTimelineComponent,
+    BenefitsSpotlightComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -68,15 +66,8 @@ export class ExpressivePageComponent implements OnInit {
     headline: 'Bewegung, die aus dir kommt.',
     subheadline:
       'Ausdruckstanz kennt keine richtigen Schritte. Hier zählt nicht, wie es aussieht – sondern wie es sich anfühlt.',
-    highlights: [
-      { icon: '🍃', text: 'Ohne Vorgaben' },
-      { icon: '💫', text: 'Kein Leistungsdruck' },
-      { icon: '🤍', text: 'Für jeden Körper' },
-    ],
     ctaText: 'Schnupperstunde sichern',
     ctaRoute: '/kontakt',
-    secondaryCtaText: 'Mehr erfahren',
-    secondaryCtaRoute: '/ausdruckstanz#methode',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
@@ -91,103 +82,95 @@ export class ExpressivePageComponent implements OnInit {
       'Wir arbeiten mit <strong>Bewegungsimpulsen</strong> statt festen Abläufen – mal sanft und meditativ, mal kraftvoll und wild. In jedem Moment entscheidest du selbst, wie weit du gehst, und wirst dabei einfühlsam begleitet.',
     ],
     highlightQuote:
-      '"Es geht nicht darum, gut auszusehen. Es geht darum, sich <strong>lebendig zu fühlen.</strong>"',
+      'Es geht nicht darum, gut auszusehen. Es geht darum, sich <strong>lebendig zu fühlen.</strong>',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
   // METHODOLOGY DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly methodologyData = signal<MethodologyData>({
-    headline: 'Wie Ausdruckstanz funktioniert',
-    intro:
-      'Du brauchst keine Vorerfahrung und keine besondere Beweglichkeit. Unsere Methode lädt dich Schritt für Schritt ein, vom Kopf in den Körper zu kommen.',
-    points: [
+  readonly methodologyData = signal<MethodologyTimelineData>({
+    kicker: 'So arbeiten wir',
+    headline: 'So frei, wie <em>du dich fühlst</em>',
+    lede: 'Keine Schritte zum Auswendiglernen. Folge der Linie – vom Ankommen bis ins freie Tanzen.',
+    stations: [
       {
+        indexLabel: '01 — Ankommen',
         title: 'Ankommen & Spüren',
-        description:
-          'Jede Stunde beginnt mit einem sanften <strong>Body-Scan</strong>: Wo bin ich heute? Was braucht mein Körper? So legst du den Alltag ab und kommst im Hier und Jetzt an.',
+        body: 'Jede Stunde beginnt mit einem sanften <strong>Body-Scan</strong>: Wo bin ich heute? Was braucht mein Körper? So legst du den Alltag ab und kommst im Hier und Jetzt an.',
       },
       {
+        indexLabel: '02 — Impuls',
         title: 'Bewegungsimpulse',
-        description:
-          'Statt Schritten geben wir <strong>Impulse</strong> – ein Bild, ein Gefühl, einen Rhythmus. Du übersetzt sie in deine eigene Bewegung. Es gibt kein Richtig, nur deinen Ausdruck.',
+        body: 'Statt Schritten geben wir <strong>Impulse</strong> – ein Bild, ein Gefühl, einen Rhythmus. Du übersetzt sie in deine eigene Bewegung. Es gibt kein Richtig, nur deinen Ausdruck.',
       },
       {
+        indexLabel: '03 — Klang',
         title: 'Atem & Musik',
-        description:
-          'Wir nutzen <strong>Atem und Musik</strong> als Wegweiser. Mal trägt dich ein ruhiger Klang, mal fordert dich ein treibender Beat. <em>Du folgst dem, was in dir resoniert.</em>',
+        body: 'Wir nutzen <strong>Atem und Musik</strong> als Wegweiser. Mal trägt dich ein ruhiger Klang, mal fordert dich ein treibender Beat. <em>Du folgst dem, was in dir resoniert.</em>',
       },
       {
+        indexLabel: '04 — Freiheit',
         title: 'Freies Tanzen',
-        description:
-          'In offenen Phasen bewegst du dich völlig frei. Niemand schaut, niemand bewertet. <strong>Der Raum gehört in diesem Moment ganz dir.</strong>',
+        body: 'In offenen Phasen bewegst du dich völlig frei. Niemand schaut, niemand bewertet. <strong>Der Raum gehört in diesem Moment ganz dir.</strong>',
       },
       {
+        indexLabel: '05 — Begegnung',
         title: 'Begegnung',
-        description:
-          'In achtsamen Partner- und Gruppensequenzen entsteht <strong>Verbindung ohne Worte</strong> – ganz freiwillig und immer in deinem eigenen Tempo.',
+        body: 'In achtsamen Partner- und Gruppensequenzen entsteht <strong>Verbindung ohne Worte</strong> – ganz freiwillig und immer in deinem eigenen Tempo.',
       },
       {
+        indexLabel: '06 — Ausklang',
         title: 'Ausklang',
-        description:
-          'Zum Abschluss kommen wir zur Ruhe und spüren nach. <strong>Was hat sich verändert?</strong> Oft bleibt ein Gefühl von Leichtigkeit und Klarheit.',
+        body: 'Zum Abschluss kommen wir zur Ruhe und spüren nach. <strong>Was hat sich verändert?</strong> Oft bleibt ein Gefühl von Leichtigkeit und Klarheit.',
       },
     ],
-    qualificationNote:
-      'Unser Ansatz verbindet Elemente aus <strong>Tanzimprovisation</strong>, <strong>Authentic Movement</strong> und körperorientierter Achtsamkeit – angeleitet von erfahrenen Tanzpädagog:innen.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Ausdruckstanz in dir bewegt',
     subheadline:
       'Freier Tanz wirkt auf Körper, Geist und Seele – ganz ohne Leistungsdruck.',
     benefits: [
       {
-        icon: '🌬️',
+        category: 'physical',
         title: 'Stress löst sich',
         description:
           'Bewegung baut <strong>Anspannung und Stresshormone</strong> ab. Nach einer Stunde fühlst du dich gelöst, geerdet und klarer im Kopf.',
-        category: 'physical',
       },
       {
-        icon: '🤸',
+        category: 'physical',
         title: 'Neues Körpergefühl',
         description:
           'Du lernst deinen Körper neu kennen – seine Grenzen und seine Möglichkeiten. <strong>Beweglichkeit und Haltung</strong> verbessern sich ganz nebenbei.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Emotionaler Ausdruck',
         description:
           'Gefühle, die keine Worte finden, dürfen sich <strong>in Bewegung zeigen.</strong> Das befreit, entlastet und schafft Raum.',
-        category: 'emotional',
       },
       {
-        icon: '🌱',
+        category: 'emotional',
         title: 'Selbstvertrauen',
         description:
           'Wenn nichts falsch sein kann, wächst <strong>Vertrauen in dich selbst.</strong> Diese innere Erlaubnis nimmst du mit in den Alltag.',
-        category: 'emotional',
       },
       {
-        icon: '🎨',
+        category: 'emotional',
         title: 'Kreativität',
         description:
           'Freie Bewegung öffnet <strong>kreative Kanäle</strong>, die im Alltag oft verschüttet sind. Viele erleben sich danach spielerischer und inspirierter.',
-        category: 'emotional',
       },
       {
-        icon: '🤝',
+        category: 'social',
         title: 'Gemeinschaft',
         description:
           'Du tanzt in einer <strong>wertfreien Gruppe</strong> Gleichgesinnter. Begegnung ohne Bewertung, auf Augenhöhe.',
-        category: 'social',
       },
     ],
   });

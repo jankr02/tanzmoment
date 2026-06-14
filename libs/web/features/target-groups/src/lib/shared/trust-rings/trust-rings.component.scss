@@ -1,0 +1,199 @@
+.rings-section {
+  background: var(--color-background);
+  padding: clamp(48px, 7vw, 60px) 0;
+
+  &__wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 64px);
+  }
+
+  &__head {
+    max-width: 660px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-weight: var(--font-weight-heading);
+    font-size: clamp(2rem, 1.4rem + 1.6vw, 2.375rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    text-wrap: balance;
+    margin: 0 0 14px;
+  }
+
+  &__sub {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body-l);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  // ---------- Rings + legend ----------
+  &__board {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 56px;
+    align-items: center;
+    margin-top: 36px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      justify-items: center;
+    }
+  }
+
+  &__rings {
+    width: 100%;
+    max-width: 420px;
+    display: block;
+
+    @media (max-width: 860px) {
+      max-width: 320px;
+    }
+  }
+
+  &__ring {
+    cursor: pointer;
+    transition: opacity 250ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      stroke-width 250ms cubic-bezier(0.2, 0.7, 0.2, 1), stroke 350ms;
+  }
+
+  &__marker {
+    cursor: pointer;
+  }
+
+  &__marker-num {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 12px;
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+
+  &__row {
+    cursor: pointer;
+    border-radius: 14px;
+    padding: 11px 18px;
+    transition: background 250ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 250ms, padding 250ms;
+
+    &.is-active {
+      background: var(--color-surface);
+      box-shadow: var(--shadow-md);
+      padding: 16px 18px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-brand);
+      outline-offset: 2px;
+    }
+  }
+
+  &__row-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 13px;
+    color: var(--color-surface);
+    transition: background 350ms;
+  }
+
+  &__layer-title {
+    flex: 1;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-bold);
+    font-size: 17px;
+    color: var(--color-text-primary);
+  }
+
+  &__desc-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+    .rings-section__row.is-active & {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  &__desc {
+    overflow: hidden;
+    min-height: 0;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 10px 0 0 36px;
+  }
+
+  // ---------- Safety band ----------
+  &__band {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 48px;
+    border-radius: 18px;
+    padding: 22px 28px;
+    transition: background 350ms;
+
+    @media (max-width: 560px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__seal {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-surface);
+  }
+
+  &__band-text {
+    font-family: var(--font-body);
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--color-text-primary);
+    margin: 0;
+
+    strong {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rings-section__ring,
+    .rings-section__row,
+    .rings-section__desc-wrap,
+    .rings-section__badge,
+    .rings-section__band {
+      transition: none;
+    }
+  }
+}

@@ -8,7 +8,10 @@
       }
 
       @if (data.highlightQuote) {
-        <blockquote class="intro-section__quote" [innerHTML]="data.highlightQuote"></blockquote>
+        <figure class="intro-section__quote">
+          <span class="intro-section__quote-mark" aria-hidden="true">&ldquo;</span>
+          <blockquote class="intro-section__quote-text" [innerHTML]="data.highlightQuote"></blockquote>
+        </figure>
       }
     </div>
   </div>

@@ -39,6 +39,17 @@
   // Background
   --color-background: var(--color-neutral-extra-light);
 
+  // Soft card surface tints (for varied editorial cards)
+  --color-surface-sage: #e8f1ea; // Delicate sage green
+  --color-surface-champagne: #f7ecd6; // Soft warm champagne
+  --color-surface-rose: #fbe7e0; // Gentle blush rose
+  --color-surface-sky: #e9eef5; // Soft sky blue tint
+
+  // Benefit category label colours (spotlight)
+  --color-category-physical: #5f7140; // Deep olive
+  --color-category-emotional: #46658d; // Deep calm blue
+  --color-category-social: #a8623f; // Deep terracotta
+
   // Wave Divider Colors (default values)
   --wave-fill-color: var(--color-background);
   --wave-top-fill: var(--color-background);
@@ -56,6 +67,9 @@
   --color-kids-accent: #a8c4ce; // Soft sky blue for kids
   --color-accessible-accent: #6c8ebf; // Calm blue for accessibility/inclusion
   --color-expressive-accent: #8a6fa8; // Soft lavender for expressive dance
+
+  // Shared hero headline color across all dance-style pages (warm ochre)
+  --color-hero-headline: var(--color-mothers-accent);
 
   // ──────────────────────────────────────────────────────────────────────────
   // TYPOGRAPHY

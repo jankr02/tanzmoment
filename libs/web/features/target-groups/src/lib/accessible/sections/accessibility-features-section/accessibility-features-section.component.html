@@ -1,18 +1,49 @@
-<section class="accessibility-features">
-  <div class="accessibility-features__container">
-    <header class="accessibility-features__header">
-      <h2 class="accessibility-features__headline">{{ data.headline }}</h2>
-      <p class="accessibility-features__subheadline">{{ data.subheadline }}</p>
+<section class="a11y-needs">
+  <div class="a11y-needs__wrap">
+    <header class="a11y-needs__head">
+      <h2 class="a11y-needs__headline">{{ data.headline }}</h2>
+      <p class="a11y-needs__sub">{{ data.subheadline }}</p>
     </header>
 
-    <div class="accessibility-features__grid">
-      @for (feature of data.features; track feature.title) {
-        <article class="accessibility-features__card">
-          <span class="accessibility-features__icon" aria-hidden="true">{{ feature.icon }}</span>
-          <h3 class="accessibility-features__title">{{ feature.title }}</h3>
-          <p class="accessibility-features__description">{{ feature.description }}</p>
-        </article>
+    <p class="a11y-needs__prompt" id="a11y-needs-prompt">{{ data.prompt }}</p>
+
+    <div class="a11y-needs__chips" role="group" aria-labelledby="a11y-needs-prompt">
+      @for (need of data.needs; track need.label) {
+        <button
+          type="button"
+          class="a11y-needs__chip"
+          [class.is-active]="isNeedActive($index)"
+          [attr.aria-pressed]="isNeedActive($index)"
+          (click)="toggleNeed($index)"
+        >
+          {{ need.label }}
+        </button>
       }
     </div>
+
+    <div class="a11y-needs__list">
+      @for (feature of data.features; track feature.title) {
+        <div
+          class="a11y-needs__row"
+          [class.is-match]="rowState($index) === 'match'"
+          [class.is-dim]="rowState($index) === 'dim'"
+          [style.--feat]="feature.color"
+        >
+          <span class="a11y-needs__icon-chip" aria-hidden="true">
+            <span
+              class="a11y-needs__icon"
+              [style.--feature-icon]="iconVar(feature.icon)"
+            ></span>
+          </span>
+          <div class="a11y-needs__text">
+            <p class="a11y-needs__eyebrow">{{ feature.eyebrow }}</p>
+            <h3 class="a11y-needs__title">{{ feature.title }}</h3>
+            <p class="a11y-needs__desc">{{ feature.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <p class="a11y-needs__live" aria-live="polite">{{ announcement() }}</p>
   </div>
 </section>

@@ -12,24 +12,13 @@
     <div class="kids-hero__container">
       <h1 class="kids-hero__headline">{{ data.headline }}</h1>
       <p class="kids-hero__subheadline">{{ data.subheadline }}</p>
-      <div class="kids-hero__buttons">
-        <app-button
-          variant="primary"
-          size="large"
-          (clicked)="onCtaClick()"
-        >
-          {{ data.ctaText }}
-        </app-button>
-        @if (data.secondaryCtaText && data.secondaryCtaRoute) {
-          <app-button
-            variant="secondary"
-            size="large"
-            (clicked)="onSecondaryCtaClick()"
-          >
-            {{ data.secondaryCtaText }}
-          </app-button>
-        }
-      </div>
+      <app-button
+        variant="primary"
+        size="large"
+        (clicked)="onCtaClick()"
+      >
+        {{ data.ctaText }}
+      </app-button>
     </div>
   </div>
 

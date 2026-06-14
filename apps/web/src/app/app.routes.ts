@@ -154,4 +154,11 @@ export const appRoutes: Route[] = [
       import('@tanzmoment/admin/feature-shell').then((m) => m.adminRoutes),
     title: 'Admin | Tanzmoment',
   },
+  // 404 Fallback (must stay last)
+  {
+    path: '**',
+    loadComponent: () =>
+      import('@tanzmoment/shared/ui').then((m) => m.NotFoundPageComponent),
+    title: 'Seite nicht gefunden | Tanzmoment',
+  },
 ];

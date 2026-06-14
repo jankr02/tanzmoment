@@ -61,7 +61,7 @@
     font-size: var(--font-size-h1);
     font-weight: var(--font-weight-heading);
     margin: 0 0 var(--space-4) 0;
-    color: var(--color-kids-accent);
+    color: var(--color-hero-headline);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
     @media (max-width: 768px) {
@@ -78,19 +78,6 @@
 
     @media (max-width: 768px) {
       font-size: var(--font-size-body);
-    }
-  }
-
-  &__buttons {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-3);
     }
   }
 }

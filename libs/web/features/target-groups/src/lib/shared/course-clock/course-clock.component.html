@@ -1,0 +1,145 @@
+<section class="clock-section">
+  <div class="clock-section__wrap">
+    <header class="clock-section__head">
+      <h2 class="clock-section__headline">{{ data().headline }}</h2>
+      <p class="clock-section__intro">{{ data().intro }}</p>
+    </header>
+
+    <p class="clock-section__eyebrow">{{ data().eyebrow }}</p>
+
+    <div class="clock-section__board">
+      <!-- Donut clock -->
+      <svg
+        class="clock-section__clock"
+        viewBox="0 0 400 400"
+        role="img"
+        [attr.aria-label]="summaryLabel()"
+      >
+        @for (seg of segments(); track seg.index) {
+          <path
+            class="clock-section__seg"
+            [attr.d]="seg.d"
+            [style.fill]="seg.color"
+            [style.opacity]="seg.dim ? 0.4 : 1"
+            aria-hidden="true"
+            (mouseenter)="select(seg.index)"
+            (click)="select(seg.index)"
+          />
+        }
+
+        <circle [attr.cx]="cx" [attr.cy]="cy" [attr.r]="innerRadius" fill="var(--color-surface)" />
+
+        <text
+          class="clock-section__center-num"
+          [attr.x]="cx"
+          [attr.y]="cy - 10"
+          text-anchor="middle"
+          [style.fill]="ink(activePhase().color)"
+        >
+          {{ activePhase().minutes }}
+        </text>
+        <text
+          class="clock-section__center-cap"
+          [attr.x]="cx"
+          [attr.y]="cy + 16"
+          text-anchor="middle"
+        >
+          MINUTEN
+        </text>
+        <text
+          class="clock-section__center-name"
+          [attr.x]="cx"
+          [attr.y]="cy + 40"
+          text-anchor="middle"
+          [style.font-size.px]="activePhase().name.length > 15 ? 11.5 : 13.5"
+        >
+          {{ activePhase().name }}
+        </text>
+      </svg>
+
+      <!-- Legend (tablist) -->
+      <div class="clock-section__legend" role="tablist" aria-label="Phasen der Kursstunde">
+        @for (phase of data().phases; track phase.name) {
+          <div
+            #row
+            class="clock-section__row"
+            [class.is-active]="activeIndex() === $index"
+            role="tab"
+            [id]="'phase-tab-' + $index"
+            [attr.aria-selected]="activeIndex() === $index"
+            [attr.tabindex]="activeIndex() === $index ? 0 : -1"
+            (mouseenter)="select($index)"
+            (click)="select($index)"
+            (keydown)="onKeydown($event, $index)"
+          >
+            <div class="clock-section__row-head">
+              <span
+                class="clock-section__dot"
+                aria-hidden="true"
+                [style.background]="phase.color"
+                [style.--dot]="phase.color"
+              ></span>
+              <span class="clock-section__name">{{ phase.name }}</span>
+              <span
+                class="clock-section__pill"
+                [style.color]="ink(phase.color)"
+                [style.background]="pillBg(phase.color)"
+              >
+                {{ phase.minutes }} Min
+              </span>
+            </div>
+            <div
+              class="clock-section__desc-wrap"
+              role="tabpanel"
+              [attr.aria-labelledby]="'phase-tab-' + $index"
+            >
+              <p class="clock-section__desc">{{ phase.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Facts band -->
+    <div class="clock-section__facts">
+      @for (fact of data().facts; track fact.value) {
+        <div class="clock-section__fact">
+          <svg
+            class="clock-section__fact-icon"
+            viewBox="0 0 24 24"
+            width="26"
+            height="26"
+            fill="none"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            @switch (fact.icon) {
+              @case ('group') {
+                <circle cx="8" cy="8" r="3.2" />
+                <circle cx="16" cy="8" r="3.2" />
+                <path d="M3 19c0-3 2.2-5 5-5s5 2 5 5" />
+                <path d="M13.5 14.4c2.6.2 4.5 2.1 4.5 4.6" />
+              }
+              @case ('clock') {
+                <circle cx="12" cy="12" r="8.5" />
+                <path d="M12 7.5V12l3 2" />
+              }
+              @case ('wear') {
+                <path d="M8 4l4 2 4-2 4 3-2.5 3V20H6.5V10L4 7z" />
+              }
+              @case ('level') {
+                <path d="M12 20v-7" />
+                <path d="M12 13c0-3-2-5-5-5 0 3 2 5 5 5z" />
+                <path d="M12 11c0-2.5 1.8-4.5 4.5-4.5C16.5 9 14.5 11 12 11z" />
+              }
+            }
+          </svg>
+          <p class="clock-section__fact-value">{{ fact.value }}</p>
+          <p class="clock-section__fact-label">{{ fact.label }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
