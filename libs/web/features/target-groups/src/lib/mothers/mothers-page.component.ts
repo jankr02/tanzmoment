@@ -15,7 +15,7 @@ import { SeoService } from '@tanzmoment/shared/services';
 // Section Components
 import { MothersHeroComponent } from './sections/mothers-hero/mothers-hero.component';
 import { EmpathySectionComponent } from './sections/empathy-section/empathy-section.component';
-import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
+import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
@@ -23,7 +23,7 @@ import { CtaSectionComponent } from './sections/cta-section/cta-section.componen
 // Types
 import { MothersHeroData } from './sections/mothers-hero/mothers-hero.types';
 import { EmpathySectionData } from './sections/empathy-section/empathy-section.types';
-import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
+import { CourseClockData } from '../shared/course-clock/course-clock.types';
 import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
 import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
@@ -36,7 +36,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     CommonModule,
     MothersHeroComponent,
     EmpathySectionComponent,
-    WhatToExpectSectionComponent,
+    CourseClockComponent,
     MethodologyTimelineComponent,
     BenefitsSpotlightComponent,
     FaqAccordionComponent,
@@ -91,64 +91,63 @@ export class MothersPageComponent implements OnInit {
   // WHAT TO EXPECT DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly whatToExpectData = signal<WhatToExpectData>({
+  readonly whatToExpectData = signal<CourseClockData>({
     headline: 'Das erwartet dich',
     intro:
       'Unser Kurs für Mütter ist bewusst so gestaltet, dass er zu deinem Leben passt. Sanft, flexibel und ohne Leistungsdruck.',
-    courseFlow: {
-      headline: 'So läuft eine typische Kursstunde ab',
-      steps: [
-        {
-          phase: 'Ankommen',
-          duration: '5 Min',
-          description: 'Zeit zum Durchatmen. Du darfst erzählen, wie es dir geht – aber du musst nicht.',
-        },
-        {
-          phase: 'Aufwärmen',
-          duration: '10 Min',
-          description: 'Sanfte Bewegungen, die deinen Körper wecken, ohne zu überfordern. Besondere Rücksicht auf Beckenboden und Rumpfmuskulatur.',
-        },
-        {
-          phase: 'Bewegungsexploration',
-          duration: '30 Min',
-          description: 'Intuitive Bewegungen zu ruhiger Musik. Jede findet ihre eigene Art zu tanzen. Kein "richtig" oder "falsch".',
-        },
-        {
-          phase: 'Cool Down',
-          duration: '10 Min',
-          description: 'Entspannung und Dehnung. Zeit, um das Erlebte nachklingen zu lassen.',
-        },
-        {
-          phase: 'Austausch',
-          duration: '5 Min',
-          description: 'Raum für Fragen oder kurzen Austausch mit den anderen Müttern.',
-        },
-      ],
-    },
-    details: [
+    eyebrow: 'So läuft eine typische Kursstunde ab',
+    phases: [
       {
-        icon: '👥',
-        title: 'Gruppengröße',
-        description:
-          'Maximal 10 Mütter, damit jede gesehen wird und Raum für individuelle Betreuung bleibt.',
+        name: 'Ankommen',
+        minutes: 5,
+        color: 'var(--color-secondary)',
+        description: 'Zeit zum Durchatmen. Du darfst erzählen, wie es dir geht – aber du musst nicht.',
       },
       {
-        icon: '⏱️',
-        title: 'Dauer',
-        description:
-          '60 Minuten pro Kursstunde. Passt gut zwischen Stillzeiten und Kindergarten-Abholungen.',
+        name: 'Aufwärmen',
+        minutes: 10,
+        color: 'var(--color-accent-dark)',
+        description: 'Sanfte Bewegungen, die deinen Körper wecken, ohne zu überfordern. Besondere Rücksicht auf Beckenboden und Rumpfmuskulatur.',
       },
       {
-        icon: '👟',
-        title: 'Was du brauchst',
-        description:
-          'Bequeme Kleidung, in der du dich gut bewegen kannst. Barfuß oder rutschfeste Socken. Mehr nicht.',
+        name: 'Bewegungsexploration',
+        minutes: 30,
+        color: 'var(--color-brand)',
+        description: 'Intuitive Bewegungen zu ruhiger Musik. Jede findet ihre eigene Art zu tanzen. Kein „richtig" oder „falsch".',
       },
       {
-        icon: '🌱',
-        title: 'Für jedes Level',
-        description:
-          'Keine Vorkenntnisse nötig. Egal ob du vor der Schwangerschaft getanzt hast oder nicht – du bist willkommen.',
+        name: 'Cool Down',
+        minutes: 10,
+        color: 'var(--color-soft-accent)',
+        description: 'Entspannung und Dehnung. Zeit, um das Erlebte nachklingen zu lassen.',
+      },
+      {
+        name: 'Austausch',
+        minutes: 5,
+        color: 'var(--color-primary)',
+        description: 'Raum für Fragen oder kurzen Austausch mit den anderen Müttern.',
+      },
+    ],
+    facts: [
+      {
+        icon: 'group',
+        value: 'Max. 10 Mütter',
+        label: 'Damit jede gesehen wird und Raum für individuelle Betreuung bleibt.',
+      },
+      {
+        icon: 'clock',
+        value: '60 Minuten',
+        label: 'Passt gut zwischen Stillzeiten und Kindergarten-Abholungen.',
+      },
+      {
+        icon: 'wear',
+        value: 'Bequeme Kleidung',
+        label: 'Barfuß oder rutschfeste Socken. Mehr brauchst du nicht.',
+      },
+      {
+        icon: 'level',
+        value: 'Jedes Level',
+        label: 'Keine Vorkenntnisse nötig – egal ob du je getanzt hast.',
       },
     ],
   });

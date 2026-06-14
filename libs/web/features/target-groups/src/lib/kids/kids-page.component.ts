@@ -16,7 +16,7 @@ import { SeoService } from '@tanzmoment/shared/services';
 import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { AgeGroupsSectionComponent } from './sections/age-groups-section/age-groups-section.component';
-import { WhatToExpectSectionComponent } from './sections/what-to-expect-section/what-to-expect-section.component';
+import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { SafetySectionComponent } from './sections/safety-section/safety-section.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
@@ -25,7 +25,7 @@ import { CtaSectionComponent } from './sections/cta-section/cta-section.componen
 import { KidsHeroData } from './sections/kids-hero/kids-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AgeGroupsData } from './sections/age-groups-section/age-groups-section.types';
-import { WhatToExpectData } from './sections/what-to-expect-section/what-to-expect-section.types';
+import { CourseClockData } from '../shared/course-clock/course-clock.types';
 import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { SafetySectionData } from './sections/safety-section/safety-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
@@ -39,7 +39,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     KidsHeroComponent,
     IntroSectionComponent,
     AgeGroupsSectionComponent,
-    WhatToExpectSectionComponent,
+    CourseClockComponent,
     BenefitsSpotlightComponent,
     SafetySectionComponent,
     FaqAccordionComponent,
@@ -148,69 +148,68 @@ export class KidsPageComponent implements OnInit {
   // WHAT TO EXPECT DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly whatToExpectData = signal<WhatToExpectData>({
+  readonly whatToExpectData = signal<CourseClockData>({
     headline: 'So läuft eine Tanzstunde ab',
     intro:
       'Jede Stunde ist durchdacht strukturiert, lässt aber Raum für Spontanität und Kinderideen.',
-    courseFlow: {
-      headline: 'Ein typischer Kursablauf',
-      steps: [
-        {
-          phase: 'Ankommen & Begrüssung',
-          duration: '5 Min',
-          description:
-            'Ritual zum Start: Jedes Kind wird persönlich begrüsst. Zeit zum "Ankommen" im Raum.',
-        },
-        {
-          phase: 'Aufwärmen',
-          duration: '10 Min',
-          description:
-            'Spielerisches Warmup mit Musik. Bewegungsspiele, die den ganzen Körper aktivieren.',
-        },
-        {
-          phase: 'Hauptteil',
-          duration: '30 Min',
-          description:
-            'Tanzspiele, Choreographie-Elemente oder freie Bewegung – je nach Alter und Thema der Stunde.',
-        },
-        {
-          phase: 'Abschluss',
-          duration: '10 Min',
-          description:
-            'Gemeinsamer Abschluss mit Dehnübungen und einem Abschiedsritual.',
-        },
-        {
-          phase: 'Verabschiedung',
-          duration: '5 Min',
-          description:
-            'Eltern werden abgeholt, kurzer Austausch bei Bedarf möglich.',
-        },
-      ],
-    },
-    details: [
+    eyebrow: 'Ein typischer Kursablauf',
+    phases: [
       {
-        icon: '👥',
-        title: 'Kleine Gruppen',
+        name: 'Ankommen & Begrüssung',
+        minutes: 5,
+        color: 'var(--color-secondary)',
         description:
-          'Maximal 12 Kinder pro Kurs, damit jedes Kind gesehen wird und individuelle Betreuung möglich ist.',
+          'Ritual zum Start: Jedes Kind wird persönlich begrüsst. Zeit zum "Ankommen" im Raum.',
       },
       {
-        icon: '⏱️',
-        title: 'Kursdauer',
+        name: 'Aufwärmen',
+        minutes: 10,
+        color: 'var(--color-accent-dark)',
         description:
-          '45–60 Minuten je nach Altersgruppe. Optimal für die kindliche Konzentrationsspanne.',
+          'Spielerisches Warmup mit Musik. Bewegungsspiele, die den ganzen Körper aktivieren.',
       },
       {
-        icon: '👟',
-        title: 'Kleidung & Schuhe',
+        name: 'Hauptteil',
+        minutes: 30,
+        color: 'var(--color-brand)',
         description:
-          'Bequeme Sportkleidung und Turnschläppchen oder Socken. Keine spezielle Ausrüstung nötig.',
+          'Tanzspiele, Choreographie-Elemente oder freie Bewegung – je nach Alter und Thema der Stunde.',
       },
       {
-        icon: '🆕',
-        title: 'Einstieg jederzeit',
+        name: 'Abschluss',
+        minutes: 10,
+        color: 'var(--color-soft-accent)',
         description:
-          'Schnupperstunden sind jederzeit möglich. Keine Vorkenntnisse erforderlich.',
+          'Gemeinsamer Abschluss mit Dehnübungen und einem Abschiedsritual.',
+      },
+      {
+        name: 'Verabschiedung',
+        minutes: 5,
+        color: 'var(--color-primary)',
+        description:
+          'Eltern werden abgeholt, kurzer Austausch bei Bedarf möglich.',
+      },
+    ],
+    facts: [
+      {
+        icon: 'group',
+        value: 'Max. 12 Kinder',
+        label: 'Damit jedes Kind gesehen wird und individuelle Betreuung möglich ist.',
+      },
+      {
+        icon: 'clock',
+        value: '45–60 Minuten',
+        label: 'Je nach Altersgruppe – optimal für die kindliche Konzentrationsspanne.',
+      },
+      {
+        icon: 'wear',
+        value: 'Bequeme Kleidung',
+        label: 'Sportkleidung und Turnschläppchen oder Socken. Mehr braucht es nicht.',
+      },
+      {
+        icon: 'level',
+        value: 'Einstieg jederzeit',
+        label: 'Schnupperstunden sind jederzeit möglich. Keine Vorkenntnisse nötig.',
       },
     ],
   });
