@@ -409,9 +409,6 @@ export class CourseOverviewComponent implements OnInit, OnDestroy {
    */
   onHelperCardClick(event: { cardId: string; action: string }): void {
     switch (event.action) {
-      case 'open-newsletter-modal':
-        // TODO: Open newsletter modal
-        break;
       case 'contact':
         // Navigate to contact
         break;

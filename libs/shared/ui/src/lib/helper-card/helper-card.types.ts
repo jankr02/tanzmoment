@@ -100,9 +100,9 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     subtitle: 'Bleib auf dem Laufenden',
     illustration: '/assets/illustrations/helper-card/newsletter.svg',
     alt: 'Newsletter Illustration - Person mit Blumen',
-    actionType: 'action',
-    target: 'open-newsletter-modal',
-    ctaText: 'Anmelden',
+    actionType: 'route',
+    target: '/news',
+    ctaText: 'Zu den News',
   },
 ];
 
