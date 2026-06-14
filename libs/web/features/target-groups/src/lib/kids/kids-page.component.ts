@@ -15,7 +15,6 @@ import { SeoService } from '@tanzmoment/shared/services';
 // Section Components
 import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
-import { AgeGroupsSectionComponent } from './sections/age-groups-section/age-groups-section.component';
 import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { SafetySectionComponent } from './sections/safety-section/safety-section.component';
@@ -24,7 +23,6 @@ import { CtaSectionComponent } from './sections/cta-section/cta-section.componen
 // Types
 import { KidsHeroData } from './sections/kids-hero/kids-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
-import { AgeGroupsData } from './sections/age-groups-section/age-groups-section.types';
 import { CourseClockData } from '../shared/course-clock/course-clock.types';
 import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { SafetySectionData } from './sections/safety-section/safety-section.types';
@@ -38,7 +36,6 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     CommonModule,
     KidsHeroComponent,
     IntroSectionComponent,
-    AgeGroupsSectionComponent,
     CourseClockComponent,
     BenefitsSpotlightComponent,
     SafetySectionComponent,
@@ -88,60 +85,6 @@ export class KidsPageComponent implements OnInit {
     ],
     highlightQuote:
       'Bewegung ist die <strong>Sprache der Kindheit</strong> – hier lernen Kinder, sich selbst zu verstehen.',
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // AGE GROUPS DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly ageGroupsData = signal<AgeGroupsData>({
-    headline: 'Für jedes Alter das Richtige',
-    subheadline:
-      'Unsere Kurse sind speziell auf die Entwicklungsstufen von Kindern abgestimmt.',
-    groups: [
-      {
-        id: 'minis',
-        name: 'Tanzmäuse',
-        ageRange: '3–6 Jahre',
-        icon: '🐭',
-        description:
-          'Spielerische Bewegung für die Kleinsten. Hier steht das Entdecken im Vordergrund – durch Geschichten, Musik und viel Fantasie.',
-        highlights: [
-          'Grundlegende Koordination',
-          'Rhythmusgefühl entwickeln',
-          'Soziales Miteinander',
-          'Kreativität durch Bewegung',
-        ],
-      },
-      {
-        id: 'kids',
-        name: 'Tanzentdecker',
-        ageRange: '6–10 Jahre',
-        icon: '⭐',
-        description:
-          'Mehr Struktur, mehr Technik – aber immer noch mit viel Spass. Kinder lernen verschiedene Tanzstile kennen und entwickeln ihr eigenes Körpergefühl.',
-        highlights: [
-          'Verschiedene Tanzstile entdecken',
-          'Einfache Choreographien',
-          'Teamarbeit und Selbstvertrauen',
-          'Ausdruck und Kreativität',
-        ],
-      },
-      {
-        id: 'preteens',
-        name: 'Tanzprofis',
-        ageRange: '10–14 Jahre',
-        icon: '🚀',
-        description:
-          'Für ältere Kinder und Jugendliche, die tiefer eintauchen möchten. Hier werden Choreographien erarbeitet und individuelle Stärken gefördert.',
-        highlights: [
-          'Anspruchsvollere Choreographien',
-          'Stilfindung und Ausdruck',
-          'Auftrittsmöglichkeiten',
-          'Körperliche Fitness',
-        ],
-      },
-    ],
   });
 
   // ───────────────────────────────────────────────────────────────────────────
