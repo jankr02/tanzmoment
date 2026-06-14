@@ -19,6 +19,8 @@ import {
   CourseDetailSessionDto,
 } from './dto/course-detail-response.dto';
 import { SessionAvailabilityDto } from './dto/session-availability.dto';
+import { CalendarQueryDto } from './dto/calendar-query.dto';
+import { CalendarSessionDto } from './dto/calendar-session.dto';
 
 // =============================================================================
 // TYPES
@@ -308,6 +310,91 @@ export class CoursesService {
     }
 
     return result;
+  }
+
+  /**
+   * Get all scheduled sessions across all published courses within a date range,
+   * enriched with course metadata and real-time availability.
+   * Powers the public course-schedule calendar page.
+   *
+   * @param query - Date range (dateFrom/dateTo) and optional danceStyle filter
+   * @returns Array of calendar sessions sorted chronologically
+   */
+  async getCalendarSessions(
+    query: CalendarQueryDto,
+  ): Promise<CalendarSessionDto[]> {
+    const dateFrom = query.dateFrom ? new Date(query.dateFrom) : new Date();
+    const dateTo = query.dateTo
+      ? new Date(query.dateTo)
+      : new Date(dateFrom.getTime() + 42 * 24 * 60 * 60 * 1000);
+
+    const sessions = await this.prisma.session.findMany({
+      where: {
+        status: 'SCHEDULED',
+        startTime: { gte: dateFrom, lte: dateTo },
+        course: {
+          isPublished: true,
+          ...(query.danceStyle ? { danceStyle: query.danceStyle } : {}),
+        },
+      },
+      orderBy: { startTime: 'asc' },
+      include: {
+        location: { select: { name: true } },
+        course: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            catchPhrase: true,
+            danceStyle: true,
+            targetGroup: true,
+            level: true,
+            imageUrl: true,
+            maxParticipants: true,
+            instructor: {
+              select: {
+                user: { select: { firstName: true, lastName: true } },
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            bookings: {
+              where: { status: { in: ['PENDING', 'CONFIRMED'] } },
+            },
+          },
+        },
+      },
+    });
+
+    return sessions.map((session) => {
+      const bookedCount = session._count.bookings;
+      const availableSpots = Math.max(
+        0,
+        session.course.maxParticipants - bookedCount,
+      );
+
+      return {
+        id: session.id,
+        startTime: session.startTime.toISOString(),
+        endTime: session.endTime.toISOString(),
+        location: session.location.name,
+        maxParticipants: session.course.maxParticipants,
+        availableSpots,
+        course: {
+          id: session.course.id,
+          title: session.course.title,
+          slug: session.course.slug,
+          catchPhrase: session.course.catchPhrase ?? undefined,
+          danceStyle: session.course.danceStyle,
+          targetGroup: session.course.targetGroup,
+          level: session.course.level,
+          imageUrl: session.course.imageUrl ?? undefined,
+          instructorName: `${session.course.instructor.user.firstName} ${session.course.instructor.user.lastName}`,
+        },
+      };
+    });
   }
 
   // ===========================================================================

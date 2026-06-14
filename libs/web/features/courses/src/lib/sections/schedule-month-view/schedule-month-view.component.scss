@@ -1,0 +1,135 @@
+// ============================================================================
+// SCHEDULE MONTH VIEW
+// ============================================================================
+
+:host {
+  --kp-grid-line: #efe3d6;
+  display: block;
+}
+
+.kp-month {
+  padding: clamp(12px, 2vw, 20px);
+}
+
+.kp-month__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.kp-month__dow {
+  text-align: center;
+  font-weight: var(--font-weight-regular);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  padding: var(--space-2) 0;
+}
+
+.kp-day {
+  min-height: 116px;
+  border-radius: var(--radius-md);
+  padding: 7px;
+  background: var(--color-surface);
+  border: 1px solid var(--kp-grid-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  &[data-out='true'] {
+    background: rgba(255, 255, 255, 0.4);
+    opacity: 0.6;
+  }
+
+  &[data-weekend='true'] {
+    background: #fdf7f3;
+  }
+}
+
+.kp-day__num {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  align-self: flex-start;
+  padding: 1px 2px;
+}
+
+.kp-day[data-today='true'] .kp-day__num {
+  background: var(--color-primary-dark);
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+}
+
+.kp-mchip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.71875rem;
+  padding: 3px 6px;
+  border-radius: 7px;
+  background: var(--evt-fill);
+  color: var(--evt-deep);
+  border-left: 3px solid var(--evt-edge);
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    transform: translateX(2px);
+    filter: saturate(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-dark);
+    outline-offset: 1px;
+  }
+}
+
+.kp-mchip__t {
+  font-weight: var(--font-weight-regular);
+  opacity: 0.85;
+}
+
+.kp-mchip__n {
+  font-weight: var(--font-weight-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kp-mchip-more {
+  font-size: 0.6875rem;
+  color: var(--color-text-secondary);
+  padding: 1px 6px;
+}
+
+@keyframes kp-rise {
+  from {
+    transform: translateY(9px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kp-mchip {
+    animation: kp-rise var(--transition-base);
+  }
+}
+
+@media (max-width: 760px) {
+  .kp-day {
+    min-height: 84px;
+  }
+
+  .kp-mchip__t {
+    display: none;
+  }
+}

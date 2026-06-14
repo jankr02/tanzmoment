@@ -1,0 +1,132 @@
+// ============================================================================
+// SCHEDULE LIST VIEW
+// ============================================================================
+
+:host {
+  --kp-grid-line: #efe3d6;
+  display: block;
+}
+
+.kp-list {
+  padding: clamp(14px, 2.5vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.kp-listday__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--kp-grid-line);
+}
+
+.kp-listday__name {
+  font-weight: var(--font-weight-heading);
+  font-size: 1.625rem;
+  color: var(--color-text-primary);
+}
+
+.kp-listday__count {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.kp-listrow {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  background: var(--evt-fill);
+  border: 1.5px solid var(--evt-edge);
+  border-radius: var(--radius-lg);
+  margin-bottom: 10px;
+  color: var(--evt-deep);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+
+  &:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--color-primary-dark);
+    outline-offset: 2px;
+  }
+}
+
+.kp-listrow__time {
+  font-weight: var(--font-weight-regular);
+  font-size: 0.9375rem;
+  line-height: 1.25;
+
+  small {
+    display: block;
+    font-weight: 400;
+    opacity: 0.75;
+    font-size: 0.75rem;
+  }
+}
+
+.kp-listrow__title {
+  font-weight: var(--font-weight-bold);
+  font-size: 1.0625rem;
+}
+
+.kp-listrow__catch {
+  font-size: 0.8125rem;
+  opacity: 0.85;
+}
+
+.kp-listrow__meta {
+  font-size: 0.8125rem;
+  opacity: 0.8;
+  margin-top: 3px;
+}
+
+.kp-listrow__badge {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-regular);
+  padding: 5px var(--space-3);
+  border-radius: 999px;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--evt-deep);
+}
+
+.kp-list-empty {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--space-10);
+  font-size: var(--font-size-body);
+}
+
+@keyframes kp-rise {
+  from {
+    transform: translateY(9px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kp-listrow {
+    animation: kp-rise var(--transition-slow);
+  }
+}
+
+@media (max-width: 560px) {
+  .kp-listrow {
+    grid-template-columns: 76px 1fr;
+  }
+
+  .kp-listrow__badge {
+    display: none;
+  }
+}

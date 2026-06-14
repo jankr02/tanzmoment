@@ -81,7 +81,7 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     illustration: '/assets/illustrations/helper-card/course-plan.svg',
     alt: 'Kursplan Illustration - Kalender mit Terminen',
     actionType: 'route',
-    target: '/courses',
+    target: '/kursplan',
     ctaText: 'Zum Kursplan',
   },
   {

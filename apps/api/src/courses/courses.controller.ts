@@ -30,6 +30,8 @@ import {
 } from './dto/course-response.dto';
 import { CourseDetailResponseDto } from './dto/course-detail-response.dto';
 import { SessionAvailabilityDto } from './dto/session-availability.dto';
+import { CalendarQueryDto } from './dto/calendar-query.dto';
+import { CalendarSessionDto } from './dto/calendar-session.dto';
 import { OptionalAuthGuard } from '../auth/guards/optional-auth.guard';
 
 @ApiTags('Courses')
@@ -105,6 +107,39 @@ export class CoursesController {
     @Query('limit') limit?: number
   ): Promise<CourseListItemDto[]> {
     return this.coursesService.findHighlighted(limit ?? 3);
+  }
+
+  // ===========================================================================
+  // GET /api/courses/sessions - Calendar sessions across all courses
+  // ===========================================================================
+
+  @Get('sessions')
+  @ApiOperation({
+    summary: 'Get scheduled sessions across all courses for the calendar',
+    description: `
+      Returns all scheduled sessions of published courses within a date range,
+      enriched with course metadata and real-time availability.
+
+      Powers the public course-schedule calendar page (/kursplan).
+
+      **Query:**
+      - \`dateFrom\` / \`dateTo\`: ISO 8601 range (defaults to next 6 weeks)
+      - \`danceStyle\`: optional pre-filter (accessible, expressive, kids, mothers)
+    `,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Array of calendar sessions sorted chronologically',
+    type: [CalendarSessionDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid query parameters',
+  })
+  async getCalendarSessions(
+    @Query() query: CalendarQueryDto,
+  ): Promise<CalendarSessionDto[]> {
+    return this.coursesService.getCalendarSessions(query);
   }
 
   // ===========================================================================

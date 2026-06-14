@@ -1,0 +1,144 @@
+<div class="tm-kursplan">
+  <!-- Hero -->
+  <section class="kp-hero">
+    <a class="kp-hero__back" routerLink="/courses">
+      <app-icon name="arrow-left" size="xs" /> Zu den Kursen
+    </a>
+    <div class="kp-hero__eyebrow">Alle Termine auf einen Blick</div>
+    <h1 class="kp-hero__title">Unser Kursplan</h1>
+    <p class="kp-hero__sub">
+      Finde deinen Moment für Bewegung — von Mama-Baby-Tanz bis Ausdruckstanz.
+      Tippe auf einen Termin für Details und zur Anmeldung.
+    </p>
+    <img class="kp-hero__bird" src="/assets/illustrations/Bird.svg" alt="" />
+  </section>
+
+  <!-- Toolbar -->
+  <div class="kp-toolbar">
+    <div class="kp-filters">
+      <button
+        class="kp-chip kp-chip--all"
+        type="button"
+        [attr.data-active]="allActive()"
+        (click)="selectAllGroups()"
+      >
+        Alle Kurse
+      </button>
+
+      @for (chip of filterChips(); track chip.key) {
+        <button
+          class="kp-chip"
+          type="button"
+          [attr.data-active]="chip.active"
+          [style.background]="chip.background"
+          [style.border-color]="chip.background"
+          (click)="toggleGroup(chip.key)"
+        >
+          <span class="kp-chip__dot" [style.background]="chip.dotColor"></span>
+          {{ chip.long }}
+        </button>
+      }
+    </div>
+
+    <div class="kp-toolbar__spacer"></div>
+
+    <div class="kp-weeknav">
+      <button class="kp-weeknav__btn" type="button" (click)="navPrev()" aria-label="Zurück">
+        <app-icon name="chevron-left" size="sm" />
+      </button>
+      <button class="kp-weeknav__label" type="button" (click)="navToday()">
+        {{ navLabel() }}<small>{{ navSub() }}</small>
+      </button>
+      <button class="kp-weeknav__btn" type="button" (click)="navNext()" aria-label="Weiter">
+        <app-icon name="chevron-right" size="sm" />
+      </button>
+    </div>
+
+    <div class="kp-seg" role="tablist">
+      <button
+        class="kp-seg__btn"
+        type="button"
+        role="tab"
+        [attr.aria-selected]="view() === 'woche'"
+        [attr.data-active]="view() === 'woche'"
+        (click)="setView('woche')"
+      >
+        <app-icon name="layout-dashboard" size="sm" /> Woche
+      </button>
+      <button
+        class="kp-seg__btn"
+        type="button"
+        role="tab"
+        [attr.aria-selected]="view() === 'liste'"
+        [attr.data-active]="view() === 'liste'"
+        (click)="setView('liste')"
+      >
+        <app-icon name="menu" size="sm" /> Liste
+      </button>
+      <button
+        class="kp-seg__btn"
+        type="button"
+        role="tab"
+        [attr.aria-selected]="view() === 'monat'"
+        [attr.data-active]="view() === 'monat'"
+        (click)="setView('monat')"
+      >
+        <app-icon name="calendar" size="sm" /> Monat
+      </button>
+    </div>
+  </div>
+
+  <!-- Canvas -->
+  <main class="kp-canvas">
+    <div class="kp-card" aria-live="polite">
+      @if (error()) {
+        <div class="kp-state">{{ error() }}</div>
+      } @else {
+        @switch (view()) {
+          @case ('woche') {
+            <tm-schedule-week-view
+              [sessions]="filteredSessions()"
+              [weekStart]="weekStart()"
+              (select)="openDetail($event)"
+            />
+          }
+          @case ('liste') {
+            <tm-schedule-list-view
+              [sessions]="filteredSessions()"
+              [weekStart]="weekStart()"
+              (select)="openDetail($event)"
+            />
+          }
+          @case ('monat') {
+            <tm-schedule-month-view
+              [sessions]="filteredSessions()"
+              [monthDate]="monthDate()"
+              (select)="openDetail($event)"
+            />
+          }
+        }
+      }
+    </div>
+  </main>
+
+  <!-- Legend -->
+  <div class="kp-legend">
+    @for (chip of filterChips(); track chip.key) {
+      <span class="kp-legend__item">
+        <span
+          class="kp-legend__sw"
+          [style.background]="'var(--group-' + chip.key + '-fill)'"
+          [style.border-color]="'var(--group-' + chip.key + '-edge)'"
+        ></span>
+        {{ chip.long }}
+      </span>
+    }
+  </div>
+
+  <tm-schedule-detail-panel
+    [session]="selected()"
+    (close)="closeDetail()"
+    (enroll)="goToCourse($event)"
+    (details)="goToCourse($event)"
+  />
+</div>

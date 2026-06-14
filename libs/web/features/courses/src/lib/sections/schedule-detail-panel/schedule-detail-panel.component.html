@@ -1,0 +1,68 @@
+<div class="kp-scrim" [attr.data-open]="isOpen()" (click)="onClose()"></div>
+
+<aside
+  class="kp-panel"
+  [attr.data-open]="isOpen()"
+  [attr.aria-hidden]="!isOpen()"
+  [ngStyle]="vars()"
+>
+  @if (course(); as c) {
+    <div class="kp-panel__hero">
+      @if (c.course.imageUrl) {
+        <img class="kp-panel__img" [src]="c.course.imageUrl" [alt]="c.course.title" />
+      } @else {
+        <div class="kp-panel__img kp-panel__img--placeholder"></div>
+      }
+      <div class="kp-panel__hero-tint"></div>
+
+      <button class="kp-panel__close" type="button" (click)="onClose()" aria-label="Schließen">
+        <app-icon name="x" size="sm" />
+      </button>
+
+      @if (groupMeta(); as g) {
+        <span class="kp-panel__badge">
+          <img [src]="g.illustration" alt="" />{{ g.long }}
+        </span>
+      }
+    </div>
+
+    <div class="kp-panel__body">
+      <div>
+        @if (c.course.catchPhrase) {
+          <div class="kp-panel__catch">{{ c.course.catchPhrase }}</div>
+        }
+        <h2 class="kp-panel__title">{{ c.course.title }}</h2>
+      </div>
+
+      <div class="kp-facts">
+        @for (fact of facts(); track fact.key) {
+          <div class="kp-fact">
+            <span class="kp-fact__ico"><app-icon [name]="fact.icon" size="sm" /></span>
+            <div>
+              <div class="kp-fact__k">{{ fact.key }}</div>
+              <div class="kp-fact__v">{{ fact.value }}</div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="kp-spots">
+        <span class="kp-spots__dot"></span>
+        <span>
+          Noch <strong>{{ c.availableSpots }}
+            {{ c.availableSpots === 1 ? 'Platz' : 'Plätze' }}</strong>
+          frei in diesem Kurs
+        </span>
+      </div>
+
+      <div class="kp-panel__actions">
+        <button class="kp-btn kp-btn--primary" type="button" (click)="onEnroll()">
+          Jetzt anmelden
+        </button>
+        <button class="kp-btn kp-btn--ghost" type="button" (click)="onDetails()">
+          Zur Kursseite
+        </button>
+      </div>
+    </div>
+  }
+</aside>

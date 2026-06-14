@@ -1,0 +1,42 @@
+@if (days().length) {
+  <div class="kp-list">
+    @for (day of days(); track day.dow) {
+      <div class="kp-listday">
+        <div class="kp-listday__head">
+          <span class="kp-listday__name">{{ day.name }}</span>
+          <span class="kp-listday__count">{{ day.countLabel }}</span>
+        </div>
+
+        @for (row of day.rows; track row.session.id) {
+          <div
+            class="kp-listrow"
+            [ngStyle]="row.vars"
+            [style.animation-delay.ms]="row.delayMs"
+            role="button"
+            tabindex="0"
+            (click)="onSelect(row.session)"
+            (keydown)="onKey($event, row.session)"
+          >
+            <div class="kp-listrow__time">
+              {{ row.startLabel }}<small>bis {{ row.endLabel }}</small>
+            </div>
+            <div class="kp-listrow__main">
+              @if (row.session.course.catchPhrase) {
+                <div class="kp-listrow__catch">{{ row.session.course.catchPhrase }}</div>
+              }
+              <div class="kp-listrow__title">{{ row.session.course.title }}</div>
+              <div class="kp-listrow__meta">
+                {{ row.session.location }} · {{ row.session.course.instructorName }} ·
+                {{ row.session.availableSpots }}
+                {{ row.session.availableSpots === 1 ? 'Platz' : 'Plätze' }} frei
+              </div>
+            </div>
+            <div class="kp-listrow__badge">{{ row.longLabel }}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="kp-list-empty">Keine Kurse für diese Auswahl.</div>
+}
