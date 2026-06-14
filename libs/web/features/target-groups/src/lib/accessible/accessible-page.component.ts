@@ -18,7 +18,7 @@ import { IntroSectionComponent } from './sections/intro-section/intro-section.co
 import { AccessibilityFeaturesSectionComponent } from './sections/accessibility-features-section/accessibility-features-section.component';
 import { InstructorsSectionComponent } from './sections/instructors-section/instructors-section.component';
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
-import { BenefitsSectionComponent } from './sections/benefits-section/benefits-section.component';
+import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 // Types
@@ -27,7 +27,7 @@ import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AccessibilityFeaturesSectionData } from './sections/accessibility-features-section/accessibility-features-section.types';
 import { InstructorsSectionData } from './sections/instructors-section/instructors-section.types';
 import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
-import { BenefitsData } from './sections/benefits-section/benefits-section.types';
+import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -41,7 +41,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     AccessibilityFeaturesSectionComponent,
     InstructorsSectionComponent,
     MethodologyTimelineComponent,
-    BenefitsSectionComponent,
+    BenefitsSpotlightComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -240,52 +240,46 @@ export class AccessiblePageComponent implements OnInit {
   // BENEFITS DATA
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly benefitsData = signal<BenefitsData>({
+  readonly benefitsData = signal<BenefitsSpotlightData>({
     headline: 'Was Tanz für dich tun kann',
     subheadline:
       'Bewegung ist Medizin, Ausdruck und Lebensfreude – gerade für Menschen, die täglich mit Einschränkungen leben.',
     benefits: [
       {
-        icon: '💪',
+        category: 'physical',
         title: 'Körperliche Selbstwirksamkeit',
         description:
           'Erlebe deinen Körper als <strong>handlungsfähig</strong> statt eingeschränkt. Entdecke Bewegungsmöglichkeiten, von denen du vielleicht nicht wusstest.',
-        category: 'physical',
       },
       {
-        icon: '🌸',
+        category: 'physical',
         title: 'Schmerzmanagement',
         description:
           'Sanfte Bewegung kann chronische Schmerzen lindern. Tanz <strong>aktiviert körpereigene Schmerzregulation</strong> und hilft, den Körper neu zu spüren.',
-        category: 'physical',
       },
       {
-        icon: '🎭',
+        category: 'emotional',
         title: 'Emotionaler Ausdruck',
         description:
           'Gefühle, die keine Worte finden – Frustration, Freude, Trauer, Kraft – <strong>im Tanz dürfen sie raus.</strong> Ohne Erklärungen.',
-        category: 'emotional',
       },
       {
-        icon: '🌟',
+        category: 'emotional',
         title: 'Selbstbestimmung erleben',
         description:
           'In einer Welt voller Barrieren ist Tanz ein Raum, in dem <strong>DU entscheidest.</strong> Deine Bewegung, deine Grenzen, deine Art.',
-        category: 'emotional',
       },
       {
-        icon: '👭',
+        category: 'social',
         title: 'Gemeinschaft ohne Mitleid',
         description:
           'Hier bist du nicht "der/die mit Behinderung", sondern <strong>Tänzer*in.</strong> Begegnungen auf Augenhöhe, echte Inklusion.',
-        category: 'social',
       },
       {
-        icon: '⭐',
+        category: 'emotional',
         title: 'Lebensqualität',
         description:
           'Studien zeigen: Tanz <strong>verbessert Lebensqualität, Selbstwertgefühl und psychisches Wohlbefinden</strong> bei Menschen mit Behinderung signifikant.',
-        category: 'emotional',
       },
     ],
   });

@@ -1,0 +1,56 @@
+<section class="spotlight">
+  <div class="spotlight__wrap">
+    <header class="spotlight__head">
+      <h2 class="spotlight__headline">{{ data.headline }}</h2>
+      <p class="spotlight__sub">{{ data.subheadline }}</p>
+    </header>
+
+    @let active = data.benefits[activeIndex()];
+
+    <div class="spotlight__body">
+      <div
+        class="spotlight__list"
+        role="tablist"
+        aria-orientation="vertical"
+        aria-label="Vorteile von Tanz"
+      >
+        @for (benefit of data.benefits; track benefit.title) {
+          <button
+            #tab
+            type="button"
+            role="tab"
+            class="spotlight__tab"
+            [ngClass]="'spotlight__tab--' + benefit.category"
+            [class.is-active]="activeIndex() === $index"
+            [id]="'spotlight-tab-' + $index"
+            [attr.aria-selected]="activeIndex() === $index"
+            [attr.tabindex]="activeIndex() === $index ? 0 : -1"
+            aria-controls="spotlight-panel"
+            (mouseenter)="select($index)"
+            (click)="select($index)"
+            (keydown)="onKeydown($event, $index)"
+          >
+            <span class="spotlight__bar" aria-hidden="true"></span>
+            <span class="spotlight__num">{{ pad($index) }}</span>
+            <span class="spotlight__tab-title">{{ benefit.title }}</span>
+          </button>
+        }
+      </div>
+
+      <div
+        class="spotlight__stage"
+        [ngClass]="'spotlight__stage--' + active.category"
+        id="spotlight-panel"
+        role="tabpanel"
+        [attr.aria-labelledby]="'spotlight-tab-' + activeIndex()"
+      >
+        <span class="spotlight__deco" aria-hidden="true">{{ pad(activeIndex()) }}</span>
+        <div class="spotlight__stage-inner">
+          <span class="spotlight__tag">{{ categoryLabel(active.category) }}</span>
+          <h3 class="spotlight__stage-title">{{ active.title }}</h3>
+          <p class="spotlight__stage-body" [innerHTML]="active.description"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
