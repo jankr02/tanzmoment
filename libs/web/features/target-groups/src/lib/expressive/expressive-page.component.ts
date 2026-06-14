@@ -19,6 +19,7 @@ import { IntroSectionComponent } from './sections/intro-section/intro-section.co
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 
 import { ExpressiveHeroData } from './sections/expressive-hero/expressive-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
@@ -35,6 +36,7 @@ import { CtaSectionData } from './sections/cta-section/cta-section.types';
     IntroSectionComponent,
     MethodologyTimelineComponent,
     BenefitsSpotlightComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,

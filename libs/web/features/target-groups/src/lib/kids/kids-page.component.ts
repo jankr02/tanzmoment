@@ -17,7 +17,7 @@ import { KidsHeroComponent } from './sections/kids-hero/kids-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { CourseClockComponent } from '../shared/course-clock/course-clock.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
-import { SafetySectionComponent } from './sections/safety-section/safety-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
 
 // Types
@@ -25,7 +25,6 @@ import { KidsHeroData } from './sections/kids-hero/kids-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { CourseClockData } from '../shared/course-clock/course-clock.types';
 import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
-import { SafetySectionData } from './sections/safety-section/safety-section.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
 import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
 
@@ -38,7 +37,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     IntroSectionComponent,
     CourseClockComponent,
     BenefitsSpotlightComponent,
-    SafetySectionComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
@@ -203,69 +202,6 @@ export class KidsPageComponent implements OnInit {
           'Rhythmusgefühl und Musikverständnis entwickeln sich ganz nebenbei. <strong>Ein Geschenk fürs Leben.</strong>',
       },
     ],
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // SAFETY DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly safetyData = signal<SafetySectionData>({
-    headline: 'Sicherheit und Vertrauen',
-    intro:
-      'Die Sicherheit Ihres Kindes steht bei uns an erster Stelle. Hier können Sie Ihr Kind mit gutem Gewissen abgeben.',
-    safetyPoints: [
-      {
-        icon: '👩‍🏫',
-        title: 'Qualifizierte Kursleitung',
-        description:
-          'Unsere Tanzpädagogen haben Erfahrung in der Arbeit mit Kindern und sind in Erster Hilfe geschult.',
-      },
-      {
-        icon: '🔒',
-        title: 'Sichere Umgebung',
-        description:
-          'Unser Studio ist kindersicher gestaltet: Weiche Böden, keine scharfen Kanten, gute Sichtverhältnisse.',
-      },
-      {
-        icon: '👀',
-        title: 'Transparenz',
-        description:
-          'Eltern sind bei Schnupperstunden herzlich willkommen. Regelmässig bieten wir "offene Stunden" zum Zuschauen.',
-      },
-      {
-        icon: '📞',
-        title: 'Erreichbarkeit',
-        description:
-          'Bei Fragen oder Anliegen sind wir jederzeit erreichbar. Offene Kommunikation ist uns wichtig.',
-      },
-    ],
-    methodologyHeadline: 'Unser pädagogischer Ansatz',
-    methodologyIntro:
-      'Wir arbeiten mit bewährten Methoden, die speziell auf die Bedürfnisse von Kindern abgestimmt sind.',
-    methodologyPoints: [
-      {
-        title: 'Spielerisches Lernen',
-        description:
-          'Kinder lernen am besten, wenn sie <strong>Spass haben</strong>. Daher verpacken wir Technik in Spiele, Geschichten und kreative Aufgaben. <em>Lernen passiert ganz nebenbei.</em>',
-      },
-      {
-        title: 'Kein Leistungsdruck',
-        description:
-          'Es gibt kein "zu langsam" oder "nicht gut genug". <strong>Jedes Kind entwickelt sich in seinem eigenen Tempo.</strong> Wir feiern jeden Fortschritt.',
-      },
-      {
-        title: 'Positive Verstärkung',
-        description:
-          'Wir arbeiten mit <strong>Ermutigung statt Kritik</strong>. Kinder sollen stolz auf sich sein dürfen – egal auf welchem Level sie sind.',
-      },
-      {
-        title: 'Altersgerechte Inhalte',
-        description:
-          'Musik, Bewegungen und Themen sind <strong>auf das jeweilige Alter abgestimmt</strong>. Was für 4-Jährige funktioniert, ist anders als für 10-Jährige.',
-      },
-    ],
-    certificationNote:
-      'Alle Kursleiter haben ein <strong>erweitertes Führungszeugnis</strong> und nehmen regelmässig an <strong>Fortbildungen</strong> teil.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

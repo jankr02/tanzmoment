@@ -16,7 +16,7 @@ import { SeoService } from '@tanzmoment/shared/services';
 import { AccessibleHeroComponent } from './sections/accessible-hero/accessible-hero.component';
 import { IntroSectionComponent } from './sections/intro-section/intro-section.component';
 import { AccessibilityFeaturesSectionComponent } from './sections/accessibility-features-section/accessibility-features-section.component';
-import { InstructorsSectionComponent } from './sections/instructors-section/instructors-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
@@ -25,7 +25,6 @@ import { CtaSectionComponent } from './sections/cta-section/cta-section.componen
 import { AccessibleHeroData } from './sections/accessible-hero/accessible-hero.types';
 import { IntroSectionData } from './sections/intro-section/intro-section.types';
 import { AccessibilityFeaturesSectionData } from './sections/accessibility-features-section/accessibility-features-section.types';
-import { InstructorsSectionData } from './sections/instructors-section/instructors-section.types';
 import { MethodologyTimelineData } from '../shared/methodology-timeline/methodology-timeline.types';
 import { BenefitsSpotlightData } from '../shared/benefits-spotlight/benefits-spotlight.types';
 import { CtaSectionData } from './sections/cta-section/cta-section.types';
@@ -39,7 +38,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     AccessibleHeroComponent,
     IntroSectionComponent,
     AccessibilityFeaturesSectionComponent,
-    InstructorsSectionComponent,
+    TrustRingsComponent,
     MethodologyTimelineComponent,
     BenefitsSpotlightComponent,
     FaqAccordionComponent,
@@ -154,44 +153,6 @@ export class AccessiblePageComponent implements OnInit {
           'Ein ruhiger Rückzugsort steht jederzeit offen. Du kannst den Kurs jederzeit verlassen und wieder einsteigen – ganz ohne Erklärung.',
       },
     ],
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // INSTRUCTORS DATA
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly instructorsData = signal<InstructorsSectionData>({
-    headline: 'Erfahrung, die zählt',
-    intro:
-      'Inklusive Tanzarbeit erfordert besonderes Wissen, Empathie und Flexibilität. Unsere Kursleiter bringen all das mit.',
-    qualifications: [
-      {
-        icon: '/assets/icons/features/kursleiter-ausbildung.svg',
-        title: 'Spezialisierte Ausbildung',
-        description:
-          'Alle unsere Tanzpädagogen haben Fortbildungen in <strong>inklusiver Tanzpädagogik</strong> und <strong>Bewegungsarbeit mit Menschen mit Behinderung</strong> absolviert.',
-      },
-      {
-        icon: '/assets/icons/features/kursleiter-medizin.svg',
-        title: 'Medizinisches Grundwissen',
-        description:
-          'Kenntnisse über verschiedene Behinderungsformen, Kontraindikationen und sichere Bewegungsausführung. <strong>Erste-Hilfe-Zertifizierung</strong> selbstverständlich.',
-      },
-      {
-        icon: '/assets/icons/features/kursleiter-anpassung.svg',
-        title: 'Individuelle Anpassung',
-        description:
-          'Jede Kursstunde wird an die aktuellen Bedürfnisse der Teilnehmenden angepasst. Schmerzen heute? Müdigkeit? Wir reagieren darauf.',
-      },
-      {
-        icon: '/assets/icons/features/kursleiter-kommunikation.svg',
-        title: 'Kommunikative Kompetenz',
-        description:
-          'Grundkenntnisse in Gebärdensprache, Erfahrung mit Unterstützter Kommunikation, sensibel für verschiedene Kommunikationsbedürfnisse.',
-      },
-    ],
-    certificationNote:
-      'Unsere Kursleiter nehmen regelmässig an <strong>Fortbildungen</strong> teil und haben ein <strong>erweitertes Führungszeugnis</strong>.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

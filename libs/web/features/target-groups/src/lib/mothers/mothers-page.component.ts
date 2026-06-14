@@ -19,6 +19,7 @@ import { CourseClockComponent } from '../shared/course-clock/course-clock.compon
 import { MethodologyTimelineComponent } from '../shared/methodology-timeline/methodology-timeline.component';
 import { BenefitsSpotlightComponent } from '../shared/benefits-spotlight/benefits-spotlight.component';
 import { CtaSectionComponent } from './sections/cta-section/cta-section.component';
+import { TrustRingsComponent } from '../shared/trust-rings/trust-rings.component';
 
 // Types
 import { MothersHeroData } from './sections/mothers-hero/mothers-hero.types';
@@ -39,6 +40,7 @@ import { FaqData, TestimonialsData } from '@tanzmoment/shared/ui';
     CourseClockComponent,
     MethodologyTimelineComponent,
     BenefitsSpotlightComponent,
+    TrustRingsComponent,
     FaqAccordionComponent,
     TestimonialSectionComponent,
     CtaSectionComponent,
