@@ -70,6 +70,18 @@ export class PaymentsService {
           );
           break;
 
+        case 'checkout.session.async_payment_succeeded':
+          await this.handleAsyncPaymentSucceeded(
+            event.data.object as Stripe.Checkout.Session,
+          );
+          break;
+
+        case 'checkout.session.async_payment_failed':
+          await this.handleAsyncPaymentFailed(
+            event.data.object as Stripe.Checkout.Session,
+          );
+          break;
+
         case 'checkout.session.expired':
           await this.handleCheckoutExpired(
             event.data.object as Stripe.Checkout.Session,
@@ -101,31 +113,57 @@ export class PaymentsService {
   // ===========================================================================
 
   /**
-   * Handles successful checkout: Payment → PAID, Booking → CONFIRMED.
+   * Handles a completed checkout session.
    *
-   * Idempotency: If payment is already PAID, skip silently.
+   * For immediate payment methods (card) Stripe reports payment_status 'paid'
+   * here and the booking is confirmed right away. For delayed-notification
+   * methods (SEPA direct debit) the funds are not yet captured at this point
+   * (payment_status 'unpaid'); confirming now would grant a booking before the
+   * money clears. Those sessions are parked as PROCESSING and resolved later by
+   * the async_payment_succeeded / async_payment_failed events.
    */
   private async handleCheckoutCompleted(
     session: Stripe.Checkout.Session,
   ): Promise<void> {
-    const bookingId = session.metadata?.bookingId;
-    if (!bookingId) {
-      this.logger.warn('Checkout session has no bookingId in metadata');
+    // 'no_payment_required' covers zero-amount sessions, which settle immediately
+    // and never emit an async_payment event – treat them like a paid card checkout.
+    if (
+      session.payment_status === 'paid' ||
+      session.payment_status === 'no_payment_required'
+    ) {
+      await this.finalizePaidCheckout(session);
       return;
     }
 
-    const payment = await this.prisma.payment.findFirst({
-      where: { bookingId },
-      include: { booking: true },
-    });
+    await this.markCheckoutProcessing(session);
+  }
 
-    if (!payment) {
-      this.logger.warn(`No payment found for booking ${bookingId}`);
-      return;
-    }
+  /**
+   * Confirms a checkout whose payment has actually settled.
+   * Used by both the synchronous card path and the delayed
+   * async_payment_succeeded event.
+   *
+   * Idempotency: If payment is already PAID, skip silently.
+   */
+  private async finalizePaidCheckout(
+    session: Stripe.Checkout.Session,
+  ): Promise<void> {
+    const context = await this.resolveSessionPayment(session);
+    if (!context) return;
+
+    const { bookingId, payment } = context;
 
     if (payment.status === 'PAID') {
       this.logger.log(`Payment ${payment.id} already PAID, skipping`);
+      return;
+    }
+
+    // A late or out-of-order success event must not resurrect a booking that was
+    // already cancelled (e.g. by an earlier async_payment_failed or expiry).
+    if (payment.booking.status === 'CANCELLED') {
+      this.logger.warn(
+        `Ignoring payment success for already-CANCELLED booking ${bookingId}`,
+      );
       return;
     }
 
@@ -156,11 +194,151 @@ export class PaymentsService {
     await this.waitlistService.cancelExpiry(bookingId);
 
     this.logger.log(
-      `Checkout completed: booking ${bookingId} → CONFIRMED, ` +
+      `Checkout settled: booking ${bookingId} → CONFIRMED, ` +
         `payment ${payment.id} → PAID`,
     );
 
     await this.scheduleConfirmationSideEffects(bookingId);
+  }
+
+  /**
+   * Parks a checkout whose payment is still in flight (SEPA direct debit).
+   * The slot stays reserved (booking remains PENDING) and the short payment
+   * expiry timer is cancelled, but the booking is NOT confirmed until the
+   * async_payment_succeeded event arrives.
+   */
+  private async markCheckoutProcessing(
+    session: Stripe.Checkout.Session,
+  ): Promise<void> {
+    const context = await this.resolveSessionPayment(session);
+    if (!context) return;
+
+    const { bookingId, payment } = context;
+
+    if (payment.status === 'PAID' || payment.status === 'PROCESSING') {
+      return;
+    }
+
+    // Only park a still-open booking. If it was already cancelled/confirmed
+    // (e.g. expiry ran, or events arrived out of order), do not revive it.
+    if (payment.booking.status !== 'PENDING') {
+      this.logger.log(
+        `Booking ${bookingId} is ${payment.booking.status}, not parking as PROCESSING`,
+      );
+      return;
+    }
+
+    const paymentIntentId =
+      typeof session.payment_intent === 'string'
+        ? session.payment_intent
+        : session.payment_intent?.id;
+
+    await this.prisma.payment.update({
+      where: { id: payment.id },
+      data: {
+        status: 'PROCESSING',
+        stripePaymentId: paymentIntentId ?? session.id,
+        stripeStatus: 'processing',
+        method: this.resolvePaymentMethod(session.payment_method_types),
+      },
+    });
+
+    // Checkout is complete and the debit is in flight – stop the expiry timer
+    // so the in-flight payment is not cancelled prematurely.
+    await this.waitlistService.cancelExpiry(bookingId);
+
+    this.logger.log(
+      `Checkout processing: booking ${bookingId} awaiting delayed payment, ` +
+        `payment ${payment.id} → PROCESSING`,
+    );
+  }
+
+  /**
+   * Handles a delayed payment that ultimately succeeded (e.g. SEPA cleared).
+   */
+  private async handleAsyncPaymentSucceeded(
+    session: Stripe.Checkout.Session,
+  ): Promise<void> {
+    await this.finalizePaidCheckout(session);
+  }
+
+  /**
+   * Handles a delayed payment that ultimately failed (e.g. SEPA bounced).
+   * Releases the reserved slot and promotes the waitlist.
+   *
+   * Idempotency: skips if the booking is already CANCELLED or was somehow
+   * confirmed in the meantime.
+   */
+  private async handleAsyncPaymentFailed(
+    session: Stripe.Checkout.Session,
+  ): Promise<void> {
+    const context = await this.resolveSessionPayment(session);
+    if (!context) return;
+
+    const { bookingId, payment } = context;
+
+    if (payment.booking.status === 'CANCELLED') {
+      this.logger.log(`Booking ${bookingId} already CANCELLED, skipping`);
+      return;
+    }
+
+    if (payment.booking.status === 'CONFIRMED') {
+      this.logger.warn(
+        `Async payment failed for already-CONFIRMED booking ${bookingId}`,
+      );
+      return;
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.booking.update({
+        where: { id: bookingId },
+        data: {
+          status: 'CANCELLED',
+          cancellationReason: 'PAYMENT_FAILED',
+          cancelledAt: new Date(),
+        },
+      });
+
+      await tx.payment.update({
+        where: { id: payment.id },
+        data: { status: 'FAILED', stripeStatus: 'failed' },
+      });
+    });
+
+    await this.waitlistService.triggerPromotion(
+      payment.booking.courseId,
+      payment.booking.sessionId,
+    );
+
+    this.logger.log(
+      `Async payment failed: booking ${bookingId} → CANCELLED, ` +
+        `payment ${payment.id} → FAILED`,
+    );
+  }
+
+  /**
+   * Resolves the Payment (with its Booking) for a checkout session via the
+   * bookingId carried in session metadata. Returns null and logs when the
+   * metadata or payment record is missing.
+   */
+  private async resolveSessionPayment(session: Stripe.Checkout.Session) {
+    const bookingId = session.metadata?.bookingId;
+    if (!bookingId) {
+      this.logger.warn('Checkout session has no bookingId in metadata');
+      return null;
+    }
+
+    const payment = await this.prisma.payment.findFirst({
+      where: { bookingId },
+      include: { booking: true },
+    });
+
+    if (!payment) {
+      this.logger.warn(`No payment found for booking ${bookingId}`);
+      return null;
+    }
+
+    return { bookingId, payment };
   }
 
   // ===========================================================================

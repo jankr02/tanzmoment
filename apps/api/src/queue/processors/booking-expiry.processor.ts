@@ -44,8 +44,13 @@ export class BookingExpiryProcessor extends WorkerHost {
       return;
     }
 
-    if (booking.payment?.status === 'PAID') {
-      this.logger.log(`Booking ${bookingId} payment is PAID, skipping expiry`);
+    if (
+      booking.payment?.status === 'PAID' ||
+      booking.payment?.status === 'PROCESSING'
+    ) {
+      this.logger.log(
+        `Booking ${bookingId} payment is ${booking.payment.status}, skipping expiry`,
+      );
       return;
     }
 

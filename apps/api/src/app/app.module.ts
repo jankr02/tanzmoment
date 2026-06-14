@@ -12,6 +12,7 @@ import { NewsModule } from '../news/news.module';
 import { NewsletterModule } from '../newsletter/newsletter.module';
 import { UploadsModule } from '../uploads/uploads.module';
 import { emailConfig } from '../config/email.config';
+import { validateEnv } from '../config/env.validation';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -22,6 +23,7 @@ import { AppService } from './app.service';
       envFilePath: '.env',
       cache: true,
       load: [emailConfig],
+      validate: validateEnv,
     }),
     PrismaModule,
     AuthModule,
