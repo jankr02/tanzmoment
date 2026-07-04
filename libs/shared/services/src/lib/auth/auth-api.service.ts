@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
-import { AuthResponse, AuthUser } from './auth-state.service';
+import { AuthUser } from './auth-state.service';
 
 export interface MessageResponse {
   message: string;
@@ -12,8 +12,8 @@ export class AuthApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = '/api/auth';
 
-  login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, { email, password });
+  login(email: string, password: string): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this.baseUrl}/login`, { email, password });
   }
 
   register(
@@ -22,14 +22,23 @@ export class AuthApiService {
     firstName: string,
     lastName: string,
     phone?: string,
-  ): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/register`, {
+  ): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this.baseUrl}/register`, {
       email,
       password,
       firstName,
       lastName,
       phone,
     });
+  }
+
+  /** Rotate the session using the refresh cookie; resolves with the current user. */
+  refresh(): Observable<AuthUser> {
+    return this.http.post<AuthUser>(`${this.baseUrl}/refresh`, {});
+  }
+
+  logout(): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(`${this.baseUrl}/logout`, {});
   }
 
   getMe(): Observable<AuthUser> {

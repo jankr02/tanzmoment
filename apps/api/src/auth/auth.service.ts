@@ -18,7 +18,9 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangeEmailDto } from './dto/change-email.dto';
 import { DeleteAccountDto } from './dto/delete-account.dto';
-import { AuthResponseDto, UserDto } from './dto/auth-response.dto';
+import { UserDto } from './dto/auth-response.dto';
+import { RefreshTokenService } from './refresh-token.service';
+import { AuthenticatedUser } from './auth.types';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 
@@ -31,11 +33,12 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private emailService: EmailService,
+    private refreshTokenService: RefreshTokenService,
   ) {}
 
   // ── Register ─────────────────────────────────────────────────────────────
 
-  async register(dto: RegisterDto): Promise<AuthResponseDto> {
+  async register(dto: RegisterDto): Promise<AuthenticatedUser> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email.toLowerCase() },
     });
@@ -91,19 +94,12 @@ export class AuthService {
         this.logger.error(`Failed to send verification email to ${user.email}: ${err.message}`);
       });
 
-    const token = this.generateToken(user.id, user.email, user.role);
-
-    return {
-      user: this.sanitizeUser(user),
-      accessToken: token,
-      tokenType: 'Bearer',
-      expiresIn: this.getTokenExpiresIn(),
-    };
+    return user;
   }
 
   // ── Login ─────────────────────────────────────────────────────────────────
 
-  async login(dto: LoginDto): Promise<AuthResponseDto> {
+  async login(dto: LoginDto): Promise<AuthenticatedUser> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email.toLowerCase() },
       select: {
@@ -136,15 +132,9 @@ export class AuthService {
 
     this.logger.log(`User logged in: ${user.email}`);
 
-    const token = this.generateToken(user.id, user.email, user.role);
     const { passwordHash, ...userWithoutPassword } = user;
 
-    return {
-      user: this.sanitizeUser(userWithoutPassword),
-      accessToken: token,
-      tokenType: 'Bearer',
-      expiresIn: this.getTokenExpiresIn(),
-    };
+    return userWithoutPassword;
   }
 
   // ── Forgot Password ───────────────────────────────────────────────────────
@@ -214,6 +204,9 @@ export class AuthService {
         passwordResetExpires: null,
       },
     });
+
+    // A reset means the account may have been compromised: drop every session.
+    await this.refreshTokenService.revokeAllForUser(user.id);
 
     this.logger.log(`Password reset completed for: ${user.email}`);
 
@@ -314,7 +307,7 @@ export class AuthService {
 
     this.logger.log(`Profile updated for: ${user.email}`);
 
-    return this.sanitizeUser(user);
+    return this.toUserDto(user);
   }
 
   // ── Change Password ───────────────────────────────────────────────────────
@@ -340,6 +333,10 @@ export class AuthService {
       where: { id: userId },
       data: { passwordHash: newHash },
     });
+
+    // Sign out every existing session; the caller re-issues a fresh pair for the
+    // device that performed the change, so only other devices are logged out.
+    await this.refreshTokenService.revokeAllForUser(userId);
 
     this.logger.log(`Password changed for: ${user.email}`);
 
@@ -412,7 +409,7 @@ export class AuthService {
 
     this.logger.log(`Email changed to ${newEmail} for user ${userId}`);
 
-    return this.sanitizeUser(updated);
+    return this.toUserDto(updated);
   }
 
   // ── Export User Data (GDPR) ───────────────────────────────────────────────
@@ -509,6 +506,8 @@ export class AuthService {
       },
     });
 
+    await this.refreshTokenService.revokeAllForUser(userId);
+
     this.logger.log(`Account anonymized for user ${userId}`);
 
     return { message: 'Dein Konto wurde gelöscht.' };
@@ -516,18 +515,11 @@ export class AuthService {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
-  private generateToken(userId: string, email: string, role: string): string {
+  signAccessToken(userId: string, email: string, role: string): string {
     return this.jwtService.sign({ sub: userId, email, role });
   }
 
-  private getTokenExpiresIn(): number {
-    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN') || '7d';
-    if (expiresIn.endsWith('d')) return parseInt(expiresIn) * 24 * 60 * 60;
-    if (expiresIn.endsWith('h')) return parseInt(expiresIn) * 60 * 60;
-    return 604800;
-  }
-
-  private sanitizeUser(user: any): UserDto {
+  toUserDto(user: AuthenticatedUser): UserDto {
     return {
       id: user.id,
       email: user.email,

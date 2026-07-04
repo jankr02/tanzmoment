@@ -29,19 +29,3 @@ export class UserDto {
   @ApiProperty({ example: '2025-10-29T16:47:59.000Z' })
   createdAt: string;
 }
-
-export class AuthResponseDto {
-  @ApiProperty({ type: UserDto })
-  user: UserDto;
-
-  @ApiProperty({ 
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' 
-  })
-  accessToken: string;
-
-  @ApiProperty({ example: 'Bearer' })
-  tokenType: string;
-
-  @ApiProperty({ example: 604800 })
-  expiresIn: number;
-}

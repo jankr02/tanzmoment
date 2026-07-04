@@ -7,10 +7,11 @@ import {
   UserMenuData,
 } from '@tanzmoment/shared/ui';
 import {
+  AuthApiService,
   AuthStateService,
   SplashScreenVisibilityService,
 } from '@tanzmoment/shared/services';
-import { filter } from 'rxjs';
+import { filter, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ import { filter } from 'rxjs';
 export class AppComponent {
   title = 'Tanzmoment';
   private readonly authState = inject(AuthStateService);
+  private readonly authApi = inject(AuthApiService);
   protected readonly splashScreenVisibility = inject(SplashScreenVisibilityService);
   private readonly router = inject(Router);
 
@@ -93,7 +95,16 @@ export class AppComponent {
   }
 
   private onLogout(): void {
-    this.authState.clearAuth();
-    this.router.navigate(['/']);
+    // Revoke the refresh-token family and clear the auth cookies server-side,
+    // then reset local state regardless of the request outcome.
+    this.authApi
+      .logout()
+      .pipe(
+        finalize(() => {
+          this.authState.clearAuth();
+          this.router.navigate(['/']);
+        }),
+      )
+      .subscribe({ error: () => undefined });
   }
 }

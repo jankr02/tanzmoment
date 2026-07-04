@@ -39,6 +39,7 @@ model User {
   authoredArticles     NewsArticle[]         @relation("NewsArticleAuthor")
   triggeredCampaigns   NewsletterCampaign[]  @relation("NewsletterCampaignTrigger")
   newsletterSubscriber NewsletterSubscriber?
+  refreshTokens        RefreshToken[]
 
   @@map("users")
 }
@@ -47,6 +48,26 @@ enum UserRole {
   CUSTOMER
   INSTRUCTOR
   ADMIN
+}
+
+/// Rotating, revocable refresh tokens for cookie-based auth. Only the SHA-256
+/// hash of the raw token is stored, so a database leak cannot reveal usable
+/// tokens. Tokens rotate on every refresh; all rows sharing a `family` form one
+/// login lineage, revoked together when reuse of an already-rotated token is
+/// detected (stolen-token protection).
+model RefreshToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family    String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([family])
+  @@map("refresh_tokens")
 }
 
 // ============================================================================

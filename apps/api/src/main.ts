@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { join } from 'path';
 import { AppModule } from './app/app.module';
 
@@ -33,6 +34,12 @@ async function bootstrap() {
       crossOriginResourcePolicy: { policy: 'cross-origin' },
     })
   );
+
+  // Parse the Cookie header into req.cookies so the JWT strategy (cookie
+  // extractor) and CsrfGuard can read the auth cookies. Runs as middleware,
+  // i.e. before any guard. No secret: tokens are self-authenticating (signed
+  // JWT + DB-hashed refresh), so signed cookies are not needed.
+  app.use(cookieParser());
 
   app.useStaticAssets(join(process.cwd(), 'apps/api/uploads'), {
     prefix: '/uploads',

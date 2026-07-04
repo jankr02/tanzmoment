@@ -21,7 +21,11 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withXsrfConfiguration,
+} from '@angular/common/http';
 import { authInterceptor, AuthStateService, AuthApiService } from '@tanzmoment/shared/services';
 
 function initializeAuth(authState: AuthStateService, authApi: AuthApiService) {
@@ -38,7 +42,15 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' })
     ),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(
+      withInterceptors([authInterceptor]),
+      // Double-submit CSRF: read the XSRF-TOKEN cookie, echo it as X-XSRF-TOKEN
+      // on mutating same-origin requests (defaults, made explicit for clarity).
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      }),
+    ),
     provideAnimations(),
     {
       provide: APP_INITIALIZER,
