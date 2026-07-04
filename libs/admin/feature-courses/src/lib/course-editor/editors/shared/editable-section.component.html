@@ -1,0 +1,8 @@
+<div class="es" [class.es--active]="active()">
+  <div class="es__toolbar">
+    <button type="button" class="es__edit-btn" (click)="edit.emit()">
+      ✎ {{ label() }} bearbeiten
+    </button>
+  </div>
+  <ng-content />
+</div>

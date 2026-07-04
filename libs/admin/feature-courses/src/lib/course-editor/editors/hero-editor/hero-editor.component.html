@@ -1,0 +1,38 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Titel-Override</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headlineOverride"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Sub-Headline</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="subHeadline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <admin-image-upload-field
+    [value]="imageUrl"
+    label="Hero-Bild"
+    (valueChange)="onImg($event)"
+  />
+
+  <label class="ed-field">
+    <span class="ed-field__label">Textfarbe (Override)</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      placeholder="#FFFFFF"
+      [(ngModel)]="textColorOverride"
+      (ngModelChange)="emit()"
+    />
+  </label>
+</div>

@@ -1,0 +1,67 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Intro</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="intro"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  @for (step of steps; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Phase"
+          [(ngModel)]="step.phase"
+          (ngModelChange)="emit()"
+        />
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Dauer"
+          [(ngModel)]="step.duration"
+          (ngModelChange)="emit()"
+        />
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Icon (optional)"
+          [(ngModel)]="step.icon"
+          (ngModelChange)="emit()"
+        />
+        <textarea
+          class="ed-field__control"
+          placeholder="Beschreibung"
+          [(ngModel)]="step.description"
+          (ngModelChange)="emit()"
+        ></textarea>
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeStep(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="ed-btn ed-btn--add" (click)="addStep()">
+    + Schritt
+  </button>
+</div>

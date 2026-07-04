@@ -20,6 +20,15 @@ import { CourseDetailContent } from '@tanzmoment/shared/types';
 import { CourseDetailData } from '@tanzmoment/shared/course-detail-ui';
 import { CourseEditorCanvasComponent } from './canvas/course-editor-canvas.component';
 import { buildCoursePreview } from './preview/build-course-preview';
+import { HeroEditorComponent } from './editors/hero-editor/hero-editor.component';
+import { QuickFactsEditorComponent } from './editors/quick-facts-editor/quick-facts-editor.component';
+import { DescriptionEditorComponent } from './editors/description-editor/description-editor.component';
+import { CourseFlowEditorComponent } from './editors/course-flow-editor/course-flow-editor.component';
+import { InstructorEditorComponent } from './editors/instructor-editor/instructor-editor.component';
+import { ScheduleEditorComponent } from './editors/schedule-editor/schedule-editor.component';
+import { TestimonialsEditorComponent } from './editors/testimonials-editor/testimonials-editor.component';
+import { FaqEditorComponent } from './editors/faq-editor/faq-editor.component';
+import { BookingEditorComponent } from './editors/booking-editor/booking-editor.component';
 
 interface DanceStyleOption {
   value: string;
@@ -27,10 +36,28 @@ interface DanceStyleOption {
   color: string;
 }
 
+interface ContentSectionDef {
+  key: keyof CourseDetailContent;
+  label: string;
+}
+
 @Component({
   selector: 'admin-course-editor',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CourseEditorCanvasComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    CourseEditorCanvasComponent,
+    HeroEditorComponent,
+    QuickFactsEditorComponent,
+    DescriptionEditorComponent,
+    CourseFlowEditorComponent,
+    InstructorEditorComponent,
+    ScheduleEditorComponent,
+    TestimonialsEditorComponent,
+    FaqEditorComponent,
+    BookingEditorComponent,
+  ],
   templateUrl: './course-editor.component.html',
   styleUrls: ['./course-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +76,19 @@ export class CourseEditorComponent implements OnInit {
   readonly isPublished = signal(false);
   readonly error = signal<string | null>(null);
   readonly drawerOpen = signal(true);
+  readonly activeSection = signal<keyof CourseDetailContent | null>(null);
+
+  readonly contentSections: ContentSectionDef[] = [
+    { key: 'hero', label: 'Hero' },
+    { key: 'quickFacts', label: 'Quick Facts' },
+    { key: 'description', label: 'Beschreibung' },
+    { key: 'courseFlow', label: 'Kursablauf' },
+    { key: 'socialProof', label: 'Stimmen' },
+    { key: 'instructor', label: 'Kursleitung' },
+    { key: 'schedule', label: 'Termine' },
+    { key: 'faq', label: 'FAQ' },
+    { key: 'booking', label: 'Buchung' },
+  ];
 
   readonly sessions = signal<AdminSession[]>([]);
   readonly locations = signal<AdminLocation[]>([]);
@@ -244,8 +284,36 @@ export class CourseEditorComponent implements OnInit {
     }
   }
 
-  onDetailContentChanged(content: CourseDetailContent): void {
-    this.detailContent.set(content);
+  openSection(key: keyof CourseDetailContent): void {
+    this.activeSection.set(key);
+    this.drawerOpen.set(true);
+  }
+
+  closeSection(): void {
+    this.activeSection.set(null);
+  }
+
+  setSection(
+    key: keyof CourseDetailContent,
+    slice: CourseDetailContent[keyof CourseDetailContent] | undefined,
+  ): void {
+    this.detailContent.update((dc) => {
+      const next = { ...dc };
+      if (slice === undefined) {
+        delete next[key];
+      } else {
+        (next as Record<string, unknown>)[key] = slice;
+      }
+      return next;
+    });
+  }
+
+  sectionLabel(key: keyof CourseDetailContent): string {
+    return this.contentSections.find((s) => s.key === key)?.label ?? '';
+  }
+
+  onEditSection(key: string): void {
+    this.openSection(key as keyof CourseDetailContent);
   }
 
   private hasContentData(): boolean {

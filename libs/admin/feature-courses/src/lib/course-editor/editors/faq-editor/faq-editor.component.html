@@ -1,0 +1,48 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  @for (item of items; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <label class="ed-field">
+          <span class="ed-field__label">Frage</span>
+          <input
+            class="ed-field__control"
+            type="text"
+            [(ngModel)]="item.question"
+            (ngModelChange)="emit()"
+          />
+        </label>
+        <label class="ed-field">
+          <span class="ed-field__label">Antwort</span>
+          <textarea
+            class="ed-field__control"
+            [(ngModel)]="item.answer"
+            (ngModelChange)="emit()"
+          ></textarea>
+        </label>
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeItem(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="ed-btn ed-btn--add" (click)="addItem()">
+    + Frage
+  </button>
+</div>

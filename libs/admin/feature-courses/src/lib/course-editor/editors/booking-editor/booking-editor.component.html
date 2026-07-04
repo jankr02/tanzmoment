@@ -1,0 +1,58 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">CTA-Text</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="ctaText"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Preis-Hinweis</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="priceNote"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Hinweis</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="notice"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  <p class="ed__subtitle">Enthalten</p>
+
+  @for (include of includes; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <input
+          class="ed-field__control"
+          type="text"
+          [(ngModel)]="includes[i]"
+          (ngModelChange)="emit()"
+        />
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeInclude(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="ed-btn ed-btn--add" (click)="addInclude()">
+    + Eintrag
+  </button>
+</div>

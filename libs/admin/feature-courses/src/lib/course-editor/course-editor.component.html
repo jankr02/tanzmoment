@@ -55,15 +55,69 @@
       @if (loading()) {
         <div class="editor__loading" aria-live="polite" aria-busy="true">Kurs wird geladen…</div>
       } @else {
-        <admin-course-editor-canvas [course]="preview()" />
+        <admin-course-editor-canvas
+          [course]="preview()"
+          [activeSection]="activeSection()"
+          (editSection)="onEditSection($event)"
+        />
       }
     </main>
 
     <!-- ─── Config drawer ─────────────────────────────────────────────── -->
     @if (drawerOpen()) {
-      <aside class="editor__drawer" [formGroup]="form" aria-label="Kurs-Einstellungen">
-        <h2 class="editor__drawer-title">Einstellungen</h2>
+      <aside class="editor__drawer" aria-label="Kurs-Bearbeitung">
+      @if (activeSection(); as sec) {
+        <div class="editor__panel-head">
+          <button type="button" class="editor__icon-btn" (click)="closeSection()" aria-label="Zurück zur Übersicht">←</button>
+          <h2 class="editor__drawer-title">{{ sectionLabel(sec) }}</h2>
+        </div>
 
+        @switch (sec) {
+          @case ('hero') {
+            <admin-hero-editor [content]="detailContent().hero" (contentChange)="setSection('hero', $event)" />
+          }
+          @case ('quickFacts') {
+            <admin-quick-facts-editor [content]="detailContent().quickFacts" (contentChange)="setSection('quickFacts', $event)" />
+          }
+          @case ('description') {
+            <admin-description-editor [content]="detailContent().description" (contentChange)="setSection('description', $event)" />
+          }
+          @case ('courseFlow') {
+            <admin-course-flow-editor [content]="detailContent().courseFlow" (contentChange)="setSection('courseFlow', $event)" />
+          }
+          @case ('socialProof') {
+            <admin-testimonials-editor [content]="detailContent().socialProof" (contentChange)="setSection('socialProof', $event)" />
+          }
+          @case ('instructor') {
+            <admin-instructor-editor [content]="detailContent().instructor" (contentChange)="setSection('instructor', $event)" />
+          }
+          @case ('schedule') {
+            <admin-schedule-editor [content]="detailContent().schedule" [sessions]="sessions()" (contentChange)="setSection('schedule', $event)" />
+          }
+          @case ('faq') {
+            <admin-faq-editor [content]="detailContent().faq" (contentChange)="setSection('faq', $event)" />
+          }
+          @case ('booking') {
+            <admin-booking-editor [content]="detailContent().booking" (contentChange)="setSection('booking', $event)" />
+          }
+        }
+      } @else {
+        <h2 class="editor__drawer-title">Bearbeiten</h2>
+
+        <!-- Content section list -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Inhalte</h3>
+          <div class="editor__section-list">
+            @for (s of contentSections; track s.key) {
+              <button type="button" class="editor__section-btn" (click)="openSection(s.key)">
+                <span>{{ s.label }}</span>
+                <span aria-hidden="true">✎</span>
+              </button>
+            }
+          </div>
+        </section>
+
+        <div [formGroup]="form">
         <!-- Basics -->
         <section class="editor__group">
           <h3 class="editor__group-title">Grundlagen</h3>
@@ -185,6 +239,8 @@
             rows="3"
           ></textarea>
         </section>
+        </div>
+      }
       </aside>
     }
   </div>

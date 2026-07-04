@@ -1,0 +1,77 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  @for (testimonial of testimonials; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <label class="ed-field">
+          <span class="ed-field__label">Text</span>
+          <textarea
+            class="ed-field__control"
+            [(ngModel)]="testimonial.text"
+            (ngModelChange)="emit()"
+          ></textarea>
+        </label>
+        <label class="ed-field">
+          <span class="ed-field__label">Name</span>
+          <input
+            class="ed-field__control"
+            type="text"
+            [(ngModel)]="testimonial.authorName"
+            (ngModelChange)="emit()"
+          />
+        </label>
+        <label class="ed-field">
+          <span class="ed-field__label">Rolle (optional)</span>
+          <input
+            class="ed-field__control"
+            type="text"
+            [(ngModel)]="testimonial.authorRole"
+            (ngModelChange)="emit()"
+          />
+        </label>
+        <label class="ed-field">
+          <span class="ed-field__label">Bewertung</span>
+          <input
+            class="ed-field__control"
+            type="number"
+            min="1"
+            max="5"
+            [(ngModel)]="testimonial.rating"
+            (ngModelChange)="emit()"
+          />
+        </label>
+        <admin-image-upload-field
+          [value]="testimonial.imageUrl ?? ''"
+          label="Bild (optional)"
+          (valueChange)="onImg(i, $event)"
+        />
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeTestimonial(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button
+    type="button"
+    class="ed-btn ed-btn--add"
+    (click)="addTestimonial()"
+  >
+    + Stimme
+  </button>
+</div>

@@ -1,0 +1,40 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Info-Text</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="infoText"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  @if (sessions.length) {
+    <p class="ed__subtitle">Termin-Labels</p>
+    @for (session of sessions; track session.id) {
+      <div class="ed-row">
+        <div class="ed-row__body">
+          <span class="ed-field__label">{{ formatSession(session) }}</span>
+          <input
+            class="ed-field__control"
+            type="text"
+            placeholder="Label (optional)"
+            [ngModel]="sessionLabels[session.id]"
+            (ngModelChange)="onLabelChange(session.id, $event)"
+          />
+        </div>
+      </div>
+    }
+  } @else {
+    <p class="ed__hint">Noch keine Termine vorhanden.</p>
+  }
+</div>

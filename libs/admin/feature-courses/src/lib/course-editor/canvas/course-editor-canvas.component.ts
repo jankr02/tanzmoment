@@ -2,6 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   input,
+  output,
   computed,
   HostBinding,
 } from '@angular/core';
@@ -20,6 +21,7 @@ import {
   FaqSectionComponent,
 } from '@tanzmoment/shared/course-detail-ui';
 import { CourseDetailContent } from '@tanzmoment/shared/types';
+import { EditableSectionComponent } from '../editors/shared/editable-section.component';
 
 /**
  * Renders the shared course-detail section components in the exact order and
@@ -39,6 +41,7 @@ import { CourseDetailContent } from '@tanzmoment/shared/types';
     InstructorSectionComponent,
     ScheduleSectionComponent,
     FaqSectionComponent,
+    EditableSectionComponent,
   ],
   templateUrl: './course-editor-canvas.component.html',
   styleUrl: './course-editor-canvas.component.scss',
@@ -46,6 +49,8 @@ import { CourseDetailContent } from '@tanzmoment/shared/types';
 })
 export class CourseEditorCanvasComponent {
   readonly course = input.required<CourseDetailData>();
+  readonly activeSection = input<string | null>(null);
+  readonly editSection = output<string>();
 
   readonly detailContent = computed<CourseDetailContent>(
     () => this.course().detailContent ?? {},
