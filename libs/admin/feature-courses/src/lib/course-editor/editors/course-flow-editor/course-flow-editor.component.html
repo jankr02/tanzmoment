@@ -35,12 +35,10 @@
           [(ngModel)]="step.duration"
           (ngModelChange)="emit()"
         />
-        <input
-          class="ed-field__control"
-          type="text"
-          placeholder="Icon (optional)"
-          [(ngModel)]="step.icon"
-          (ngModelChange)="emit()"
+        <admin-icon-picker
+          label="Icon (optional)"
+          [value]="step.icon ?? ''"
+          (valueChange)="onStepIcon(step, $event)"
         />
         <textarea
           class="ed-field__control"

@@ -13,11 +13,12 @@ import {
   CourseFlowStep,
 } from '@tanzmoment/shared/types';
 import { clean, nonEmpty } from '../shared/normalize';
+import { IconPickerComponent } from '../shared/icon-picker.component';
 
 @Component({
   selector: 'admin-course-flow-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IconPickerComponent],
   templateUrl: './course-flow-editor.component.html',
   styleUrls: ['../shared/editor-fields.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,6 +49,11 @@ export class CourseFlowEditorComponent implements OnInit {
 
   removeStep(index: number): void {
     this.steps = this.steps.filter((_, i) => i !== index);
+    this.emit();
+  }
+
+  onStepIcon(step: CourseFlowStep, value: string): void {
+    step.icon = value || undefined;
     this.emit();
   }
 

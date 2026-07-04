@@ -14,11 +14,12 @@ import {
   QuickFactType,
 } from '@tanzmoment/shared/types';
 import { nonEmpty } from '../shared/normalize';
+import { IconPickerComponent } from '../shared/icon-picker.component';
 
 @Component({
   selector: 'admin-quick-facts-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IconPickerComponent],
   templateUrl: './quick-facts-editor.component.html',
   styleUrls: ['../shared/editor-fields.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -96,6 +97,11 @@ export class QuickFactsEditorComponent implements OnInit {
 
   removeCustomFact(index: number): void {
     this.customFacts = this.customFacts.filter((_, i) => i !== index);
+    this.emit();
+  }
+
+  onFactIcon(fact: CustomFact, value: string): void {
+    fact.icon = value;
     this.emit();
   }
 

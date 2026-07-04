@@ -40,12 +40,9 @@
   @for (custom of customFacts; track i; let i = $index) {
     <div class="ed-row">
       <div class="ed-row__body">
-        <input
-          class="ed-field__control"
-          type="text"
-          placeholder="Icon"
-          [(ngModel)]="custom.icon"
-          (ngModelChange)="emit()"
+        <admin-icon-picker
+          [value]="custom.icon"
+          (valueChange)="onFactIcon(custom, $event)"
         />
         <input
           class="ed-field__control"
