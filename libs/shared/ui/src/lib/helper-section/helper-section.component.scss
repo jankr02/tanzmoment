@@ -1,11 +1,12 @@
 // ============================================================================
-// HELPER SECTION STYLES
+// HELPER SECTION STYLES ("Noch Fragen?")
 //
 // Design notes:
-// - Full-width section with centered content
-// - Responsive 3-column grid (1 column on mobile)
-// - Stagger animation for cards
-// - Optional muted background variant
+// - Warm neutral outer wrapper with a rounded blush inner panel.
+// - Three "stops" laid out as a wandering path: staggered vertically and
+//   connected by a soft dotted curve on wider screens.
+// - Mobile-first: stops stack in a single column and the decorative path
+//   (purely ornamental) is hidden.
 // ============================================================================
 
 @use 'tokens' as *;
@@ -17,31 +18,48 @@
 :host {
   display: block;
   width: 100%;
-  --last-section-bg: transparent;
-}
-
-// Muted variant sets its background
-:host(.helper-section--muted) {
-  --last-section-bg: var(--color-neutral-extra-light);
 }
 
 // ============================================================================
-// SECTION CONTAINER
+// OUTER WRAPPER
 // ============================================================================
 
-.helper-section__container {
+.helper-section__outer {
+  // Matches the wave-divider's "neutral" bottom fill for a seamless join
+  background: var(--color-neutral-xl);
+  padding: var(--space-12) var(--space-4) var(--space-16);
+
+  @include respond-to('md') {
+    padding: var(--space-16) var(--space-16) var(--space-24);
+  }
+}
+
+// ============================================================================
+// INNER PANEL (Soft Blush)
+// ============================================================================
+
+.helper-section__panel {
+  position: relative;
+
   max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: var(--space-12) var(--container-padding);
+
+  padding: var(--space-12) var(--space-6) var(--space-10);
+
+  @include respond-to('md') {
+    padding: var(--space-16) var(--space-16) var(--space-12);
+  }
 }
 
 // ============================================================================
-// SECTION HEADER
+// HEADER
 // ============================================================================
 
 .helper-section__header {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  margin-bottom: var(--space-10);
+  margin-bottom: var(--space-6);
 }
 
 .helper-section__headline {
@@ -51,6 +69,10 @@
   line-height: var(--line-height-h2);
   color: var(--color-text-primary);
   margin: 0 0 var(--space-2);
+
+  @include respond-to('md') {
+    font-size: calc(var(--font-size-h2) * 1.15);
+  }
 }
 
 .helper-section__subheadline {
@@ -63,113 +85,81 @@
 }
 
 // ============================================================================
-// CARDS GRID
+// CONNECTING PATH (decorative, wide screens only)
 // ============================================================================
 
-.helper-section__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  justify-items: center;
+.helper-section__path {
+  display: none;
 
-  // Medium screens: 2 columns
-  @include respond-to('md') {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-8);
-  }
-
-  // Large screens: 3 columns
   @include respond-to('lg') {
-    grid-template-columns: repeat(3, 1fr);
+    display: block;
+    position: absolute;
+    left: var(--space-16);
+    top: 230px;
+    z-index: 0;
+    width: calc(100% - 2 * var(--space-16));
+    height: 200px;
+    pointer-events: none;
   }
 }
 
+.helper-section__path-line {
+  fill: none;
+  stroke: var(--color-accent-dark);
+  stroke-width: 3;
+  stroke-dasharray: 2 14;
+  stroke-linecap: round;
+}
+
 // ============================================================================
-// CARD WRAPPER (for animations)
+// STOPS
 // ============================================================================
 
-.helper-section__card-wrapper {
-  width: 100%;
+.helper-section__stops {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-10);
+  margin-top: var(--space-6);
+
+  @include respond-to('lg') {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+}
+
+.helper-section__stop {
   display: flex;
   justify-content: center;
+  width: 100%;
+  max-width: 320px;
 
-  // Stagger animation
-  animation: helper-card-enter 0.5s ease-out forwards;
-  animation-delay: calc(var(--card-index, 0) * 0.1s);
-  opacity: 0;
-}
+  @include respond-to('lg') {
+    width: 29%;
+    max-width: none;
 
-// ============================================================================
-// VARIANTS
-// ============================================================================
+    // Vertical stagger + hand-placed rotation per stop (feeds the cards)
+    &:nth-child(1) {
+      margin-top: 0;
+      --stop-rotate: -4deg;
+      --stop-illust-width: 250px;
+    }
 
-// Muted background variant
-.helper-section--muted {
-  background: var(--color-neutral-extra-light);
+    &:nth-child(2) {
+      // "valley" of the path
+      margin-top: calc(var(--space-16) - var(--space-2));
+      --stop-rotate: 3deg;
+      --stop-illust-width: 255px;
+    }
 
-  .helper-section__container {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
-  }
-}
-
-// Compact variant (horizontal cards)
-.helper-section--compact {
-  .helper-section__grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .helper-section__card-wrapper {
-    width: 100%;
-  }
-}
-
-// ============================================================================
-// ANIMATIONS
-// ============================================================================
-
-@keyframes helper-card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// ============================================================================
-// REDUCED MOTION
-// ============================================================================
-
-@media (prefers-reduced-motion: reduce) {
-  .helper-section__card-wrapper {
-    animation: none;
-    opacity: 1;
-  }
-}
-
-// ============================================================================
-// RESPONSIVE ADJUSTMENTS
-// ============================================================================
-
-@include respond-to('md') {
-  .helper-section__container {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
-  }
-
-  .helper-section__headline {
-    font-size: calc(var(--font-size-h2) * 1.1);
-  }
-}
-
-@include respond-to('lg') {
-  .helper-section__header {
-    margin-bottom: var(--space-12);
+    &:nth-child(3) {
+      margin-top: var(--space-2);
+      --stop-rotate: -2deg;
+      --stop-illust-width: 245px;
+    }
   }
 }

@@ -41,16 +41,10 @@ export interface CourseDetailTheme {
   buttonBg: string;
   /** Button text color */
   buttonText: string;
-  /** Primary text color */
-  text: string;
-  /** Secondary text color */
-  textSecondary: string;
   /** Card border color */
   border: string;
   /** Box shadow color */
   shadowColor: string;
-  /** Wave divider fill color */
-  waveFill: string;
 }
 
 /**
@@ -68,55 +62,40 @@ export const COURSE_DETAIL_THEMES: Record<
     accent: '#B5D4C0',
     buttonBg: '#7A9D85',
     buttonText: '#FFFFFF',
-    text: '#2E2A25',
-    textSecondary: '#5E5A55',
     border: 'rgba(122, 157, 133, 0.2)',
     shadowColor: 'rgba(122, 157, 133, 0.15)',
-    waveFill: '#E8F3EC',
   },
   expressive: {
     background: '#EDE4F2',
     accent: '#D4C8E0',
     buttonBg: '#A893B8',
     buttonText: '#FFFFFF',
-    text: '#2E2A25',
-    textSecondary: '#5E5A55',
     border: 'rgba(168, 147, 184, 0.2)',
     shadowColor: 'rgba(168, 147, 184, 0.15)',
-    waveFill: '#EDE4F2',
   },
   kids: {
     background: '#E4EDF2',
     accent: '#B8D0DC',
     buttonBg: '#89A9B5',
     buttonText: '#FFFFFF',
-    text: '#2E2A25',
-    textSecondary: '#5E5A55',
     border: 'rgba(137, 169, 181, 0.2)',
     shadowColor: 'rgba(137, 169, 181, 0.15)',
-    waveFill: '#E4EDF2',
   },
   mothers: {
     background: '#FAE8C8',
     accent: '#EDDBB8',
     buttonBg: '#D8B890',
     buttonText: '#FFFFFF',
-    text: '#2E2A25',
-    textSecondary: '#5E5A55',
     border: 'rgba(216, 184, 144, 0.2)',
     shadowColor: 'rgba(216, 184, 144, 0.15)',
-    waveFill: '#FAE8C8',
   },
   default: {
     background: '#F2ECE3',
     accent: '#D0A373',
     buttonBg: '#688B68',
     buttonText: '#FFFFFF',
-    text: '#2E2A25',
-    textSecondary: '#5E5A55',
     border: 'rgba(104, 139, 104, 0.2)',
     shadowColor: 'rgba(104, 139, 104, 0.15)',
-    waveFill: '#F2ECE3',
   },
 };
 

@@ -1,149 +1,40 @@
 // ============================================================================
-// HELPER CARD STYLES
+// HELPER CARD STYLES ("path stop")
 //
 // Design notes:
-// - Organic, curved card shape matching Tanzmoment brand
-// - Soft shadows and hover animations
-// - Accessible focus states
-// - Responsive layout (vertical stack)
+// - No card chrome: a large hand-drawn illustration sits on the section panel,
+//   slightly rotated for a hand-placed feel, with a warm-toned drop shadow.
+// - Title, description and an understated underlined CTA link beneath it.
+// - The whole stop lifts on hover; the section handles staggering + the path.
+// - Per-stop rotation and illustration width are injected by the section via
+//   the --stop-rotate / --stop-illust-width custom properties.
 // ============================================================================
 
 @use 'tokens' as *;
 
 // ============================================================================
-// HOST ELEMENT (Interactive Card)
+// HOST ELEMENT (Interactive Stop)
 // ============================================================================
 
 :host {
-  // Layout
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-
-  // Sizing
+  text-align: center;
   width: 100%;
-  max-width: 300px;
-  min-height: 240px;
-  padding: var(--space-8) var(--space-6);
 
-  // Visual
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: none;
-
-  // Interaction
   cursor: pointer;
   user-select: none;
   outline: none;
 
-  // Transitions - cubic-bezier for smooth spring-like motion
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s ease-out;
-
-  // Shine overlay for hover effect
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.2) 50%,
-      transparent 100%
-    );
-    border-radius: var(--radius-lg);
-    pointer-events: none;
-    transition: left 0.5s ease-out;
-  }
-
-  // ========================================
-  // Hover State
-  // ========================================
+  // Standard card-hover lift + easing from the design system
+  transition: transform var(--transition-base);
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: var(--color-primary-dark);
-    box-shadow: var(--shadow-sm);
-
-    // Shine sweep effect
-    &::before {
-      left: 100%;
-    }
-
-    .helper-card__image {
-      transform: scale(1.05);
-    }
-
-    .helper-card__title {
-      color: var(--color-brand);
-    }
-
-    .helper-card__border {
-      transform: scaleX(1);
-    }
-
-    .helper-card__cta {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .helper-card__cta-arrow {
-      transform: translateX(4px);
-    }
+    transform: translateY(-6px);
   }
 
-  // ========================================
-  // Focus State (Accessibility)
-  // ========================================
-
-  &:focus-visible {
-    box-shadow: var(--shadow-md), 0 0 0 3px var(--color-soft-accent);
-
-    .helper-card__border {
-      transform: scaleX(1);
-    }
-  }
-
-  // ========================================
-  // Active State (Click Animation)
-  // ========================================
-
-  &:active {
-    transform: translateY(0) scale(0.99);
-    transition: transform 0.1s ease-out;
-
-    .helper-card__image {
-      transform: scale(0.95);
-      transition: transform 0.1s ease-out;
-    }
-
-    .helper-card__border {
-      transform: scaleX(1);
-      background: linear-gradient(
-        90deg,
-        var(--color-brand) 0%,
-        var(--color-soft-accent) 50%,
-        var(--color-brand) 100%
-      );
-    }
-  }
-}
-
-// ============================================================================
-// CONTENT WRAPPER
-// ============================================================================
-
-.helper-card__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  @include focus-visible;
 }
 
 // ============================================================================
@@ -155,47 +46,33 @@
   align-items: center;
   justify-content: center;
 
-  // Sizing
-  width: 96px;
-  height: 96px;
-  margin-bottom: var(--space-4);
+  width: 260px;
+  height: 240px;
+  max-width: 100%;
 
-  // Animation
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(var(--stop-rotate, 0deg));
 }
 
 .helper-card__image {
-  width: 100%;
-  height: 100%;
+  width: var(--stop-illust-width, 250px);
+  height: auto;
+  max-width: 100%;
   object-fit: contain;
-  padding: var(--space-2);
 
-  // Animation - spring-like motion matching card
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(var(--shadow-illustration-warm));
 }
 
 // ============================================================================
 // TEXT CONTENT
 // ============================================================================
 
-.helper-card__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--space-1);
-}
-
 .helper-card__title {
   font-family: var(--font-headline);
   font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-heading);
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-h3);
   color: var(--color-text-primary);
-  margin: 0;
-
-  // Animation
-  transition: color var(--transition-fast);
+  margin: var(--space-2) 0 var(--space-1);
 }
 
 .helper-card__subtitle {
@@ -205,34 +82,27 @@
   line-height: var(--line-height-small);
   color: var(--color-text-secondary);
   margin: 0;
-  max-width: 200px;
+  max-width: 220px;
 }
 
 // ============================================================================
-// CTA TEXT
+// CTA LINK (understated underline + arrow)
 // ============================================================================
 
 .helper-card__cta {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
 
-  // Positioning – in flow, pushed to the bottom; reveals on hover
-  margin-top: auto;
-  padding-top: var(--space-4);
+  margin-top: var(--space-3);
+  padding-bottom: 1px;
 
-  // Typography
   font-family: var(--font-cta);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
-  color: var(--color-brand);
+  color: var(--color-accent-dark);
 
-  // Initial state (hidden)
-  opacity: 0;
-  transform: translateY(8px);
-
-  // Animation
-  transition: opacity var(--transition-base), transform var(--transition-base);
+  border-bottom: 1px solid var(--color-accent-dark);
 }
 
 .helper-card__cta-arrow {
@@ -240,81 +110,8 @@
   transition: transform var(--transition-fast);
 }
 
-// ============================================================================
-// DECORATIVE BORDER
-// ============================================================================
-
-.helper-card__border {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-
-  // Gradient
-  background: linear-gradient(
-    90deg,
-    var(--color-soft-accent) 0%,
-    var(--color-brand) 50%,
-    var(--color-soft-accent) 100%
-  );
-
-  // Initial state
-  transform: scaleX(0);
-  transform-origin: center;
-
-  // Border radius (match card)
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-
-  // Animation
-  transition: transform var(--transition-base) ease-out;
-}
-
-// ============================================================================
-// COMPACT VARIANT (Mobile)
-// ============================================================================
-
-:host(.helper-card--compact) {
-  flex-direction: row;
-  gap: var(--space-4);
-
-  max-width: 100%;
-  min-height: auto;
-  padding: var(--space-4);
-
-  .helper-card__container {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-  }
-
-  .helper-card__illustration {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-
-  .helper-card__content {
-    align-items: flex-start;
-    text-align: left;
-    flex: 1;
-  }
-
-  .helper-card__title {
-    font-size: var(--font-size-body-l);
-  }
-
-  .helper-card__subtitle {
-    font-size: var(--font-size-small);
-  }
-
-  .helper-card__cta {
-    position: static;
-    opacity: 1;
-    transform: none;
-    margin-top: var(--space-2);
-  }
+:host:hover .helper-card__cta-arrow {
+  transform: translateX(4px);
 }
 
 // ============================================================================
@@ -323,64 +120,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   :host,
-  .helper-card__image,
-  .helper-card__illustration,
-  .helper-card__cta,
-  .helper-card__border,
   .helper-card__cta-arrow {
     transition: none;
-  }
-
-  :host::before {
-    display: none;
   }
 
   :host:hover {
     transform: none;
 
-    .helper-card__image {
-      transform: none;
-    }
-
-    .helper-card__illustration {
-      transform: none;
-      box-shadow: none;
-    }
-
     .helper-card__cta-arrow {
       transform: none;
     }
-  }
-
-  :host:active {
-    transform: none;
-
-    .helper-card__image,
-    .helper-card__illustration {
-      transform: none;
-    }
-  }
-}
-
-// ============================================================================
-// RESPONSIVE ADJUSTMENTS
-// ============================================================================
-
-@include respond-to('md') {
-  :host {
-    max-width: 340px;
-    min-height: 260px;
-  }
-
-  .helper-card__illustration {
-    width: 112px;
-    height: 112px;
-  }
-}
-
-@include respond-to('lg') {
-  .helper-card__illustration {
-    width: 120px;
-    height: 120px;
   }
 }

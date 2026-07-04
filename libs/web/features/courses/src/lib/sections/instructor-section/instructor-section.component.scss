@@ -8,7 +8,7 @@
 @use 'tokens' as *;
 
 .instructor-section {
-  background: var(--detail-bg);
+  background: var(--detail-section-bg);
   padding: var(--space-12) 0;
 
   @media (max-width: 768px) {

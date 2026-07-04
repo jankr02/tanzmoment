@@ -56,14 +56,8 @@ export class HelperSectionComponent {
   /** Helper cards to display (defaults to predefined cards) */
   readonly cards = input<HelperCardData[]>(HELPER_CARDS_DATA);
 
-  /** Use compact card variant (horizontal layout) */
-  readonly compact = input<boolean>(false);
-
   /** Show card subtitles */
   readonly showSubtitles = input<boolean>(true);
-
-  /** Background variant */
-  readonly variant = input<'default' | 'muted'>('default');
 
   // ==========================================================================
   // Outputs
@@ -77,16 +71,6 @@ export class HelperSectionComponent {
   // ==========================================================================
 
   @HostBinding('class.helper-section') readonly hostClass = true;
-
-  @HostBinding('class.helper-section--muted')
-  get isMuted(): boolean {
-    return this.variant() === 'muted';
-  }
-
-  @HostBinding('class.helper-section--compact')
-  get isCompact(): boolean {
-    return this.compact();
-  }
 
   // ==========================================================================
   // Computed Values

@@ -166,26 +166,31 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   get themeStyles(): Record<string, string> {
     const theme = this.currentTheme();
     return {
+      // Dance-style tint, used only for accents (step number, badges, cards)
       '--detail-bg': theme.background,
+      // Uniform, dance-style-independent tone for full section backgrounds & waves
+      '--detail-section-bg': 'var(--color-neutral-extra-light)',
       '--detail-accent': theme.accent,
       '--detail-button-bg': theme.buttonBg,
       '--detail-button-text': theme.buttonText,
-      '--detail-text': theme.text,
-      '--detail-text-secondary': theme.textSecondary,
+      // Section headings & subtitles follow the site-wide dark green, not the
+      // near-black theme default
+      '--detail-text': 'var(--color-text-primary)',
+      '--detail-text-secondary': 'var(--color-text-secondary)',
       '--detail-border': theme.border,
       '--detail-shadow': theme.shadowColor,
-      '--detail-wave-fill': theme.waveFill,
     };
   }
 
   // Keeps the footer wave's top colour in sync with the last section so there
-  // is no white gap. The FAQ section is themed; the fallback (schedule) is white.
+  // is no white gap. The FAQ section uses the uniform section tone; the
+  // fallback (schedule) is white.
   private readonly lastSectionBgEffect = effect(() => {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const root = this.document.documentElement;
     if (this.hasFaq()) {
-      root.style.setProperty('--last-section-bg', this.currentTheme().background);
+      root.style.setProperty('--last-section-bg', 'var(--color-neutral-extra-light)');
     } else {
       root.style.removeProperty('--last-section-bg');
     }

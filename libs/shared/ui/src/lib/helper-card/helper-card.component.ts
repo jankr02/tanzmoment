@@ -17,7 +17,8 @@ import {
 /**
  * Helper Card Component
  *
- * A clickable card with illustration, title, and optional CTA text.
+ * A single "stop" on the helper section's path: a large, slightly rotated
+ * hand-drawn illustration with a title, description and an understated CTA link.
  * Supports three action types:
  * - 'route': Internal Angular navigation
  * - 'link': External URL (new tab)
@@ -25,16 +26,9 @@ import {
  *
  * @example
  * ```html
- * <!-- Basic usage with card data -->
  * <ui-helper-card
  *   [card]="courseplanCard"
  *   (cardClick)="onCardClick($event)"
- * />
- *
- * <!-- Compact variant for mobile -->
- * <ui-helper-card
- *   [card]="messageCard"
- *   [compact]="true"
  * />
  * ```
  *
@@ -62,9 +56,6 @@ export class HelperCardComponent {
   /** Card configuration data */
   readonly card = input.required<HelperCardData>();
 
-  /** Compact mode for mobile layouts */
-  readonly compact = input<boolean>(false);
-
   /** Show subtitle below title */
   readonly showSubtitle = input<boolean>(true);
 
@@ -83,11 +74,6 @@ export class HelperCardComponent {
   // ==========================================================================
 
   @HostBinding('class.helper-card') readonly hostClass = true;
-
-  @HostBinding('class.helper-card--compact')
-  get isCompact(): boolean {
-    return this.compact();
-  }
 
   @HostBinding('attr.role') readonly role = 'button';
 

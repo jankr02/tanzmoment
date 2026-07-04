@@ -102,6 +102,6 @@ export const DANCE_STYLE_CARD_LABELS: Record<DanceStyle, string> = {
 export const DANCE_STYLE_ICONS: Record<DanceStyle, string> = {
   accessible: 'M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5',
   expressive: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75 M9 7a4 4 0 1 1 0 8 4 4 0 0 1 0-8z',
-  kids: 'M9 18V5l12-2v13 M9 9l12-2',
-  mothers: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+  kids: 'M9 18V5l12-2v13M9 18a3 3 0 1 0-6 0a3 3 0 1 0 6 0M21 16a3 3 0 1 0-6 0a3 3 0 1 0 6 0',
+  mothers: 'M3 11a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0-13 0M12.8 16.5a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0-6.4 0',
 };

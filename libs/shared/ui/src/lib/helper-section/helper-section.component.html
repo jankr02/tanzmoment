@@ -1,44 +1,57 @@
 <!-- ============================================================================
-  HELPER SECTION TEMPLATE
-  
+  HELPER SECTION TEMPLATE ("Noch Fragen?")
+
   Structure:
-  - Section header with headline and optional subheadline
-  - Responsive grid of helper cards
-  - Stagger animation on cards
+  - Warm neutral outer wrapper with a rounded blush inner panel
+  - Centered heading block (headline + optional subheadline)
+  - Decorative dotted path connecting the three staggered stops
+  - Three "stops" (helper cards) staggered vertically to feel like a path
 ============================================================================ -->
 
-<section
-  class="helper-section__container"
-  aria-labelledby="helper-section-headline"
->
-  <!-- Section Header -->
-  <header class="helper-section__header">
-    <h2 id="helper-section-headline" class="helper-section__headline">
-      {{ headline() }}
-    </h2>
+<section class="helper-section__outer" aria-labelledby="helper-section-headline">
+  <div class="helper-section__panel">
+    <!-- Section Header -->
+    <header class="helper-section__header">
+      <h2 id="helper-section-headline" class="helper-section__headline">
+        {{ headline() }}
+      </h2>
 
-    @if (hasSubheadline()) {
-    <p class="helper-section__subheadline">
-      {{ subheadline() }}
-    </p>
-    }
-  </header>
+      @if (hasSubheadline()) {
+      <p class="helper-section__subheadline">
+        {{ subheadline() }}
+      </p>
+      }
+    </header>
 
-  <!-- Cards Grid -->
-  <div class="helper-section__grid" role="list" aria-label="Hilfreiche Links">
-    @for (card of cards(); track trackByCardId($index, card); let i = $index) {
-    <div
-      class="helper-section__card-wrapper"
-      role="listitem"
-      [style.--card-index]="i"
+    <!-- Decorative connecting path (hidden on stacked mobile layout) -->
+    <svg
+      class="helper-section__path"
+      viewBox="0 0 1200 220"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
     >
-      <ui-helper-card
-        [card]="card"
-        [compact]="compact()"
-        [showSubtitle]="showSubtitles()"
-        (cardClick)="onCardClick($event)"
+      <path
+        class="helper-section__path-line"
+        d="M100,60 C260,180 380,20 560,110 C740,200 860,30 1080,90"
       />
+    </svg>
+
+    <!-- Stops -->
+    <div class="helper-section__stops" role="list" aria-label="Hilfreiche Links">
+      @for (card of cards(); track trackByCardId($index, card); let i = $index) {
+      <div
+        class="helper-section__stop"
+        role="listitem"
+        [style.--card-index]="i"
+      >
+        <ui-helper-card
+          [card]="card"
+          [showSubtitle]="showSubtitles()"
+          (cardClick)="onCardClick($event)"
+        />
+      </div>
+      }
     </div>
-    }
   </div>
 </section>

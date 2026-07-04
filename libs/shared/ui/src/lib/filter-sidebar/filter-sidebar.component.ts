@@ -422,13 +422,18 @@ export class FilterSidebarComponent implements OnInit, OnDestroy, AfterViewInit 
       dateFormat: 'Y-m-d',
       altInput: true,
       altFormat: 'd.m.Y',
+      // Flatpickr copies no Angular content attribute onto the generated
+      // altInput, so give it an explicit class we can target via ::ng-deep.
+      altInputClass: 'filter-sidebar__date-alt-input',
       disableMobile: true,
       minDate: 'today' as const,
       allowInput: false,
       clickOpens: true,
       monthSelectorType: 'dropdown' as const,
       animate: true,
-      static: true, // Position relative to input, scrolls with page
+      static: false, // Append to body so the calendar is never clipped by the sticky sidebar
+      appendTo: document.body,
+      position: 'auto' as const, // Flip above the input when there is no room below
     };
 
     // "Von" Date Picker

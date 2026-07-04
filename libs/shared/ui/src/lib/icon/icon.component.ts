@@ -74,7 +74,7 @@ export class IconComponent implements OnInit {
     
     'heart': '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
 
-    'lighthouse': '<path d="M12 2l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/><path d="M5 8l2 4M19 8l-2 4M8 18l1 3M16 18l-1 3"/>',
+    'lighthouse': '<path d="M12 20.47V10.59"/><path d="M12 14.12C12 14.12 6.35 14.12 4.94 8.47C10.59 8.47 12 14.12 12 14.12Z"/><path d="M12 10.59C12 10.59 17.65 10.59 19.06 4.24C12.71 4.24 12 10.59 12 10.59Z"/>',
 
     'mail': '<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8"/><rect x="3" y="5" width="18" height="14" rx="2"/>',
 
@@ -171,7 +171,7 @@ export class IconComponent implements OnInit {
     
     'ballet': '<path d="M3 12h18"/><path d="M12 3v18"/>',
     
-    'improvisation': '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
+    'improvisation': '<circle cx="9.5" cy="11" r="6.5"/><circle cx="16" cy="16.5" r="3.2"/>',
     
     'ausdruckstanz': '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/>',
   };
