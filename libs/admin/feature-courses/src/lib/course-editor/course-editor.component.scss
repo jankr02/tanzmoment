@@ -266,6 +266,13 @@
   font-weight: var(--font-weight-medium);
 }
 
+.editor__field-error {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: 0.78rem;
+  color: #b3261e;
+}
+
 .editor__input {
   width: 100%;
   padding: var(--space-2) var(--space-3);

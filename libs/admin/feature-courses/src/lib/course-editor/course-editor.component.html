@@ -192,6 +192,9 @@
             rows="3"
             placeholder="Kurze Zusammenfassung (30–500 Zeichen)"
           ></textarea>
+          @if (fieldError('shortDescription', 'Kurzbeschreibung'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
         </section>
 
         <!-- Settings -->
@@ -205,6 +208,9 @@
 
           <label class="editor__label" for="ed-price">Preis (€) <span class="editor__req" aria-hidden="true">*</span></label>
           <input id="ed-price" class="editor__input" type="number" min="0" formControlName="priceInEuros" />
+          @if (fieldError('priceInEuros', 'Preis'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
 
           <label class="editor__label" for="ed-duration">Dauer (Min.) <span class="editor__req" aria-hidden="true">*</span></label>
           <select id="ed-duration" class="editor__input" formControlName="duration">
@@ -242,11 +248,17 @@
 
           <label class="editor__label" for="ed-title">Titel <span class="editor__req" aria-hidden="true">*</span></label>
           <input id="ed-title" class="editor__input" formControlName="title" />
+          @if (fieldError('title', 'Titel'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
 
           <label class="editor__label" for="ed-catch">Catch Phrase</label>
           <input id="ed-catch" class="editor__input" formControlName="catchPhrase" />
 
           <label class="editor__label" for="ed-desc">Beschreibung <span class="editor__req" aria-hidden="true">*</span></label>
+          @if (fieldError('description', 'Beschreibung'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
           <textarea
             id="ed-desc"
             class="editor__input editor__textarea"

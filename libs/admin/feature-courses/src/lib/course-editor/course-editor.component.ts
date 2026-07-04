@@ -207,24 +207,52 @@ export class CourseEditorComponent implements OnInit {
     });
   });
 
-  /** Required fields still missing a valid value, as human labels. */
+  /** Descriptive validation issues for all required fields (empty = valid). */
   readonly missingFields = computed<string[]>(() => {
     this.formValue();
-    const c = this.form.controls;
-    const missing: string[] = [];
-    if (c.title.invalid) missing.push('Titel');
-    if (c.danceStyle.invalid) missing.push('Tanzstil');
-    if (c.targetGroup.invalid) missing.push('Zielgruppe');
-    if (c.shortDescription.invalid) missing.push('Kurzbeschreibung');
-    if (c.description.invalid) missing.push('Beschreibung');
-    const isFree = c.isFree.value === true;
-    if (!isFree && (c.priceInEuros.invalid || (c.priceInEuros.value ?? 0) <= 0)) {
-      missing.push('Preis');
+    const issues: string[] = [];
+    const fields: [string, string][] = [
+      ['title', 'Titel'],
+      ['danceStyle', 'Tanzstil'],
+      ['targetGroup', 'Zielgruppe'],
+      ['shortDescription', 'Kurzbeschreibung'],
+      ['description', 'Beschreibung'],
+      ['duration', 'Dauer'],
+      ['maxParticipants', 'Max. Teilnehmer'],
+    ];
+    for (const [name, label] of fields) {
+      const msg = this.fieldError(name, label);
+      if (msg) issues.push(msg);
     }
-    if (c.duration.invalid) missing.push('Dauer');
-    if (c.maxParticipants.invalid) missing.push('Max. Teilnehmer');
-    return missing;
+    const c = this.form.controls;
+    if (c.isFree.value !== true) {
+      const priceMsg = this.fieldError('priceInEuros', 'Preis');
+      if (priceMsg) {
+        issues.push(priceMsg);
+      } else if ((c.priceInEuros.value ?? 0) <= 0) {
+        issues.push('Preis muss größer als 0 sein (oder „Kostenlos“ wählen)');
+      }
+    }
+    return issues;
   });
+
+  /** Human-readable validation message for a single control, or null if valid. */
+  fieldError(name: string, label: string): string | null {
+    const control = this.form.get(name);
+    const errors = control?.errors;
+    if (!errors) return null;
+    if (errors['required']) return `${label} ist erforderlich`;
+    if (errors['minlength']) {
+      const { requiredLength, actualLength } = errors['minlength'];
+      return `${label}: mindestens ${requiredLength} Zeichen (aktuell ${actualLength})`;
+    }
+    if (errors['maxlength']) {
+      return `${label}: höchstens ${errors['maxlength'].requiredLength} Zeichen`;
+    }
+    if (errors['min']) return `${label}: mindestens ${errors['min'].min}`;
+    if (errors['max']) return `${label}: höchstens ${errors['max'].max}`;
+    return `${label} ist ungültig`;
+  }
 
   ngOnInit(): void {
     // Snapshot on value AND status changes so the preview and required-field
