@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthModule } from '../auth/auth.module';
+import { CsrfGuard } from '../auth/guards/csrf.guard';
 import { CoursesModule } from '../courses/courses.module';
 import { ContactModule } from '../contact/contact.module';
 import { BookingsModule } from '../bookings/bookings.module';
@@ -49,9 +50,15 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [
     AppService,
+    // Global guards run in registration order: throttle first (cheap DoS
+    // protection), then CSRF (reject forged mutations before hitting auth/DB).
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: CsrfGuard,
     },
   ],
 })

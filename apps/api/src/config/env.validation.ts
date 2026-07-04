@@ -1,5 +1,19 @@
 const MIN_JWT_SECRET_LENGTH = 32;
 
+const VALID_SAMESITE = new Set(['lax', 'strict', 'none']);
+
+/**
+ * Interpret COOKIE_SECURE, mirroring the runtime logic in AuthCookieService:
+ * an explicit "true"/"false" wins, otherwise it derives from production mode.
+ */
+function resolveCookieSecure(config: Record<string, unknown>): boolean {
+  const raw = config['COOKIE_SECURE'];
+  if (typeof raw === 'string' && raw.trim() !== '') {
+    return raw.trim().toLowerCase() === 'true';
+  }
+  return config['NODE_ENV'] === 'production';
+}
+
 /**
  * Known placeholder secrets that must never reach a running environment.
  * Compared case-insensitively. Extend this list if new placeholders appear
@@ -48,6 +62,24 @@ export function validateEnv(
       'JWT_SECRET is set to a known placeholder value. ' +
         'Generate a unique secret with: openssl rand -base64 48'
     );
+  }
+
+  const sameSite = config['COOKIE_SAMESITE'];
+  if (typeof sameSite === 'string' && sameSite.trim() !== '') {
+    const normalizedSameSite = sameSite.trim().toLowerCase();
+    if (!VALID_SAMESITE.has(normalizedSameSite)) {
+      throw new Error(
+        `COOKIE_SAMESITE must be one of lax, strict, none (got "${sameSite}").`
+      );
+    }
+    // Browsers silently drop SameSite=None cookies that are not also Secure, which
+    // would break auth entirely. Fail fast on the misconfiguration instead.
+    if (normalizedSameSite === 'none' && !resolveCookieSecure(config)) {
+      throw new Error(
+        'COOKIE_SAMESITE=none requires COOKIE_SECURE=true (browsers reject ' +
+          'SameSite=None cookies without the Secure attribute).'
+      );
+    }
   }
 
   return config;

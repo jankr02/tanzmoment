@@ -45,9 +45,6 @@ export class AccountApiService {
 
   /** Keep the globally cached user in sync after a self-service profile change. */
   private refreshCachedUser(user: AuthUser): void {
-    const token = this.authState.token();
-    if (token) {
-      this.authState.setAuth(token, user);
-    }
+    this.authState.setAuth(user);
   }
 }
