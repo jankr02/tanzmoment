@@ -505,11 +505,11 @@
   &::after {
     content: '';
     position: absolute;
-    right: 10px;
+    right: 18px;
     top: 50%;
     transform: translateY(-50%);
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235e5a55' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-size: contain;
@@ -523,112 +523,67 @@
   &:hover::after {
     opacity: 0.85;
   }
+}
 
-  // Flatpickr calendar positioning - force above input with absolute positioning
-  .flatpickr-calendar {
-    position: absolute !important;
-    bottom: 100% !important;
-    top: auto !important;
-    left: 0 !important;
-    margin-bottom: var(--space-1);
-    box-shadow: var(--shadow-lg);
-    z-index: 999;
+// Pill-shaped date inputs, matching the app-input style used in the contact form.
+// The declarations are shared between the raw input and Flatpickr's visible
+// altInput. The altInput is created via createElement, so it carries no Angular
+// content attribute and must be reached through ::ng-deep via its explicit
+// altInputClass (`filter-sidebar__date-alt-input`).
+@mixin date-input-pill {
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  padding: 0 44px 0 20px;
+
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 999px;
+
+  cursor: pointer;
+  transition: border-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-text-secondary);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand) 18%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--color-neutral-extra-light);
+  }
+
+  // When has value - reinforce the active-filter cue
+  &:not(:placeholder-shown) {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-brand);
   }
 }
 
 .filter-sidebar__date-input {
-  width: 100%;
-  padding: var(--space-2) 32px var(--space-2) var(--space-3);
-
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-text-primary);
-
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-
-  cursor: pointer;
-  transition: all var(--transition-fast);
-
-  &::placeholder {
-    color: var(--color-text-secondary);
-    opacity: 0.7;
-  }
-
-  &:hover:not(:disabled) {
-    border-color: var(--color-brand);
-    background: var(--color-neutral-extra-light);
-  }
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-    border-color: var(--color-brand);
-    background: var(--color-surface);
-    box-shadow: 0 0 0 2px rgba(104, 139, 104, 0.15);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: var(--color-neutral-extra-light);
-  }
-
-  // When has value
-  &:not(:placeholder-shown) {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-brand);
-  }
+  @include date-input-pill;
 }
 
-// Style for Flatpickr's altInput (the visible styled input)
-.filter-sidebar__date-input-wrapper input.flatpickr-input {
-  width: 100%;
-  padding: var(--space-2) 32px var(--space-2) var(--space-3);
-
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-text-primary);
-
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-
-  cursor: pointer;
-  transition: all var(--transition-fast);
-
-  &::placeholder {
-    color: var(--color-text-secondary);
-    opacity: 0.7;
-  }
-
-  &:hover:not(:disabled) {
-    border-color: var(--color-brand);
-    background: var(--color-neutral-extra-light);
-  }
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-    border-color: var(--color-brand);
-    background: var(--color-surface);
-    box-shadow: 0 0 0 2px rgba(104, 139, 104, 0.15);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: var(--color-neutral-extra-light);
-  }
-
-  // When has value
-  &:not(:placeholder-shown) {
-    font-weight: var(--font-weight-medium);
-    color: var(--color-brand);
-  }
+:host ::ng-deep .filter-sidebar__date-input-wrapper input.filter-sidebar__date-alt-input {
+  @include date-input-pill;
 }
 
 .filter-sidebar__date-clear {

@@ -54,7 +54,7 @@
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
         <path
           d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-          fill="var(--detail-wave-fill)"
+          fill="var(--detail-section-bg)"
         />
       </svg>
     </div>
@@ -69,7 +69,7 @@
     <!-- 4. Course Flow (Interest + Clarity) -->
     @if (detailContent().courseFlow?.steps?.length) {
       <!-- Wave Divider: Description → Course Flow -->
-      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+      <div class="course-detail__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
             d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
@@ -93,7 +93,7 @@
           <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
             <path
               d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-              fill="var(--detail-wave-fill)"
+              fill="var(--detail-section-bg)"
             />
           </svg>
         </div>
@@ -110,7 +110,7 @@
     @if (instructor(); as instr) {
       <!-- Wave only when section above is white (white → themed transition) -->
       @if (showInstructorWave()) {
-        <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+        <div class="course-detail__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
           <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
             <path
               d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
@@ -127,7 +127,7 @@
       />
 
       <!-- Wave Divider: Instructor → Schedule -->
-      <div class="course-detail__wave course-detail__wave--inverted" style="background: var(--detail-bg)" aria-hidden="true">
+      <div class="course-detail__wave course-detail__wave--inverted" style="background: var(--detail-section-bg)" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
             d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
@@ -143,7 +143,7 @@
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
             d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
-            fill="var(--detail-wave-fill)"
+            fill="var(--detail-section-bg)"
           />
         </svg>
       </div>
@@ -162,7 +162,7 @@
     <!-- 8. FAQ (Objection Removal) -->
     @if (detailContent().faq?.items?.length) {
       <!-- Wave Divider: Schedule → FAQ -->
-      <div class="course-detail__wave" style="background: var(--detail-bg)" aria-hidden="true">
+      <div class="course-detail__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
           <path
             d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"

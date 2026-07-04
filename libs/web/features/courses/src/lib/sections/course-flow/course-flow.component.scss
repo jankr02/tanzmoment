@@ -8,7 +8,7 @@
 @use 'tokens' as *;
 
 .course-flow {
-  background: var(--detail-bg);
+  background: var(--detail-section-bg);
   padding: var(--space-12) 0;
 
   @media (max-width: 768px) {
@@ -91,7 +91,7 @@
     flex-shrink: 0;
     // Double ring effect
     box-shadow:
-      0 0 0 4px var(--detail-bg),
+      0 0 0 4px var(--detail-section-bg),
       0 0 0 6px var(--detail-accent);
   }
 

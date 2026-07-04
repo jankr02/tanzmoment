@@ -82,7 +82,7 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     alt: 'Kursplan Illustration - Kalender mit Terminen',
     actionType: 'route',
     target: '/kursplan',
-    ctaText: 'Zum Kursplan',
+    ctaText: 'Ansehen',
   },
   {
     id: 'message',
@@ -92,7 +92,7 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     alt: 'Kontakt Illustration - Hände mit Nachricht',
     actionType: 'route',
     target: '/kontakt',
-    ctaText: 'Nachricht senden',
+    ctaText: 'Schreib mir',
   },
   {
     id: 'newsletter',
@@ -102,7 +102,7 @@ export const HELPER_CARDS_DATA: HelperCardData[] = [
     alt: 'Newsletter Illustration - Person mit Blumen',
     actionType: 'route',
     target: '/news',
-    ctaText: 'Zu den News',
+    ctaText: 'Anmelden',
   },
 ];
 

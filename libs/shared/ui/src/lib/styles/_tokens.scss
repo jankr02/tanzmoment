@@ -131,6 +131,7 @@
   --radius-md: 0.75rem; // 12px
   --radius-lg: 1.125rem; // 18px
   --radius-xl: 1.5rem; // 24px
+  --radius-2xl: 2rem; // 32px
 
   // ──────────────────────────────────────────────────────────────────────────
   // SHADOWS (Soft)
@@ -139,6 +140,9 @@
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
+
+  // Warm-toned elevation for hand-drawn illustrations (terracotta cast, not black)
+  --shadow-illustration-warm: 0 10px 16px rgba(154, 90, 60, 0.18);
 
   // ──────────────────────────────────────────────────────────────────────────
   // TRANSITIONS
