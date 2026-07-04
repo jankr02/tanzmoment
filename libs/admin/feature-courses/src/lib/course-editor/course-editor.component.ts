@@ -5,6 +5,7 @@ import {
   signal,
   computed,
   DestroyRef,
+  ChangeDetectorRef,
   OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -74,6 +75,7 @@ export class CourseEditorComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly courseId = signal<string | null>(null);
   readonly isEditMode = computed(() => !!this.courseId());
@@ -259,7 +261,10 @@ export class CourseEditorComponent implements OnInit {
     // summary react to enable()/disable() (e.g. the free/price toggle) too.
     merge(this.form.valueChanges, this.form.statusChanges)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.formValue.set(this.form.getRawValue()));
+      .subscribe(() => {
+        this.formValue.set(this.form.getRawValue());
+        this.cdr.markForCheck();
+      });
 
     this.adminApi.getLocations().subscribe({
       next: (locs) => this.locations.set(locs),
@@ -362,6 +367,7 @@ export class CourseEditorComponent implements OnInit {
       }
       return next;
     });
+    this.cdr.markForCheck();
   }
 
   sectionLabel(key: keyof CourseDetailContent): string {
