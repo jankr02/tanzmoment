@@ -79,6 +79,68 @@
     flex-direction: column;
     gap: 12px;
   }
+
+  &__subtitle {
+    font-family: var(--font-body, 'Nunito', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-secondary, #5e5a55);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 8px 0 0;
+  }
+}
+
+// ─── Quick Fact Order ──────────────────────────────────────────────────────────
+
+.fact-order {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border, #e6ded7);
+  border-radius: 8px;
+  overflow: hidden;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #fff;
+
+    & + & {
+      border-top: 1px solid var(--color-border, #e6ded7);
+    }
+  }
+
+  &__label {
+    flex: 1;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__move {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--color-border, #e6ded7);
+    background: var(--color-accent, #fdf8f3);
+    color: var(--color-text-primary, #2e2a25);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background-color 150ms ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-primary-light, #f2ece3);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
 }
 
 // ─── List Items ──────────────────────────────────────────────────────────────

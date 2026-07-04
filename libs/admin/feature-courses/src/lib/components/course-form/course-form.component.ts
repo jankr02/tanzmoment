@@ -364,11 +364,6 @@ export class CourseFormComponent implements OnInit {
 
   private hasContentData(): boolean {
     const c = this.detailContent();
-    return !!(
-      c.description?.highlights?.length ||
-      c.courseFlow?.steps?.length ||
-      c.socialProof?.testimonials?.length ||
-      c.faq?.items?.length
-    );
+    return Object.values(c).some((section) => section !== undefined && section !== null);
   }
 }

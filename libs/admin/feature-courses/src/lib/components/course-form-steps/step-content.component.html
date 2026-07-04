@@ -1,5 +1,288 @@
 <div class="step">
 
+  <!-- ─── Hero ─────────────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().hero">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('hero')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Hero-Bereich</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().hero ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Ueberschreibt Titel, Unterzeile und Bild im oberen Banner (Standard: Kurstitel, Catchphrase, Kursbild)
+    </p>
+
+    @if (expandedSections().hero) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="heroHeadlineOverride"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Kurstitel"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Unterzeile (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="heroSubHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Catchphrase"
+          />
+        </div>
+        <admin-image-upload-field
+          label="Hero-Bild (optional)"
+          hint="Standard: Kursbild — hier abweichendes Banner-Bild moeglich"
+          [value]="heroImageUrl"
+          (valueChange)="onHeroImageChange($event)"
+        />
+        <div class="field">
+          <label class="field__label">Textfarbe (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="heroTextColorOverride"
+            (ngModelChange)="onFieldChange()"
+            placeholder="z.B. #ffffff (fuer dunkle Bilder)"
+          />
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- ─── Quick Facts ──────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().quickFacts">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('quickFacts')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Quick Facts</h4>
+        <span class="content-section__count" *ngIf="customFacts.length">
+          +{{ customFacts.length }}
+        </span>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().quickFacts ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Reihenfolge und Sichtbarkeit der Standard-Fakten sowie eigene Zusatzfakten
+    </p>
+
+    @if (expandedSections().quickFacts) {
+      <div class="content-section__body">
+        <div class="fact-order">
+          @for (fact of factOrder; track fact; let i = $index) {
+            <div class="fact-order__row">
+              <label class="checkbox fact-order__label">
+                <input
+                  type="checkbox"
+                  [checked]="isFactVisible(fact)"
+                  (change)="toggleFactVisibility(fact)"
+                />
+                {{ factLabels[fact] }}
+              </label>
+              <div class="fact-order__actions">
+                <button
+                  type="button"
+                  class="fact-order__move"
+                  [disabled]="i === 0"
+                  (click)="moveFact(i, -1)"
+                  aria-label="Nach oben"
+                >
+                  ▴
+                </button>
+                <button
+                  type="button"
+                  class="fact-order__move"
+                  [disabled]="i === factOrder.length - 1"
+                  (click)="moveFact(i, 1)"
+                  aria-label="Nach unten"
+                >
+                  ▾
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <h5 class="content-section__subtitle">Eigene Fakten</h5>
+        @for (fact of customFacts; track $index; let i = $index) {
+          <div class="list-item list-item--card">
+            <div class="list-item__fields">
+              <div class="field-row">
+                <div class="field" style="max-width: 100px;">
+                  <label class="field__label">Icon</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="fact.icon"
+                    (ngModelChange)="onFieldChange()"
+                    placeholder="z.B. 🎵"
+                  />
+                </div>
+                <div class="field">
+                  <label class="field__label">Bezeichnung</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="fact.label"
+                    (ngModelChange)="onFieldChange()"
+                    placeholder="z.B. Musikstil"
+                  />
+                </div>
+                <div class="field">
+                  <label class="field__label">Wert</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="fact.value"
+                    (ngModelChange)="onFieldChange()"
+                    placeholder="z.B. Live-Percussion"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="list-item__remove"
+              (click)="removeCustomFact(i)"
+              aria-label="Fakt entfernen"
+            >
+              &times;
+            </button>
+          </div>
+        }
+        <button type="button" class="add-btn" (click)="addCustomFact()">
+          + Fakt hinzufuegen
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ─── Beschreibung ─────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().description">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('description')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Beschreibung — Kopf & Bild</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().description ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Ueberschrift und Stimmungsbild des Beschreibungsblocks (Fliesstext kommt aus Schritt „Details")
+    </p>
+
+    @if (expandedSections().description) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="descriptionHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Ueber diesen Kurs"
+          />
+        </div>
+        <admin-image-upload-field
+          label="Stimmungsbild (optional)"
+          hint="Wird neben dem Beschreibungstext angezeigt"
+          [value]="descriptionImageUrl"
+          (valueChange)="onDescriptionImageChange($event)"
+        />
+        @if (descriptionImageUrl) {
+          <div class="field">
+            <label class="field__label">Bildbeschreibung (Alt-Text)</label>
+            <input
+              type="text"
+              class="field__input"
+              [(ngModel)]="descriptionImageAlt"
+              (ngModelChange)="onFieldChange()"
+              placeholder="Beschreibt das Bild fuer Screenreader"
+            />
+          </div>
+          <div class="field" style="max-width: 200px;">
+            <label class="field__label">Bildposition</label>
+            <select
+              class="field__select"
+              [(ngModel)]="descriptionImagePosition"
+              (ngModelChange)="onFieldChange()"
+            >
+              <option value="right">Rechts</option>
+              <option value="left">Links</option>
+            </select>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- ─── Target Audience ─────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().targetAudience">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('targetAudience')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Fuer wen ist der Kurs?</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().targetAudience ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Beschreibt, fuer welche Zielgruppe der Kurs gedacht ist (wird auf der Kursseite angezeigt)
+    </p>
+
+    @if (expandedSections().targetAudience) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="targetAudienceHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="z.B. Fuer wen ist dieser Kurs?"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Beschreibung</label>
+          <textarea
+            class="field__textarea"
+            [(ngModel)]="targetAudienceBody"
+            (ngModelChange)="onFieldChange()"
+            rows="4"
+            placeholder="Wen spricht der Kurs an? (Markdown: **fett**, Absaetze mit Leerzeile)"
+          ></textarea>
+        </div>
+      </div>
+    }
+  </div>
+
   <!-- ─── Highlights ──────────────────────────────────────────────────────── -->
 
   <div class="content-section" [class.content-section--open]="expandedSections().highlights">
@@ -15,7 +298,7 @@
         </span>
       </div>
       <span class="content-section__toggle" aria-hidden="true">
-        {{ expandedSections().highlights ? '\u25BE' : '\u25B8' }}
+        {{ expandedSections().highlights ? '▾' : '▸' }}
       </span>
     </button>
     <p class="content-section__hint">
@@ -30,7 +313,7 @@
               type="text"
               class="field__input"
               [(ngModel)]="highlight.text"
-              (ngModelChange)="onHighlightChange()"
+              (ngModelChange)="onFieldChange()"
               [placeholder]="'z.B. Keine Vorkenntnisse noetig'"
             />
             <button
@@ -65,7 +348,7 @@
         </span>
       </div>
       <span class="content-section__toggle" aria-hidden="true">
-        {{ expandedSections().courseFlow ? '\u25BE' : '\u25B8' }}
+        {{ expandedSections().courseFlow ? '▾' : '▸' }}
       </span>
     </button>
     <p class="content-section__hint">
@@ -79,6 +362,27 @@
 
     @if (expandedSections().courseFlow) {
       <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="courseFlowHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: So laeuft eine Stunde ab"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Einleitung (optional)</label>
+          <textarea
+            class="field__textarea"
+            [(ngModel)]="courseFlowIntro"
+            (ngModelChange)="onFieldChange()"
+            rows="2"
+            placeholder="Kurzer Einleitungstext ueber den Phasen"
+          ></textarea>
+        </div>
+
         @for (step of courseFlowSteps; track $index; let i = $index) {
           <div class="list-item list-item--card">
             <div class="list-item__fields">
@@ -89,7 +393,7 @@
                     type="text"
                     class="field__input"
                     [(ngModel)]="step.phase"
-                    (ngModelChange)="onCourseFlowChange()"
+                    (ngModelChange)="onFieldChange()"
                     placeholder="z.B. Warm-up"
                   />
                 </div>
@@ -99,8 +403,18 @@
                     type="text"
                     class="field__input"
                     [(ngModel)]="step.duration"
-                    (ngModelChange)="onCourseFlowChange()"
+                    (ngModelChange)="onFieldChange()"
                     placeholder="z.B. 15 min"
+                  />
+                </div>
+                <div class="field" style="max-width: 100px;">
+                  <label class="field__label">Icon</label>
+                  <input
+                    type="text"
+                    class="field__input"
+                    [(ngModel)]="step.icon"
+                    (ngModelChange)="onFieldChange()"
+                    placeholder="🔥"
                   />
                 </div>
               </div>
@@ -109,7 +423,7 @@
                 <textarea
                   class="field__textarea"
                   [(ngModel)]="step.description"
-                  (ngModelChange)="onCourseFlowChange()"
+                  (ngModelChange)="onFieldChange()"
                   rows="2"
                   placeholder="Was passiert in dieser Phase?"
                 ></textarea>
@@ -132,6 +446,149 @@
     }
   </div>
 
+  <!-- ─── Instructor ──────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().instructor">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('instructor')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Kursleitung</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().instructor ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Kursspezifische Anpassungen der Kursleitung (Standard: Profildaten der Kursleitung)
+    </p>
+
+    @if (expandedSections().instructor) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Bio-Ueberschreibung (optional)</label>
+          <textarea
+            class="field__textarea"
+            [(ngModel)]="instructorBioOverride"
+            (ngModelChange)="onFieldChange()"
+            rows="4"
+            placeholder="Standard: Bio aus dem Profil der Kursleitung"
+          ></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">Persoenliches Zitat (optional)</label>
+          <textarea
+            class="field__textarea"
+            [(ngModel)]="instructorQuote"
+            (ngModelChange)="onFieldChange()"
+            rows="2"
+            placeholder="Ein Zitat zur Kursleitung / zum Tanzstil"
+          ></textarea>
+        </div>
+        <div class="field">
+          <label class="field__label">Qualifikationen (optional)</label>
+          @for (qualification of instructorQualifications; track $index; let i = $index) {
+            <div class="list-item">
+              <input
+                type="text"
+                class="field__input"
+                [(ngModel)]="instructorQualifications[i]"
+                (ngModelChange)="onFieldChange()"
+                placeholder="z.B. Zertifizierte Tanzpaedagogin"
+              />
+              <button
+                type="button"
+                class="list-item__remove"
+                (click)="removeQualification(i)"
+                aria-label="Qualifikation entfernen"
+              >
+                &times;
+              </button>
+            </div>
+          }
+          <button type="button" class="add-btn" (click)="addQualification()">
+            + Qualifikation hinzufuegen
+          </button>
+        </div>
+        <admin-image-upload-field
+          label="Portraet-Ueberschreibung (optional)"
+          hint="Standard: Profilbild der Kursleitung"
+          [value]="instructorImageOverride"
+          (valueChange)="onInstructorImageChange($event)"
+        />
+      </div>
+    }
+  </div>
+
+  <!-- ─── Schedule ────────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().schedule">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('schedule')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Termine — Texte</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().schedule ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Ueberschrift, Infotext und optionale Labels fuer einzelne Termine
+    </p>
+
+    @if (expandedSections().schedule) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="scheduleHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Termine & Verfuegbarkeit"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Infotext (optional)</label>
+          <textarea
+            class="field__textarea"
+            [(ngModel)]="scheduleInfoText"
+            (ngModelChange)="onFieldChange()"
+            rows="2"
+            placeholder="Hinweistext ueber der Terminliste"
+          ></textarea>
+        </div>
+
+        @if (sessions.length) {
+          <h5 class="content-section__subtitle">Termin-Labels</h5>
+          @for (session of sessions; track session.id) {
+            <div class="field">
+              <label class="field__label">
+                {{ session.startTime | date: 'dd.MM.yyyy, HH:mm' }} — {{ session.locationName }}
+              </label>
+              <input
+                type="text"
+                class="field__input"
+                [ngModel]="sessionLabels[session.id] || ''"
+                (ngModelChange)="onSessionLabelChange(session.id, $event)"
+                placeholder="z.B. Schnupperstunde, Nur wenige Plaetze"
+              />
+            </div>
+          }
+        } @else {
+          <p class="content-section__hint" style="padding-left: 0;">
+            Termin-Labels koennen vergeben werden, sobald Termine angelegt sind.
+          </p>
+        }
+      </div>
+    }
+  </div>
+
   <!-- ─── Testimonials ────────────────────────────────────────────────────── -->
 
   <div class="content-section" [class.content-section--open]="expandedSections().testimonials">
@@ -147,7 +604,7 @@
         </span>
       </div>
       <span class="content-section__toggle" aria-hidden="true">
-        {{ expandedSections().testimonials ? '\u25BE' : '\u25B8' }}
+        {{ expandedSections().testimonials ? '▾' : '▸' }}
       </span>
     </button>
     <p class="content-section__hint">
@@ -156,6 +613,17 @@
 
     @if (expandedSections().testimonials) {
       <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="socialProofHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Das sagen Teilnehmende"
+          />
+        </div>
+
         @for (testimonial of testimonials; track $index; let i = $index) {
           <div class="list-item list-item--card">
             <div class="list-item__fields">
@@ -164,7 +632,7 @@
                 <textarea
                   class="field__textarea"
                   [(ngModel)]="testimonial.text"
-                  (ngModelChange)="onTestimonialChange()"
+                  (ngModelChange)="onFieldChange()"
                   rows="3"
                   placeholder="Was sagt die Person ueber den Kurs?"
                 ></textarea>
@@ -176,7 +644,7 @@
                     type="text"
                     class="field__input"
                     [(ngModel)]="testimonial.authorName"
-                    (ngModelChange)="onTestimonialChange()"
+                    (ngModelChange)="onFieldChange()"
                     placeholder="Vorname Nachname"
                   />
                 </div>
@@ -186,7 +654,7 @@
                     type="text"
                     class="field__input"
                     [(ngModel)]="testimonial.authorRole"
-                    (ngModelChange)="onTestimonialChange()"
+                    (ngModelChange)="onFieldChange()"
                     placeholder="z.B. Teilnehmerin"
                   />
                 </div>
@@ -196,7 +664,7 @@
                 <select
                   class="field__select"
                   [(ngModel)]="testimonial.rating"
-                  (ngModelChange)="onTestimonialChange()"
+                  (ngModelChange)="onFieldChange()"
                 >
                   <option [ngValue]="5">&#9733;&#9733;&#9733;&#9733;&#9733; (5)</option>
                   <option [ngValue]="4">&#9733;&#9733;&#9733;&#9733;&#9734; (4)</option>
@@ -205,6 +673,12 @@
                   <option [ngValue]="1">&#9733;&#9734;&#9734;&#9734;&#9734; (1)</option>
                 </select>
               </div>
+              <admin-image-upload-field
+                label="Foto (optional)"
+                hint="Portraet der Person"
+                [value]="testimonial.imageUrl || ''"
+                (valueChange)="onTestimonialImageChange(i, $event)"
+              />
             </div>
             <button
               type="button"
@@ -238,7 +712,7 @@
         </span>
       </div>
       <span class="content-section__toggle" aria-hidden="true">
-        {{ expandedSections().faq ? '\u25BE' : '\u25B8' }}
+        {{ expandedSections().faq ? '▾' : '▸' }}
       </span>
     </button>
     <p class="content-section__hint">
@@ -252,6 +726,17 @@
 
     @if (expandedSections().faq) {
       <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Ueberschrift (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="faqHeadline"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Haeufige Fragen"
+          />
+        </div>
+
         @for (item of faqItems; track $index; let i = $index) {
           <div class="list-item list-item--card">
             <div class="list-item__fields">
@@ -261,7 +746,7 @@
                   type="text"
                   class="field__input"
                   [(ngModel)]="item.question"
-                  (ngModelChange)="onFaqChange()"
+                  (ngModelChange)="onFieldChange()"
                   placeholder="z.B. Brauche ich Vorkenntnisse?"
                 />
               </div>
@@ -270,7 +755,7 @@
                 <textarea
                   class="field__textarea"
                   [(ngModel)]="item.answer"
-                  (ngModelChange)="onFaqChange()"
+                  (ngModelChange)="onFieldChange()"
                   rows="3"
                   placeholder="Antwort (Markdown: **fett**, Absaetze mit Leerzeile)"
                 ></textarea>
@@ -289,6 +774,86 @@
         <button type="button" class="add-btn" (click)="addFaqItem()">
           + Frage hinzufuegen
         </button>
+      </div>
+    }
+  </div>
+
+  <!-- ─── Booking ─────────────────────────────────────────────────────────── -->
+
+  <div class="content-section" [class.content-section--open]="expandedSections().booking">
+    <button
+      type="button"
+      class="content-section__header"
+      (click)="toggleSection('booking')"
+    >
+      <div class="content-section__header-left">
+        <h4 class="content-section__title">Buchungsleiste</h4>
+      </div>
+      <span class="content-section__toggle" aria-hidden="true">
+        {{ expandedSections().booking ? '▾' : '▸' }}
+      </span>
+    </button>
+    <p class="content-section__hint">
+      Texte der fixierten Buchungsleiste am unteren Rand der Kursseite
+    </p>
+
+    @if (expandedSections().booking) {
+      <div class="content-section__body">
+        <div class="field">
+          <label class="field__label">Button-Text (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="bookingCtaText"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Standard: Jetzt buchen"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Preis-Hinweis (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="bookingPriceNote"
+            (ngModelChange)="onFieldChange()"
+            placeholder="z.B. inkl. Materialien, pro Einzelstunde"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Hinweistext (optional)</label>
+          <input
+            type="text"
+            class="field__input"
+            [(ngModel)]="bookingNotice"
+            (ngModelChange)="onFieldChange()"
+            placeholder="z.B. Kostenlose Stornierung bis 24h vorher"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label">Enthaltene Leistungen (optional)</label>
+          @for (item of bookingIncludes; track $index; let i = $index) {
+            <div class="list-item">
+              <input
+                type="text"
+                class="field__input"
+                [(ngModel)]="bookingIncludes[i]"
+                (ngModelChange)="onFieldChange()"
+                placeholder="z.B. Leihmaterial inklusive"
+              />
+              <button
+                type="button"
+                class="list-item__remove"
+                (click)="removeInclude(i)"
+                aria-label="Leistung entfernen"
+              >
+                &times;
+              </button>
+            </div>
+          }
+          <button type="button" class="add-btn" (click)="addInclude()">
+            + Leistung hinzufuegen
+          </button>
+        </div>
       </div>
     }
   </div>
