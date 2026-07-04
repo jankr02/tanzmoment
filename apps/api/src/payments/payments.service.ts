@@ -97,6 +97,12 @@ export class PaymentsService {
         default:
           this.logger.log(`Unhandled event type: ${event.type}`);
       }
+
+      // Only now – after the handler ran without throwing – is the event
+      // considered done. A failure below leaves it RECEIVED/FAILED for retry.
+      if (logId) {
+        await this.webhookLog.markProcessed(logId);
+      }
     } catch (error) {
       if (logId) {
         await this.webhookLog.markFailed(

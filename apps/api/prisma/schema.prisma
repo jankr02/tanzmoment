@@ -357,7 +357,7 @@ model WebhookEvent {
   /** Event type (e.g., checkout.session.completed) */
   eventType     String
 
-  /** Processing status */
+  /** Processing status – set explicitly by WebhookEventLogService (RECEIVED on insert) */
   status        WebhookEventStatus @default(PROCESSED)
 
   /** Error message if processing failed */
@@ -374,6 +374,7 @@ model WebhookEvent {
 }
 
 enum WebhookEventStatus {
+  RECEIVED
   PROCESSED
   FAILED
   SKIPPED
