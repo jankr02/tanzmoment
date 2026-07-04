@@ -12,9 +12,9 @@
   <div class="ed-field">
     <span class="ed-field__label">Beschreibungstext</span>
     <admin-rich-text-editor
-      [html]="body"
+      [html]="description"
       placeholder="Beschreibe den Kurs…"
-      (htmlChange)="onBodyChange($event)"
+      (htmlChange)="onDescriptionChange($event)"
     />
   </div>
 

@@ -370,6 +370,11 @@ export class CourseEditorComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  setBaseField(name: 'title' | 'catchPhrase' | 'description', value: string): void {
+    this.form.get(name)?.setValue(value);
+    this.form.get(name)?.markAsDirty();
+  }
+
   sectionLabel(key: keyof CourseDetailContent): string {
     return this.contentSections.find((s) => s.key === key)?.label ?? '';
   }

@@ -21,13 +21,17 @@ import { clean, nonEmpty } from '../shared/normalize';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroEditorComponent implements OnInit {
+  /** Base course fields shown in the hero (edited here, not overridden). */
+  @Input() title = '';
+  @Input() catchPhrase = '';
   @Input() content: CourseDetailHeroContent | undefined;
+
+  @Output() readonly titleChange = new EventEmitter<string>();
+  @Output() readonly catchPhraseChange = new EventEmitter<string>();
   @Output() readonly contentChange = new EventEmitter<
     CourseDetailHeroContent | undefined
   >();
 
-  headlineOverride = '';
-  subHeadline = '';
   imageUrl = '';
   textColorOverride = '';
 
@@ -41,10 +45,16 @@ export class HeroEditorComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.headlineOverride = this.content?.headlineOverride ?? '';
-    this.subHeadline = this.content?.subHeadline ?? '';
     this.imageUrl = this.content?.imageUrl ?? '';
     this.textColorOverride = this.content?.textColorOverride ?? '';
+  }
+
+  onTitle(): void {
+    this.titleChange.emit(this.title);
+  }
+
+  onCatchPhrase(): void {
+    this.catchPhraseChange.emit(this.catchPhrase);
   }
 
   onImg(url: string): void {
@@ -60,8 +70,6 @@ export class HeroEditorComponent implements OnInit {
   emit(): void {
     this.contentChange.emit(
       nonEmpty({
-        headlineOverride: clean(this.headlineOverride),
-        subHeadline: clean(this.subHeadline),
         imageUrl: clean(this.imageUrl),
         textColorOverride: clean(this.textColorOverride),
       }),

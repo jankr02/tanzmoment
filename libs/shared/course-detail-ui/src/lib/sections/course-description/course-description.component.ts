@@ -39,13 +39,17 @@ export class CourseDescriptionComponent {
   }
 
   /**
-   * Body text. The CMS override is stored as rich HTML (rendered as-is via
-   * Angular's auto-sanitizing [innerHTML]); the plain course description
-   * fallback still goes through the lightweight markdown conversion.
+   * Body text (the course description). Rich HTML from the editor is rendered
+   * as-is via Angular's auto-sanitizing [innerHTML]; legacy plain/markdown text
+   * still goes through the lightweight markdown conversion.
    */
   get bodyHtml(): string {
-    if (this.content?.body) return this.content.body;
-    return this.simpleMarkdownToHtml(this.course.description);
+    const raw = this.content?.body ?? this.course.description ?? '';
+    return this.looksLikeHtml(raw) ? raw : this.simpleMarkdownToHtml(raw);
+  }
+
+  private looksLikeHtml(text: string): boolean {
+    return /<[a-z][\s\S]*>/i.test(text);
   }
 
   get targetAudience(): { headline: string; body: string } | null {

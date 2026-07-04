@@ -1,21 +1,21 @@
 <div class="ed">
   <label class="ed-field">
-    <span class="ed-field__label">Titel-Override</span>
+    <span class="ed-field__label">Titel</span>
     <input
       class="ed-field__control"
       type="text"
-      [(ngModel)]="headlineOverride"
-      (ngModelChange)="emit()"
+      [(ngModel)]="title"
+      (ngModelChange)="onTitle()"
     />
   </label>
 
   <label class="ed-field">
-    <span class="ed-field__label">Sub-Headline</span>
+    <span class="ed-field__label">Catch Phrase</span>
     <input
       class="ed-field__control"
       type="text"
-      [(ngModel)]="subHeadline"
-      (ngModelChange)="emit()"
+      [(ngModel)]="catchPhrase"
+      (ngModelChange)="onCatchPhrase()"
     />
   </label>
 

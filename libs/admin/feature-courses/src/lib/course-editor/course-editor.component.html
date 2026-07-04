@@ -75,13 +75,25 @@
 
         @switch (sec) {
           @case ('hero') {
-            <admin-hero-editor [content]="detailContent().hero" (contentChange)="setSection('hero', $event)" />
+            <admin-hero-editor
+              [content]="detailContent().hero"
+              [title]="form.get('title')?.value ?? ''"
+              [catchPhrase]="form.get('catchPhrase')?.value ?? ''"
+              (contentChange)="setSection('hero', $event)"
+              (titleChange)="setBaseField('title', $event)"
+              (catchPhraseChange)="setBaseField('catchPhrase', $event)"
+            />
           }
           @case ('quickFacts') {
             <admin-quick-facts-editor [content]="detailContent().quickFacts" (contentChange)="setSection('quickFacts', $event)" />
           }
           @case ('description') {
-            <admin-description-editor [content]="detailContent().description" (contentChange)="setSection('description', $event)" />
+            <admin-description-editor
+              [content]="detailContent().description"
+              [description]="form.get('description')?.value ?? ''"
+              (contentChange)="setSection('description', $event)"
+              (descriptionChange)="setBaseField('description', $event)"
+            />
           }
           @case ('courseFlow') {
             <admin-course-flow-editor [content]="detailContent().courseFlow" (contentChange)="setSection('courseFlow', $event)" />
@@ -240,32 +252,6 @@
             <input type="checkbox" formControlName="isMarkedAsHighlighted" />
             <span>Als Highlight markieren</span>
           </label>
-        </section>
-
-        <!-- Texts (interim — moves to inline editing) -->
-        <section class="editor__group">
-          <h3 class="editor__group-title">Texte</h3>
-
-          <label class="editor__label" for="ed-title">Titel <span class="editor__req" aria-hidden="true">*</span></label>
-          <input id="ed-title" class="editor__input" formControlName="title" />
-          @if (fieldError('title', 'Titel'); as e) {
-            <span class="editor__field-error">{{ e }}</span>
-          }
-
-          <label class="editor__label" for="ed-catch">Catch Phrase</label>
-          <input id="ed-catch" class="editor__input" formControlName="catchPhrase" />
-
-          <label class="editor__label" for="ed-desc">Beschreibung <span class="editor__req" aria-hidden="true">*</span></label>
-          @if (fieldError('description', 'Beschreibung'); as e) {
-            <span class="editor__field-error">{{ e }}</span>
-          }
-          <textarea
-            id="ed-desc"
-            class="editor__input editor__textarea"
-            formControlName="description"
-            rows="6"
-            placeholder="Ausführliche Beschreibung (min. 80 Zeichen)"
-          ></textarea>
         </section>
 
         <!-- SEO -->

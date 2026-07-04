@@ -30,7 +30,11 @@ import { clean, nonEmpty } from '../shared/normalize';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DescriptionEditorComponent implements OnInit {
+  /** Base course description (rendered as the main description text). */
+  @Input() description = '';
   @Input() content: CourseDetailDescriptionContent | undefined;
+
+  @Output() readonly descriptionChange = new EventEmitter<string>();
   @Output() readonly contentChange = new EventEmitter<
     CourseDetailDescriptionContent | undefined
   >();
@@ -43,8 +47,6 @@ export class DescriptionEditorComponent implements OnInit {
   targetAudienceBody = '';
   highlights: CourseHighlight[] = [];
 
-  body = '';
-
   ngOnInit(): void {
     this.headline = this.content?.headline ?? '';
     this.imageUrl = this.content?.imageUrl ?? '';
@@ -53,12 +55,11 @@ export class DescriptionEditorComponent implements OnInit {
     this.targetAudienceHeadline = this.content?.targetAudience?.headline ?? '';
     this.targetAudienceBody = this.content?.targetAudience?.body ?? '';
     this.highlights = (this.content?.highlights ?? []).map((h) => ({ ...h }));
-    this.body = this.content?.body ?? '';
   }
 
-  onBodyChange(html: string): void {
-    this.body = html;
-    this.emit();
+  onDescriptionChange(html: string): void {
+    this.description = html;
+    this.descriptionChange.emit(html);
   }
 
   addHighlight(): void {
@@ -86,7 +87,6 @@ export class DescriptionEditorComponent implements OnInit {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
-        body: clean(this.body),
         imageUrl: clean(this.imageUrl),
         imageAlt: clean(this.imageAlt),
         imagePosition: this.imageUrl.trim() ? this.imagePosition : undefined,
