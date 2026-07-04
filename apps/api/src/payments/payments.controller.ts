@@ -40,7 +40,8 @@ export class PaymentsController {
    * Receives Stripe webhook events for payment lifecycle changes.
    *
    * Raw body is required for HMAC signature verification.
-   * Always returns 200 after processing to prevent unnecessary Stripe retries.
+   * Returns 200 once the event is processed (or was already handled), and 5xx
+   * when processing fails unexpectedly so Stripe re-delivers it for retry.
    * Signature verification is never skipped.
    */
   @Post('webhook')
@@ -78,11 +79,14 @@ export class PaymentsController {
     try {
       await this.paymentsService.handleWebhookEvent(event);
     } catch (err) {
-      // Log but still return 200 – prevents Stripe from retrying permanently failing events
       this.logger.error(
         `Error processing webhook ${event.id}: ${err}`,
         err instanceof Error ? err.stack : undefined,
       );
+      // Return 5xx so Stripe retries. The event stays FAILED (not PROCESSED)
+      // in the log, so the retry is reprocessed rather than skipped as a dupe.
+      res.status(500).json({ received: false });
+      return;
     }
 
     res.status(200).json({ received: true });
