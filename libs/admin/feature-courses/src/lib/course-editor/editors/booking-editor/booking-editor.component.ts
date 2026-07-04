@@ -28,23 +28,15 @@ export class BookingEditorComponent implements OnInit {
   ctaText = '';
   priceNote = '';
   notice = '';
-  includes: string[] = [];
+
+  // Preserved but not editable: no public section currently renders it.
+  private includes?: string[];
 
   ngOnInit(): void {
     this.ctaText = this.content?.ctaText ?? '';
     this.priceNote = this.content?.priceNote ?? '';
     this.notice = this.content?.notice ?? '';
-    this.includes = [...(this.content?.includes ?? [])];
-  }
-
-  addInclude(): void {
-    this.includes = [...this.includes, ''];
-    this.emit();
-  }
-
-  removeInclude(index: number): void {
-    this.includes = this.includes.filter((_, i) => i !== index);
-    this.emit();
+    this.includes = this.content?.includes;
   }
 
   emit(): void {
@@ -53,7 +45,7 @@ export class BookingEditorComponent implements OnInit {
         ctaText: clean(this.ctaText),
         priceNote: clean(this.priceNote),
         notice: clean(this.notice),
-        includes: this.includes.length ? [...this.includes] : undefined,
+        includes: this.includes?.length ? this.includes : undefined,
       }),
     );
   }

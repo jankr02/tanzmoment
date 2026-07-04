@@ -157,3 +157,12 @@
     <app-faq-section [course]="c" [content]="detailContent().faq" />
   </admin-editable-section>
 }
+
+<!-- 9. Booking bar (rendered inline in the editor; fixed on the live page) -->
+<admin-editable-section
+  label="Buchung"
+  [active]="activeSection() === 'booking'"
+  (edit)="editSection.emit('booking')"
+>
+  <app-sticky-booking-bar [course]="c" [content]="detailContent().booking" [preview]="true" />
+</admin-editable-section>

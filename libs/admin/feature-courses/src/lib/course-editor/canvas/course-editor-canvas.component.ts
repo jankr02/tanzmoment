@@ -19,6 +19,7 @@ import {
   InstructorSectionComponent,
   ScheduleSectionComponent,
   FaqSectionComponent,
+  StickyBookingBarComponent,
 } from '@tanzmoment/shared/course-detail-ui';
 import { CourseDetailContent } from '@tanzmoment/shared/types';
 import { EditableSectionComponent } from '../editors/shared/editable-section.component';
@@ -41,6 +42,7 @@ import { EditableSectionComponent } from '../editors/shared/editable-section.com
     InstructorSectionComponent,
     ScheduleSectionComponent,
     FaqSectionComponent,
+    StickyBookingBarComponent,
     EditableSectionComponent,
   ],
   templateUrl: './course-editor-canvas.component.html',

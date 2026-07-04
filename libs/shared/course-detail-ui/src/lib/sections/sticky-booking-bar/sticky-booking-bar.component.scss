@@ -33,6 +33,16 @@
     visibility: visible;
   }
 
+  // ─── Preview (admin editor): inline, static, always visible ───────────
+  &--preview {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+    transition: none;
+  }
+
   // ─── Fully booked state ───────────────────────────────────────────────
   &--booked {
     .sticky-booking-bar__price {

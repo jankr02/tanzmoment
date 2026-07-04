@@ -39,6 +39,8 @@ const SCROLL_THRESHOLD = 400;
 export class StickyBookingBarComponent implements OnInit, OnDestroy {
   @Input({ required: true }) course!: CourseDetailData;
   @Input() content?: CourseDetailBookingContent;
+  /** Renders the bar inline and always-visible (for the admin editor preview). */
+  @Input() preview = false;
 
   @Output() bookClick = new EventEmitter<void>();
 
@@ -70,6 +72,10 @@ export class StickyBookingBarComponent implements OnInit, OnDestroy {
   // ─── Lifecycle ──────────────────────────────────────────────────────────
 
   ngOnInit(): void {
+    if (this.preview) {
+      this.isVisible.set(true);
+      return;
+    }
     if (isPlatformBrowser(this.platformId)) {
       this.ngZone.runOutsideAngular(() => {
         this.scrollListener = () => {
