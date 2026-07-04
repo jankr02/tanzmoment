@@ -33,8 +33,8 @@ export type {
   CourseDetailSession,
   CourseDetailInstructor,
   CourseDetailTheme,
-} from './lib/types/course-detail.types';
-export { COURSE_DETAIL_THEMES } from './lib/types/course-detail.types';
+} from '@tanzmoment/shared/course-detail-ui';
+export { COURSE_DETAIL_THEMES } from '@tanzmoment/shared/course-detail-ui';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PAGE COMPONENTS

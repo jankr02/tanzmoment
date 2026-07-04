@@ -9,7 +9,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, tap, finalize } from 'rxjs';
 
-import { CourseDetailData } from '../types/course-detail.types';
+import { CourseDetailData } from '@tanzmoment/shared/course-detail-ui';
 
 @Injectable({ providedIn: 'root' })
 export class CourseDetailService {
