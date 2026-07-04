@@ -59,6 +59,7 @@
         @case ('content') {
           <admin-step-content
             [detailContent]="detailContent()"
+            [sessions]="sessions()"
             (detailContentChanged)="onDetailContentChanged($event)"
           />
         }

@@ -1,0 +1,49 @@
+<div class="field">
+  <label class="field__label">{{ label }}</label>
+
+  <div class="image-upload">
+    @if (value) {
+      <div class="image-upload__preview">
+        <img [src]="value" [alt]="label + ' Vorschau'" />
+        <button
+          type="button"
+          class="image-upload__remove"
+          (click)="removeImage()"
+          [attr.aria-label]="label + ' entfernen'"
+        >
+          &times;
+        </button>
+      </div>
+    }
+
+    <button
+      type="button"
+      class="image-upload__btn"
+      (click)="triggerUpload()"
+      [disabled]="uploading()"
+    >
+      @if (uploading()) {
+        Lädt hoch…
+      } @else if (value) {
+        Bild austauschen
+      } @else {
+        Bild hochladen
+      }
+    </button>
+
+    <input
+      #imageInput
+      type="file"
+      accept="image/png,image/jpeg,image/webp"
+      hidden
+      (change)="onImageSelected($event)"
+    />
+  </div>
+
+  @if (uploadError()) {
+    <span class="field__error">{{ uploadError() }}</span>
+  }
+  @if (hint) {
+    <span class="field__hint">{{ hint }}</span>
+  }
+</div>
