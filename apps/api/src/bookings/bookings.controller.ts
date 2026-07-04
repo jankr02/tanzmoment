@@ -148,13 +148,18 @@ export class BookingsController {
     summary: 'Verify booking payment status after the Stripe redirect',
     description:
       'Public endpoint called by the success page after returning from Stripe. ' +
-      'Returns booking status and course info by booking ID. No contact data is exposed.',
+      'Requires the Stripe Checkout Session id (session_id) as a capability so a ' +
+      'caller cannot read a stranger booking by guessing its id. No contact data is exposed.',
   })
   @ApiParam({ name: 'id', description: 'Booking ID' })
+  @ApiQuery({ name: 'session_id', description: 'Stripe Checkout Session id from the redirect' })
   @ApiResponse({ status: 200, type: BookingResponseDto })
-  @ApiResponse({ status: 404, description: 'Booking not found' })
-  async verifyPayment(@Param('id') id: string): Promise<BookingResponseDto> {
-    return this.bookingsService.verifyBookingPayment(id);
+  @ApiResponse({ status: 404, description: 'Booking not found or session_id mismatch' })
+  async verifyPayment(
+    @Param('id') id: string,
+    @Query('session_id') sessionId: string,
+  ): Promise<BookingResponseDto> {
+    return this.bookingsService.verifyBookingPayment(id, sessionId);
   }
 
   // ===========================================================================

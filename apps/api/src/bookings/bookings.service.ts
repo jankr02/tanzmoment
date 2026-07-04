@@ -328,6 +328,7 @@ export class BookingsService {
           where: { id: pendingPaymentId! },
           data: {
             stripePaymentId: checkoutResult.sessionId,
+            stripeCheckoutSessionId: checkoutResult.sessionId,
             stripeStatus: 'open',
           },
         });
@@ -862,6 +863,7 @@ export class BookingsService {
       where: { id: booking.payment.id },
       data: {
         stripePaymentId: checkoutResult.sessionId,
+        stripeCheckoutSessionId: checkoutResult.sessionId,
         stripeStatus: 'open',
         status: 'PENDING',
       },
@@ -941,7 +943,10 @@ export class BookingsService {
    * response from a narrow `select` is fail-closed — a future field added to the
    * booking model cannot leak here unless it is explicitly added below.
    */
-  async verifyBookingPayment(bookingId: string): Promise<BookingResponseDto> {
+  async verifyBookingPayment(
+    bookingId: string,
+    sessionId: string,
+  ): Promise<BookingResponseDto> {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
       select: {
@@ -967,12 +972,26 @@ export class BookingsService {
           },
         },
         payment: {
-          select: { id: true, status: true, amountInCents: true, currency: true },
+          select: {
+            id: true,
+            status: true,
+            amountInCents: true,
+            currency: true,
+            stripeCheckoutSessionId: true,
+          },
         },
       },
     });
 
-    if (!booking) {
+    // Authorize by the Stripe Checkout Session id (an unguessable per-checkout
+    // secret) rather than the guessable booking id, so a caller cannot read a
+    // stranger's booking by enumerating ids. Fail with a uniform 404 to avoid
+    // leaking whether the booking exists.
+    if (
+      !booking ||
+      !sessionId ||
+      booking.payment?.stripeCheckoutSessionId !== sessionId
+    ) {
       throw new NotFoundException('Buchung nicht gefunden.');
     }
 

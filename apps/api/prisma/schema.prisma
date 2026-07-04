@@ -300,6 +300,8 @@ model Payment {
   stripePaymentId       String?        @unique
   stripeStatus          String?
   stripeRefundId        String?        @unique
+  /** Stripe Checkout Session id – capability token for the public post-checkout verify endpoint */
+  stripeCheckoutSessionId String?
   externalTransactionId String?
 
   status                PaymentStatus  @default(PENDING)

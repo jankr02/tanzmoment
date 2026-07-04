@@ -83,8 +83,8 @@ export class BookingStore {
    * whether the payment has cleared and re-polls until it has, because the
    * Stripe webhook can arrive after the browser redirect.
    */
-  verifyPayment(bookingId: string): void {
-    this.bookingApi.verifyBookingPayment(bookingId).subscribe({
+  verifyPayment(bookingId: string, sessionId: string): void {
+    this.bookingApi.verifyBookingPayment(bookingId, sessionId).subscribe({
       next: (detail) => this._bookingDetail.set(detail),
       error: () => {
         this._error.set('Zahlungsstatus konnte nicht verifiziert werden.');

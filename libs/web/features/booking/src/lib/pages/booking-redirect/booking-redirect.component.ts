@@ -43,6 +43,7 @@ export class BookingRedirectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const bookingId = this.route.snapshot.queryParamMap.get('bookingId');
+    const sessionId = this.route.snapshot.queryParamMap.get('session_id');
     const isCancelled = this.router.url.includes('abgebrochen');
 
     if (isCancelled) {
@@ -55,7 +56,16 @@ export class BookingRedirectComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.bookingStore.verifyPayment(bookingId);
+    // session_id is the Stripe redirect capability required to verify the
+    // booking. If it is absent (e.g. a checkout started before this feature
+    // shipped) we cannot verify from here, but the webhook still confirms the
+    // booking server-side — reassure rather than show a hard error.
+    if (!sessionId) {
+      this.state.set('processing');
+      return;
+    }
+
+    this.bookingStore.verifyPayment(bookingId, sessionId);
 
     // The checkout.session.completed webhook can arrive after the browser
     // redirect, so re-poll until the payment has actually cleared rather than
@@ -74,7 +84,7 @@ export class BookingRedirectComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.bookingStore.verifyPayment(bookingId);
+      this.bookingStore.verifyPayment(bookingId, sessionId);
     }, 2000);
 
     this.timeoutId = setTimeout(() => {
