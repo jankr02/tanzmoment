@@ -102,9 +102,13 @@ export class BookingApiService {
     );
   }
 
-  verifyBookingPayment(bookingId: string): Observable<BookingDetail> {
+  verifyBookingPayment(
+    bookingId: string,
+    sessionId: string
+  ): Observable<BookingDetail> {
     return this.http.get<BookingDetail>(
-      `${this.baseUrl}/bookings/${bookingId}/verify-payment`
+      `${this.baseUrl}/bookings/${bookingId}/verify-payment`,
+      { params: { session_id: sessionId } }
     );
   }
 }

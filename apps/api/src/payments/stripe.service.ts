@@ -84,7 +84,10 @@ export class StripeService implements OnModuleInit {
         bookingId: options.bookingId,
         ...options.metadata,
       },
-      success_url: `${frontendUrl}/buchung/bezahlung-erfolgreich?bookingId=${options.bookingId}`,
+      // {CHECKOUT_SESSION_ID} is filled in by Stripe on redirect. It is an
+      // unguessable per-checkout secret the success page presents to prove it
+      // owns this booking when calling the public verify-payment endpoint.
+      success_url: `${frontendUrl}/buchung/bezahlung-erfolgreich?bookingId=${options.bookingId}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${frontendUrl}/buchung/bezahlung-abgebrochen?bookingId=${options.bookingId}`,
       expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
