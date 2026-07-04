@@ -9,12 +9,13 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CourseDetailFaqContent, FaqItem } from '@tanzmoment/shared/types';
+import { RichTextEditorComponent } from '../shared/rich-text-editor.component';
 import { clean, nonEmpty } from '../shared/normalize';
 
 @Component({
   selector: 'admin-faq-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RichTextEditorComponent],
   templateUrl: './faq-editor.component.html',
   styleUrls: ['../shared/editor-fields.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +40,11 @@ export class FaqEditorComponent implements OnInit {
 
   removeItem(index: number): void {
     this.items = this.items.filter((_, i) => i !== index);
+    this.emit();
+  }
+
+  onAnswerChange(item: FaqItem, html: string): void {
+    item.answer = html;
     this.emit();
   }
 

@@ -13,12 +13,18 @@ import {
   CourseHighlight,
 } from '@tanzmoment/shared/types';
 import { ImageUploadFieldComponent } from '../../../components/image-upload-field/image-upload-field.component';
+import { RichTextEditorComponent } from '../shared/rich-text-editor.component';
 import { clean, nonEmpty } from '../shared/normalize';
 
 @Component({
   selector: 'admin-description-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule, ImageUploadFieldComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ImageUploadFieldComponent,
+    RichTextEditorComponent,
+  ],
   templateUrl: './description-editor.component.html',
   styleUrls: ['../shared/editor-fields.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +43,7 @@ export class DescriptionEditorComponent implements OnInit {
   targetAudienceBody = '';
   highlights: CourseHighlight[] = [];
 
-  private body?: string;
+  body = '';
 
   ngOnInit(): void {
     this.headline = this.content?.headline ?? '';
@@ -47,7 +53,12 @@ export class DescriptionEditorComponent implements OnInit {
     this.targetAudienceHeadline = this.content?.targetAudience?.headline ?? '';
     this.targetAudienceBody = this.content?.targetAudience?.body ?? '';
     this.highlights = (this.content?.highlights ?? []).map((h) => ({ ...h }));
-    this.body = this.content?.body;
+    this.body = this.content?.body ?? '';
+  }
+
+  onBodyChange(html: string): void {
+    this.body = html;
+    this.emit();
   }
 
   addHighlight(): void {
@@ -74,7 +85,7 @@ export class DescriptionEditorComponent implements OnInit {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
-        body: this.body,
+        body: clean(this.body),
         imageUrl: clean(this.imageUrl),
         imageAlt: clean(this.imageAlt),
         imagePosition: this.imageUrl.trim() ? this.imagePosition : undefined,

@@ -53,13 +53,12 @@ export class FaqSectionComponent {
 
   // ─── Helpers ────────────────────────────────────────────────────────────
 
+  /**
+   * Answers are stored as rich HTML and rendered via Angular's auto-sanitizing
+   * [innerHTML] binding, so no conversion is needed here.
+   */
   toHtml(text: string): string {
-    if (!text) return '';
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n\n/g, '</p><p>')
-      .replace(/\n/g, '<br>')
-      .replace(/^(.+)$/, '<p>$1</p>');
+    return text ?? '';
   }
 
   // ─── Actions ────────────────────────────────────────────────────────────

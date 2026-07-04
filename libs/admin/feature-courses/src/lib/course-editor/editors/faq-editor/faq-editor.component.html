@@ -21,14 +21,14 @@
             (ngModelChange)="emit()"
           />
         </label>
-        <label class="ed-field">
+        <div class="ed-field">
           <span class="ed-field__label">Antwort</span>
-          <textarea
-            class="ed-field__control"
-            [(ngModel)]="item.answer"
-            (ngModelChange)="emit()"
-          ></textarea>
-        </label>
+          <admin-rich-text-editor
+            [html]="item.answer"
+            placeholder="Antwort…"
+            (htmlChange)="onAnswerChange(item, $event)"
+          />
+        </div>
       </div>
       <div class="ed-row__actions">
         <button

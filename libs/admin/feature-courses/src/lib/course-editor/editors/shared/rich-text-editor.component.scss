@@ -1,0 +1,58 @@
+@use 'tokens' as *;
+
+.rte {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.rte__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-neutral-extra-light);
+}
+
+.rte__btn {
+  min-width: 32px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface);
+  }
+
+  &--active {
+    background: var(--color-surface);
+    border-color: var(--color-primary-dark);
+  }
+}
+
+.rte__content {
+  padding: var(--space-3);
+  min-height: 120px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+
+  ::ng-deep .ProseMirror {
+    outline: none;
+    min-height: 96px;
+  }
+
+  ::ng-deep .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: var(--color-text-secondary);
+    pointer-events: none;
+    height: 0;
+  }
+}
