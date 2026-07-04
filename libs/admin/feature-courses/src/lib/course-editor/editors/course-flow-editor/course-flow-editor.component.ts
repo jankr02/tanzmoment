@@ -43,6 +43,7 @@ export class CourseFlowEditorComponent implements OnInit {
       ...this.steps,
       { phase: '', duration: '', description: '' },
     ];
+    this.emit();
   }
 
   removeStep(index: number): void {
@@ -50,14 +51,17 @@ export class CourseFlowEditorComponent implements OnInit {
     this.emit();
   }
 
+  // Emits all rows (including in-progress empty ones) so the preview updates
+  // live; empty rows are stripped centrally at save time.
   emit(): void {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
         intro: clean(this.intro),
-        steps: this.steps
-          .filter((s) => s.phase.trim() || s.description.trim())
-          .map((s) => ({ ...s, icon: s.icon?.trim() || undefined })),
+        steps: this.steps.map((s) => ({
+          ...s,
+          icon: s.icon?.trim() || undefined,
+        })),
       }),
     );
   }

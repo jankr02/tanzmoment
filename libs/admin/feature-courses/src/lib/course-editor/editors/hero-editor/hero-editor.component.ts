@@ -17,7 +17,7 @@ import { clean, nonEmpty } from '../shared/normalize';
   standalone: true,
   imports: [CommonModule, FormsModule, ImageUploadFieldComponent],
   templateUrl: './hero-editor.component.html',
-  styleUrls: ['../shared/editor-fields.scss'],
+  styleUrls: ['../shared/editor-fields.scss', './hero-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroEditorComponent implements OnInit {
@@ -31,6 +31,15 @@ export class HeroEditorComponent implements OnInit {
   imageUrl = '';
   textColorOverride = '';
 
+  /** Curated overlay-text colors that stay on-brand across hero images. */
+  readonly colorPresets: { value: string; label: string }[] = [
+    { value: '#FFFFFF', label: 'Weiß' },
+    { value: '#F2ECE3', label: 'Creme' },
+    { value: '#2E2A25', label: 'Dunkelbraun' },
+    { value: '#688B68', label: 'Brand-Grün' },
+    { value: '#D0A373', label: 'Gold' },
+  ];
+
   ngOnInit(): void {
     this.headlineOverride = this.content?.headlineOverride ?? '';
     this.subHeadline = this.content?.subHeadline ?? '';
@@ -40,6 +49,11 @@ export class HeroEditorComponent implements OnInit {
 
   onImg(url: string): void {
     this.imageUrl = url;
+    this.emit();
+  }
+
+  setColor(value: string): void {
+    this.textColorOverride = value;
     this.emit();
   }
 

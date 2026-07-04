@@ -1,8 +1,15 @@
-<div class="es" [class.es--active]="active()">
-  <div class="es__toolbar">
-    <button type="button" class="es__edit-btn" (click)="edit.emit()">
-      ✎ {{ label() }} bearbeiten
-    </button>
+<div
+  class="es"
+  [class.es--active]="active()"
+  role="button"
+  tabindex="0"
+  [attr.aria-label]="label() + ' bearbeiten'"
+  (click)="edit.emit()"
+  (keydown.enter)="edit.emit()"
+  (keydown.space)="$event.preventDefault(); edit.emit()"
+>
+  <div class="es__toolbar" aria-hidden="true">
+    <span class="es__edit-hint">✎ {{ label() }} bearbeiten</span>
   </div>
   <ng-content />
 </div>

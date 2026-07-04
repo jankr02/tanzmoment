@@ -25,14 +25,37 @@
     (valueChange)="onImg($event)"
   />
 
-  <label class="ed-field">
+  <div class="ed-field">
     <span class="ed-field__label">Textfarbe (Override)</span>
-    <input
-      class="ed-field__control"
-      type="text"
-      placeholder="#FFFFFF"
-      [(ngModel)]="textColorOverride"
-      (ngModelChange)="emit()"
-    />
-  </label>
+    <div class="ed-color">
+      <div class="ed-color__swatches">
+        <button
+          type="button"
+          class="ed-color__swatch ed-color__swatch--auto"
+          [class.ed-color__swatch--active]="!textColorOverride"
+          (click)="setColor('')"
+          aria-label="Automatisch"
+          title="Automatisch"
+        >A</button>
+        @for (c of colorPresets; track c.value) {
+          <button
+            type="button"
+            class="ed-color__swatch"
+            [class.ed-color__swatch--active]="textColorOverride.toLowerCase() === c.value.toLowerCase()"
+            [style.background-color]="c.value"
+            (click)="setColor(c.value)"
+            [attr.aria-label]="c.label"
+            [title]="c.label"
+          ></button>
+        }
+      </div>
+      <input
+        type="color"
+        class="ed-color__picker"
+        [value]="textColorOverride || '#ffffff'"
+        (input)="setColor($any($event.target).value)"
+        aria-label="Eigene Farbe wählen"
+      />
+    </div>
+  </div>
 </div>

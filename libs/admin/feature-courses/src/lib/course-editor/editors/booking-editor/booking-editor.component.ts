@@ -39,6 +39,7 @@ export class BookingEditorComponent implements OnInit {
 
   addInclude(): void {
     this.includes = [...this.includes, ''];
+    this.emit();
   }
 
   removeInclude(index: number): void {
@@ -47,13 +48,12 @@ export class BookingEditorComponent implements OnInit {
   }
 
   emit(): void {
-    const includes = this.includes.map((i) => i.trim()).filter(Boolean);
     this.contentChange.emit(
       nonEmpty({
         ctaText: clean(this.ctaText),
         priceNote: clean(this.priceNote),
         notice: clean(this.notice),
-        includes: includes.length ? includes : undefined,
+        includes: this.includes.length ? [...this.includes] : undefined,
       }),
     );
   }

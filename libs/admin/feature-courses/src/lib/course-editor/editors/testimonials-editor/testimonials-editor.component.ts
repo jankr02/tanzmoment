@@ -44,6 +44,7 @@ export class TestimonialsEditorComponent implements OnInit {
       ...this.testimonials,
       { text: '', authorName: '', rating: 5 },
     ];
+    this.emit();
   }
 
   removeTestimonial(index: number): void {
@@ -62,9 +63,10 @@ export class TestimonialsEditorComponent implements OnInit {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
-        testimonials: this.testimonials
-          .filter((t) => t.text.trim() && t.authorName.trim())
-          .map((t) => ({ ...t, imageUrl: t.imageUrl?.trim() || undefined })),
+        testimonials: this.testimonials.map((t) => ({
+          ...t,
+          imageUrl: t.imageUrl?.trim() || undefined,
+        })),
       }),
     );
   }

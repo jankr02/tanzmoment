@@ -91,6 +91,7 @@ export class QuickFactsEditorComponent implements OnInit {
 
   addCustomFact(): void {
     this.customFacts = [...this.customFacts, { icon: '', label: '', value: '' }];
+    this.emit();
   }
 
   removeCustomFact(index: number): void {
@@ -99,13 +100,11 @@ export class QuickFactsEditorComponent implements OnInit {
   }
 
   emit(): void {
-    const customFacts = this.customFacts
-      .filter((f) => f.label.trim() && f.value.trim())
-      .map((f) => ({
-        icon: f.icon?.trim() ?? '',
-        label: f.label.trim(),
-        value: f.value.trim(),
-      }));
+    const customFacts = this.customFacts.map((f) => ({
+      icon: f.icon?.trim() ?? '',
+      label: f.label,
+      value: f.value,
+    }));
     const orderChanged = this.factOrder.some(
       (t, i) => t !== this.allFactTypes[i],
     );

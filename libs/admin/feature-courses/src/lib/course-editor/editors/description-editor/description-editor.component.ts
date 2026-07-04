@@ -63,6 +63,7 @@ export class DescriptionEditorComponent implements OnInit {
 
   addHighlight(): void {
     this.highlights = [...this.highlights, { text: '' }];
+    this.emit();
   }
 
   removeHighlight(index: number): void {
@@ -90,7 +91,7 @@ export class DescriptionEditorComponent implements OnInit {
         imageAlt: clean(this.imageAlt),
         imagePosition: this.imageUrl.trim() ? this.imagePosition : undefined,
         targetAudience,
-        highlights: this.highlights.filter((h) => h.text.trim()),
+        highlights: this.highlights.map((h) => ({ ...h })),
       }),
     );
   }

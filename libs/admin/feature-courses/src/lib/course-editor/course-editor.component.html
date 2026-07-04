@@ -103,7 +103,15 @@
                 (sessionCancelled)="reloadSessions()"
               />
             } @else {
-              <p class="editor__hint">Termine können nach dem ersten Speichern angelegt werden.</p>
+              <p class="editor__hint">Termine brauchen einen gespeicherten Kurs. Speichere zuerst, dann kannst du hier Termine anlegen.</p>
+              <button
+                type="button"
+                class="editor__btn editor__btn--primary"
+                [disabled]="saving() || missingFields().length > 0"
+                (click)="save()"
+              >
+                {{ saving() ? 'Speichert…' : 'Kurs speichern & Termine anlegen' }}
+              </button>
             }
             <admin-schedule-editor [content]="detailContent().schedule" [sessions]="sessions()" (contentChange)="setSection('schedule', $event)" />
           }
@@ -146,7 +154,7 @@
         <section class="editor__group">
           <h3 class="editor__group-title">Grundlagen</h3>
 
-          <label class="editor__label">Tanzstil</label>
+          <label class="editor__label">Tanzstil <span class="editor__req" aria-hidden="true">*</span></label>
           <div class="editor__tiles">
             @for (style of danceStyles; track style.value) {
               <button
@@ -161,7 +169,7 @@
             }
           </div>
 
-          <label class="editor__label" for="ed-target">Zielgruppe</label>
+          <label class="editor__label" for="ed-target">Zielgruppe <span class="editor__req" aria-hidden="true">*</span></label>
           <select id="ed-target" class="editor__input" formControlName="targetGroup">
             <option value="" disabled>Bitte wählen</option>
             @for (tg of targetGroups; track tg) {
@@ -176,7 +184,7 @@
             }
           </select>
 
-          <label class="editor__label" for="ed-short">Kurzbeschreibung</label>
+          <label class="editor__label" for="ed-short">Kurzbeschreibung <span class="editor__req" aria-hidden="true">*</span></label>
           <textarea
             id="ed-short"
             class="editor__input editor__textarea"
@@ -195,17 +203,17 @@
             <span>Kostenloser Kurs</span>
           </label>
 
-          <label class="editor__label" for="ed-price">Preis (€)</label>
+          <label class="editor__label" for="ed-price">Preis (€) <span class="editor__req" aria-hidden="true">*</span></label>
           <input id="ed-price" class="editor__input" type="number" min="0" formControlName="priceInEuros" />
 
-          <label class="editor__label" for="ed-duration">Dauer (Min.)</label>
+          <label class="editor__label" for="ed-duration">Dauer (Min.) <span class="editor__req" aria-hidden="true">*</span></label>
           <select id="ed-duration" class="editor__input" formControlName="duration">
             @for (d of durations; track d) {
               <option [value]="d">{{ d }} Min.</option>
             }
           </select>
 
-          <label class="editor__label" for="ed-max">Max. Teilnehmer</label>
+          <label class="editor__label" for="ed-max">Max. Teilnehmer <span class="editor__req" aria-hidden="true">*</span></label>
           <input id="ed-max" class="editor__input" type="number" min="1" formControlName="maxParticipants" />
 
           <label class="editor__label" for="ed-mode">Buchungsmodus</label>
@@ -232,13 +240,13 @@
         <section class="editor__group">
           <h3 class="editor__group-title">Texte</h3>
 
-          <label class="editor__label" for="ed-title">Titel</label>
+          <label class="editor__label" for="ed-title">Titel <span class="editor__req" aria-hidden="true">*</span></label>
           <input id="ed-title" class="editor__input" formControlName="title" />
 
           <label class="editor__label" for="ed-catch">Catch Phrase</label>
           <input id="ed-catch" class="editor__input" formControlName="catchPhrase" />
 
-          <label class="editor__label" for="ed-desc">Beschreibung</label>
+          <label class="editor__label" for="ed-desc">Beschreibung <span class="editor__req" aria-hidden="true">*</span></label>
           <textarea
             id="ed-desc"
             class="editor__input editor__textarea"

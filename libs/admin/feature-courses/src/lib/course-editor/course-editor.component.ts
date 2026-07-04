@@ -23,6 +23,7 @@ import { CourseDetailContent } from '@tanzmoment/shared/types';
 import { CourseDetailData } from '@tanzmoment/shared/course-detail-ui';
 import { CourseEditorCanvasComponent } from './canvas/course-editor-canvas.component';
 import { buildCoursePreview } from './preview/build-course-preview';
+import { sanitizeDetailContent } from './editors/shared/normalize';
 import { HeroEditorComponent } from './editors/hero-editor/hero-editor.component';
 import { QuickFactsEditorComponent } from './editors/quick-facts-editor/quick-facts-editor.component';
 import { DescriptionEditorComponent } from './editors/description-editor/description-editor.component';
@@ -343,15 +344,11 @@ export class CourseEditorComponent implements OnInit {
     this.openSection(key as keyof CourseDetailContent);
   }
 
-  private hasContentData(): boolean {
-    return Object.values(this.detailContent()).some(
-      (section) => section !== undefined && section !== null,
-    );
-  }
-
   save(): void {
     if (this.saving()) return;
 
+    const cleanContent = sanitizeDetailContent(this.detailContent());
+    const hasContent = Object.keys(cleanContent).length > 0;
     const v = this.form.getRawValue();
     const payload: CreateCourseRequest = {
       title: v.title!,
@@ -372,8 +369,8 @@ export class CourseEditorComponent implements OnInit {
       metaTitle: v.metaTitle || undefined,
       metaDescription: v.metaDescription || undefined,
       cancellationPolicyId: v.cancellationPolicyId || undefined,
-      detailContent: this.hasContentData()
-        ? (this.detailContent() as Record<string, unknown>)
+      detailContent: hasContent
+        ? (cleanContent as Record<string, unknown>)
         : undefined,
     };
 

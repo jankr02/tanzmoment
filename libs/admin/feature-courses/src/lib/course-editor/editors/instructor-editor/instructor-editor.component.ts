@@ -40,6 +40,7 @@ export class InstructorEditorComponent implements OnInit {
 
   addQualification(): void {
     this.qualifications = [...this.qualifications, ''];
+    this.emit();
   }
 
   removeQualification(index: number): void {
@@ -53,14 +54,13 @@ export class InstructorEditorComponent implements OnInit {
   }
 
   emit(): void {
-    const qualifications = this.qualifications
-      .map((q) => q.trim())
-      .filter(Boolean);
     this.contentChange.emit(
       nonEmpty({
         bioOverride: clean(this.bioOverride),
         quote: clean(this.quote),
-        qualifications: qualifications.length ? qualifications : undefined,
+        qualifications: this.qualifications.length
+          ? [...this.qualifications]
+          : undefined,
         imageOverride: clean(this.imageOverride),
       }),
     );

@@ -6,12 +6,17 @@
 
 .es {
   position: relative;
+  cursor: pointer;
   outline: 2px solid transparent;
   outline-offset: -2px;
   transition: outline-color 150ms cubic-bezier(0.2, 0.7, 0.2, 1);
 
   &:hover {
     outline-color: var(--color-soft-accent);
+  }
+
+  &:focus-visible {
+    outline-color: var(--color-primary-dark);
   }
 
   &--active {
@@ -35,30 +40,19 @@
   }
 }
 
-.es__edit-btn {
+.es__edit-hint {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-1) var(--space-3);
   min-height: 32px;
-  border: none;
   border-radius: var(--radius-sm);
   background: var(--color-primary-dark);
   color: #fff;
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: var(--font-weight-medium);
-  cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    filter: brightness(1.05);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-secondary);
-    outline-offset: 2px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -36,6 +36,7 @@ export class FaqEditorComponent implements OnInit {
 
   addItem(): void {
     this.items = [...this.items, { question: '', answer: '' }];
+    this.emit();
   }
 
   removeItem(index: number): void {
@@ -52,7 +53,7 @@ export class FaqEditorComponent implements OnInit {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
-        items: this.items.filter((f) => f.question.trim() && f.answer.trim()),
+        items: [...this.items],
       }),
     );
   }
