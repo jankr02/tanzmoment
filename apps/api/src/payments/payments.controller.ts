@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiExcludeEndpoint,
 } from '@nestjs/swagger';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import { Request, Response } from 'express';
 import { StripeService } from './stripe.service';
 import { PaymentsService } from './payments.service';
@@ -45,6 +46,7 @@ export class PaymentsController {
    * Signature verification is never skipped.
    */
   @Post('webhook')
+  @SkipThrottle() // Stripe delivers event bursts and retries; throttling would drop payment events
   @HttpCode(HttpStatus.OK)
   @ApiExcludeEndpoint()
   async handleWebhook(
@@ -97,6 +99,7 @@ export class PaymentsController {
   // ===========================================================================
 
   @Get('verify-checkout')
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // hits the Stripe API; cap public abuse
   @ApiOperation({
     summary: 'Verify a checkout session (for success page)',
     description:

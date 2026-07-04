@@ -19,6 +19,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 import { EmailConfig } from '../config/email.config';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -37,6 +38,7 @@ export class NewsletterController {
   ) {}
 
   @Post('subscribe')
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiOperation({ summary: 'Newsletter abonnieren (Double-Opt-In)' })
   @ApiResponse({ status: 202, type: SubscriberStatusDto })

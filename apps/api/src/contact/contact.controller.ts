@@ -8,6 +8,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { ContactService } from './contact.service';
 import { ContactFormDto } from './dto/contact-form.dto';
 import { ContactResponseDto } from './dto/contact-response.dto';
@@ -44,6 +45,7 @@ export class ContactController {
    * @returns Success-Response mit Bestätigungsnachricht
    */
   @Post()
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
   @HttpCode(HttpStatus.OK) // Explizit 200 statt 201, weil wir nichts "erstellen"
   @ApiOperation({
     summary: 'Kontaktformular absenden',
