@@ -1,0 +1,191 @@
+<div class="editor">
+  <!-- ─── Top bar ─────────────────────────────────────────────────────── -->
+  <header class="editor__bar">
+    <div class="editor__bar-left">
+      <button type="button" class="editor__icon-btn" (click)="navigateBack()" aria-label="Zurück zur Kursliste">
+        ←
+      </button>
+      <div class="editor__title">
+        <span class="editor__title-text">{{ form.get('title')?.value || 'Neuer Kurs' }}</span>
+        @if (isEditMode()) {
+          <span class="editor__badge" [class.editor__badge--live]="isPublished()">
+            {{ isPublished() ? 'Veröffentlicht' : 'Entwurf' }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <div class="editor__bar-right">
+      @if (error()) {
+        <span class="editor__error" role="alert">{{ error() }}</span>
+      }
+      @if (isEditMode()) {
+        <button
+          type="button"
+          class="editor__btn editor__btn--ghost"
+          [disabled]="publishing()"
+          (click)="togglePublish()"
+        >
+          {{ isPublished() ? 'Verbergen' : 'Veröffentlichen' }}
+        </button>
+      }
+      <button
+        type="button"
+        class="editor__btn editor__btn--primary"
+        [disabled]="saving() || form.invalid"
+        (click)="save()"
+      >
+        {{ saving() ? 'Speichert…' : 'Speichern' }}
+      </button>
+      <button
+        type="button"
+        class="editor__icon-btn"
+        (click)="toggleDrawer()"
+        [attr.aria-pressed]="drawerOpen()"
+        aria-label="Einstellungen umschalten"
+      >
+        ⚙
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── Body ────────────────────────────────────────────────────────── -->
+  <div class="editor__body" [class.editor__body--drawer-open]="drawerOpen()">
+    <main class="editor__canvas-wrap">
+      @if (loading()) {
+        <div class="editor__loading" aria-live="polite" aria-busy="true">Kurs wird geladen…</div>
+      } @else {
+        <admin-course-editor-canvas [course]="preview()" />
+      }
+    </main>
+
+    <!-- ─── Config drawer ─────────────────────────────────────────────── -->
+    @if (drawerOpen()) {
+      <aside class="editor__drawer" [formGroup]="form" aria-label="Kurs-Einstellungen">
+        <h2 class="editor__drawer-title">Einstellungen</h2>
+
+        <!-- Basics -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Grundlagen</h3>
+
+          <label class="editor__label">Tanzstil</label>
+          <div class="editor__tiles">
+            @for (style of danceStyles; track style.value) {
+              <button
+                type="button"
+                class="editor__tile"
+                [class.editor__tile--active]="form.get('danceStyle')?.value === style.value"
+                [style.background-color]="style.color"
+                (click)="selectDanceStyle(style.value)"
+              >
+                {{ style.label }}
+              </button>
+            }
+          </div>
+
+          <label class="editor__label" for="ed-target">Zielgruppe</label>
+          <select id="ed-target" class="editor__input" formControlName="targetGroup">
+            <option value="" disabled>Bitte wählen</option>
+            @for (tg of targetGroups; track tg) {
+              <option [value]="tg">{{ tg }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-level">Level</label>
+          <select id="ed-level" class="editor__input" formControlName="level">
+            @for (lv of levels; track lv.value) {
+              <option [value]="lv.value">{{ lv.label }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-short">Kurzbeschreibung</label>
+          <textarea
+            id="ed-short"
+            class="editor__input editor__textarea"
+            formControlName="shortDescription"
+            rows="3"
+            placeholder="Kurze Zusammenfassung (30–500 Zeichen)"
+          ></textarea>
+        </section>
+
+        <!-- Settings -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Preis & Buchung</h3>
+
+          <label class="editor__toggle">
+            <input type="checkbox" formControlName="isFree" (change)="onFreeToggle()" />
+            <span>Kostenloser Kurs</span>
+          </label>
+
+          <label class="editor__label" for="ed-price">Preis (€)</label>
+          <input id="ed-price" class="editor__input" type="number" min="0" formControlName="priceInEuros" />
+
+          <label class="editor__label" for="ed-duration">Dauer (Min.)</label>
+          <select id="ed-duration" class="editor__input" formControlName="duration">
+            @for (d of durations; track d) {
+              <option [value]="d">{{ d }} Min.</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-max">Max. Teilnehmer</label>
+          <input id="ed-max" class="editor__input" type="number" min="1" formControlName="maxParticipants" />
+
+          <label class="editor__label" for="ed-mode">Buchungsmodus</label>
+          <select id="ed-mode" class="editor__input" formControlName="bookingMode">
+            @for (bm of bookingModes; track bm.value) {
+              <option [value]="bm.value">{{ bm.label }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-vis">Sichtbarkeit</label>
+          <select id="ed-vis" class="editor__input" formControlName="visibility">
+            @for (vo of visibilityOptions; track vo.value) {
+              <option [value]="vo.value">{{ vo.label }}</option>
+            }
+          </select>
+
+          <label class="editor__toggle">
+            <input type="checkbox" formControlName="isMarkedAsHighlighted" />
+            <span>Als Highlight markieren</span>
+          </label>
+        </section>
+
+        <!-- Texts (interim — moves to inline editing) -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Texte</h3>
+
+          <label class="editor__label" for="ed-title">Titel</label>
+          <input id="ed-title" class="editor__input" formControlName="title" />
+
+          <label class="editor__label" for="ed-catch">Catch Phrase</label>
+          <input id="ed-catch" class="editor__input" formControlName="catchPhrase" />
+
+          <label class="editor__label" for="ed-desc">Beschreibung</label>
+          <textarea
+            id="ed-desc"
+            class="editor__input editor__textarea"
+            formControlName="description"
+            rows="6"
+            placeholder="Ausführliche Beschreibung (min. 80 Zeichen)"
+          ></textarea>
+        </section>
+
+        <!-- SEO -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">SEO</h3>
+
+          <label class="editor__label" for="ed-meta-title">Meta-Titel</label>
+          <input id="ed-meta-title" class="editor__input" formControlName="metaTitle" />
+
+          <label class="editor__label" for="ed-meta-desc">Meta-Beschreibung</label>
+          <textarea
+            id="ed-meta-desc"
+            class="editor__input editor__textarea"
+            formControlName="metaDescription"
+            rows="3"
+          ></textarea>
+        </section>
+      </aside>
+    }
+  </div>
+</div>

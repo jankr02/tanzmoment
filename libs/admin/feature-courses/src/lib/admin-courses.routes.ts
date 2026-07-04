@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 import { CourseListComponent } from './components/course-list/course-list.component';
-import { CourseFormComponent } from './components/course-form/course-form.component';
+import { CourseEditorComponent } from './course-editor/course-editor.component';
 
 export const adminCoursesRoutes: Route[] = [
   { path: '', component: CourseListComponent },
-  { path: 'neu', component: CourseFormComponent },
-  { path: ':id', component: CourseFormComponent },
+  { path: 'neu', component: CourseEditorComponent },
+  { path: ':id', component: CourseEditorComponent },
 ];

@@ -1,0 +1,110 @@
+<!-- Live preview canvas: mirrors the public course detail section order + waves. -->
+@let c = course();
+
+<!-- 1. Hero -->
+<app-detail-hero [course]="c" [content]="detailContent().hero" />
+
+<!-- 2. Quick Facts -->
+<app-quick-facts [course]="c" [content]="detailContent().quickFacts" />
+
+<!-- Wave: Quick Facts → Description -->
+<div class="canvas__wave" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path
+      d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+      fill="var(--detail-section-bg)"
+    />
+  </svg>
+</div>
+
+<!-- 3. Description -->
+<app-course-description [course]="c" [content]="detailContent().description" />
+
+<!-- 4. Course Flow -->
+@if (detailContent().courseFlow?.steps?.length) {
+  <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+
+  <app-course-flow [course]="c" [content]="detailContent().courseFlow" />
+}
+
+<!-- 5. Testimonials -->
+@if (detailContent().socialProof?.testimonials?.length) {
+  @if (showTestimonialsWave()) {
+    <div class="canvas__wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--detail-section-bg)"
+        />
+      </svg>
+    </div>
+  }
+
+  <app-testimonials-section [course]="c" [content]="detailContent().socialProof" />
+}
+
+<!-- 6. Instructor -->
+@if (instructor(); as instr) {
+  @if (showInstructorWave()) {
+    <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--color-surface)"
+        />
+      </svg>
+    </div>
+  }
+
+  <app-instructor-section [instructor]="instr" [content]="detailContent().instructor" />
+
+  <div class="canvas__wave canvas__wave--inverted" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+}
+
+@if (needsPreScheduleWave()) {
+  <div class="canvas__wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--detail-section-bg)"
+      />
+    </svg>
+  </div>
+}
+
+<!-- 7. Schedule -->
+<section id="canvas-schedule-section">
+  <app-schedule-section
+    [sessions]="sessions()"
+    [course]="c"
+    [content]="detailContent().schedule"
+  />
+</section>
+
+<!-- 8. FAQ -->
+@if (detailContent().faq?.items?.length) {
+  <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+
+  <app-faq-section [course]="c" [content]="detailContent().faq" />
+}
