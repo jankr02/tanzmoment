@@ -59,3 +59,27 @@
     }
   }
 }
+
+// Shared field wrapper styles (previously provided by the wizard's step-basics
+// stylesheet, inlined here after the wizard was removed).
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary, #2e2a25);
+  }
+
+  &__hint {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #5e5a55);
+  }
+
+  &__error {
+    font-size: 0.8125rem;
+    color: #dc2626;
+  }
+}

@@ -17,10 +17,7 @@ import { AdminApiService } from '@tanzmoment/admin/data-access';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './image-upload-field.component.html',
-  styleUrls: [
-    '../course-form-steps/step-basics.component.scss',
-    './image-upload-field.component.scss',
-  ],
+  styleUrls: ['./image-upload-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageUploadFieldComponent {

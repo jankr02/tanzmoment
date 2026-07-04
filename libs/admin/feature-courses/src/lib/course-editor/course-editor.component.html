@@ -32,7 +32,8 @@
       <button
         type="button"
         class="editor__btn editor__btn--primary"
-        [disabled]="saving() || form.invalid"
+        [disabled]="saving() || missingFields().length > 0"
+        [title]="missingFields().length ? 'Pflichtfelder fehlen: ' + missingFields().join(', ') : ''"
         (click)="save()"
       >
         {{ saving() ? 'Speichert…' : 'Speichern' }}
@@ -92,6 +93,18 @@
             <admin-instructor-editor [content]="detailContent().instructor" (contentChange)="setSection('instructor', $event)" />
           }
           @case ('schedule') {
+            @if (isEditMode()) {
+              <admin-step-sessions
+                [courseId]="courseId()!"
+                [sessions]="sessions()"
+                [locations]="locations()"
+                [courseDuration]="form.get('duration')?.value ?? 90"
+                (sessionCreated)="reloadSessions()"
+                (sessionCancelled)="reloadSessions()"
+              />
+            } @else {
+              <p class="editor__hint">Termine können nach dem ersten Speichern angelegt werden.</p>
+            }
             <admin-schedule-editor [content]="detailContent().schedule" [sessions]="sessions()" (contentChange)="setSection('schedule', $event)" />
           }
           @case ('faq') {
@@ -103,6 +116,17 @@
         }
       } @else {
         <h2 class="editor__drawer-title">Bearbeiten</h2>
+
+        @if (missingFields().length) {
+          <div class="editor__missing" role="status">
+            <strong>Pflichtfelder fehlen</strong>
+            <ul>
+              @for (f of missingFields(); track f) {
+                <li>{{ f }}</li>
+              }
+            </ul>
+          </div>
+        }
 
         <!-- Content section list -->
         <section class="editor__group">

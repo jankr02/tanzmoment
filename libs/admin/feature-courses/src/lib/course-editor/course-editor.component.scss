@@ -171,6 +171,27 @@
   }
 }
 
+.editor__missing {
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid rgba(179, 38, 30, 0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(179, 38, 30, 0.06);
+  color: #b3261e;
+  font-size: 0.85rem;
+
+  ul {
+    margin: var(--space-1) 0 0;
+    padding-left: var(--space-4);
+  }
+}
+
+.editor__hint {
+  margin: 0 0 var(--space-3);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
 .editor__section-list {
   display: flex;
   flex-direction: column;

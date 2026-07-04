@@ -29,6 +29,7 @@ import { ScheduleEditorComponent } from './editors/schedule-editor/schedule-edit
 import { TestimonialsEditorComponent } from './editors/testimonials-editor/testimonials-editor.component';
 import { FaqEditorComponent } from './editors/faq-editor/faq-editor.component';
 import { BookingEditorComponent } from './editors/booking-editor/booking-editor.component';
+import { StepSessionsComponent } from '../components/course-form-steps/step-sessions.component';
 
 interface DanceStyleOption {
   value: string;
@@ -57,6 +58,7 @@ interface ContentSectionDef {
     TestimonialsEditorComponent,
     FaqEditorComponent,
     BookingEditorComponent,
+    StepSessionsComponent,
   ],
   templateUrl: './course-editor.component.html',
   styleUrls: ['./course-editor.component.scss'],
@@ -198,6 +200,25 @@ export class CourseEditorComponent implements OnInit {
       sessions: this.sessions(),
       instructor: this.previewInstructor(),
     });
+  });
+
+  /** Required fields still missing a valid value, as human labels. */
+  readonly missingFields = computed<string[]>(() => {
+    this.formValue();
+    const c = this.form.controls;
+    const missing: string[] = [];
+    if (c.title.invalid) missing.push('Titel');
+    if (c.danceStyle.invalid) missing.push('Tanzstil');
+    if (c.targetGroup.invalid) missing.push('Zielgruppe');
+    if (c.shortDescription.invalid) missing.push('Kurzbeschreibung');
+    if (c.description.invalid) missing.push('Beschreibung');
+    const isFree = c.isFree.value === true;
+    if (!isFree && (c.priceInEuros.invalid || (c.priceInEuros.value ?? 0) <= 0)) {
+      missing.push('Preis');
+    }
+    if (c.duration.invalid) missing.push('Dauer');
+    if (c.maxParticipants.invalid) missing.push('Max. Teilnehmer');
+    return missing;
   });
 
   ngOnInit(): void {
@@ -385,6 +406,14 @@ export class CourseEditorComponent implements OnInit {
         this.publishing.set(false);
       },
       error: () => this.publishing.set(false),
+    });
+  }
+
+  reloadSessions(): void {
+    const id = this.courseId();
+    if (!id) return;
+    this.adminApi.getCourse(id).subscribe({
+      next: (course) => this.sessions.set(course.sessions),
     });
   }
 
