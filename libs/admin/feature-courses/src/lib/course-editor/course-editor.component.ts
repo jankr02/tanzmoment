@@ -4,8 +4,11 @@ import {
   inject,
   signal,
   computed,
+  DestroyRef,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { merge } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -69,6 +72,7 @@ export class CourseEditorComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly courseId = signal<string | null>(null);
   readonly isEditMode = computed(() => !!this.courseId());
@@ -222,9 +226,11 @@ export class CourseEditorComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe(() =>
-      this.formValue.set(this.form.getRawValue()),
-    );
+    // Snapshot on value AND status changes so the preview and required-field
+    // summary react to enable()/disable() (e.g. the free/price toggle) too.
+    merge(this.form.valueChanges, this.form.statusChanges)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.formValue.set(this.form.getRawValue()));
 
     this.adminApi.getLocations().subscribe({
       next: (locs) => this.locations.set(locs),
@@ -383,10 +389,12 @@ export class CourseEditorComponent implements OnInit {
         this.saving.set(false);
         if (!this.isEditMode()) {
           this.courseId.set(result.id);
-          this.previewInstructor.set(result.instructor);
           this.router.navigate(['/admin', 'courses', result.id], {
             replaceUrl: true,
           });
+          // Re-fetch so sessions, instructor, slug and any server-normalized
+          // content reflect the persisted state before further editing.
+          this.loadCourse(result.id);
         }
       },
       error: () => {
