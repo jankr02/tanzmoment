@@ -111,30 +111,32 @@
 
   <h2 id="cookies">5. Cookies &amp; lokale Speicherung</h2>
   <p>
-    Wir verwenden ausschließlich <strong>technisch notwendige Cookies</strong>.
-    Es gibt keine Tracking-, Analyse- oder Werbe-Cookies und keine Cookies von
-    Drittanbietern. Eine Einwilligung ist für die eingesetzten Cookies nicht
+    Unsere Website setzt selbst ausschließlich
+    <strong>technisch notwendige Cookies</strong> – keine Tracking-, Analyse-
+    oder Werbe-Cookies. Eine Einwilligung ist für diese Cookies nicht
     erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); die Verarbeitung beruht auf
-    Art. 6 Abs. 1 lit. f DSGVO.
+    Art. 6 Abs. 1 lit. f DSGVO. Lediglich die auf der Kontaktseite
+    eingebundene Google-Maps-Karte kann eigene Cookies von Google setzen
+    (siehe Abschnitt 12).
   </p>
   <h3>Eingesetzte Cookies</h3>
   <ul>
     <li>
       <strong>access_token</strong> – hält deine Anmeldung im Kundenkonto
       aufrecht. HttpOnly (für Skripte im Browser nicht auslesbar), Laufzeit
-      15 Minuten.
+      derzeit 15 Minuten.
     </li>
     <li>
       <strong>refresh_token</strong> – verlängert deine Sitzung automatisch,
       ohne dass du dich neu einloggen musst. HttpOnly, wird nur an die
-      Anmelde-Endpunkte unseres Servers gesendet, Laufzeit 30 Tage. Beim
+      Anmelde-Endpunkte unseres Servers gesendet, Laufzeit derzeit 30 Tage. Beim
       Logout, bei einer Passwort-Änderung und bei der Konto-Löschung wird die
       Sitzung serverseitig ungültig gemacht.
     </li>
     <li>
       <strong>XSRF-TOKEN</strong> – ein Zufallswert zum Schutz vor
-      Cross-Site-Request-Forgery-Angriffen, Laufzeit 30 Tage. Er enthält keine
-      personenbezogenen Daten.
+      Cross-Site-Request-Forgery-Angriffen, Laufzeit derzeit 30 Tage. Er
+      enthält keine personenbezogenen Daten.
     </li>
   </ul>
   <h3>Lokale Speicherung im Browser</h3>
@@ -283,7 +285,9 @@
     Der Versand erfolgt über:
     <span class="legal-placeholder">[PLATZHALTER: Name &amp; Anschrift des E-Mail-/SMTP-Dienstleisters]</span>.
     Mit dem Anbieter besteht ein Auftragsverarbeitungsvertrag nach Art. 28
-    DSGVO.
+    DSGVO. Sofern der Anbieter personenbezogene Daten außerhalb der EU bzw.
+    des EWR verarbeitet, erfolgt die Übermittlung auf Basis der
+    EU-Standardvertragsklauseln oder des EU-US Data Privacy Framework.
   </p>
 
   <h2 id="email">11. Transaktionale E-Mails</h2>
@@ -317,7 +321,7 @@
     Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
     einer verständlichen Anfahrtsbeschreibung). Wenn du das nicht möchtest,
     kannst du die Kontaktseite meiden – unsere Adresse findest du auch im
-    <a href="/impressum">Impressum</a>. Weitere Informationen:
+    <a routerLink="/impressum">Impressum</a>. Weitere Informationen:
     <a
       href="https://policies.google.com/privacy"
       target="_blank"
@@ -396,8 +400,14 @@
     </li>
     <li>
       <strong>E-Mail-Versandwarteschlange:</strong> Daten zu versendeten
-      E-Mails werden in unserer internen Warteschlange spätestens nach 30
-      Tagen automatisch entfernt.
+      E-Mails werden in unserer internen Warteschlange nur vorübergehend
+      gespeichert und automatisch entfernt (buchungsbezogene E-Mails
+      spätestens nach 30 Tagen).
+    </li>
+    <li>
+      <strong>Server-Logfiles:</strong> werden nach spätestens
+      <span class="legal-placeholder">[PLATZHALTER: 30/60/90]</span> Tagen
+      gelöscht oder anonymisiert (siehe Abschnitt 4).
     </li>
     <li>
       <strong>Newsletter:</strong> Deine Daten werden bis zum Widerruf deiner

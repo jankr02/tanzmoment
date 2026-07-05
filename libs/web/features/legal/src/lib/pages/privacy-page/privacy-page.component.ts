@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { SeoService } from '@tanzmoment/shared/services';
 
@@ -7,7 +8,7 @@ import { LegalShellComponent } from '../../components/legal-shell/legal-shell.co
 @Component({
   selector: 'tm-privacy-page',
   standalone: true,
-  imports: [LegalShellComponent],
+  imports: [LegalShellComponent, RouterLink],
   templateUrl: './privacy-page.component.html',
   styleUrl: './privacy-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
