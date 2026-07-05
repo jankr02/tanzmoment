@@ -46,6 +46,30 @@
   ::ng-deep .ProseMirror {
     outline: none;
     min-height: 96px;
+
+    // The global base reset strips list-style + padding from ul/ol; restore it
+    // inside the editor so bullet / ordered lists are actually visible.
+    ul,
+    ol {
+      padding-left: 1.5em;
+      margin: 0 0 var(--space-2);
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    li {
+      margin: 0.15em 0;
+
+      > p {
+        margin: 0;
+      }
+    }
   }
 
   ::ng-deep .ProseMirror p.is-editor-empty:first-child::before {

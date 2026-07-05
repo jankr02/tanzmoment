@@ -146,6 +146,29 @@
       color: var(--color-text-primary);
       font-weight: 700;
     }
+
+    // Restore list markers stripped by the global base reset (rich-text body).
+    ul,
+    ol {
+      padding-left: 1.5em;
+      margin: 0 0 var(--space-4);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    li {
+      margin: 0.25em 0;
+    }
   }
 
   // ─── "What you learn" callout ─────────────────────────────────────────
