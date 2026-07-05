@@ -10,7 +10,6 @@ import {
   Input,
   ChangeDetectionStrategy,
   signal,
-  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -37,12 +36,17 @@ export class DetailHeroComponent {
   @Input({ required: true }) course!: CourseDetailData;
   @Input() content?: CourseDetailHeroContent;
 
-  readonly imageError = signal(false);
+  // Tracks the specific URL that failed to load, so a newly provided image
+  // is retried instead of being stuck behind a sticky error flag.
+  private readonly erroredUrl = signal<string | null>(null);
 
-  readonly showPlaceholder = computed(() => {
-    const hasImage = this.content?.imageUrl || this.course?.imageUrl;
-    return !hasImage || this.imageError();
-  });
+  // A method (not a computed) because it depends on the plain `content`/`course`
+  // @Inputs, which are not signals — it must re-evaluate on every change detection.
+  showPlaceholder(): boolean {
+    const url = this.imageUrl;
+    if (!url) return true;
+    return this.erroredUrl() === url;
+  }
 
   get headline(): string {
     return this.content?.headlineOverride ?? this.course.title;
@@ -70,10 +74,10 @@ export class DetailHeroComponent {
     return styleMap[this.course.danceStyle] ?? this.course.danceStyle;
   }
 
-  readonly danceStyleColors = computed(() => {
+  danceStyleColors(): (typeof DANCE_STYLE_COLOR_SCHEMES)[DanceStyleId] {
     const style = this.course?.danceStyle as DanceStyleId;
     return DANCE_STYLE_COLOR_SCHEMES[style] ?? DANCE_STYLE_COLOR_SCHEMES.expressive;
-  });
+  }
 
   get textColor(): string {
     if (this.showPlaceholder()) return this.danceStyleColors().buttonBg ?? '#2E2A25';
@@ -91,6 +95,6 @@ export class DetailHeroComponent {
   }
 
   onImageError(): void {
-    this.imageError.set(true);
+    this.erroredUrl.set(this.imageUrl);
   }
 }
