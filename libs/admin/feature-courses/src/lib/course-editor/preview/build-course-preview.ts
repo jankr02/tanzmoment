@@ -122,9 +122,8 @@ export function buildCoursePreview(input: CoursePreviewInput): CourseDetailData 
       id: instructor?.id ?? 'preview-instructor',
       firstName: instructor?.firstName ?? '',
       lastName: instructor?.lastName ?? '',
-      bio: instructorContent?.bioOverride,
       imageUrl: instructorContent?.imageOverride,
-      expertise: instructorContent?.qualifications ?? [],
+      expertise: [],
     },
     sessions: mappedSessions,
 

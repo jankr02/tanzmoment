@@ -49,6 +49,8 @@
   padding: 22px 22px 34px;
   box-shadow: var(--poster-shadow-card);
   transition: transform var(--transition-slow);
+  // Break long unbroken names/quotes instead of overflowing the fixed card.
+  overflow-wrap: break-word;
 
   &:hover {
     transform: translateY(-5px);

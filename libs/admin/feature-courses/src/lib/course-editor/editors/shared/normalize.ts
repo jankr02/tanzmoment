@@ -67,16 +67,6 @@ export function sanitizeDetailContent(
     });
   }
 
-  if (out.instructor) {
-    const qualifications = (out.instructor.qualifications ?? [])
-      .map((q) => q.trim())
-      .filter(Boolean);
-    out.instructor = nonEmpty({
-      ...out.instructor,
-      qualifications: qualifications.length ? qualifications : undefined,
-    });
-  }
-
   if (out.socialProof) {
     const testimonials = (out.socialProof.testimonials ?? []).filter(
       (t) => t.text.trim() && t.authorName.trim(),
