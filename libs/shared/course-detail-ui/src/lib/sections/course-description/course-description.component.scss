@@ -18,6 +18,9 @@
   padding: clamp(48px, 6vw, 96px) clamp(20px, 5vw, 72px);
   font-family: var(--font-body);
   color: var(--color-text-secondary);
+  // Break very long unbroken strings (e.g. pasted URLs, "aaaa…") instead of
+  // letting them overflow the viewport. overflow-wrap inherits to all text.
+  overflow-wrap: break-word;
 
   // ─── Container ────────────────────────────────────────────────────────
 
