@@ -26,26 +26,16 @@ export class InstructorEditorComponent implements OnInit {
     CourseDetailInstructorContent | undefined
   >();
 
-  bioOverride = '';
+  role = '';
   quote = '';
-  qualifications: string[] = [];
+  photoCredit = '';
   imageOverride = '';
 
   ngOnInit(): void {
-    this.bioOverride = this.content?.bioOverride ?? '';
+    this.role = this.content?.role ?? '';
     this.quote = this.content?.quote ?? '';
-    this.qualifications = [...(this.content?.qualifications ?? [])];
+    this.photoCredit = this.content?.photoCredit ?? '';
     this.imageOverride = this.content?.imageOverride ?? '';
-  }
-
-  addQualification(): void {
-    this.qualifications = [...this.qualifications, ''];
-    this.emit();
-  }
-
-  removeQualification(index: number): void {
-    this.qualifications = this.qualifications.filter((_, i) => i !== index);
-    this.emit();
   }
 
   onImg(url: string): void {
@@ -56,11 +46,9 @@ export class InstructorEditorComponent implements OnInit {
   emit(): void {
     this.contentChange.emit(
       nonEmpty({
-        bioOverride: clean(this.bioOverride),
+        role: clean(this.role),
         quote: clean(this.quote),
-        qualifications: this.qualifications.length
-          ? [...this.qualifications]
-          : undefined,
+        photoCredit: clean(this.photoCredit),
         imageOverride: clean(this.imageOverride),
       }),
     );

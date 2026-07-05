@@ -1,12 +1,21 @@
 <div class="ed">
   <label class="ed-field">
-    <span class="ed-field__label">Überschrift</span>
+    <span class="ed-field__label">Überschrift (Fallback: Kurstitel)</span>
     <input
       class="ed-field__control"
       type="text"
       [(ngModel)]="headline"
       (ngModelChange)="emit()"
     />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Lead (hervorgehobener Einstieg)</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="lead"
+      (ngModelChange)="emit()"
+    ></textarea>
   </label>
 
   <div class="ed-field">
@@ -18,32 +27,13 @@
     />
   </div>
 
-  <admin-image-upload-field
-    [value]="imageUrl"
-    label="Bild (Beschreibung)"
-    (valueChange)="onImg($event)"
-  />
-
   <label class="ed-field">
-    <span class="ed-field__label">Bild-Alt-Text</span>
-    <input
+    <span class="ed-field__label">Was wir lernen (Callout)</span>
+    <textarea
       class="ed-field__control"
-      type="text"
-      [(ngModel)]="imageAlt"
+      [(ngModel)]="whatYouLearn"
       (ngModelChange)="emit()"
-    />
-  </label>
-
-  <label class="ed-field">
-    <span class="ed-field__label">Bildposition</span>
-    <select
-      class="ed-field__control"
-      [(ngModel)]="imagePosition"
-      (ngModelChange)="emit()"
-    >
-      <option value="left">Links</option>
-      <option value="right">Rechts</option>
-    </select>
+    ></textarea>
   </label>
 
   <p class="ed__subtitle">Zielgruppe</p>
@@ -95,4 +85,13 @@
   <button type="button" class="ed-btn ed-btn--add" (click)="addHighlight()">
     + Highlight
   </button>
+
+  <label class="ed-toggle">
+    <input
+      type="checkbox"
+      [(ngModel)]="showWatermark"
+      (ngModelChange)="emit()"
+    />
+    <span>Illustration im Highlights-Panel anzeigen</span>
+  </label>
 </div>

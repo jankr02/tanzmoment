@@ -1,62 +1,127 @@
-<section class="course-description" aria-label="Course description">
-  <!-- Decorative blobs -->
-  <tm-decorative-blob variant="organic-1" position="top-left" [size]="350" [opacity]="0.06" />
-  <tm-decorative-blob variant="organic-3" position="bottom-right" [size]="280" [opacity]="0.05" />
-
+<section class="course-description" aria-label="Kursbeschreibung">
   <div class="course-description__container">
 
-    <!-- Split layout: text (60%) + optional image (40%) -->
-    <div
-      class="course-description__split"
-      [class.course-description__split--image-left]="imagePosition === 'left'"
-    >
+    <!-- Header -->
+    <header class="course-description__header">
+      <span class="course-description__eyebrow">
+        <span class="course-description__eyebrow-dash" aria-hidden="true"></span>
+        Kursbeschreibung
+      </span>
 
-      <!-- Text column -->
-      <div class="course-description__text">
-        <h2 class="course-description__headline">{{ headline }}</h2>
+      <h2 class="course-description__title">{{ title }}</h2>
 
-        <div
-          class="course-description__body"
-          [innerHTML]="bodyHtml"
-        ></div>
+      <svg
+        class="course-description__underline"
+        width="230"
+        height="15"
+        viewBox="0 0 230 15"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M3 9 C 45 2 78 13 118 7.5 S 195 2 227 9"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </svg>
+    </header>
 
-        <!-- Target Audience (optional) -->
-        @if (targetAudience; as ta) {
-          <div class="course-description__target">
-            <h3 class="course-description__target-headline">{{ ta.headline }}</h3>
-            <div
-              class="course-description__target-body"
-              [innerHTML]="ta.body"
-            ></div>
-          </div>
-        }
+    <!-- Lead + Body -->
+    @if (leadHtml || bodyHtml) {
+      <div class="course-description__lead-row">
+        <span class="course-description__accent-bar" aria-hidden="true"></span>
+        <div class="course-description__lead-col">
+          @if (leadHtml; as lead) {
+            <div class="course-description__lead" [innerHTML]="lead"></div>
+          }
+          @if (bodyHtml; as body) {
+            <div class="course-description__body" [innerHTML]="body"></div>
+          }
+        </div>
       </div>
+    }
 
-      <!-- Image column (only when imageUrl is provided) -->
-      @if (imageUrl) {
-        <div class="course-description__image-column">
-          <div class="course-description__image-wrapper">
-            <img
-              [src]="imageUrl"
-              [alt]="imageAlt"
-              class="course-description__image"
-              loading="lazy"
-            />
+    <!-- "What you learn" callout -->
+    @if (whatYouLearn; as learn) {
+      <div class="course-description__callout">
+        <img
+          class="course-description__callout-flower"
+          src="/assets/illustrations/flower.svg"
+          alt=""
+          aria-hidden="true"
+        />
+        <div class="course-description__callout-inner">
+          <span class="course-description__chip">Was wir lernen</span>
+          <p class="course-description__callout-text">{{ learn }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Wavy divider -->
+    @if (targetAudience || hasHighlights) {
+      <svg
+        class="course-description__wave"
+        viewBox="0 0 1000 22"
+        width="100%"
+        height="22"
+        fill="none"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 11 C 83 2 166 20 250 11 S 416 2 500 11 S 666 20 750 11 S 916 2 1000 11"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </svg>
+    }
+
+    <!-- Target audience -->
+    @if (targetAudience; as ta) {
+      <h3 class="course-description__audience-title">{{ ta.headline }}</h3>
+      <div class="course-description__audience-body" [innerHTML]="ta.body"></div>
+    }
+
+    <!-- Highlights panel -->
+    @if (hasHighlights) {
+      <div class="course-description__panel">
+        @if (showWatermark) {
+          <img
+            class="course-description__watermark"
+            [src]="watermarkUrl"
+            alt=""
+            aria-hidden="true"
+          />
+        }
+        <div class="course-description__panel-inner">
+          <span class="course-description__eyebrow course-description__eyebrow--panel">
+            <span class="course-description__eyebrow-dash" aria-hidden="true"></span>
+            Das erwartet dich
+          </span>
+
+          <div class="course-description__highlights" role="list">
+            @for (highlight of highlights; track highlight.text) {
+              <div class="course-description__highlight-item" role="listitem">
+                <span class="course-description__check" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12.5 L10 17.5 L19 6.5"
+                      stroke="white"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span class="course-description__highlight-text">{{ highlight.text }}</span>
+              </div>
+            }
           </div>
         </div>
-      }
-
-    </div>
-
-    <!-- Highlights — full width below the split -->
-    @if (hasHighlights) {
-      <div class="course-description__highlights" role="list">
-        @for (highlight of highlights; track highlight.text) {
-          <div class="course-description__highlight-item" role="listitem">
-            <span class="course-description__highlight-icon" aria-hidden="true">✓</span>
-            <span>{{ highlight.text }}</span>
-          </div>
-        }
       </div>
     }
 

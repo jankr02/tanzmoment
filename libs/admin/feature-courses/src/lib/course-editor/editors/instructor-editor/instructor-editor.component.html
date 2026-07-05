@@ -1,11 +1,19 @@
 <div class="ed">
+  <admin-image-upload-field
+    [value]="imageOverride"
+    label="Porträt"
+    (valueChange)="onImg($event)"
+  />
+
   <label class="ed-field">
-    <span class="ed-field__label">Bio (Override)</span>
-    <textarea
+    <span class="ed-field__label">Rolle</span>
+    <input
       class="ed-field__control"
-      [(ngModel)]="bioOverride"
+      type="text"
+      placeholder="z. B. Ausgebildete Kinderpädagogin"
+      [(ngModel)]="role"
       (ngModelChange)="emit()"
-    ></textarea>
+    />
   </label>
 
   <label class="ed-field">
@@ -17,41 +25,14 @@
     ></textarea>
   </label>
 
-  <admin-image-upload-field
-    [value]="imageOverride"
-    label="Bild (Override)"
-    (valueChange)="onImg($event)"
-  />
-
-  <p class="ed__subtitle">Qualifikationen</p>
-
-  @for (q of qualifications; track i; let i = $index) {
-    <div class="ed-row">
-      <div class="ed-row__body">
-        <input
-          class="ed-field__control"
-          type="text"
-          [(ngModel)]="qualifications[i]"
-          (ngModelChange)="emit()"
-        />
-      </div>
-      <div class="ed-row__actions">
-        <button
-          type="button"
-          class="ed-btn ed-btn--remove"
-          (click)="removeQualification(i)"
-        >
-          Entfernen
-        </button>
-      </div>
-    </div>
-  }
-
-  <button
-    type="button"
-    class="ed-btn ed-btn--add"
-    (click)="addQualification()"
-  >
-    + Qualifikation
-  </button>
+  <label class="ed-field">
+    <span class="ed-field__label">Foto-Credit</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      placeholder="z. B. Daniela Savasta"
+      [(ngModel)]="photoCredit"
+      (ngModelChange)="emit()"
+    />
+  </label>
 </div>

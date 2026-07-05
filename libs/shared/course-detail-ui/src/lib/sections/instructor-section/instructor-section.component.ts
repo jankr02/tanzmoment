@@ -1,15 +1,12 @@
 // ============================================================================
 // INSTRUCTOR SECTION
 // ============================================================================
-// Trust-building section: portrait, bio, qualifications, personal quote.
-// CMS overrides allow course-specific bio and qualifications.
+// Poster-style instructor card: organic portrait, name, role, personal quote
+// and photo credit. Purely presentational, self-contained warm palette
+// (not dance-style themed). CMS overrides drive the content.
 // ============================================================================
 
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -29,14 +26,17 @@ export class InstructorSectionComponent {
   @Input({ required: true }) instructor!: CourseDetailInstructor;
   @Input() content?: CourseDetailInstructorContent;
 
+  /** Kicker chip label overlapping the portrait. */
+  readonly kicker = 'Deine Kursleiterin';
+
   // ─── Resolved Values ────────────────────────────────────────────────────
 
   get fullName(): string {
     return `${this.instructor.firstName} ${this.instructor.lastName}`;
   }
 
-  get bio(): string {
-    return this.content?.bioOverride ?? this.instructor.bio ?? '';
+  get role(): string | undefined {
+    return this.content?.role ?? this.instructor.expertise?.[0];
   }
 
   get imageUrl(): string {
@@ -51,11 +51,7 @@ export class InstructorSectionComponent {
     return this.content?.quote;
   }
 
-  get qualifications(): string[] {
-    return this.content?.qualifications ?? this.instructor.expertise ?? [];
-  }
-
-  get hasQualifications(): boolean {
-    return this.qualifications.length > 0;
+  get photoCredit(): string | undefined {
+    return this.content?.photoCredit;
   }
 }

@@ -418,10 +418,7 @@ export class CourseEditorComponent implements OnInit {
       }
       case 'instructor': {
         const i = c.instructor;
-        return i?.bioOverride ||
-          i?.quote ||
-          i?.imageOverride ||
-          i?.qualifications?.length
+        return i?.role || i?.quote || i?.imageOverride || i?.photoCredit
           ? 'done'
           : 'empty';
       }

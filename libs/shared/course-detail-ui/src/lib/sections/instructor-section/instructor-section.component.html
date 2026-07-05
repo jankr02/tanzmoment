@@ -1,51 +1,40 @@
 <section class="instructor-section" aria-label="Kursleitung">
-  <div class="instructor-section__container">
+  <article class="instructor-card">
 
-    <!-- Section Headline -->
-    <h2 class="instructor-section__headline">Deine Kursleiterin</h2>
-
-    <!-- Instructor Card -->
-    <div class="instructor-section__card">
-
-      <!-- Portrait -->
-      <div class="instructor-section__portrait">
+    <!-- Portrait (organic blob) + kicker chip -->
+    <div class="instructor-card__portrait-wrap">
+      <div class="instructor-card__portrait">
         <img
           [src]="imageUrl"
-          [alt]="'Portrait of ' + fullName"
-          class="instructor-section__image"
+          [alt]="'Porträt von ' + fullName"
+          class="instructor-card__image"
           loading="lazy"
         />
       </div>
-
-      <!-- Info -->
-      <div class="instructor-section__info">
-
-        <!-- Name -->
-        <h3 class="instructor-section__name">{{ fullName }}</h3>
-
-        <!-- Qualifications Tags -->
-        @if (hasQualifications) {
-          <div class="instructor-section__qualifications" role="list" aria-label="Qualifications">
-            @for (q of qualifications; track q) {
-              <span class="instructor-section__tag" role="listitem">{{ q }}</span>
-            }
-          </div>
-        }
-
-        <!-- Bio -->
-        @if (bio) {
-          <p class="instructor-section__bio">{{ bio }}</p>
-        }
-
-        <!-- Quote -->
-        @if (quote) {
-          <blockquote class="instructor-section__quote">
-            <p>&bdquo;{{ quote }}&ldquo;</p>
-          </blockquote>
-        }
-
-      </div>
+      <span class="instructor-card__kicker">{{ kicker }}</span>
     </div>
 
-  </div>
+    <!-- Name + role -->
+    <div class="instructor-card__heading">
+      <h2 class="instructor-card__name">{{ fullName }}</h2>
+      @if (role; as r) {
+        <p class="instructor-card__role">{{ r }}</p>
+      }
+    </div>
+
+    <!-- Quote panel -->
+    @if (quote; as q) {
+      <blockquote class="instructor-card__quote">
+        <span class="instructor-card__quote-mark instructor-card__quote-mark--open" aria-hidden="true">&bdquo;</span>
+        <p class="instructor-card__quote-text">{{ q }}</p>
+        <span class="instructor-card__quote-mark instructor-card__quote-mark--close" aria-hidden="true">&bdquo;</span>
+      </blockquote>
+    }
+
+    <!-- Photo credit -->
+    @if (photoCredit; as credit) {
+      <p class="instructor-card__credit">Foto · {{ credit }}</p>
+    }
+
+  </article>
 </section>

@@ -12,19 +12,13 @@ import {
   CourseDetailDescriptionContent,
   CourseHighlight,
 } from '@tanzmoment/shared/types';
-import { ImageUploadFieldComponent } from '../../../components/image-upload-field/image-upload-field.component';
 import { RichTextEditorComponent } from '../shared/rich-text-editor.component';
 import { clean, nonEmpty } from '../shared/normalize';
 
 @Component({
   selector: 'admin-description-editor',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ImageUploadFieldComponent,
-    RichTextEditorComponent,
-  ],
+  imports: [CommonModule, FormsModule, RichTextEditorComponent],
   templateUrl: './description-editor.component.html',
   styleUrls: ['../shared/editor-fields.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,21 +34,21 @@ export class DescriptionEditorComponent implements OnInit {
   >();
 
   headline = '';
-  imageUrl = '';
-  imageAlt = '';
-  imagePosition: 'left' | 'right' = 'right';
+  lead = '';
+  whatYouLearn = '';
   targetAudienceHeadline = '';
   targetAudienceBody = '';
   highlights: CourseHighlight[] = [];
+  showWatermark = true;
 
   ngOnInit(): void {
     this.headline = this.content?.headline ?? '';
-    this.imageUrl = this.content?.imageUrl ?? '';
-    this.imageAlt = this.content?.imageAlt ?? '';
-    this.imagePosition = this.content?.imagePosition ?? 'right';
+    this.lead = this.content?.lead ?? '';
+    this.whatYouLearn = this.content?.whatYouLearn ?? '';
     this.targetAudienceHeadline = this.content?.targetAudience?.headline ?? '';
     this.targetAudienceBody = this.content?.targetAudience?.body ?? '';
     this.highlights = (this.content?.highlights ?? []).map((h) => ({ ...h }));
+    this.showWatermark = this.content?.showWatermark ?? true;
   }
 
   onDescriptionChange(html: string): void {
@@ -72,11 +66,6 @@ export class DescriptionEditorComponent implements OnInit {
     this.emit();
   }
 
-  onImg(url: string): void {
-    this.imageUrl = url;
-    this.emit();
-  }
-
   emit(): void {
     const targetAudience = this.targetAudienceBody.trim()
       ? {
@@ -87,11 +76,11 @@ export class DescriptionEditorComponent implements OnInit {
     this.contentChange.emit(
       nonEmpty({
         headline: clean(this.headline),
-        imageUrl: clean(this.imageUrl),
-        imageAlt: clean(this.imageAlt),
-        imagePosition: this.imageUrl.trim() ? this.imagePosition : undefined,
+        lead: clean(this.lead),
+        whatYouLearn: clean(this.whatYouLearn),
         targetAudience,
         highlights: this.highlights.map((h) => ({ ...h })),
+        showWatermark: this.showWatermark ? undefined : false,
       }),
     );
   }
