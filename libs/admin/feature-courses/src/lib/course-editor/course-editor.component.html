@@ -79,9 +79,11 @@
               [content]="detailContent().hero"
               [title]="form.get('title')?.value ?? ''"
               [catchPhrase]="form.get('catchPhrase')?.value ?? ''"
+              [imageUrl]="form.get('imageUrl')?.value ?? ''"
               (contentChange)="setSection('hero', $event)"
               (titleChange)="setBaseField('title', $event)"
               (catchPhraseChange)="setBaseField('catchPhrase', $event)"
+              (imageUrlChange)="setBaseField('imageUrl', $event)"
             />
           }
           @case ('quickFacts') {

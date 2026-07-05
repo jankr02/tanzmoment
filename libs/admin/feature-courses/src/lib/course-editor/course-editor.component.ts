@@ -436,7 +436,10 @@ export class CourseEditorComponent implements OnInit {
     }
   }
 
-  setBaseField(name: 'title' | 'catchPhrase' | 'description', value: string): void {
+  setBaseField(
+    name: 'title' | 'catchPhrase' | 'description' | 'imageUrl',
+    value: string,
+  ): void {
     this.form.get(name)?.setValue(value);
     this.form.get(name)?.markAsDirty();
   }
