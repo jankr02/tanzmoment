@@ -2,17 +2,23 @@
   currentPage="privacy"
   title="Datenschutzerklärung"
   intro="Informationen zur Verarbeitung personenbezogener Daten gemäß Art. 13, 14 DSGVO."
+  lastUpdated="5. Juli 2026"
 >
   <div class="legal-notice legal-notice--warning">
     <p>
-      <strong>Hinweis für die Inhaberin:</strong> Dieser Entwurf orientiert
-      sich am tatsächlich eingesetzten Tech-Stack von Tanzmoment
-      (Buchungssystem, Stripe, Newsletter, JWT-Cookies, Server-Logs).
-      <strong>Vor dem Live-Gang bitte juristisch prüfen lassen</strong> – z. B.
-      durch einen Datenschutz-Generator (e-recht24, IT-Recht-Kanzlei) oder
-      eine spezialisierte Anwaltskanzlei. Alle
+      <strong>Hinweis für die Inhaberin:</strong> Diese Erklärung beschreibt
+      die tatsächlich eingesetzte Technik von Tanzmoment (Buchungssystem,
+      Stripe, Newsletter mit Double-Opt-In, Login-Cookies, Google Maps und
+      Google Fonts). Vor dem Live-Gang sind noch drei Dinge offen:
+      <strong>1.</strong> Alle
       <span class="legal-placeholder">[PLATZHALTER]</span>-Felder mit echten
-      Daten füllen.
+      Daten füllen (Name, Anschrift, Hoster, E-Mail-Dienstleister).
+      <strong>2.</strong> Google Fonts und Google Maps werden derzeit ohne
+      Einwilligung von Google-Servern geladen – empfohlen ist, die Schriftart
+      lokal einzubinden und die Karte erst nach Klick zu laden (Zwei-Klick-Lösung).
+      <strong>3.</strong> Den finalen Text juristisch prüfen lassen, z.&nbsp;B.
+      durch eine spezialisierte Kanzlei oder einen Generator
+      (e-recht24, IT-Recht-Kanzlei).
     </p>
   </div>
 
@@ -23,15 +29,19 @@
       <li><a href="#scope">Geltungsbereich</a></li>
       <li><a href="#hosting">Hosting</a></li>
       <li><a href="#server-logs">Server-Logfiles</a></li>
-      <li><a href="#cookies">Cookies</a></li>
+      <li><a href="#cookies">Cookies &amp; lokale Speicherung</a></li>
       <li><a href="#contact-form">Kontaktformular</a></li>
-      <li><a href="#booking">Kursbuchung & Kundenkonto</a></li>
+      <li><a href="#account">Registrierung &amp; Kundenkonto</a></li>
+      <li><a href="#booking">Kursbuchung &amp; Warteliste</a></li>
       <li><a href="#payment">Zahlungsabwicklung (Stripe)</a></li>
       <li><a href="#newsletter">Newsletter</a></li>
-      <li><a href="#email">E-Mail-Versand</a></li>
-      <li><a href="#analytics">Reichweitenmessung & Analyse</a></li>
+      <li><a href="#email">Transaktionale E-Mails</a></li>
+      <li><a href="#maps">Google Maps (Anfahrtskarte)</a></li>
+      <li><a href="#fonts">Schriftarten (Google Fonts)</a></li>
       <li><a href="#social">Social-Media-Verlinkungen</a></li>
-      <li><a href="#fonts">Google Fonts</a></li>
+      <li><a href="#analytics">Reichweitenmessung &amp; Analyse</a></li>
+      <li><a href="#special-data">Angaben zu Gesundheit &amp; besonderen Bedürfnissen</a></li>
+      <li><a href="#retention">Speicherdauer &amp; Löschung</a></li>
       <li><a href="#rights">Rechte der Betroffenen</a></li>
       <li><a href="#changes">Änderungen dieser Datenschutzerklärung</a></li>
     </ol>
@@ -41,9 +51,9 @@
   <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
   <address>
     <span class="legal-placeholder">[PLATZHALTER: Vollständiger Name der Inhaberin]</span><br />
-    <span class="legal-placeholder">[PLATZHALTER: Firmenname / Tanzstudio Tanzmoment]</span><br />
+    Tanzmoment<br />
     <span class="legal-placeholder">[PLATZHALTER: Straße und Hausnummer]</span><br />
-    <span class="legal-placeholder">[PLATZHALTER: PLZ Ort]</span><br />
+    <span class="legal-placeholder">[PLATZHALTER: PLZ]</span> Mössingen<br />
     Deutschland<br /><br />
     Telefon: <span class="legal-placeholder">[PLATZHALTER]</span><br />
     E-Mail:
@@ -53,21 +63,21 @@
   <h2 id="scope">2. Geltungsbereich</h2>
   <p>
     Diese Datenschutzerklärung gilt für die Website von Tanzmoment sowie für
-    die darüber angebotenen Online-Dienste (Kursbuchung, Kundenkonto,
-    Newsletter, Kontaktformular). Sie informiert dich darüber, welche
-    personenbezogenen Daten wir verarbeiten, zu welchem Zweck und auf welcher
-    Rechtsgrundlage.
+    die darüber angebotenen Online-Dienste: Kursbuchung (mit Kundenkonto oder
+    als Gast), Warteliste, Kundenkonto, Newsletter und Kontaktformular. Sie
+    informiert dich darüber, welche personenbezogenen Daten wir verarbeiten,
+    zu welchem Zweck, auf welcher Rechtsgrundlage und wie lange.
   </p>
 
   <h2 id="hosting">3. Hosting</h2>
   <p>
     Unsere Website wird gehostet bei:
-    <span class="legal-placeholder">[PLATZHALTER: Name & Anschrift des Hosters, z. B. Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen]</span>.
-    Der Hoster verarbeitet in unserem Auftrag insbesondere
-    IP-Adressen, Anfragezeitpunkte und Logdaten zur Bereitstellung und
-    Sicherheit der Website. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO
-    (berechtigtes Interesse an einem zuverlässigen Webauftritt). Mit dem
-    Hoster besteht ein Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO.
+    <span class="legal-placeholder">[PLATZHALTER: Name &amp; Anschrift des Hosters, z. B. Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen]</span>.
+    Der Hoster verarbeitet in unserem Auftrag insbesondere IP-Adressen,
+    Anfragezeitpunkte und Logdaten zur Bereitstellung und Sicherheit der
+    Website. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+    Interesse an einem zuverlässigen und sicheren Webauftritt). Mit dem Hoster
+    besteht ein Auftragsverarbeitungsvertrag (AVV) nach Art. 28 DSGVO.
   </p>
 
   <h2 id="server-logs">4. Server-Logfiles</h2>
@@ -77,36 +87,63 @@
     gespeichert:
   </p>
   <ul>
-    <li>IP-Adresse des anfragenden Geräts (gekürzt, sofern technisch möglich)</li>
+    <li>IP-Adresse des anfragenden Geräts</li>
     <li>Datum und Uhrzeit des Zugriffs</li>
     <li>Aufgerufene Seite / Ressource (URL)</li>
     <li>HTTP-Statuscode und übertragene Datenmenge</li>
     <li>Browsertyp, Betriebssystem und Referrer-URL</li>
   </ul>
   <p>
-    Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO. Diese Daten werden ausgewertet,
-    um Stabilität, Sicherheit und Abwehr von Angriffen sicherzustellen, und
-    nach spätestens
+    Zur Abwehr von Missbrauch (z.&nbsp;B. automatisierte Angriffe auf Login
+    oder Formulare) begrenzen wir außerdem die Anzahl der Anfragen pro
+    IP-Adresse; die IP-Adresse wird dafür nur kurzzeitig im Arbeitsspeicher
+    verarbeitet und nicht dauerhaft gespeichert. In technischen
+    Anwendungsprotokollen können einzelne Ereignisse (z.&nbsp;B. Registrierung,
+    Login, E-Mail-Versand) zusammen mit der betroffenen E-Mail-Adresse erfasst
+    werden, um Fehler nachvollziehen zu können.
+  </p>
+  <p>
+    Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (Stabilität, Sicherheit und
+    Abwehr von Angriffen). Logdaten werden nach spätestens
     <span class="legal-placeholder">[PLATZHALTER: 30/60/90]</span> Tagen
     gelöscht oder anonymisiert.
   </p>
 
-  <h2 id="cookies">5. Cookies</h2>
+  <h2 id="cookies">5. Cookies &amp; lokale Speicherung</h2>
   <p>
-    Wir verwenden technisch notwendige Cookies, um den Betrieb der Website
-    sicherzustellen (z. B. Authentifizierung im Kundenbereich, CSRF-Schutz).
-    Diese basieren auf Art. 6 Abs. 1 lit. f DSGVO bzw. § 25 Abs. 2 TTDSG.
+    Unsere Website setzt selbst ausschließlich
+    <strong>technisch notwendige Cookies</strong> – keine Tracking-, Analyse-
+    oder Werbe-Cookies. Eine Einwilligung ist für diese Cookies nicht
+    erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); die Verarbeitung beruht auf
+    Art. 6 Abs. 1 lit. f DSGVO. Lediglich die auf der Kontaktseite
+    eingebundene Google-Maps-Karte kann eigene Cookies von Google setzen
+    (siehe Abschnitt 12).
   </p>
-  <h3>Authentifizierung (Login)</h3>
+  <h3>Eingesetzte Cookies</h3>
+  <ul>
+    <li>
+      <strong>access_token</strong> – hält deine Anmeldung im Kundenkonto
+      aufrecht. HttpOnly (für Skripte im Browser nicht auslesbar), Laufzeit
+      derzeit 15 Minuten.
+    </li>
+    <li>
+      <strong>refresh_token</strong> – verlängert deine Sitzung automatisch,
+      ohne dass du dich neu einloggen musst. HttpOnly, wird nur an die
+      Anmelde-Endpunkte unseres Servers gesendet, Laufzeit derzeit 30 Tage. Beim
+      Logout, bei einer Passwort-Änderung und bei der Konto-Löschung wird die
+      Sitzung serverseitig ungültig gemacht.
+    </li>
+    <li>
+      <strong>XSRF-TOKEN</strong> – ein Zufallswert zum Schutz vor
+      Cross-Site-Request-Forgery-Angriffen, Laufzeit derzeit 30 Tage. Er
+      enthält keine personenbezogenen Daten.
+    </li>
+  </ul>
+  <h3>Lokale Speicherung im Browser</h3>
   <p>
-    Nach dem Login speichern wir ein verschlüsseltes Sitzungs-Token in einem
-    <strong>HttpOnly-Cookie</strong>. Das Token ist nur für den Server lesbar,
-    nicht für JavaScript. Das Cookie wird nach Ablauf der Sitzung bzw. beim
-    Logout entfernt.
-  </p>
-  <h3>Nicht notwendige Cookies</h3>
-  <p>
-    <span class="legal-placeholder">[PLATZHALTER: Falls Analytics-/Tracking-Cookies eingesetzt werden, hier ergänzen – andernfalls diesen Block entfernen.]</span>
+    Zusätzlich merkt sich dein Browser lokal (localStorage/sessionStorage),
+    ob der Startbildschirm der Website bereits angezeigt wurde. Diese Werte
+    verlassen dein Gerät nicht und enthalten keine personenbezogenen Daten.
   </p>
 
   <h2 id="contact-form">6. Kontaktformular</h2>
@@ -118,52 +155,96 @@
     <li>Name</li>
     <li>E-Mail-Adresse</li>
     <li>Telefonnummer (optional)</li>
-    <li>Nachrichtentext</li>
-    <li>Übermittlungszeitpunkt und IP-Adresse (Spam-Schutz)</li>
+    <li>Betreff und Nachrichtentext</li>
+    <li>Übermittlungszeitpunkt</li>
   </ul>
   <p>
+    Deine Anfrage wird uns per E-Mail zugestellt; zusätzlich erhältst du eine
+    automatische Eingangsbestätigung an die angegebene E-Mail-Adresse.
     Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen)
     bzw. Art. 6 Abs. 1 lit. f DSGVO (Bearbeitung deiner Anfrage). Die Daten
     werden gelöscht, sobald deine Anfrage abschließend bearbeitet ist und
     keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
   </p>
 
-  <h2 id="booking">7. Kursbuchung & Kundenkonto</h2>
+  <h2 id="account">7. Registrierung &amp; Kundenkonto</h2>
+  <p>Wenn du ein Kundenkonto anlegst, verarbeiten wir:</p>
+  <ul>
+    <li>Vor- und Nachname</li>
+    <li>E-Mail-Adresse</li>
+    <li>Telefonnummer (optional)</li>
+    <li>
+      Passwort – ausschließlich als kryptografischer Hash (bcrypt); dein
+      Passwort ist für uns zu keinem Zeitpunkt im Klartext einsehbar
+    </li>
+    <li>Zeitpunkt der Registrierung und der E-Mail-Bestätigung</li>
+    <li>Deine Buchungs- und Zahlungshistorie (siehe Abschnitte 8 und 9)</li>
+  </ul>
   <p>
-    Für die Buchung eines Kurses sowie für die Anlage eines Kundenkontos
-    verarbeiten wir folgende Daten:
+    Nach der Registrierung senden wir dir einen Bestätigungslink, um die
+    E-Mail-Adresse zu verifizieren. Die Anmeldung selbst läuft über die in
+    Abschnitt 5 beschriebenen HttpOnly-Cookies; aktive Sitzungen kannst du
+    durch Logout beenden. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO
+    (Bereitstellung des Kundenkontos).
+  </p>
+  <p>
+    Du kannst dein Konto jederzeit selbst löschen und vorab eine Kopie deiner
+    gespeicherten Daten in maschinenlesbarem Format exportieren
+    (Art. 20 DSGVO). Was bei der Löschung mit deinen Daten geschieht, ist in
+    Abschnitt 17 beschrieben.
+  </p>
+
+  <h2 id="booking">8. Kursbuchung &amp; Warteliste</h2>
+  <p>
+    Kurse kannst du mit deinem Kundenkonto oder als Gast (ohne Konto) buchen.
+    Dabei verarbeiten wir:
   </p>
   <ul>
     <li>Vor- und Nachname</li>
     <li>E-Mail-Adresse</li>
     <li>Telefonnummer (optional)</li>
-    <li>Rechnungs- bzw. Postanschrift (sofern erforderlich)</li>
-    <li>Gewünschter Kurs, Termin und ggf. Hinweise zu besonderen Bedürfnissen</li>
-    <li>Zahlungs- und Buchungshistorie</li>
-    <li>Login-Daten (E-Mail, gehashtes Passwort) – das Passwort wird mit einem branchenüblichen Hash-Verfahren gespeichert</li>
+    <li>Gebuchter Kurs, Termin(e) und Buchungsstatus</li>
+    <li>
+      Optionale Hinweise im Freitextfeld (z.&nbsp;B. besondere Bedürfnisse –
+      siehe Abschnitt 16)
+    </li>
+    <li>Zahlungsstatus und Zahlungshistorie (siehe Abschnitt 9)</li>
   </ul>
   <p>
+    Bei einer Gastbuchung erhältst du per E-Mail einen persönlichen
+    Storno-Link mit einem nicht erratbaren Sicherheitscode, über den du deine
+    Buchung ohne Konto verwalten kannst. Ist ein Kurs ausgebucht, kannst du
+    dich mit denselben Daten auf die Warteliste setzen lassen; rückt ein Platz
+    für dich nach, informieren wir dich per E-Mail. Zu bezahlten Buchungen
+    stellen wir eine Quittung (PDF) mit Name, Kurs, Termin, Betrag und
+    Zahlungsreferenz bereit.
+  </p>
+  <p>
     Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragsanbahnung und
-    -erfüllung). Zusätzlich können Aufbewahrungspflichten aus §§ 147 AO, 257
-    HGB greifen (i. d. R. 6 bzw. 10 Jahre für Rechnungs- und steuerrelevante
-    Unterlagen).
+    -erfüllung). Für Rechnungs- und steuerrelevante Unterlagen gelten
+    gesetzliche Aufbewahrungspflichten nach §§ 147 AO, 257 HGB (i.&nbsp;d.&nbsp;R.
+    8 bzw. 10 Jahre).
   </p>
 
-  <h2 id="payment">8. Zahlungsabwicklung (Stripe)</h2>
+  <h2 id="payment">9. Zahlungsabwicklung (Stripe)</h2>
   <p>
-    Für die Zahlungsabwicklung nutzen wir den Dienstleister
-    <strong>Stripe Payments Europe, Ltd.</strong>, 1 Grand Canal Street Lower,
-    Grand Canal Dock, Dublin, Irland („Stripe"). Bei einer Zahlung über
-    Stripe werden die zur Zahlungsabwicklung erforderlichen Daten (z. B.
-    Name, E-Mail-Adresse, Zahlungsbetrag, Zahlungsmittel) direkt von Stripe
-    verarbeitet. Wir selbst erhalten keine vollständigen Zahlungsdaten
-    (z. B. Kreditkartennummern).
+    Für Online-Zahlungen (Kreditkarte, SEPA-Lastschrift) nutzen wir den
+    Dienstleister <strong>Stripe Payments Europe, Ltd.</strong>, 1 Grand Canal
+    Street Lower, Grand Canal Dock, Dublin, Irland („Stripe“). Beim Bezahlen
+    wirst du auf eine Bezahlseite von Stripe weitergeleitet. Dabei übermitteln
+    wir an Stripe: deine E-Mail-Adresse, den Kursnamen, den Zahlungsbetrag und
+    eine interne Buchungsnummer. Deine Zahlungsdaten (Kartennummer bzw. IBAN)
+    gibst du direkt bei Stripe ein – sie erreichen unsere Systeme zu keinem
+    Zeitpunkt.
   </p>
   <p>
-    Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Stripe
-    verarbeitet die Daten auch zur Betrugsprävention auf Grundlage von
-    Art. 6 Abs. 1 lit. f DSGVO. Weitere Informationen findest du in der
-    Datenschutzerklärung von Stripe:
+    Wir speichern lediglich den Zahlungsstatus, den Betrag und die
+    Transaktionsreferenzen von Stripe (z.&nbsp;B. für Erstattungen und die
+    Zuordnung von Zahlungen zu Buchungen). Rechtsgrundlage:
+    Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung). Stripe verarbeitet die
+    Daten auch zur Betrugsprävention auf Grundlage von Art. 6 Abs. 1 lit. f
+    DSGVO. Weitere Informationen findest du in der Datenschutzerklärung von
+    Stripe:
     <a
       href="https://stripe.com/de/privacy"
       target="_blank"
@@ -173,60 +254,173 @@
   </p>
   <p>
     Mit Stripe besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO.
-    Eine Übermittlung in die USA findet auf Basis der EU-Standardvertrags­klauseln
-    und des EU-US Data Privacy Framework statt.
+    Eine Übermittlung in die USA findet auf Basis der
+    EU-Standardvertragsklauseln und des EU-US Data Privacy Framework statt.
   </p>
 
-  <h2 id="newsletter">9. Newsletter</h2>
+  <h2 id="newsletter">10. Newsletter</h2>
   <p>
-    Wenn du dich für unseren Newsletter anmeldest, verarbeiten wir deine
-    E-Mail-Adresse sowie den Zeitpunkt der Anmeldung und Bestätigung
-    (Double-Opt-In). Die Anmeldung erfolgt freiwillig auf Grundlage deiner
-    Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Du kannst die Einwilligung
-    jederzeit widerrufen, z. B. über den Abmeldelink in jeder Newsletter-Mail
-    oder per E-Mail an
-    <a href="mailto:tanzmoment@web.de">tanzmoment&#64;web.de</a>.
+    Für unseren Newsletter verwenden wir das
+    <strong>Double-Opt-In-Verfahren</strong>: Nach der Anmeldung erhältst du
+    eine E-Mail mit einem Bestätigungslink; erst mit deiner Bestätigung wird
+    die Anmeldung wirksam. Wir verarbeiten dabei:
+  </p>
+  <ul>
+    <li>E-Mail-Adresse</li>
+    <li>Zeitpunkt von Anmeldung und Bestätigung</li>
+    <li>
+      IP-Adresse und Browser-Kennung (User-Agent) zum Zeitpunkt der Anmeldung
+      – als Nachweis deiner Einwilligung (Art. 7 Abs. 1 DSGVO)
+    </li>
+    <li>Zustellprotokoll der versendeten Ausgaben</li>
+  </ul>
+  <p>
+    Rechtsgrundlage: deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Du
+    kannst sie jederzeit mit Wirkung für die Zukunft widerrufen – über den
+    Abmeldelink in jeder Newsletter-Mail oder per Nachricht an
+    <a href="mailto:tanzmoment@web.de">tanzmoment&#64;web.de</a>. Nach der
+    Abmeldung wird deine Adresse für den Versand gesperrt.
   </p>
   <p>
-    Versand und Verwaltung des Newsletters erfolgen über:
-    <span class="legal-placeholder">[PLATZHALTER: Name & Anschrift des E-Mail-Dienstleisters, z. B. Resend, Inc., 2261 Market Street #5039, San Francisco, CA 94114, USA]</span>.
+    Der Versand erfolgt über:
+    <span class="legal-placeholder">[PLATZHALTER: Name &amp; Anschrift des E-Mail-/SMTP-Dienstleisters]</span>.
     Mit dem Anbieter besteht ein Auftragsverarbeitungsvertrag nach Art. 28
-    DSGVO. Eine Übermittlung in die USA erfolgt auf Basis der
-    EU-Standardvertragsklauseln und ggf. des EU-US Data Privacy Framework.
+    DSGVO. Sofern der Anbieter personenbezogene Daten außerhalb der EU bzw.
+    des EWR verarbeitet, erfolgt die Übermittlung auf Basis der
+    EU-Standardvertragsklauseln oder des EU-US Data Privacy Framework.
   </p>
 
-  <h2 id="email">10. E-Mail-Versand (Buchungsbestätigungen & Transaktionen)</h2>
+  <h2 id="email">11. Transaktionale E-Mails</h2>
   <p>
-    Im Zusammenhang mit Buchungen, Stornierungen, Zahlungen und
-    Account-Aktionen versenden wir transaktionale E-Mails (z. B.
-    Bestätigungs-, Erinnerungs- oder Passwort-Reset-Mails). Hierfür nutzen wir
-    den gleichen Dienstleister wie für den Newsletter
-    (<span class="legal-placeholder">[PLATZHALTER: ggf. Name wiederholen]</span>).
-    Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung).
+    Im Zusammenhang mit deinem Konto und deinen Buchungen versenden wir
+    automatische E-Mails, insbesondere: Buchungs- und Storno-Bestätigungen,
+    Erstattungsbestätigungen, Wartelisten-Benachrichtigungen,
+    Terminerinnerungen, E-Mail-Verifizierung und Passwort-Zurücksetzen. Diese
+    E-Mails enthalten die dafür erforderlichen Daten (z.&nbsp;B. Vorname,
+    Kursname, Termin, Betrag).
   </p>
-
-  <h2 id="analytics">11. Reichweitenmessung & Analyse</h2>
   <p>
-    <span class="legal-placeholder">[PLATZHALTER: Falls eingesetzt – z. B. Plausible, Matomo, Google Analytics. Bei Tracking immer Einwilligungslösung (Cookie-Banner) einbauen und hier Anbieter, Speicherdauer, Rechtsgrundlage und Opt-out beschreiben. Andernfalls Block entfernen.]</span>
+    Der Versand erfolgt über denselben E-Mail-Dienstleister wie der Newsletter
+    (siehe Abschnitt 10). Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO
+    (Vertragserfüllung) bzw. Art. 6 Abs. 1 lit. f DSGVO (Sicherheit des
+    Kontos, z.&nbsp;B. Passwort-Zurücksetzen).
   </p>
 
-  <h2 id="social">12. Social-Media-Verlinkungen</h2>
+  <h2 id="maps">12. Google Maps (Anfahrtskarte)</h2>
+  <p>
+    Auf unserer Kontaktseite ist eine interaktive Karte von
+    <strong>Google Maps</strong> eingebunden, damit du unser Studio leichter
+    findest. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street,
+    Dublin 4, Irland („Google“). Beim Aufruf der Kontaktseite stellt dein
+    Browser eine Verbindung zu Google-Servern her; dabei werden deine
+    IP-Adresse und technische Browserdaten an Google übertragen –
+    gegebenenfalls auch an Server der Google LLC in den USA (Übermittlung auf
+    Basis des EU-US Data Privacy Framework).
+  </p>
+  <p>
+    Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
+    einer verständlichen Anfahrtsbeschreibung). Wenn du das nicht möchtest,
+    kannst du die Kontaktseite meiden – unsere Adresse findest du auch im
+    <a routerLink="/impressum">Impressum</a>. Weitere Informationen:
+    <a
+      href="https://policies.google.com/privacy"
+      target="_blank"
+      rel="noopener noreferrer"
+      >https://policies.google.com/privacy</a
+    >.
+  </p>
+
+  <h2 id="fonts">13. Schriftarten (Google Fonts)</h2>
+  <p>
+    Wir verwenden die Schriftart <strong>Inter</strong>, die derzeit über
+    <strong>Google Fonts</strong> von Servern des Anbieters Google Ireland
+    Limited geladen wird. Beim Seitenaufruf stellt dein Browser dafür eine
+    Verbindung zu Google her und übermittelt dabei deine IP-Adresse.
+    Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (einheitliche, gut lesbare
+    Darstellung der Website). Weitere Informationen:
+    <a
+      href="https://policies.google.com/privacy"
+      target="_blank"
+      rel="noopener noreferrer"
+      >https://policies.google.com/privacy</a
+    >.
+  </p>
+
+  <h2 id="social">14. Social-Media-Verlinkungen</h2>
   <p>
     Im Footer findest du Verlinkungen zu unseren Profilen auf Instagram und
-    Facebook. Es handelt sich ausschließlich um Verlinkungen, <strong>nicht
-    um eingebettete Inhalte</strong>. Erst beim Klick auf einen dieser Links
-    verlässt du unsere Website. Auf den Zielseiten gilt die jeweilige
-    Datenschutzerklärung der Plattformbetreiberin (Meta Platforms Ireland
-    Limited).
+    Facebook. Es handelt sich ausschließlich um Verlinkungen,
+    <strong>nicht um eingebettete Inhalte</strong>. Erst beim Klick auf einen
+    dieser Links verlässt du unsere Website. Auf den Zielseiten gilt die
+    jeweilige Datenschutzerklärung der Plattformbetreiberin (Meta Platforms
+    Ireland Limited).
   </p>
 
-  <h2 id="fonts">13. Schriftarten</h2>
+  <h2 id="analytics">15. Reichweitenmessung &amp; Analyse</h2>
   <p>
-    Wir setzen die Schriftart <strong>Inter</strong> ein.
-    <span class="legal-placeholder">[PLATZHALTER: Wenn lokal gehostet → "Inter wird lokal von unserem Server ausgeliefert; eine Übertragung deiner Daten an Drittanbieter findet nicht statt." / Wenn über Google Fonts geladen → Hinweis auf Google LLC, USA, Rechtsgrundlage Art. 6 Abs. 1 lit. f DSGVO und Link zur Google-Datenschutzerklärung.]</span>
+    Wir setzen <strong>keine</strong> Analyse-, Tracking- oder Werbetools ein
+    – kein Google Analytics, kein Matomo, keine Werbepixel. Es findet keine
+    Profilbildung über dein Nutzungsverhalten statt.
   </p>
 
-  <h2 id="rights">14. Rechte der Betroffenen</h2>
+  <h2 id="special-data">16. Angaben zu Gesundheit &amp; besonderen Bedürfnissen</h2>
+  <p>
+    Unsere Kurse richten sich ausdrücklich auch an Menschen mit Behinderung.
+    In den Freitextfeldern der Buchung und des Kontaktformulars kannst du uns
+    freiwillig Hinweise geben, die für die Kursteilnahme wichtig sind
+    (z.&nbsp;B. zu Barrierefreiheit, Unterstützungsbedarf oder Allergien).
+    Solche Angaben können Gesundheitsdaten im Sinne von Art. 9 DSGVO sein.
+  </p>
+  <p>
+    Wir verarbeiten diese Angaben ausschließlich, um deine Teilnahme am Kurs
+    zu ermöglichen und gut vorzubereiten, und geben sie nicht an Dritte
+    weiter. Rechtsgrundlage ist deine ausdrückliche Einwilligung durch die
+    freiwillige Mitteilung (Art. 9 Abs. 2 lit. a DSGVO). Teile uns bitte nur
+    mit, was für die Teilnahme wirklich relevant ist – du kannst die Löschung
+    dieser Angaben jederzeit formlos verlangen.
+  </p>
+
+  <h2 id="retention">17. Speicherdauer &amp; Löschung</h2>
+  <ul>
+    <li>
+      <strong>Kundenkonto:</strong> Wenn du dein Konto löschst, werden deine
+      Profildaten unverzüglich anonymisiert (Name, E-Mail-Adresse und
+      Telefonnummer werden entfernt bzw. unkenntlich gemacht) und alle aktiven
+      Sitzungen beendet. Das Konto ist danach nicht mehr nutzbar.
+    </li>
+    <li>
+      <strong>Buchungs- und Zahlungsdaten:</strong> bleiben aus buchhalterischen
+      und steuerrechtlichen Gründen auch nach einer Konto-Löschung erhalten
+      (§§ 147 AO, 257 HGB) und werden nach Ablauf der gesetzlichen Fristen
+      gelöscht.
+    </li>
+    <li>
+      <strong>Zahlungs-Ereignisprotokolle</strong> (technische Rückmeldungen
+      von Stripe): werden automatisch nach 30 Tagen gelöscht.
+    </li>
+    <li>
+      <strong>E-Mail-Versandwarteschlange:</strong> Daten zu versendeten
+      E-Mails werden in unserer internen Warteschlange nur vorübergehend
+      gespeichert und automatisch entfernt (buchungsbezogene E-Mails
+      spätestens nach 30 Tagen).
+    </li>
+    <li>
+      <strong>Server-Logfiles:</strong> werden nach spätestens
+      <span class="legal-placeholder">[PLATZHALTER: 30/60/90]</span> Tagen
+      gelöscht oder anonymisiert (siehe Abschnitt 4).
+    </li>
+    <li>
+      <strong>Newsletter:</strong> Deine Daten werden bis zum Widerruf deiner
+      Einwilligung verarbeitet; nach der Abmeldung wird die Adresse für den
+      Versand gesperrt.
+    </li>
+    <li>
+      <strong>Kontaktanfragen:</strong> werden nach abschließender Bearbeitung
+      gelöscht, sofern keine Aufbewahrungspflichten entgegenstehen.
+    </li>
+  </ul>
+
+  <h2 id="rights">18. Rechte der Betroffenen</h2>
   <p>Du hast nach der DSGVO insbesondere folgende Rechte:</p>
   <ul>
     <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
@@ -236,29 +430,34 @@
     <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
     <li>Widerspruchsrecht gegen bestimmte Verarbeitungen (Art. 21 DSGVO)</li>
     <li>Widerruf erteilter Einwilligungen mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
-    <li>
-      Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO) – zuständig
-      ist z. B. der Landesbeauftragte für den Datenschutz und die
-      Informationsfreiheit Baden-Württemberg.
-    </li>
   </ul>
   <p>
-    Zur Ausübung deiner Rechte genügt eine formlose Nachricht an
+    Als registrierte Nutzerin bzw. registrierter Nutzer kannst du Auskunft und
+    Datenübertragbarkeit direkt selbst wahrnehmen: In deinem Kundenkonto
+    kannst du eine vollständige Kopie deiner gespeicherten Daten
+    (Profil, Buchungen, Zahlungen, Newsletter-Status) herunterladen und dein
+    Konto eigenständig löschen. Für alle weiteren Anliegen genügt eine
+    formlose Nachricht an
     <a href="mailto:tanzmoment@web.de">tanzmoment&#64;web.de</a>.
   </p>
+  <p>
+    Außerdem hast du ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde
+    (Art. 77 DSGVO). Für uns zuständig ist der Landesbeauftragte für den
+    Datenschutz und die Informationsfreiheit Baden-Württemberg,
+    Lautenschlagerstraße 20, 70173 Stuttgart,
+    <a
+      href="https://www.baden-wuerttemberg.datenschutz.de"
+      target="_blank"
+      rel="noopener noreferrer"
+      >www.baden-wuerttemberg.datenschutz.de</a
+    >.
+  </p>
 
-  <h2 id="changes">15. Änderungen dieser Datenschutzerklärung</h2>
+  <h2 id="changes">19. Änderungen dieser Datenschutzerklärung</h2>
   <p>
     Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn dies
     aufgrund neuer Funktionen oder geänderter Rechtslage erforderlich wird.
     Es gilt jeweils die zum Zeitpunkt der Datenerhebung veröffentlichte
     Fassung.
-  </p>
-
-  <p>
-    <em
-      >Stand:
-      <span class="legal-placeholder">[PLATZHALTER: Datum der Veröffentlichung]</span></em
-    >
   </p>
 </tm-legal-shell>
