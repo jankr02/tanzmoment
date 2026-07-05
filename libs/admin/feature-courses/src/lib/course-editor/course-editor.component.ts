@@ -370,6 +370,72 @@ export class CourseEditorComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  /**
+   * Completion state of a content section for the drawer list:
+   * - 'done'       → has content and every entry / required field is complete
+   * - 'incomplete' → has partially-filled rows or a missing required field
+   * - 'empty'      → optional section, not filled yet (no badge)
+   */
+  sectionStatus(key: keyof CourseDetailContent): 'done' | 'incomplete' | 'empty' {
+    const c = this.detailContent();
+    switch (key) {
+      case 'hero':
+        return this.form.get('title')?.valid ? 'done' : 'incomplete';
+      case 'description':
+        return this.form.get('description')?.valid ? 'done' : 'incomplete';
+      case 'quickFacts': {
+        const q = c.quickFacts;
+        if (!q) return 'empty';
+        if ((q.customFacts ?? []).some((f) => !f.label.trim() || !f.value.trim())) {
+          return 'incomplete';
+        }
+        const has =
+          (q.customFacts?.length ?? 0) > 0 ||
+          (q.hiddenFacts?.length ?? 0) > 0 ||
+          (q.factOrder?.length ?? 0) > 0;
+        return has ? 'done' : 'empty';
+      }
+      case 'courseFlow': {
+        const steps = c.courseFlow?.steps ?? [];
+        if (!steps.length) return 'empty';
+        return steps.some((s) => !s.phase.trim() || !s.description.trim())
+          ? 'incomplete'
+          : 'done';
+      }
+      case 'socialProof': {
+        const items = c.socialProof?.testimonials ?? [];
+        if (!items.length) return 'empty';
+        return items.some((t) => !t.text.trim() || !t.authorName.trim())
+          ? 'incomplete'
+          : 'done';
+      }
+      case 'faq': {
+        const items = c.faq?.items ?? [];
+        if (!items.length) return 'empty';
+        return items.some((i) => !i.question.trim() || !i.answer.trim())
+          ? 'incomplete'
+          : 'done';
+      }
+      case 'instructor': {
+        const i = c.instructor;
+        return i?.bioOverride ||
+          i?.quote ||
+          i?.imageOverride ||
+          i?.qualifications?.length
+          ? 'done'
+          : 'empty';
+      }
+      case 'schedule':
+        return this.sessions().length ? 'done' : 'empty';
+      case 'booking': {
+        const b = c.booking;
+        return b?.ctaText || b?.priceNote || b?.notice ? 'done' : 'empty';
+      }
+      default:
+        return 'empty';
+    }
+  }
+
   setBaseField(name: 'title' | 'catchPhrase' | 'description', value: string): void {
     this.form.get(name)?.setValue(value);
     this.form.get(name)?.markAsDirty();

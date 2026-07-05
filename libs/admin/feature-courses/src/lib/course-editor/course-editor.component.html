@@ -155,7 +155,17 @@
             @for (s of contentSections; track s.key) {
               <button type="button" class="editor__section-btn" (click)="openSection(s.key)">
                 <span>{{ s.label }}</span>
-                <span aria-hidden="true">✎</span>
+                @switch (sectionStatus(s.key)) {
+                  @case ('done') {
+                    <span class="editor__section-status editor__section-status--done" title="Erledigt" aria-label="Erledigt">✓</span>
+                  }
+                  @case ('incomplete') {
+                    <span class="editor__section-status editor__section-status--warn" title="Unvollständig" aria-label="Unvollständig">!</span>
+                  }
+                  @default {
+                    <span class="editor__section-status" aria-hidden="true">✎</span>
+                  }
+                }
               </button>
             }
           </div>
