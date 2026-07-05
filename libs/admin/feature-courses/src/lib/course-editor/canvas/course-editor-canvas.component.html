@@ -1,0 +1,168 @@
+<!-- Live preview canvas: mirrors the public course detail section order + waves.
+     Each section is wrapped so admins can open its editor inline. -->
+@let c = course();
+
+<!-- 1. Hero -->
+<admin-editable-section
+  label="Hero"
+  [active]="activeSection() === 'hero'"
+  (edit)="editSection.emit('hero')"
+>
+  <app-detail-hero [course]="c" [content]="detailContent().hero" />
+</admin-editable-section>
+
+<!-- 2. Quick Facts -->
+<admin-editable-section
+  label="Quick Facts"
+  [active]="activeSection() === 'quickFacts'"
+  (edit)="editSection.emit('quickFacts')"
+>
+  <app-quick-facts [course]="c" [content]="detailContent().quickFacts" />
+</admin-editable-section>
+
+<!-- Wave: Quick Facts → Description -->
+<div class="canvas__wave" aria-hidden="true">
+  <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path
+      d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+      fill="var(--detail-section-bg)"
+    />
+  </svg>
+</div>
+
+<!-- 3. Description -->
+<admin-editable-section
+  label="Beschreibung"
+  [active]="activeSection() === 'description'"
+  (edit)="editSection.emit('description')"
+>
+  <app-course-description [course]="c" [content]="detailContent().description" />
+</admin-editable-section>
+
+<!-- 4. Course Flow -->
+@if (detailContent().courseFlow?.steps?.length) {
+  <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+
+  <admin-editable-section
+    label="Kursablauf"
+    [active]="activeSection() === 'courseFlow'"
+    (edit)="editSection.emit('courseFlow')"
+  >
+    <app-course-flow [course]="c" [content]="detailContent().courseFlow" />
+  </admin-editable-section>
+}
+
+<!-- 5. Testimonials -->
+@if (detailContent().socialProof?.testimonials?.length) {
+  @if (showTestimonialsWave()) {
+    <div class="canvas__wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--detail-section-bg)"
+        />
+      </svg>
+    </div>
+  }
+
+  <admin-editable-section
+    label="Stimmen"
+    [active]="activeSection() === 'socialProof'"
+    (edit)="editSection.emit('socialProof')"
+  >
+    <app-testimonials-section [course]="c" [content]="detailContent().socialProof" />
+  </admin-editable-section>
+}
+
+<!-- 6. Instructor -->
+@if (instructor(); as instr) {
+  @if (showInstructorWave()) {
+    <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path
+          d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+          fill="var(--color-surface)"
+        />
+      </svg>
+    </div>
+  }
+
+  <admin-editable-section
+    label="Kursleitung"
+    [active]="activeSection() === 'instructor'"
+    (edit)="editSection.emit('instructor')"
+  >
+    <app-instructor-section [instructor]="instr" [content]="detailContent().instructor" />
+  </admin-editable-section>
+
+  <div class="canvas__wave canvas__wave--inverted" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+}
+
+@if (needsPreScheduleWave()) {
+  <div class="canvas__wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--detail-section-bg)"
+      />
+    </svg>
+  </div>
+}
+
+<!-- 7. Schedule -->
+<admin-editable-section
+  label="Termine"
+  [active]="activeSection() === 'schedule'"
+  (edit)="editSection.emit('schedule')"
+>
+  <section id="canvas-schedule-section">
+    <app-schedule-section
+      [sessions]="sessions()"
+      [course]="c"
+      [content]="detailContent().schedule"
+    />
+  </section>
+</admin-editable-section>
+
+<!-- 8. FAQ -->
+@if (detailContent().faq?.items?.length) {
+  <div class="canvas__wave" style="background: var(--detail-section-bg)" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path
+        d="M0,0 L0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,0 Z"
+        fill="var(--color-surface)"
+      />
+    </svg>
+  </div>
+
+  <admin-editable-section
+    label="FAQ"
+    [active]="activeSection() === 'faq'"
+    (edit)="editSection.emit('faq')"
+  >
+    <app-faq-section [course]="c" [content]="detailContent().faq" />
+  </admin-editable-section>
+}
+
+<!-- 9. Booking bar (rendered inline in the editor; fixed on the live page) -->
+<admin-editable-section
+  label="Buchung"
+  [active]="activeSection() === 'booking'"
+  (edit)="editSection.emit('booking')"
+>
+  <app-sticky-booking-bar [course]="c" [content]="detailContent().booking" [preview]="true" />
+</admin-editable-section>

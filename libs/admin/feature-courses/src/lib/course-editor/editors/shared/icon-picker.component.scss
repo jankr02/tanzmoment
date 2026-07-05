@@ -1,0 +1,51 @@
+@use 'tokens' as *;
+
+.icon-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.icon-picker__label {
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.icon-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+  gap: var(--space-1);
+}
+
+.icon-picker__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-neutral-extra-light);
+    color: var(--color-text-primary);
+  }
+
+  &--none {
+    font-size: 1rem;
+  }
+
+  &--active {
+    border-color: var(--color-primary-dark);
+    color: var(--color-primary-dark);
+    box-shadow: 0 0 0 1px var(--color-primary-dark);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-dark);
+    outline-offset: 1px;
+  }
+}

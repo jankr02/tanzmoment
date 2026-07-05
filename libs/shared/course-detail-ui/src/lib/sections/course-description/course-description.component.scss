@@ -1,0 +1,302 @@
+// ============================================================================
+// COURSE DESCRIPTION SECTION STYLES
+// ============================================================================
+// Editorial, target-group-tinted content block. All accent tints derive from
+// the host CSS vars --tm-accent / --tm-accent-dark via color-mix().
+// ============================================================================
+
+@use 'tokens' as *;
+
+:host {
+  display: block;
+}
+
+.course-description {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  padding: clamp(48px, 6vw, 96px) clamp(20px, 5vw, 72px);
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+
+  // ─── Container ────────────────────────────────────────────────────────
+
+  &__container {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  // ─── Eyebrow ──────────────────────────────────────────────────────────
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-cta);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tm-accent-dark);
+
+    &--panel {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      margin-bottom: var(--space-5);
+    }
+  }
+
+  &__eyebrow-dash {
+    width: 26px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--tm-accent);
+
+    .course-description__eyebrow--panel & {
+      width: 20px;
+    }
+  }
+
+  // ─── Header ───────────────────────────────────────────────────────────
+
+  &__header {
+    position: relative;
+  }
+
+  &__title {
+    font-family: var(--font-headline);
+    font-size: clamp(2.4rem, 1.6rem + 2.6vw, 3.4rem);
+    line-height: 1.08;
+    font-weight: var(--font-weight-heading);
+    color: var(--color-text-primary);
+    max-width: 16ch;
+    margin: 14px 0 0;
+  }
+
+  &__underline {
+    display: block;
+    margin-top: 10px;
+    max-width: 60%;
+    color: var(--tm-accent);
+  }
+
+  // ─── Lead + Body ──────────────────────────────────────────────────────
+
+  &__lead-row {
+    display: flex;
+    gap: clamp(18px, 3vw, 34px);
+    margin-top: clamp(28px, 4vw, 44px);
+  }
+
+  &__accent-bar {
+    flex-shrink: 0;
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(
+      to bottom,
+      var(--tm-accent),
+      color-mix(in srgb, var(--tm-accent) 30%, white)
+    );
+  }
+
+  &__lead-col {
+    max-width: 66ch;
+    min-width: 0;
+  }
+
+  &__lead {
+    font-size: clamp(1.2rem, 1rem + 0.6vw, 1.45rem);
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--color-text-primary);
+
+    p {
+      margin: 0 0 var(--space-4);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  &__body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    margin-top: 20px;
+
+    p {
+      margin: 0 0 var(--space-4);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: var(--color-text-primary);
+      font-weight: 700;
+    }
+  }
+
+  // ─── "What you learn" callout ─────────────────────────────────────────
+
+  &__callout {
+    position: relative;
+    overflow: hidden;
+    margin-top: clamp(32px, 4vw, 48px);
+    padding: clamp(24px, 3vw, 34px) clamp(26px, 3vw, 40px);
+    background: color-mix(in srgb, var(--tm-accent) 11%, white);
+    border: 1.5px solid color-mix(in srgb, var(--tm-accent) 28%, white);
+    border-radius: 30px 30px 34px 26px;
+  }
+
+  &__callout-flower {
+    position: absolute;
+    right: -34px;
+    bottom: -46px;
+    width: 190px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__callout-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 60ch;
+  }
+
+  &__chip {
+    display: inline-block;
+    font-family: var(--font-cta);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: white;
+    background: var(--tm-accent-dark);
+    padding: 6px 15px;
+    border-radius: 999px;
+  }
+
+  &__callout-text {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 16px 0 0;
+  }
+
+  // ─── Wavy divider ─────────────────────────────────────────────────────
+
+  &__wave {
+    display: block;
+    margin: clamp(40px, 5vw, 60px) 0;
+    opacity: 0.55;
+    color: var(--tm-accent);
+  }
+
+  // ─── Target audience ──────────────────────────────────────────────────
+
+  &__audience-title {
+    font-family: var(--font-headline);
+    font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+    line-height: 1.15;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__audience-body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    max-width: 66ch;
+    margin-top: 18px;
+    color: var(--color-text-secondary);
+
+    p {
+      margin: 0 0 var(--space-3);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    strong {
+      color: var(--color-text-primary);
+    }
+  }
+
+  // ─── Highlights panel ─────────────────────────────────────────────────
+
+  &__panel {
+    position: relative;
+    overflow: hidden;
+    margin-top: clamp(26px, 3vw, 36px);
+    padding: clamp(26px, 3vw, 38px);
+    background: var(--color-surface);
+    border-radius: 32px 26px 34px 28px;
+    box-shadow: var(--shadow-md);
+  }
+
+  &__watermark {
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 230px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  &__panel-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  &__highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: color-mix(in srgb, var(--tm-accent) 7%, white);
+    border: 1px solid color-mix(in srgb, var(--tm-accent) 18%, white);
+    border-radius: 16px 14px 18px 12px;
+  }
+
+  &__check {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--tm-accent);
+  }
+
+  &__highlight-text {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  // ─── Motion ───────────────────────────────────────────────────────────
+
+  @media (max-width: 768px) {
+    padding: clamp(40px, 8vw, 56px) clamp(18px, 5vw, 28px);
+  }
+}

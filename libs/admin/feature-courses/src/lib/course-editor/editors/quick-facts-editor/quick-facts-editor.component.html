@@ -1,0 +1,77 @@
+<div class="ed">
+  <p class="ed__subtitle">Standard-Fakten</p>
+
+  @for (fact of factOrder; track fact; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <span class="ed-field__label">{{ factLabels[fact] }}</span>
+        <label class="ed-toggle">
+          <input
+            type="checkbox"
+            [checked]="isFactVisible(fact)"
+            (change)="toggleFactVisibility(fact)"
+          />
+          <span>Sichtbar</span>
+        </label>
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn"
+          [disabled]="i === 0"
+          (click)="moveFact(i, -1)"
+        >
+          ↑
+        </button>
+        <button
+          type="button"
+          class="ed-btn"
+          [disabled]="i === factOrder.length - 1"
+          (click)="moveFact(i, 1)"
+        >
+          ↓
+        </button>
+      </div>
+    </div>
+  }
+
+  <p class="ed__subtitle">Eigene Fakten</p>
+
+  @for (custom of customFacts; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <admin-icon-picker
+          [value]="custom.icon"
+          (valueChange)="onFactIcon(custom, $event)"
+        />
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Label"
+          [(ngModel)]="custom.label"
+          (ngModelChange)="emit()"
+        />
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Wert"
+          [(ngModel)]="custom.value"
+          (ngModelChange)="emit()"
+        />
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeCustomFact(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="ed-btn ed-btn--add" (click)="addCustomFact()">
+    + Fakt hinzufügen
+  </button>
+</div>

@@ -1,0 +1,44 @@
+<div
+  class="sticky-booking-bar"
+  [class.sticky-booking-bar--visible]="isVisible()"
+  [class.sticky-booking-bar--preview]="preview"
+  [class.sticky-booking-bar--booked]="course.isFullyBooked"
+  role="complementary"
+  aria-label="Buchungsleiste"
+>
+  <div class="sticky-booking-bar__container">
+
+    <!-- Course Info -->
+    <div class="sticky-booking-bar__info">
+      <span class="sticky-booking-bar__title">{{ course.title }}</span>
+      <div class="sticky-booking-bar__price-row">
+        <span class="sticky-booking-bar__price">
+          {{ course.priceFormatted }}
+        </span>
+        @if (priceNote) {
+          <span class="sticky-booking-bar__price-note">{{ priceNote }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="sticky-booking-bar__action">
+      <app-button
+        [variant]="course.isFullyBooked ? 'ghost' : 'primary'"
+        [disabled]="course.isFullyBooked"
+        (clicked)="onBook()"
+        [attr.aria-label]="course.isFullyBooked ? 'Kurs ist ausgebucht' : 'Kurs buchen'"
+      >
+        {{ ctaText }}
+      </app-button>
+    </div>
+
+  </div>
+
+  <!-- Notice (optional, e.g. "Kostenlose Stornierung bis 24h vorher") -->
+  @if (notice && isVisible()) {
+    <div class="sticky-booking-bar__notice">
+      <span>{{ notice }}</span>
+    </div>
+  }
+</div>

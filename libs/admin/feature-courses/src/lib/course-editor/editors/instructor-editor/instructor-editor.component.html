@@ -1,0 +1,38 @@
+<div class="ed">
+  <admin-image-upload-field
+    [value]="imageOverride"
+    label="Porträt"
+    (valueChange)="onImg($event)"
+  />
+
+  <label class="ed-field">
+    <span class="ed-field__label">Rolle</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      placeholder="z. B. Ausgebildete Kinderpädagogin"
+      [(ngModel)]="role"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Zitat</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="quote"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Foto-Credit</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      placeholder="z. B. Daniela Savasta"
+      [(ngModel)]="photoCredit"
+      (ngModelChange)="emit()"
+    />
+  </label>
+</div>

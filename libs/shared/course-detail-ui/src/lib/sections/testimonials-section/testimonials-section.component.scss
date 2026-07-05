@@ -1,0 +1,13 @@
+// ============================================================================
+// TESTIMONIALS SECTION STYLES
+// ============================================================================
+// Rendering is delegated to the shared voices component (ui-testimonial-section),
+// which carries its own styling. This host only needs to be a block-level box.
+// ============================================================================
+
+:host {
+  display: block;
+  // The voices component paints its section with --color-background; on the
+  // course detail page the testimonials sit on a white surface.
+  --color-background: var(--color-surface);
+}

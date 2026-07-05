@@ -1,0 +1,40 @@
+<section class="instructor-section" aria-label="Kursleitung">
+  <article class="instructor-card">
+
+    <!-- Portrait (organic blob) + kicker chip -->
+    <div class="instructor-card__portrait-wrap">
+      <div class="instructor-card__portrait">
+        <img
+          [src]="imageUrl"
+          [alt]="'Porträt von ' + fullName"
+          class="instructor-card__image"
+          loading="lazy"
+        />
+      </div>
+      <span class="instructor-card__kicker">{{ kicker }}</span>
+    </div>
+
+    <!-- Name + role -->
+    <div class="instructor-card__heading">
+      <h2 class="instructor-card__name">{{ fullName }}</h2>
+      @if (role; as r) {
+        <p class="instructor-card__role">{{ r }}</p>
+      }
+    </div>
+
+    <!-- Quote panel -->
+    @if (quote; as q) {
+      <blockquote class="instructor-card__quote">
+        <span class="instructor-card__quote-mark instructor-card__quote-mark--open" aria-hidden="true">&bdquo;</span>
+        <p class="instructor-card__quote-text">{{ q }}</p>
+        <span class="instructor-card__quote-mark instructor-card__quote-mark--close" aria-hidden="true">&bdquo;</span>
+      </blockquote>
+    }
+
+    <!-- Photo credit -->
+    @if (photoCredit; as credit) {
+      <p class="instructor-card__credit">Foto · {{ credit }}</p>
+    }
+
+  </article>
+</section>

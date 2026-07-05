@@ -1,0 +1,182 @@
+// ============================================================================
+// INSTRUCTOR SECTION — POSTER CARD
+// ============================================================================
+// Compact vertical poster card (~420px): organic portrait blob → kicker chip →
+// name → role → quote panel → photo credit. Self-contained warm palette from
+// the design handoff (finalized hifi values with no exact global-token match).
+// ============================================================================
+
+@use 'tokens' as *;
+
+:host {
+  display: block;
+
+  // ─── Poster palette (finalized handoff values) ────────────────────────
+  --poster-surface: #fffcf5;
+  --poster-border: #efe3cf;
+  --poster-amber: #e5a54f;
+  --poster-olive: #7a8d5b;
+  --poster-name: #3a4a2d;
+  --poster-role: #8a5a3a;
+  --poster-wheat: #f6e4c8;
+  --poster-quote-mark: #d98f68;
+  --poster-quote-text: #5a6b4a;
+  --poster-credit: #8a9580;
+
+  --poster-shadow-card: 0 20px 40px rgba(58, 74, 45, 0.15);
+  --poster-shadow-portrait: 0 10px 22px rgba(58, 74, 45, 0.16);
+  --poster-shadow-chip: 0 6px 14px rgba(122, 141, 91, 0.4);
+}
+
+.instructor-section {
+  background: var(--detail-section-bg);
+  padding: var(--space-12) var(--space-6);
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: var(--space-8) var(--space-4);
+  }
+}
+
+.instructor-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--poster-surface);
+  border: 1px solid var(--poster-border);
+  border-radius: var(--radius-2xl);
+  padding: 22px 22px 34px;
+  box-shadow: var(--poster-shadow-card);
+  transition: transform var(--transition-slow);
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  // ─── Portrait (organic blob) ──────────────────────────────────────────
+
+  &__portrait-wrap {
+    position: relative;
+  }
+
+  &__portrait {
+    width: 100%;
+    height: 330px;
+    overflow: hidden;
+    border: 3px solid var(--poster-amber);
+    border-radius: 46% 54% 44% 56% / 58% 60% 40% 42%;
+    box-shadow: var(--poster-shadow-portrait);
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // ─── Kicker chip ──────────────────────────────────────────────────────
+
+  &__kicker {
+    position: absolute;
+    left: 50%;
+    bottom: -16px;
+    transform: translateX(-50%);
+    font-family: var(--font-cta);
+    font-weight: var(--font-weight-medium);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--poster-surface);
+    background: var(--poster-olive);
+    border-radius: 999px;
+    padding: 7px 18px;
+    box-shadow: var(--poster-shadow-chip);
+  }
+
+  // ─── Name + role ──────────────────────────────────────────────────────
+
+  &__heading {
+    margin-top: 34px;
+    text-align: center;
+  }
+
+  &__name {
+    font-family: var(--font-headline);
+    font-weight: var(--font-weight-bold);
+    font-size: 40px;
+    line-height: 1;
+    color: var(--poster-name);
+    margin: 0;
+  }
+
+  &__role {
+    font-family: var(--font-cta);
+    font-weight: var(--font-weight-regular);
+    font-size: 13.5px;
+    color: var(--poster-role);
+    margin: 9px 0 0;
+  }
+
+  // ─── Quote panel ──────────────────────────────────────────────────────
+
+  &__quote {
+    position: relative;
+    margin: 22px 6px 0;
+    padding: 22px 24px 24px;
+    background: var(--poster-wheat);
+    border-radius: 20px;
+  }
+
+  &__quote-mark {
+    position: absolute;
+    font-family: var(--font-headline);
+    font-size: 96px;
+    line-height: 1;
+    color: var(--poster-quote-mark);
+    opacity: 0.3;
+
+    &--open {
+      left: 14px;
+      top: -30px;
+    }
+
+    &--close {
+      right: 14px;
+      bottom: -30px;
+      transform: rotate(180deg);
+    }
+  }
+
+  &__quote-text {
+    position: relative;
+    font-family: var(--font-headline);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.35;
+    color: var(--poster-quote-text);
+    text-align: center;
+    margin: 0;
+  }
+
+  // ─── Photo credit ─────────────────────────────────────────────────────
+
+  &__credit {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-regular);
+    font-size: 12px;
+    color: var(--poster-credit);
+    text-align: center;
+    margin: 24px 0 0;
+  }
+}

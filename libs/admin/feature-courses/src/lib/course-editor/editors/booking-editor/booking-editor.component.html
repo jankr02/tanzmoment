@@ -1,0 +1,33 @@
+<div class="ed">
+  <p class="ed__hint">Steuert die Buchungsleiste am Seitenende (Button, Preis-Hinweis, Hinweistext).</p>
+
+  <label class="ed-field">
+    <span class="ed-field__label">CTA-Text</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="ctaText"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Preis-Hinweis</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="priceNote"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Hinweis</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="notice"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+</div>

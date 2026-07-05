@@ -1,0 +1,97 @@
+<div class="ed">
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift (Fallback: Kurstitel)</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="headline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Lead (hervorgehobener Einstieg)</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="lead"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  <div class="ed-field">
+    <span class="ed-field__label">Beschreibungstext</span>
+    <admin-rich-text-editor
+      [html]="description"
+      placeholder="Beschreibe den Kurs…"
+      (htmlChange)="onDescriptionChange($event)"
+    />
+  </div>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Was wir lernen (Callout)</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="whatYouLearn"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  <p class="ed__subtitle">Zielgruppe</p>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Überschrift</span>
+    <input
+      class="ed-field__control"
+      type="text"
+      [(ngModel)]="targetAudienceHeadline"
+      (ngModelChange)="emit()"
+    />
+  </label>
+
+  <label class="ed-field">
+    <span class="ed-field__label">Text</span>
+    <textarea
+      class="ed-field__control"
+      [(ngModel)]="targetAudienceBody"
+      (ngModelChange)="emit()"
+    ></textarea>
+  </label>
+
+  <p class="ed__subtitle">Highlights</p>
+
+  @for (highlight of highlights; track i; let i = $index) {
+    <div class="ed-row">
+      <div class="ed-row__body">
+        <input
+          class="ed-field__control"
+          type="text"
+          placeholder="Highlight-Text"
+          [(ngModel)]="highlight.text"
+          (ngModelChange)="emit()"
+        />
+      </div>
+      <div class="ed-row__actions">
+        <button
+          type="button"
+          class="ed-btn ed-btn--remove"
+          (click)="removeHighlight(i)"
+        >
+          Entfernen
+        </button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="ed-btn ed-btn--add" (click)="addHighlight()">
+    + Highlight
+  </button>
+
+  <label class="ed-toggle">
+    <input
+      type="checkbox"
+      [(ngModel)]="showWatermark"
+      (ngModelChange)="emit()"
+    />
+    <span>Illustration im Highlights-Panel anzeigen</span>
+  </label>
+</div>

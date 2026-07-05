@@ -78,10 +78,14 @@ export interface CourseHighlight {
 }
 
 export interface CourseDetailDescriptionContent {
-  /** Section headline (Fallback: "Über diesen Kurs") */
+  /** Optional headline override for the H2 (Fallback: course.title) */
   headline?: string;
+  /** Optional lead paragraph — emphasized intro shown above the body */
+  lead?: string;
   /** Main text — Markdown allowed (Fallback: course.description) */
   body?: string;
+  /** Optional "what you learn" callout text (callout hidden when empty) */
+  whatYouLearn?: string;
   /** Optional: target audience block */
   targetAudience?: {
     headline?: string;
@@ -89,12 +93,8 @@ export interface CourseDetailDescriptionContent {
   };
   /** Feature highlights list */
   highlights?: CourseHighlight[];
-  /** Atmospheric image URL shown beside the description text */
-  imageUrl?: string;
-  /** Alt text for the atmospheric image */
-  imageAlt?: string;
-  /** Image position relative to text. Default: 'right' */
-  imagePosition?: 'left' | 'right';
+  /** Toggle the target-group watermark illustration in the highlights panel. Default: true */
+  showWatermark?: boolean;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -102,6 +102,8 @@ export interface CourseDetailDescriptionContent {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface CourseDetailInstructorContent {
+  /** Single role line shown on the poster card (Fallback: instructor.expertise[0]) */
+  role?: string;
   /** Bio override for this specific course (Fallback: instructor.bio) */
   bioOverride?: string;
   /** Personal quote about the dance style */
@@ -110,6 +112,8 @@ export interface CourseDetailInstructorContent {
   qualifications?: string[];
   /** Alternative image in course context (Fallback: instructor.imageUrl) */
   imageOverride?: string;
+  /** Photo credit shown at the bottom of the poster card */
+  photoCredit?: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

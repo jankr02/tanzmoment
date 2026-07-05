@@ -1,0 +1,289 @@
+<div class="editor">
+  <!-- ─── Top bar ─────────────────────────────────────────────────────── -->
+  <header class="editor__bar">
+    <div class="editor__bar-left">
+      <button type="button" class="editor__icon-btn" (click)="navigateBack()" aria-label="Zurück zur Kursliste">
+        ←
+      </button>
+      <div class="editor__title">
+        <span class="editor__title-text">{{ form.get('title')?.value || 'Neuer Kurs' }}</span>
+        @if (isEditMode()) {
+          <span class="editor__badge" [class.editor__badge--live]="isPublished()">
+            {{ isPublished() ? 'Veröffentlicht' : 'Entwurf' }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <div class="editor__bar-right">
+      @if (error()) {
+        <span class="editor__error" role="alert">{{ error() }}</span>
+      }
+      @if (isEditMode()) {
+        <button
+          type="button"
+          class="editor__btn editor__btn--ghost"
+          [disabled]="publishing()"
+          (click)="togglePublish()"
+        >
+          {{ isPublished() ? 'Verbergen' : 'Veröffentlichen' }}
+        </button>
+      }
+      <button
+        type="button"
+        class="editor__btn editor__btn--primary"
+        [disabled]="saving() || missingFields().length > 0"
+        [title]="missingFields().length ? 'Pflichtfelder fehlen: ' + missingFields().join(', ') : ''"
+        (click)="save()"
+      >
+        {{ saving() ? 'Speichert…' : 'Speichern' }}
+      </button>
+      <button
+        type="button"
+        class="editor__icon-btn"
+        (click)="toggleDrawer()"
+        [attr.aria-pressed]="drawerOpen()"
+        aria-label="Einstellungen umschalten"
+      >
+        ⚙
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── Body ────────────────────────────────────────────────────────── -->
+  <div class="editor__body" [class.editor__body--drawer-open]="drawerOpen()">
+    <main class="editor__canvas-wrap">
+      @if (loading()) {
+        <div class="editor__loading" aria-live="polite" aria-busy="true">Kurs wird geladen…</div>
+      } @else {
+        <admin-course-editor-canvas
+          [course]="preview()"
+          [activeSection]="activeSection()"
+          (editSection)="onEditSection($event)"
+        />
+      }
+    </main>
+
+    <!-- ─── Config drawer ─────────────────────────────────────────────── -->
+    @if (drawerOpen()) {
+      <aside class="editor__drawer" aria-label="Kurs-Bearbeitung">
+      @if (activeSection(); as sec) {
+        <div class="editor__panel-head">
+          <button type="button" class="editor__icon-btn" (click)="closeSection()" aria-label="Zurück zur Übersicht">←</button>
+          <h2 class="editor__drawer-title">{{ sectionLabel(sec) }}</h2>
+        </div>
+
+        @switch (sec) {
+          @case ('hero') {
+            <admin-hero-editor
+              [content]="detailContent().hero"
+              [title]="form.get('title')?.value ?? ''"
+              [catchPhrase]="form.get('catchPhrase')?.value ?? ''"
+              [imageUrl]="form.get('imageUrl')?.value ?? ''"
+              (contentChange)="setSection('hero', $event)"
+              (titleChange)="setBaseField('title', $event)"
+              (catchPhraseChange)="setBaseField('catchPhrase', $event)"
+              (imageUrlChange)="setBaseField('imageUrl', $event)"
+            />
+          }
+          @case ('quickFacts') {
+            <admin-quick-facts-editor [content]="detailContent().quickFacts" (contentChange)="setSection('quickFacts', $event)" />
+          }
+          @case ('description') {
+            <admin-description-editor
+              [content]="detailContent().description"
+              [description]="form.get('description')?.value ?? ''"
+              (contentChange)="setSection('description', $event)"
+              (descriptionChange)="setBaseField('description', $event)"
+            />
+          }
+          @case ('courseFlow') {
+            <admin-course-flow-editor [content]="detailContent().courseFlow" (contentChange)="setSection('courseFlow', $event)" />
+          }
+          @case ('socialProof') {
+            <admin-testimonials-editor [content]="detailContent().socialProof" (contentChange)="setSection('socialProof', $event)" />
+          }
+          @case ('instructor') {
+            <admin-instructor-editor [content]="detailContent().instructor" (contentChange)="setSection('instructor', $event)" />
+          }
+          @case ('schedule') {
+            @if (isEditMode()) {
+              <admin-step-sessions
+                [courseId]="courseId()!"
+                [sessions]="sessions()"
+                [locations]="locations()"
+                [courseDuration]="form.get('duration')?.value ?? 90"
+                (sessionCreated)="reloadSessions()"
+                (sessionCancelled)="reloadSessions()"
+              />
+            } @else {
+              <p class="editor__hint">Termine brauchen einen gespeicherten Kurs. Speichere zuerst, dann kannst du hier Termine anlegen.</p>
+              <button
+                type="button"
+                class="editor__btn editor__btn--primary"
+                [disabled]="saving() || missingFields().length > 0"
+                (click)="save()"
+              >
+                {{ saving() ? 'Speichert…' : 'Kurs speichern & Termine anlegen' }}
+              </button>
+            }
+            <admin-schedule-editor [content]="detailContent().schedule" [sessions]="sessions()" (contentChange)="setSection('schedule', $event)" />
+          }
+          @case ('faq') {
+            <admin-faq-editor [content]="detailContent().faq" (contentChange)="setSection('faq', $event)" />
+          }
+          @case ('booking') {
+            <admin-booking-editor [content]="detailContent().booking" (contentChange)="setSection('booking', $event)" />
+          }
+        }
+      } @else {
+        <h2 class="editor__drawer-title">Bearbeiten</h2>
+
+        @if (missingFields().length) {
+          <div class="editor__missing" role="status">
+            <strong>Pflichtfelder fehlen</strong>
+            <ul>
+              @for (f of missingFields(); track f) {
+                <li>{{ f }}</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <!-- Content section list -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Inhalte</h3>
+          <div class="editor__section-list">
+            @for (s of contentSections; track s.key) {
+              <button type="button" class="editor__section-btn" (click)="openSection(s.key)">
+                <span>{{ s.label }}</span>
+                @switch (sectionStatus(s.key)) {
+                  @case ('done') {
+                    <span class="editor__section-status editor__section-status--done" title="Erledigt" aria-label="Erledigt">✓</span>
+                  }
+                  @case ('incomplete') {
+                    <span class="editor__section-status editor__section-status--warn" title="Unvollständig" aria-label="Unvollständig">!</span>
+                  }
+                  @default {
+                    <span class="editor__section-status" aria-hidden="true">✎</span>
+                  }
+                }
+              </button>
+            }
+          </div>
+        </section>
+
+        <div [formGroup]="form">
+        <!-- Basics -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Grundlagen</h3>
+
+          <label class="editor__label">Tanzstil <span class="editor__req" aria-hidden="true">*</span></label>
+          <div class="editor__tiles">
+            @for (style of danceStyles; track style.value) {
+              <button
+                type="button"
+                class="editor__tile"
+                [class.editor__tile--active]="form.get('danceStyle')?.value === style.value"
+                [style.background-color]="style.color"
+                (click)="selectDanceStyle(style.value)"
+              >
+                {{ style.label }}
+              </button>
+            }
+          </div>
+
+          <label class="editor__label" for="ed-target">Zielgruppe <span class="editor__req" aria-hidden="true">*</span></label>
+          <select id="ed-target" class="editor__input" formControlName="targetGroup">
+            <option value="" disabled>Bitte wählen</option>
+            @for (tg of targetGroups; track tg) {
+              <option [value]="tg">{{ tg }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-level">Level</label>
+          <select id="ed-level" class="editor__input" formControlName="level">
+            @for (lv of levels; track lv.value) {
+              <option [value]="lv.value">{{ lv.label }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-short">Kurzbeschreibung <span class="editor__req" aria-hidden="true">*</span></label>
+          <textarea
+            id="ed-short"
+            class="editor__input editor__textarea"
+            formControlName="shortDescription"
+            rows="3"
+            placeholder="Kurze Zusammenfassung (30–500 Zeichen)"
+          ></textarea>
+          @if (fieldError('shortDescription', 'Kurzbeschreibung'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
+        </section>
+
+        <!-- Settings -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">Preis & Buchung</h3>
+
+          <label class="editor__toggle">
+            <input type="checkbox" formControlName="isFree" (change)="onFreeToggle()" />
+            <span>Kostenloser Kurs</span>
+          </label>
+
+          <label class="editor__label" for="ed-price">Preis (€) <span class="editor__req" aria-hidden="true">*</span></label>
+          <input id="ed-price" class="editor__input" type="number" min="0" formControlName="priceInEuros" />
+          @if (fieldError('priceInEuros', 'Preis'); as e) {
+            <span class="editor__field-error">{{ e }}</span>
+          }
+
+          <label class="editor__label" for="ed-duration">Dauer (Min.) <span class="editor__req" aria-hidden="true">*</span></label>
+          <select id="ed-duration" class="editor__input" formControlName="duration">
+            @for (d of durations; track d) {
+              <option [value]="d">{{ d }} Min.</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-max">Max. Teilnehmer <span class="editor__req" aria-hidden="true">*</span></label>
+          <input id="ed-max" class="editor__input" type="number" min="1" formControlName="maxParticipants" />
+
+          <label class="editor__label" for="ed-mode">Buchungsmodus</label>
+          <select id="ed-mode" class="editor__input" formControlName="bookingMode">
+            @for (bm of bookingModes; track bm.value) {
+              <option [value]="bm.value">{{ bm.label }}</option>
+            }
+          </select>
+
+          <label class="editor__label" for="ed-vis">Sichtbarkeit</label>
+          <select id="ed-vis" class="editor__input" formControlName="visibility">
+            @for (vo of visibilityOptions; track vo.value) {
+              <option [value]="vo.value">{{ vo.label }}</option>
+            }
+          </select>
+
+          <label class="editor__toggle">
+            <input type="checkbox" formControlName="isMarkedAsHighlighted" />
+            <span>Als Highlight markieren</span>
+          </label>
+        </section>
+
+        <!-- SEO -->
+        <section class="editor__group">
+          <h3 class="editor__group-title">SEO</h3>
+
+          <label class="editor__label" for="ed-meta-title">Meta-Titel</label>
+          <input id="ed-meta-title" class="editor__input" formControlName="metaTitle" />
+
+          <label class="editor__label" for="ed-meta-desc">Meta-Beschreibung</label>
+          <textarea
+            id="ed-meta-desc"
+            class="editor__input editor__textarea"
+            formControlName="metaDescription"
+            rows="3"
+          ></textarea>
+        </section>
+        </div>
+      }
+      </aside>
+    }
+  </div>
+</div>

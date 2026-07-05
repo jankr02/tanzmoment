@@ -29,22 +29,22 @@ import { CourseDetailService } from '../../services/course-detail.service';
 import { SeoService } from '@tanzmoment/shared/services';
 
 // Types
+import { CourseDetailContent } from '@tanzmoment/shared/types';
+
+// Sections + theme (shared presentational lib)
 import {
   CourseDetailTheme,
   COURSE_DETAIL_THEMES,
-  CourseDetailContent,
-} from '../../types/course-detail.types';
-
-// Sections
-import { DetailHeroComponent } from '../../sections/detail-hero/detail-hero.component';
-import { QuickFactsComponent } from '../../sections/quick-facts/quick-facts.component';
-import { CourseDescriptionComponent } from '../../sections/course-description/course-description.component';
-import { CourseFlowComponent } from '../../sections/course-flow/course-flow.component';
-import { TestimonialsSectionComponent } from '../../sections/testimonials-section/testimonials-section.component';
-import { InstructorSectionComponent } from '../../sections/instructor-section/instructor-section.component';
-import { ScheduleSectionComponent } from '../../sections/schedule-section/schedule-section.component';
-import { FaqSectionComponent } from '../../sections/faq-section/faq-section.component';
-import { StickyBookingBarComponent } from '../../sections/sticky-booking-bar/sticky-booking-bar.component';
+  DetailHeroComponent,
+  QuickFactsComponent,
+  CourseDescriptionComponent,
+  CourseFlowComponent,
+  TestimonialsSectionComponent,
+  InstructorSectionComponent,
+  ScheduleSectionComponent,
+  FaqSectionComponent,
+  StickyBookingBarComponent,
+} from '@tanzmoment/shared/course-detail-ui';
 
 // Shared UI
 import { ButtonComponent, ScrollRevealDirective, BookingModalComponent } from '@tanzmoment/shared/ui';

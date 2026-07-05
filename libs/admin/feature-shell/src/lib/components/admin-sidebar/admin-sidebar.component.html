@@ -4,13 +4,15 @@
       <span class="sidebar__logo">Tanzmoment</span>
       <span class="sidebar__badge">Admin</span>
     }
-    <button
-      class="sidebar__toggle"
-      (click)="toggleCollapsed()"
-      [attr.aria-label]="collapsed() ? 'Seitenleiste einblenden' : 'Seitenleiste ausblenden'"
-    >
-      <app-icon [name]="collapsed() ? 'chevrons-right' : 'chevrons-left'" size="sm" color="current" />
-    </button>
+    @if (!forcedCollapsed()) {
+      <button
+        class="sidebar__toggle"
+        (click)="toggleCollapsed()"
+        [attr.aria-label]="collapsed() ? 'Seitenleiste einblenden' : 'Seitenleiste ausblenden'"
+      >
+        <app-icon [name]="collapsed() ? 'chevrons-right' : 'chevrons-left'" size="sm" color="current" />
+      </button>
+    }
   </div>
 
   <nav class="sidebar__nav" role="navigation" aria-label="Admin Navigation">

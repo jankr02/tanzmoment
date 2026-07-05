@@ -1,0 +1,26 @@
+<div class="icon-picker">
+  <span class="icon-picker__label">{{ label }}</span>
+  <div class="icon-picker__grid">
+    <button
+      type="button"
+      class="icon-picker__btn icon-picker__btn--none"
+      [class.icon-picker__btn--active]="!value"
+      (click)="select('')"
+      title="Kein Icon"
+      aria-label="Kein Icon"
+    >∅</button>
+    @for (icon of icons; track icon) {
+      <button
+        type="button"
+        class="icon-picker__btn"
+        [class.icon-picker__btn--active]="value === icon"
+        (click)="select(icon)"
+        [title]="icon"
+        [attr.aria-label]="icon"
+        [attr.aria-pressed]="value === icon"
+      >
+        <app-icon [name]="$any(icon)" size="sm" color="current" />
+      </button>
+    }
+  </div>
+</div>
