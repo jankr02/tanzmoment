@@ -36,6 +36,33 @@
   <!-- ─── CONTENT ────────────────────────────────────────────────────── -->
   @else if (course(); as c) {
 
+    <!-- Decorative blob field: a single page-wide layer behind the section
+         content (above section backgrounds, below text) so blobs flow
+         continuously across the wave dividers. Purely decorative. -->
+    <div class="course-detail__blobs" aria-hidden="true">
+      <!-- Quick-facts → description -->
+      <tm-decorative-blob variant="organic-4" [position]="null" top="15%" left="2%" [size]="260" [rotation]="-30" [flip]="true" />
+      <!-- Description -->
+      <tm-decorative-blob variant="organic-1" [position]="null" top="20%" right="3%" [size]="440" [rotation]="18" />
+      <tm-decorative-blob variant="organic-2" [position]="null" top="26%" left="1%" [size]="300" [rotation]="60" [flip]="true" />
+      <tm-decorative-blob variant="organic-5" [position]="null" top="31%" right="8%" [size]="240" [rotation]="-15" />
+      <tm-decorative-blob variant="organic-3" [position]="null" top="37%" left="5%" [size]="360" [rotation]="40" [flip]="true" />
+      <!-- Description → course-flow (straddles the wave) -->
+      <tm-decorative-blob variant="organic-6" [position]="null" top="41%" right="5%" [size]="420" [rotation]="120" />
+      <tm-decorative-blob variant="organic-2" [position]="null" top="47%" left="3%" [size]="300" [rotation]="-50" [flip]="true" />
+      <!-- Course-flow -->
+      <tm-decorative-blob variant="organic-1" [position]="null" top="52%" right="6%" [size]="340" [rotation]="200" [flip]="true" />
+      <!-- Instructor -->
+      <tm-decorative-blob variant="organic-5" [position]="null" top="72%" left="2%" [size]="380" [rotation]="25" />
+      <tm-decorative-blob variant="organic-3" [position]="null" top="78%" right="3%" [size]="320" [rotation]="-40" [flip]="true" />
+      <!-- Instructor → schedule (straddles the wave) -->
+      <tm-decorative-blob variant="organic-6" [position]="null" top="86%" right="5%" [size]="360" [rotation]="15" [flip]="true" />
+      <!-- Schedule → faq (straddles the wave) -->
+      <tm-decorative-blob variant="organic-1" [position]="null" top="92%" left="3%" [size]="300" [rotation]="-25" />
+      <!-- FAQ -->
+      <tm-decorative-blob variant="organic-2" [position]="null" top="95%" right="6%" [size]="340" [rotation]="70" [flip]="true" />
+    </div>
+
     <!-- 1. Hero Section (Attention) -->
     <app-detail-hero
       [course]="c"

@@ -5,6 +5,8 @@
   background-color: var(--color-background);
 
   &__container {
+    position: relative;
+    z-index: 1;
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 var(--container-padding);
@@ -13,7 +15,8 @@
   &__card {
     max-width: 760px;
     margin: 0 auto;
-    background-color: var(--color-background);
+    // No own background: it equals the section colour and would only clip the
+    // decorative blob layer behind it into a hard straight edge.
     border-radius: var(--radius-2xl);
     padding: var(--space-12) var(--space-6) var(--space-16);
 

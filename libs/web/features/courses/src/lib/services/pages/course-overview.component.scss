@@ -37,8 +37,26 @@ $bp-sidebar: 1024px;
 // ─────────────────────────────────────────────────────────────────────────────
 
 .course-overview {
+  position: relative;
+  // Own stacking context so the decorative blob layer (z-index: -1) sits above
+  // the page background but behind all content, without touching each section.
+  isolation: isolate;
   min-height: 100vh;
   background: var(--color-surface);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DECORATIVE BLOB LAYER
+// ─────────────────────────────────────────────────────────────────────────────
+// Page-wide ambient blobs behind the course grid. Opaque cards/sections occlude
+// them locally; they show softly in the airy gaps between cards.
+
+.course-overview__blobs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .course-overview__page-header {

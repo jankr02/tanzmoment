@@ -5,6 +5,8 @@
   background-color: var(--color-surface);
 
   &__container {
+    position: relative;
+    z-index: 1;
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 var(--container-padding);

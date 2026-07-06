@@ -41,6 +41,8 @@
 
 .instructor-card {
   position: relative;
+  // Sits above the page-wide decorative blob layer so text stays crisp.
+  z-index: 1;
   width: 100%;
   max-width: 420px;
   background: var(--poster-surface);

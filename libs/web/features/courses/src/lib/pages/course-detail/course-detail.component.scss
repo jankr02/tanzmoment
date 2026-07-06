@@ -28,6 +28,19 @@
   }
 }
 
+// ─── DECORATIVE BLOB LAYER ─────────────────────────────────────────────────────
+// Spans the whole page, sits above the sections' opaque backgrounds but below
+// their (z-indexed) text content, so blobs read continuously across the wave
+// dividers. Section content containers carry position: relative; z-index: 1.
+
+.course-detail__blobs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 // ─── LOADING STATE ────────────────────────────────────────────────────────────
 
 .course-detail__loading {

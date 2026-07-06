@@ -10,4 +10,9 @@
   // The voices component paints its section with --color-background; on the
   // course detail page the testimonials sit on a white surface.
   --color-background: var(--color-surface);
+  // This section delegates background + content to the shared voices component,
+  // so blobs can't slip behind its text. Lift it above the decorative blob
+  // layer instead — blobs simply pass behind it cleanly (cover island).
+  position: relative;
+  z-index: 2;
 }

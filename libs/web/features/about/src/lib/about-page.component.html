@@ -1,4 +1,21 @@
 <main class="about-page">
+  <!-- Decorative blob field: page-wide layer behind the section content (above
+       backgrounds, below text) so blobs flow across the wave dividers. The two
+       shared sections (dance-styles, testimonials) are cover islands. -->
+  <div class="about-page__blobs" aria-hidden="true">
+    <tm-decorative-blob variant="organic-1" [position]="null" top="6%" right="3%" [size]="380" [rotation]="18" />
+    <tm-decorative-blob variant="organic-4" [position]="null" top="12%" left="2%" [size]="300" [rotation]="-35" [flip]="true" />
+    <tm-decorative-blob variant="organic-2" [position]="null" top="19%" right="6%" [size]="340" [rotation]="60" />
+    <tm-decorative-blob variant="organic-6" [position]="null" top="25%" left="4%" [size]="400" [rotation]="120" [flip]="true" />
+    <tm-decorative-blob variant="organic-3" [position]="null" top="31%" right="4%" [size]="300" [rotation]="-20" />
+    <tm-decorative-blob variant="organic-5" [position]="null" top="37%" left="3%" [size]="360" [rotation]="40" [flip]="true" />
+    <tm-decorative-blob variant="organic-2" [position]="null" top="43%" right="5%" [size]="280" [rotation]="-50" />
+    <tm-decorative-blob variant="organic-1" [position]="null" top="48%" left="5%" [size]="320" [rotation]="200" [flip]="true" />
+    <tm-decorative-blob variant="organic-6" [position]="null" top="86%" left="3%" [size]="300" [rotation]="15" />
+    <tm-decorative-blob variant="organic-3" [position]="null" top="88%" right="4%" [size]="300" [rotation]="90" [flip]="true" />
+    <tm-decorative-blob variant="organic-5" [position]="null" top="93%" left="4%" [size]="360" [rotation]="-25" />
+  </div>
+
   <!-- Hero: personal introduction -->
   <tm-hero-section [data]="heroData()" />
 
