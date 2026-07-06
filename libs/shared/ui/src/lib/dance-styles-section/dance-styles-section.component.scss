@@ -40,6 +40,13 @@ $card-width-xl: 700px;
   position: relative;
 }
 
+// The wave-divider overlay mode anchors to the bottom of its parent; the top
+// wave needs to sit at the top of the journey instead (mirror of the bottom).
+.dance-styles-section__wave-mobile--top ::ng-deep .wave-divider--overlay {
+  top: 0;
+  bottom: auto;
+}
+
 .dance-styles-section__desktop {
   display: contents;
 }

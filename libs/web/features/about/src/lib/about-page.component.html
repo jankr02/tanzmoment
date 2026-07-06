@@ -40,13 +40,15 @@
   <!-- Spaces & Accessibility -->
   <tm-spaces-section [data]="spacesData()" />
 
-  <!-- Transition: Spaces (background) -> Dance Styles (surface) -->
-  <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
+  <!-- Transition: Spaces (background) -> Dance Styles (surface).
+       Desktop only: the section is white on desktop but sits directly on the
+       beige neighbours on mobile, where the journey renders its own waves. -->
+  <tm-wave-divider class="about-page__wave--desktop-only" from="background" to="surface" variant="organic" height="md" />
 
   <!--
     Dance Styles Section (navigates to the sub-pages).
-    Both transitions come from the page waves (which start/end on "surface"),
-    so prev/next = "surface" keeps the section's own mobile waves colour-matched.
+    On mobile the journey's own top/bottom waves are the section edges, so
+    prev/next = "background" matches the beige neighbours (spaces / testimonials).
   -->
   <ui-dance-styles-section
     headline="Für wen ist Tanzmoment?"
@@ -54,12 +56,12 @@
     [danceStyles]="danceStyles()"
     [navigationMode]="'navigate'"
     [showCourseCounts]="false"
-    previousSectionBackground="surface"
-    nextSectionBackground="surface"
+    previousSectionBackground="background"
+    nextSectionBackground="background"
   />
 
-  <!-- Transition: Dance Styles (surface) -> Testimonials (background) -->
-  <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
+  <!-- Transition: Dance Styles (surface) -> Testimonials (background). Desktop only (see above). -->
+  <tm-wave-divider class="about-page__wave--desktop-only" from="surface" to="background" variant="organic" height="md" />
 
   <!-- Testimonials (shared dance-style "voices" design) -->
   <ui-testimonial-section [data]="testimonialsData()" />
