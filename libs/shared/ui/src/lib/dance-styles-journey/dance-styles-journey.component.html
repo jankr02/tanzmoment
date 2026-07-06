@@ -125,6 +125,7 @@
               type="button"
               class="tm-journey__hint"
               [style.color]="scene.theme.ink"
+              [attr.aria-label]="'Weiter zu ' + scene.next.shortLabel"
               (click)="goTo(i + 1)"
             >
               <span
@@ -147,7 +148,6 @@
                   />
                 </svg>
               </span>
-              Weiter zu {{ scene.next.shortLabel }}
             </button>
           } @else {
             <span
