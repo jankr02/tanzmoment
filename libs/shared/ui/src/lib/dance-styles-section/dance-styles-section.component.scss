@@ -406,8 +406,11 @@ $card-width-xl: 700px;
 // ─────────────────────────────────────────────────────────────────────────────
 // RESPONSIVE - Tablet (768px - 1023px)
 // ─────────────────────────────────────────────────────────────────────────────
+// Scoped to the tablet range only: without the min-width bound this block leaks
+// onto mobile, where the padding-bottom below adds an unpainted 60px gap under
+// the journey (the section has no background, so it shows the white page body).
 
-@media (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .dance-styles-section {
     padding: 0 0 60px;
   }
