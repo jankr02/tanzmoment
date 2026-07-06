@@ -36,23 +36,27 @@
     </div>
 
     <div class="filter-bar__dates">
-      <label for="from-filter" class="filter-bar__date-label">Von</label>
-      <input
-        id="from-filter"
-        type="date"
-        class="filter-bar__date-input"
-        [value]="fromFilter()"
-        (change)="onFromChange($event)"
-      />
+      <div class="filter-bar__date-group">
+        <label for="from-filter" class="filter-bar__date-label">Von</label>
+        <input
+          id="from-filter"
+          type="date"
+          class="filter-bar__date-input"
+          [value]="fromFilter()"
+          (change)="onFromChange($event)"
+        />
+      </div>
 
-      <label for="to-filter" class="filter-bar__date-label">Bis</label>
-      <input
-        id="to-filter"
-        type="date"
-        class="filter-bar__date-input"
-        [value]="toFilter()"
-        (change)="onToChange($event)"
-      />
+      <div class="filter-bar__date-group">
+        <label for="to-filter" class="filter-bar__date-label">Bis</label>
+        <input
+          id="to-filter"
+          type="date"
+          class="filter-bar__date-input"
+          [value]="toFilter()"
+          (change)="onToChange($event)"
+        />
+      </div>
     </div>
 
     @if (hasActiveFilters()) {
