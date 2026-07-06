@@ -15,5 +15,9 @@
 
 <!-- Global Footer (hidden during splash screen on landing page) -->
 @if (shouldShowHeaderFooter()) {
-  <tm-footer />
+  <tm-footer
+    [waveFrom]="footerColors().from"
+    [waveTo]="footerColors().to"
+    [style.--footer-bg-color]="footerColors().bg"
+  />
 }

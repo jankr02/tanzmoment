@@ -67,6 +67,23 @@ export class AppComponent {
     };
   });
 
+  private readonly LEGAL_ROUTES = ['/impressum', '/datenschutz', '/agb'];
+
+  protected readonly footerColors = computed(() => {
+    const route = this.currentRoute().split('?')[0];
+    if (route.startsWith('/kursplan')) {
+      return { from: 'surface', to: 'surface', bg: 'var(--color-surface)' };
+    }
+    if (this.LEGAL_ROUTES.some((r) => route.startsWith(r))) {
+      return { from: 'background', to: 'background', bg: 'var(--color-background)' };
+    }
+    return {
+      from: 'var(--last-section-bg, var(--color-surface))',
+      to: 'var(--color-accent)',
+      bg: null,
+    };
+  });
+
   protected readonly shouldShowHeaderFooter = computed(() => {
     const route = this.currentRoute();
     const isLandingPage = route === '/';
