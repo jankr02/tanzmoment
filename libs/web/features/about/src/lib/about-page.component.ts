@@ -13,6 +13,7 @@ import {
   WaveDividerComponent,
   TestimonialSectionComponent,
   TestimonialsData,
+  DecorativeBlobComponent,
 } from '@tanzmoment/shared/ui';
 import { SeoService } from '@tanzmoment/shared/services';
 
@@ -48,6 +49,7 @@ const PLACEHOLDER_IMAGE = '/assets/images/about/portrait-placeholder.jpg';
     ContactSectionComponent,
     DanceStylesSectionComponent,
     WaveDividerComponent,
+    DecorativeBlobComponent,
   ],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.scss',

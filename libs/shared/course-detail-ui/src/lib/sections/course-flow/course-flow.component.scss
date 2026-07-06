@@ -8,6 +8,8 @@
 @use 'tokens' as *;
 
 .course-flow {
+  position: relative;
+  overflow: hidden;
   background: var(--detail-section-bg);
   padding: var(--space-12) 0;
 
@@ -18,6 +20,8 @@
   // ─── Container ──────────────────────────────────────────────────────────
 
   &__container {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
     padding: 0 var(--space-6);

@@ -47,7 +47,12 @@ import {
 } from '@tanzmoment/shared/course-detail-ui';
 
 // Shared UI
-import { ButtonComponent, ScrollRevealDirective, BookingModalComponent } from '@tanzmoment/shared/ui';
+import {
+  ButtonComponent,
+  ScrollRevealDirective,
+  BookingModalComponent,
+  DecorativeBlobComponent,
+} from '@tanzmoment/shared/ui';
 
 // Booking Feature
 import { BookingFormComponent, BookingStore } from '@tanzmoment/web/features/booking';
@@ -71,6 +76,7 @@ import { CreateBookingApiResponse } from '@tanzmoment/shared/types';
     StickyBookingBarComponent,
     BookingModalComponent,
     BookingFormComponent,
+    DecorativeBlobComponent,
   ],
   providers: [BookingStore],
   templateUrl: './course-detail.component.html',

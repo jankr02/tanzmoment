@@ -1,6 +1,28 @@
 .about-page {
+  position: relative;
+
   // Sections haben vertikalen Abstand
   > * + * {
     margin-top: 0; // Sections haben eigenes Padding
   }
+}
+
+// ─── DECORATIVE BLOB LAYER ─────────────────────────────────────────────────────
+// Page-wide layer above the sections' opaque backgrounds but below their
+// (z-indexed) content, so blobs flow across the wave dividers. The two shared
+// sections below render background + content together, so they're lifted above
+// the layer (cover islands) — blobs pass cleanly behind them.
+
+.about-page__blobs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-page ui-dance-styles-section,
+.about-page ui-testimonial-section {
+  position: relative;
+  z-index: 2;
 }

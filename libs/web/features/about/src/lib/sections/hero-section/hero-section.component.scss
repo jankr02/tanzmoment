@@ -5,6 +5,8 @@
   position: relative;
 
   &__container {
+    position: relative;
+    z-index: 1;
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: var(--space-12) var(--container-padding) var(--space-10);

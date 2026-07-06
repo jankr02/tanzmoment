@@ -12,43 +12,48 @@
   }
 }
 
-.blob {
-  &--top-left {
-    top: -10%;
-    left: -8%;
-  }
+// Position modifiers live on the host element (set via HostBinding('class')),
+// so they must be targeted with :host() — a bare .blob--* selector is scoped
+// to descendants under emulated view encapsulation and would never match.
+//
+// Blobs sit fully inside the section (positive insets), so the parent's
+// overflow: hidden never clips them into a hard straight edge — the organic
+// silhouette stays intact.
+:host(.blob--top-left) {
+  top: 4%;
+  left: 3%;
+}
 
-  &--top-right {
-    top: -10%;
-    right: -8%;
-  }
+:host(.blob--top-right) {
+  top: 4%;
+  right: 3%;
+}
 
-  &--bottom-left {
-    bottom: -10%;
-    left: -8%;
-  }
+:host(.blob--bottom-left) {
+  bottom: 4%;
+  left: 3%;
+}
 
-  &--bottom-right {
-    bottom: -10%;
-    right: -8%;
-  }
+:host(.blob--bottom-right) {
+  bottom: 4%;
+  right: 3%;
+}
 
-  &--center-left {
-    top: 50%;
-    left: -8%;
-    transform: translateY(-50%);
-  }
+:host(.blob--center-left) {
+  top: 50%;
+  left: 3%;
+  transform: translateY(-50%);
+}
 
-  &--center-right {
-    top: 50%;
-    right: -8%;
-    transform: translateY(-50%);
-  }
+:host(.blob--center-right) {
+  top: 50%;
+  right: 3%;
+  transform: translateY(-50%);
+}
 
-  &__svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    transform: rotate(-15deg);
-  }
+.blob__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  // transform (rotate/flip) is set per-instance via [style.transform]
 }
