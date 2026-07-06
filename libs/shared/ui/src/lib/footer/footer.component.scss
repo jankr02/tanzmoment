@@ -7,6 +7,9 @@
   width: 100%;
   min-height: 400px;
   padding-top: 80px;
+  // Fill the band between the wave divider and the content: the wave is
+  // shorter than padding-top on mobile, which otherwise exposes the page bg.
+  background-color: var(--footer-bg-color, var(--color-accent));
 
   // ──────────────────────────────────────────────────────────────────────────
   // WAVE DIVIDER WRAPPER
