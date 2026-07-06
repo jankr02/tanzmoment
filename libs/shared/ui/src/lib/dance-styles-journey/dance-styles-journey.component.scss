@@ -165,7 +165,9 @@
 }
 
 .tm-journey__blob--bottom {
-  bottom: 80px;
+  // Overlap the wave (which sits above at z-index 1) so the circle sinks into
+  // it instead of ending in a hard arc just above the divider.
+  bottom: 0;
   right: -120px;
   width: 280px;
   height: 280px;
