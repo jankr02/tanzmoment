@@ -5,14 +5,15 @@
   height: 100%;
 }
 
-// ─── Mobile guard ─────────────────────────────────────────────────────────
-// The course editor is a multi-column canvas built for desktop; on small
-// screens we block it entirely and show a hint instead.
+// ─── Mobile / tablet guard ────────────────────────────────────────────────
+// The course editor is a multi-column canvas built for desktop; below the
+// desktop breakpoint the columns stack and section editing turns into constant
+// scrolling, so we block it entirely and show a hint instead.
 .editor__mobile-block {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .editor {
     display: none;
   }
