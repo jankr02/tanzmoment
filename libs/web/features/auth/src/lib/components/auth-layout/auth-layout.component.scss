@@ -50,18 +50,6 @@
     }
   }
 
-  &__logo-link {
-    display: flex;
-    justify-content: center;
-    margin-bottom: var(--space-8);
-    text-decoration: none;
-  }
-
-  &__logo {
-    height: 72px;
-    width: auto;
-  }
-
   &__title {
     font-family: var(--font-headline, 'DM Serif Display', serif);
     font-size: 1.75rem;
