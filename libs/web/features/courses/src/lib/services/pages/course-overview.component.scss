@@ -537,7 +537,9 @@ $bp-sidebar: 1024px;
   margin-top: var(--space-8);
 
   @media (max-width: 768px) {
-    padding: var(--space-8) 0;
+    // No padding-top: the wave divider is the first child, so top padding would
+    // expose the section's rosa background as a strip above the wave.
+    padding-bottom: var(--space-8);
     margin-top: var(--space-6);
   }
 }
