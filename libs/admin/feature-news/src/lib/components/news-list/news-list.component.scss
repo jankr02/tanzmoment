@@ -44,6 +44,8 @@
 
   &__search { flex: 1 1 280px; }
 
+  &__select { padding-right: var(--space-6, 24px); }
+
   &__btn {
     background: #ffffff;
     color: var(--color-text-primary, #2e2a25);

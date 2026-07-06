@@ -71,18 +71,16 @@
 
   .search-icon {
     position: absolute;
-    left: var(--space-3);
+    right: var(--space-3);
     top: 50%;
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
     color: var(--color-text-secondary);
     pointer-events: none;
   }
 
   .search-input {
     width: 100%;
-    padding: var(--space-3) var(--space-10) var(--space-3) var(--space-9);
+    padding: var(--space-4) var(--space-8) var(--space-4) var(--space-4);
     border: 1.5px solid var(--color-border);
     border-radius: var(--radius-md);
     font-size: 0.95rem;
