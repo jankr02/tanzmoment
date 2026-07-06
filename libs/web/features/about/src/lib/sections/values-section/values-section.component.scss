@@ -240,7 +240,7 @@
     }
   }
 
-  // Narrow screens: shrink header so long titles ("Kein Leistungsdruck") fit
+  // Narrow screens: shrink header so long titles wrap instead of clipping
   @media (max-width: 559.98px) {
     &__header {
       gap: var(--space-3);

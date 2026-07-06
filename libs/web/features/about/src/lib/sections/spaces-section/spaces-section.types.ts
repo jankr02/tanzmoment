@@ -11,7 +11,7 @@ export type SpaceAccessibilityIcon =
   | 'transit';
 
 /**
- * A single labelled fact in a location's "Steckbrief" panel.
+ * A single labelled fact in a location's profile panel.
  */
 export interface SpaceFact {
   label: string;

@@ -73,7 +73,7 @@
     width: calc(50% - 6px);
     border-radius: var(--radius-full);
     background-color: var(--color-brand);
-    box-shadow: 0 8px 18px rgba(104, 139, 104, 0.35);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--color-brand) 35%, transparent);
     transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
@@ -224,9 +224,9 @@
   }
 
   // ───────────────────────────────────────────────────────────────────────────
-  // STECKBRIEF PANEL
+  // PROFILE PANEL
   // ───────────────────────────────────────────────────────────────────────────
-  &__steckbrief {
+  &__profile {
     position: relative;
     overflow: hidden;
     padding: var(--space-8);
@@ -236,7 +236,7 @@
     box-shadow: var(--shadow-lg);
   }
 
-  &__steckbrief-overline {
+  &__profile-overline {
     margin: 0 0 var(--space-2);
     font-family: var(--font-body);
     font-size: var(--font-size-small);
@@ -246,7 +246,7 @@
     color: var(--color-accent-dark);
   }
 
-  &__steckbrief-name {
+  &__profile-name {
     margin: 0 0 var(--space-1);
     font-family: var(--font-headline);
     font-size: var(--font-size-h3);
@@ -254,7 +254,7 @@
     color: var(--color-text-primary);
   }
 
-  &__steckbrief-tagline {
+  &__profile-tagline {
     margin: 0 0 var(--space-4);
     font-family: var(--font-body);
     font-size: var(--font-size-body);
@@ -262,7 +262,7 @@
     color: var(--color-brand);
   }
 
-  &__steckbrief-desc {
+  &__profile-desc {
     margin: 0 0 var(--space-5);
     font-family: var(--font-body);
     font-size: var(--font-size-body);

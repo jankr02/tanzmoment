@@ -1,38 +1,38 @@
 <main class="about-page">
-  <!-- Hero Section: Persönliche Vorstellung -->
+  <!-- Hero: personal introduction -->
   <tm-hero-section [data]="heroData()" />
 
-  <!-- Story Section: Gründungsgeschichte -->
+  <!-- Story: founding narrative -->
   <tm-story-section [data]="storyData()" />
 
-  <!-- Mission & Vision Section (gleicher Hintergrund wie Story: keine Wave nötig) -->
+  <!-- Mission & Vision (same background as Story: no wave needed) -->
   <tm-mission-vision-section [data]="missionVisionData()" />
 
-  <!-- Transition: Mission (surface) → Values (background) -->
+  <!-- Transition: Mission (surface) -> Values (background) -->
   <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
 
-  <!-- Values Section -->
+  <!-- Values -->
   <tm-values-section [data]="valuesData()" />
 
-  <!-- Transition: Values (background) → Approach (surface) -->
+  <!-- Transition: Values (background) -> Approach (surface) -->
   <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
 
-  <!-- Approach Section: Herangehensweise -->
+  <!-- Approach -->
   <tm-approach-section [data]="approachData()" />
 
-  <!-- Transition: Approach (surface) → Spaces (background) -->
+  <!-- Transition: Approach (surface) -> Spaces (background) -->
   <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
 
-  <!-- Spaces & Accessibility Section -->
+  <!-- Spaces & Accessibility -->
   <tm-spaces-section [data]="spacesData()" />
 
-  <!-- Transition: Spaces (background) → Dance Styles (surface) -->
+  <!-- Transition: Spaces (background) -> Dance Styles (surface) -->
   <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
 
   <!--
-    Dance Styles Section (mit Navigation zu Unterseiten).
-    Ober- und unterer Übergang kommen von den Page-Waves (beide enden bzw. beginnen auf "surface").
-    Deshalb prev/next = "surface", damit die Section-eigenen Mobile-Waves farblich dazu passen.
+    Dance Styles Section (navigates to the sub-pages).
+    Both transitions come from the page waves (which start/end on "surface"),
+    so prev/next = "surface" keeps the section's own mobile waves colour-matched.
   -->
   <ui-dance-styles-section
     headline="Für wen ist Tanzmoment?"
@@ -44,18 +44,18 @@
     nextSectionBackground="surface"
   />
 
-  <!-- Transition: Dance Styles (surface) → Testimonials (background) -->
+  <!-- Transition: Dance Styles (surface) -> Testimonials (background) -->
   <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
 
-  <!-- Testimonials Section (shared dance-style "voices" design) -->
+  <!-- Testimonials (shared dance-style "voices" design) -->
   <ui-testimonial-section [data]="testimonialsData()" />
 
-  <!-- Transition: Testimonials (background) → FAQ (surface) -->
+  <!-- Transition: Testimonials (background) -> FAQ (surface) -->
   <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
 
-  <!-- FAQ Section -->
+  <!-- FAQ -->
   <tm-faq-section [data]="faqData()" />
 
-  <!-- Kontakt Section (gleicher Hintergrund wie FAQ: keine Wave nötig) -->
+  <!-- Contact (same background as FAQ: no wave needed) -->
   <tm-contact-section [data]="contactData()" />
 </main>

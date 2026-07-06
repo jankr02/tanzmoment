@@ -26,7 +26,7 @@ export class SpacesSectionComponent implements OnInit, OnDestroy {
   /** Location shown first — matched against location id or name. */
   @Input() defaultLocation?: string;
 
-  /** Toggle the decorative flower illustration in the Steckbrief panel. */
+  /** Toggle the decorative flower illustration in the profile panel. */
   @Input() showIllustration = true;
 
   /** Index of the active location. */
@@ -59,7 +59,12 @@ export class SpacesSectionComponent implements OnInit, OnDestroy {
   }
 
   select(index: number): void {
+    // Cancel any in-flight cross-fade first, so re-selecting the current
+    // location can't leave a stale timer that swaps to the wrong one.
+    clearTimeout(this.fadeTimer);
+
     if (index === this.active()) {
+      this.fading.set(false);
       return;
     }
 
@@ -69,7 +74,6 @@ export class SpacesSectionComponent implements OnInit, OnDestroy {
     }
 
     this.fading.set(true);
-    clearTimeout(this.fadeTimer);
     this.fadeTimer = setTimeout(() => {
       this.active.set(index);
       this.fading.set(false);

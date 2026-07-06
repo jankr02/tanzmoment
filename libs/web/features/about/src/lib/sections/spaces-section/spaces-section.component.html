@@ -13,7 +13,7 @@
 
     <!-- Location switch -->
     <div class="spaces-section__switch-wrap">
-      <div class="spaces-section__switch" role="tablist" aria-label="Standort wählen">
+      <div class="spaces-section__switch" role="group" aria-label="Standort wählen">
         <span
           class="spaces-section__switch-indicator"
           aria-hidden="true"
@@ -22,10 +22,9 @@
         @for (location of data.locations; track location.id; let i = $index) {
           <button
             type="button"
-            role="tab"
             class="spaces-section__switch-btn"
             [class.spaces-section__switch-btn--active]="active() === i"
-            [attr.aria-selected]="active() === i"
+            [attr.aria-pressed]="active() === i"
             (click)="select(i)"
           >
             <svg
@@ -78,12 +77,12 @@
           }
         </div>
 
-        <!-- Steckbrief panel -->
-        <aside class="spaces-section__steckbrief">
-          <p class="spaces-section__steckbrief-overline">Steckbrief</p>
-          <h3 class="spaces-section__steckbrief-name">{{ loc.name }}</h3>
-          <p class="spaces-section__steckbrief-tagline">{{ loc.tagline }}</p>
-          <p class="spaces-section__steckbrief-desc">{{ loc.description }}</p>
+        <!-- Profile panel -->
+        <aside class="spaces-section__profile">
+          <p class="spaces-section__profile-overline">Steckbrief</p>
+          <h3 class="spaces-section__profile-name">{{ loc.name }}</h3>
+          <p class="spaces-section__profile-tagline">{{ loc.tagline }}</p>
+          <p class="spaces-section__profile-desc">{{ loc.description }}</p>
 
           <dl class="spaces-section__facts">
             @for (fact of loc.facts; track fact.label) {
