@@ -154,6 +154,10 @@
   border-radius: 50%;
   z-index: 0;
   pointer-events: none;
+  // Feather the edges so the decorative circles read as soft blobs instead of
+  // hard-edged discs (the solid bgDeep fill is set inline per scene).
+  -webkit-mask-image: radial-gradient(circle at center, #000 52%, transparent 78%);
+  mask-image: radial-gradient(circle at center, #000 52%, transparent 78%);
 }
 
 .tm-journey__blob--top {
