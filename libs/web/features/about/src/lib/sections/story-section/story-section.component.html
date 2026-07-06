@@ -1,0 +1,27 @@
+<section class="story-section">
+  <div class="story-section__container">
+    @if (data.image) {
+      <div class="story-section__media">
+        <div class="story-section__image-shape">
+          <img
+            [src]="data.image"
+            [alt]="data.imageAlt || data.sectionTitle"
+            class="story-section__image"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    }
+
+    <div class="story-section__text">
+      @if (data.eyebrow) {
+        <span class="story-section__eyebrow">{{ data.eyebrow }}</span>
+      }
+      <h2 class="story-section__title">{{ data.sectionTitle }}</h2>
+
+      @for (paragraph of data.paragraphs; track $index) {
+        <p class="story-section__paragraph">{{ paragraph }}</p>
+      }
+    </div>
+  </div>
+</section>

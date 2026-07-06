@@ -1,0 +1,65 @@
+<section class="approach-section">
+  <div class="approach-section__container">
+    <div class="approach-section__card">
+      <div class="approach-section__head">
+        @if (data.kicker) {
+          <p class="approach-section__kicker">{{ data.kicker }}</p>
+        }
+        <h2 class="approach-section__title">{{ data.sectionTitle }}</h2>
+        @if (data.subtitle) {
+          <p class="approach-section__subtitle">{{ data.subtitle }}</p>
+        }
+      </div>
+
+      <div class="approach-section__track">
+        <div class="approach-section__rail" aria-hidden="true"></div>
+        <div
+          class="approach-section__fill"
+          aria-hidden="true"
+          [style.width.%]="active() * 25"
+        ></div>
+
+        <div class="approach-section__steps">
+          @for (step of data.steps; track step.title; let i = $index) {
+            <button
+              type="button"
+              class="approach-section__step"
+              [class.approach-section__step--reached]="i <= active()"
+              [class.approach-section__step--active]="i === active()"
+              [attr.aria-pressed]="i === active()"
+              (click)="select(i)"
+            >
+              <span class="approach-section__num">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+              <span class="approach-section__step-title">{{ step.title }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div
+        class="approach-section__detail"
+        role="region"
+        aria-live="polite"
+        [attr.data-phase]="active()"
+      >
+        <span class="approach-section__detail-num" aria-hidden="true">
+          {{ (active() + 1).toString().padStart(2, '0') }}
+        </span>
+        <div class="approach-section__detail-body">
+          <h3 class="approach-section__detail-title">
+            {{ data.steps[active()].title }}
+          </h3>
+          <p class="approach-section__detail-text">
+            {{ data.steps[active()].text }}
+          </p>
+        </div>
+      </div>
+
+      @if (data.hint) {
+        <p class="approach-section__hint">{{ data.hint }}</p>
+      }
+    </div>
+  </div>
+</section>
