@@ -69,10 +69,3 @@ export const DANCE_STYLE_JOURNEY_ORDER: DanceStyleId[] = [
 
 export const DANCE_STYLE_JOURNEY_FIRST_BG =
   DANCE_STYLE_JOURNEY_THEMES.kids.bg;
-
-export const DANCE_STYLE_SHORT_LABELS: Record<DanceStyleId, string> = {
-  kids: 'Kindern',
-  mothers: 'Müttern',
-  expressive: 'Ausdruckstanz',
-  accessible: 'Tanzen mit Behinderung',
-};

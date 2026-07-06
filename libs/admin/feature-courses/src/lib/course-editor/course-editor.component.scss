@@ -5,6 +5,61 @@
   height: 100%;
 }
 
+// ─── Mobile / tablet guard ────────────────────────────────────────────────
+// The course editor is a multi-column canvas built for desktop; below the
+// desktop breakpoint the columns stack and section editing turns into constant
+// scrolling, so we block it entirely and show a hint instead.
+.editor__mobile-block {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  // `:host` qualifier so this outranks the later base `.editor { display: flex }`
+  // rule (same specificity would otherwise let the base win by source order).
+  :host .editor {
+    display: none;
+  }
+
+  .editor__mobile-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--space-6);
+    background: var(--color-neutral-extra-light);
+  }
+
+  .editor__mobile-block-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-3);
+    max-width: 340px;
+  }
+
+  .editor__mobile-block-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-primary-dark);
+  }
+
+  .editor__mobile-block-title {
+    font-family: var(--font-headline);
+    font-weight: var(--font-weight-heading);
+    font-size: 1.25rem;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  .editor__mobile-block-text {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-2);
+  }
+}
+
 .editor {
   display: flex;
   flex-direction: column;

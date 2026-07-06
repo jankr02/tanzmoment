@@ -316,6 +316,20 @@
     align-items: center;
     gap: var(--space-3);
     margin-top: var(--space-4);
+
+    // Mobile: the buttons' fixed min-width (158px each) overflows the narrow
+    // modal. Let them share the row and shrink to fit instead.
+    @media (max-width: 767px) {
+      app-button {
+        flex: 1;
+        min-width: 0;
+      }
+
+      ::ng-deep .tm-button {
+        width: 100%;
+        min-width: 0;
+      }
+    }
   }
 
   &__redirect-notice {

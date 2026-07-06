@@ -32,7 +32,6 @@ import {
 import {
   DANCE_STYLE_JOURNEY_ORDER,
   DANCE_STYLE_JOURNEY_THEMES,
-  DANCE_STYLE_SHORT_LABELS,
   DanceStyleJourneyTheme,
 } from './dance-styles-journey.types';
 
@@ -45,7 +44,7 @@ interface JourneyScene {
   index: number;
   number: string;
   counter: string;
-  next?: { id: DanceStyleId; shortLabel: string; bg: string };
+  next?: { id: DanceStyleId; bg: string };
 }
 
 const SCENE_TAP_THRESHOLD_PX = 10;
@@ -108,7 +107,6 @@ export class DanceStylesJourneyComponent implements AfterViewInit, OnDestroy {
           nextId && nextTheme
             ? {
                 id: nextId,
-                shortLabel: DANCE_STYLE_SHORT_LABELS[nextId],
                 bg: nextTheme.bg,
               }
             : undefined,

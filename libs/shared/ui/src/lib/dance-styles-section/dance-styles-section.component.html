@@ -11,15 +11,18 @@
 >
   <!-- Mobile journey -->
   <div class="dance-styles-section__mobile">
-    <!-- Wave INTO the journey: matches the section ABOVE so the divider
-         reads as that section's bottom edge, independent of the active
-         scene's dance-style colour. -->
+    <!-- Wave INTO the journey: overlays the top of the journey so the
+         non-wave area stays transparent and the active scene shows through.
+         The wave fill is the section ABOVE, so the divider reads as that
+         section's bottom edge dipping into the journey — never a dance-style
+         colour. Mirror of the bottom wave (direction="up"). -->
     <tm-wave-divider
       class="dance-styles-section__wave-mobile dance-styles-section__wave-mobile--top"
-      [from]="previousSectionBackground"
+      from="transparent"
       [to]="previousSectionBackground"
+      [overlay]="true"
       height="sm"
-      direction="down"
+      direction="up"
     />
 
     <ui-dance-styles-journey

@@ -124,12 +124,37 @@
     display: flex;
     align-items: center;
     gap: 8px;
+
+    // Mobile: stack the two date pickers vertically so the row does not wrap
+    // into a chaotic label/input arrangement.
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+  }
+
+  &__date-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @media (max-width: 768px) {
+      .filter-bar__date-input {
+        flex: 1;
+      }
+    }
   }
 
   &__date-label {
     font-size: 0.8125rem;
     color: var(--color-text-secondary, #5e5a55);
     white-space: nowrap;
+
+    // Fixed width so "Von" and "Bis" align and the inputs line up.
+    @media (max-width: 768px) {
+      width: 32px;
+    }
   }
 
   &__date-input {

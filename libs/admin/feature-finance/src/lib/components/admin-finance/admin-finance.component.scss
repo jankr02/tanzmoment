@@ -242,6 +242,12 @@
   gap: var(--space-2);
 }
 
+.filter-date-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .filter-label {
   font-size: 0.8rem;
   color: var(--color-text-secondary);
@@ -481,8 +487,32 @@
     flex-direction: column;
   }
 
+  // Chart: 12 months don't fit the narrow card, so scroll it inside the card
+  // instead of letting the axis spill past the card edge.
+  .bar-chart {
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+  }
+
+  .bar-chart__col {
+    flex: 0 0 3.25rem;
+  }
+
+  // Date filters: stack the Von/Bis pairs vertically with full-width inputs.
   .filter-date-range {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .filter-date-group {
+    .filter-date {
+      flex: 1;
+    }
+  }
+
+  .filter-label {
+    width: 28px;
   }
 }
 

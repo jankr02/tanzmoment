@@ -1,3 +1,21 @@
+<!-- Mobile guard: the editor UI is not designed for small screens. -->
+<div class="editor__mobile-block">
+  <div class="editor__mobile-block-inner">
+    <svg class="editor__mobile-block-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+    <h2 class="editor__mobile-block-title">Kursbearbeitung am Desktop</h2>
+    <p class="editor__mobile-block-text">
+      Das Erstellen und Bearbeiten von Kursen ist für den Desktop ausgelegt.
+      Bitte nutze einen Computer mit größerem Bildschirm.
+    </p>
+    <button type="button" class="editor__btn editor__btn--primary" (click)="navigateBack()">
+      Zurück zur Kursliste
+    </button>
+  </div>
+</div>
+
 <div class="editor">
   <!-- ─── Top bar ─────────────────────────────────────────────────────── -->
   <header class="editor__bar">
