@@ -83,15 +83,15 @@
     align-items: center;
     justify-content: center;
     // Mobile: Logo mit Name
-    width: 140px;
-    height: 49px;
+    width: 190px;
+    height: 66px;
     transition: width 400ms cubic-bezier(0.4, 0, 0.2, 1),
                 height 400ms cubic-bezier(0.4, 0, 0.2, 1);
 
     // Extra small screens
     @media (max-width: 480px) {
-      width: 120px;
-      height: 42px;
+      width: 168px;
+      height: 59px;
     }
 
     // Tablet (768px+)
@@ -928,8 +928,8 @@
     }
 
     .header__logo-container {
-      width: 100px;
-      height: 35px;
+      width: 150px;
+      height: 53px;
 
       @include respond-to('md') {
         width: 160px;
