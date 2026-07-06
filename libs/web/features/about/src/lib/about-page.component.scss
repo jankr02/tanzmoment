@@ -31,7 +31,8 @@
 // waves (beige -> white -> beige). On mobile the section renders its own
 // beige-matched journey waves, so these page waves would only inject a white
 // band between the beige neighbours and the journey.
-.about-page__wave--desktop-only {
+// The element+class selector outranks the wave-divider's own `:host { display }`.
+tm-wave-divider.about-page__wave--desktop-only {
   @media (max-width: 767px) {
     display: none;
   }
