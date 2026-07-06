@@ -467,6 +467,19 @@ $pill-neutral-text: var(--color-text-secondary);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       color: var(--card-accent-color);
+      // Shrink (with ellipsis) rather than pushing the badge off the row.
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    // Top row: category eyebrow on the left, "Empfohlen" badge on the right.
+    .course-card__mobile-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .course-card__mobile-title {
@@ -525,12 +538,10 @@ $pill-neutral-text: var(--color-text-secondary);
       }
     }
 
-    // Featured "Empfohlen" sticker, top-right.
+    // Featured "Empfohlen" badge, inline in the category row so the title below
+    // keeps the full width.
     .course-card__featured-pill {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      z-index: 3;
+      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       gap: 4px;
