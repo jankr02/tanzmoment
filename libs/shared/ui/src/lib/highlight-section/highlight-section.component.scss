@@ -106,7 +106,10 @@
   padding: var(--space-4) var(--space-6);
   min-width: min-content;
 
+  // Mobile: stack the cards vertically instead of a horizontal scroll row.
   @media (max-width: 768px) {
+    flex-direction: column;
+    min-width: 0;
     gap: var(--space-4);
     padding: var(--space-2) var(--space-4);
   }
@@ -131,9 +134,17 @@
     @media (max-width: 900px) {
       transform: scale(1.4);
     }
+  }
 
-    @media (max-width: 768px) {
-      transform: scale(1.25);
+  // Mobile: full-width stacked cards at natural size (no upscale, which would
+  // overflow the viewport in a vertical layout).
+  @media (max-width: 768px) {
+    width: 100%;
+
+    app-course-card {
+      display: block;
+      width: 100%;
+      transform: none;
     }
   }
 }
