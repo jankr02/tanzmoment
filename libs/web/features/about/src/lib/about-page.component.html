@@ -1,19 +1,58 @@
 <main class="about-page">
-  <!-- Hero Section: Persönliche Vorstellung -->
+  <!-- Hero: personal introduction -->
   <tm-hero-section [data]="heroData()" />
 
-  <!-- Mission & Vision Section -->
-  <tm-mission-vision-section [data]="missionVisionData()" />
+  <!-- Origin: story timeline + mission/vision values -->
+  <tm-origin-section [data]="originData()" />
 
-  <!-- Dance Styles Section (mit Navigation zu Unterseiten) -->
+  <!-- Transition: Origin (surface) -> Values (background) -->
+  <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
+
+  <!-- Values -->
+  <tm-values-section [data]="valuesData()" />
+
+  <!-- Transition: Values (background) -> Approach (surface) -->
+  <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
+
+  <!-- Approach -->
+  <tm-approach-section [data]="approachData()" />
+
+  <!-- Transition: Approach (surface) -> Spaces (background) -->
+  <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
+
+  <!-- Spaces & Accessibility -->
+  <tm-spaces-section [data]="spacesData()" />
+
+  <!-- Transition: Spaces (background) -> Dance Styles (surface) -->
+  <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
+
+  <!--
+    Dance Styles Section (navigates to the sub-pages).
+    Both transitions come from the page waves (which start/end on "surface"),
+    so prev/next = "surface" keeps the section's own mobile waves colour-matched.
+  -->
   <ui-dance-styles-section
     headline="Für wen ist Tanzmoment?"
     subheadline="Entdecke, ob unsere Kurse zu deiner Lebenssituation passen"
     [danceStyles]="danceStyles()"
     [navigationMode]="'navigate'"
     [showCourseCounts]="false"
+    previousSectionBackground="surface"
+    nextSectionBackground="surface"
   />
 
-  <!-- Kontakt Section -->
+  <!-- Transition: Dance Styles (surface) -> Testimonials (background) -->
+  <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
+
+  <!-- Testimonials (shared dance-style "voices" design) -->
+  <ui-testimonial-section [data]="testimonialsData()" />
+
+  <!-- Transition: Testimonials (background) -> FAQ (surface) -->
+  <tm-wave-divider from="background" to="surface" variant="organic" height="md" />
+
+  <!-- FAQ -->
+  <tm-faq-section [data]="faqData()" />
+
+  <!-- Contact (same background as FAQ: no wave needed) -->
   <tm-contact-section [data]="contactData()" />
 </main>

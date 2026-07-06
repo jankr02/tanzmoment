@@ -1,0 +1,166 @@
+<section class="spaces-section">
+  <div class="spaces-section__container">
+    <!-- Header -->
+    <div class="spaces-section__header">
+      @if (data.overline) {
+        <p class="spaces-section__overline">{{ data.overline }}</p>
+      }
+      <h2 class="spaces-section__title">{{ data.sectionTitle }}</h2>
+      @if (data.subtitle) {
+        <p class="spaces-section__subtitle">{{ data.subtitle }}</p>
+      }
+    </div>
+
+    <!-- Location switch -->
+    <div class="spaces-section__switch-wrap">
+      <div class="spaces-section__switch" role="group" aria-label="Standort wählen">
+        <span
+          class="spaces-section__switch-indicator"
+          aria-hidden="true"
+          [style.transform]="'translateX(' + active() * 100 + '%)'"
+        ></span>
+        @for (location of data.locations; track location.id; let i = $index) {
+          <button
+            type="button"
+            class="spaces-section__switch-btn"
+            [class.spaces-section__switch-btn--active]="active() === i"
+            [attr.aria-pressed]="active() === i"
+            (click)="select(i)"
+          >
+            <svg
+              class="spaces-section__pin"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z" />
+              <circle cx="12" cy="10" r="2.4" />
+            </svg>
+            {{ location.name }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Content area (cross-fades on switch) -->
+    @let loc = currentLocation();
+    <div
+      class="spaces-section__content"
+      [class.spaces-section__content--fading]="fading()"
+    >
+      <div class="spaces-section__grid">
+        <!-- Photo collage -->
+        <div class="spaces-section__collage">
+          @for (photo of loc.photos; track $index; let i = $index) {
+            <figure
+              class="spaces-section__frame"
+              [class.spaces-section__frame--1]="i === 0"
+              [class.spaces-section__frame--2]="i === 1"
+              [class.spaces-section__frame--3]="i === 2"
+            >
+              <img
+                class="spaces-section__photo"
+                [src]="photo.src"
+                [alt]="photo.alt"
+                loading="lazy"
+              />
+              <figcaption class="spaces-section__caption">
+                {{ photo.caption }}
+              </figcaption>
+            </figure>
+          }
+        </div>
+
+        <!-- Profile panel -->
+        <aside class="spaces-section__profile">
+          <p class="spaces-section__profile-overline">Steckbrief</p>
+          <h3 class="spaces-section__profile-name">{{ loc.name }}</h3>
+          <p class="spaces-section__profile-tagline">{{ loc.tagline }}</p>
+          <p class="spaces-section__profile-desc">{{ loc.description }}</p>
+
+          <dl class="spaces-section__facts">
+            @for (fact of loc.facts; track fact.label) {
+              <div class="spaces-section__fact">
+                <dt class="spaces-section__fact-label">{{ fact.label }}</dt>
+                <dd class="spaces-section__fact-value">{{ fact.value }}</dd>
+              </div>
+            }
+          </dl>
+
+          @if (showIllustration) {
+            <img
+              class="spaces-section__flower"
+              src="/assets/images/about/spaces/flower.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          }
+        </aside>
+      </div>
+    </div>
+
+    <!-- Accessibility band (static, identical for all locations) -->
+    <div class="spaces-section__accessibility">
+      <h3 class="spaces-section__accessibility-title">
+        {{ data.accessibilityTitle }}
+      </h3>
+      <ul class="spaces-section__feature-grid">
+        @for (feature of data.accessibilityFeatures; track feature.label) {
+          <li class="spaces-section__feature">
+            <span class="spaces-section__feature-chip" aria-hidden="true">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                @switch (feature.icon) {
+                  @case ('entrance') {
+                    <path d="M3 21h18" />
+                    <path d="M6 21V8l6-4 6 4v13" />
+                    <path d="M10 21v-5h4v5" />
+                  }
+                  @case ('sanitary') {
+                    <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />
+                    <path d="M9 12l2 2 4-4" />
+                  }
+                  @case ('atmosphere') {
+                    <path
+                      d="M12 20s-7-4.35-7-9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 15.65 12 20 12 20Z"
+                    />
+                  }
+                  @case ('floor') {
+                    <path d="M9 18V5l10-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="16" cy="16" r="3" />
+                  }
+                  @case ('assistance') {
+                    <circle cx="9" cy="7" r="3" />
+                    <circle cx="17" cy="8" r="2.5" />
+                    <path d="M3 21v-2a5 5 0 0 1 10 0v2" />
+                    <path d="M15 21v-1a4 4 0 0 1 6-3.4" />
+                  }
+                  @case ('transit') {
+                    <path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  }
+                }
+              </svg>
+            </span>
+            <span class="spaces-section__feature-label">{{ feature.label }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

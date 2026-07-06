@@ -1,0 +1,63 @@
+<section class="values-section">
+  <div class="values-section__container">
+    <div class="values-section__card">
+      <div class="values-section__head">
+        @if (data.kicker) {
+          <p class="values-section__kicker">{{ data.kicker }}</p>
+        }
+        <h2 class="values-section__title">{{ data.sectionTitle }}</h2>
+        @if (data.subtitle) {
+          <p class="values-section__subtitle">{{ data.subtitle }}</p>
+        }
+      </div>
+
+      <div class="values-section__list">
+        @for (value of data.values; track value.title; let i = $index) {
+          <div
+            class="values-section__band"
+            [class.values-section__band--open]="openIndex() === i"
+          >
+            <button
+              type="button"
+              class="values-section__header"
+              [attr.aria-expanded]="openIndex() === i"
+              [attr.aria-controls]="'value-panel-' + i"
+              (click)="toggle(i)"
+            >
+              <span class="values-section__num" aria-hidden="true">
+                {{ (i + 1).toString().padStart(2, '0') }}
+              </span>
+              <h3 class="values-section__band-title">{{ value.title }}</h3>
+              <svg
+                class="values-section__chevron"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9 6l6 6-6 6"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div
+              class="values-section__panel"
+              [id]="'value-panel-' + i"
+              [attr.aria-hidden]="openIndex() !== i"
+            >
+              <div class="values-section__panel-inner">
+                <p class="values-section__panel-text">{{ value.text }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

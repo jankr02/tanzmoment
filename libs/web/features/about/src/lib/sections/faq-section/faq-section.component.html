@@ -1,0 +1,24 @@
+<section class="faq-section">
+  <div class="faq-section__container">
+    <div class="faq-section__header">
+      <h2 class="faq-section__title">{{ data.sectionTitle }}</h2>
+      @if (data.subtitle) {
+        <p class="faq-section__subtitle">{{ data.subtitle }}</p>
+      }
+    </div>
+
+    <div class="faq-section__list">
+      @for (item of data.items; track item.question) {
+        <details class="faq-section__item">
+          <summary class="faq-section__question">
+            <span class="faq-section__question-text">{{ item.question }}</span>
+            <span class="faq-section__chevron" aria-hidden="true">
+              <app-icon name="chevron-down" size="md" color="primary" />
+            </span>
+          </summary>
+          <p class="faq-section__answer">{{ item.answer }}</p>
+        </details>
+      }
+    </div>
+  </div>
+</section>

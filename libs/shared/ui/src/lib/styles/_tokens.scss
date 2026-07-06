@@ -34,6 +34,7 @@
   --color-surface: #ffffff;
   --color-text-primary: #415f41;
   --color-text-secondary: #4c6e4c;
+  --color-text-muted: #93a693; // Muted sage for de-emphasized labels/hints
   --color-border: #e6ded7;
 
   // Background
@@ -132,6 +133,7 @@
   --radius-lg: 1.125rem; // 18px
   --radius-xl: 1.5rem; // 24px
   --radius-2xl: 2rem; // 32px
+  --radius-full: 999px; // Pills / fully rounded
 
   // ──────────────────────────────────────────────────────────────────────────
   // SHADOWS (Soft)
