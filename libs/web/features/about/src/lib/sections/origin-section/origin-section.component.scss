@@ -273,6 +273,19 @@
     color: var(--color-text-secondary);
   }
 
+  // Desktop pointers reveal on hover; touch/keyboard use the --open class.
+  // Gated on (hover: hover) so touch devices don't get sticky-hover state.
+  @media (hover: hover) {
+    &__value-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+    }
+
+    &__value-card:hover &__value-reveal {
+      grid-template-rows: 1fr;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .origin-section__tab,
     .origin-section__value-card,

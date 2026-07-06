@@ -63,18 +63,6 @@ export class OriginSectionComponent {
     this.tabButtons()[next]?.nativeElement.focus();
   }
 
-  setCardOpen(index: number, open: boolean): void {
-    this.openCards.update((current) => {
-      const next = new Set(current);
-      if (open) {
-        next.add(index);
-      } else {
-        next.delete(index);
-      }
-      return next;
-    });
-  }
-
   toggleCard(index: number): void {
     this.openCards.update((current) => {
       const next = new Set(current);

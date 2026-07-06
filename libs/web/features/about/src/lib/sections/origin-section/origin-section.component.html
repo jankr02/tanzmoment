@@ -35,18 +35,19 @@
         }
       </div>
 
-      @let chapter = currentChapter();
-      <div
-        class="origin-section__panel"
-        id="origin-panel"
-        role="tabpanel"
-        tabindex="0"
-        [attr.aria-labelledby]="'origin-tab-' + activeChapter()"
-      >
-        <p class="origin-section__panel-eyebrow">{{ chapter.label }}</p>
-        <h3 class="origin-section__panel-title">{{ chapter.title }}</h3>
-        <p class="origin-section__panel-body">{{ chapter.body }}</p>
-      </div>
+      @if (currentChapter(); as chapter) {
+        <div
+          class="origin-section__panel"
+          id="origin-panel"
+          role="tabpanel"
+          tabindex="0"
+          [attr.aria-labelledby]="'origin-tab-' + activeChapter()"
+        >
+          <p class="origin-section__panel-eyebrow">{{ chapter.label }}</p>
+          <h3 class="origin-section__panel-title">{{ chapter.title }}</h3>
+          <p class="origin-section__panel-body">{{ chapter.body }}</p>
+        </div>
+      }
     </div>
 
     <hr class="origin-section__divider" />
@@ -63,8 +64,6 @@
             [class.origin-section__value-card--mission]="card.variant === 'mission'"
             [class.origin-section__value-card--vision]="card.variant === 'vision'"
             [class.origin-section__value-card--open]="isCardOpen(i)"
-            (mouseenter)="setCardOpen(i, true)"
-            (mouseleave)="setCardOpen(i, false)"
           >
             <button
               type="button"
@@ -113,7 +112,11 @@
               <span class="origin-section__value-title">{{ card.title }}</span>
             </button>
 
-            <div class="origin-section__value-reveal" [id]="'value-body-' + i">
+            <div
+              class="origin-section__value-reveal"
+              [id]="'value-body-' + i"
+              [attr.aria-hidden]="!isCardOpen(i)"
+            >
               <div class="origin-section__value-reveal-inner">
                 <p class="origin-section__value-body">{{ card.body }}</p>
               </div>

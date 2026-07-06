@@ -30,8 +30,8 @@ export interface ValueCard {
 }
 
 /**
- * Data structure for the Origin Section ("Unsere Geschichte / Wofür wir stehen").
- * Combines an interactive story timeline with the mission & vision values.
+ * Data structure for the combined origin section:
+ * an interactive story timeline plus the mission & vision values.
  */
 export interface OriginSectionData {
   /** Eyebrow above the headline */
