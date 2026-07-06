@@ -17,6 +17,14 @@
   display: flex;
 }
 
+// Mobile: the dialog is full-screen (see &__dialog below), so drop the host
+// padding that would otherwise inset it and eat into the content width.
+@media (max-width: 767px) {
+  :host {
+    padding: 0;
+  }
+}
+
 .booking-modal {
 
   // ── Backdrop ────────────────────────────────────────────────────────────
