@@ -14,7 +14,9 @@
 }
 
 @media (max-width: 1024px) {
-  .editor {
+  // `:host` qualifier so this outranks the later base `.editor { display: flex }`
+  // rule (same specificity would otherwise let the base win by source order).
+  :host .editor {
     display: none;
   }
 
