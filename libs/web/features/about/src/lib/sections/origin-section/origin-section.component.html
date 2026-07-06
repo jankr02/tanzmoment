@@ -1,0 +1,126 @@
+<section class="origin-section">
+  <div class="origin-section__container">
+    <!-- Header -->
+    <p class="origin-section__eyebrow">{{ data.eyebrow }}</p>
+    <h2 class="origin-section__title">{{ data.sectionTitle }}</h2>
+    <p class="origin-section__intro">{{ data.intro }}</p>
+
+    <!-- Story timeline -->
+    <div class="origin-section__timeline">
+      <div
+        class="origin-section__tabs"
+        role="tablist"
+        aria-label="Kapitel der Geschichte"
+        aria-orientation="vertical"
+      >
+        @for (chapter of data.chapters; track chapter.tag; let i = $index) {
+          <button
+            #tab
+            type="button"
+            role="tab"
+            class="origin-section__tab"
+            [class.origin-section__tab--active]="activeChapter() === i"
+            [id]="'origin-tab-' + i"
+            [attr.aria-selected]="activeChapter() === i"
+            [attr.tabindex]="activeChapter() === i ? 0 : -1"
+            aria-controls="origin-panel"
+            (click)="selectChapter(i)"
+            (keydown)="onTabKeydown($event, i)"
+          >
+            <span class="origin-section__tab-num">
+              {{ (i + 1).toString().padStart(2, '0') }}
+            </span>
+            <span class="origin-section__tab-label">{{ chapter.tag }}</span>
+          </button>
+        }
+      </div>
+
+      @let chapter = currentChapter();
+      <div
+        class="origin-section__panel"
+        id="origin-panel"
+        role="tabpanel"
+        tabindex="0"
+        [attr.aria-labelledby]="'origin-tab-' + activeChapter()"
+      >
+        <p class="origin-section__panel-eyebrow">{{ chapter.label }}</p>
+        <h3 class="origin-section__panel-title">{{ chapter.title }}</h3>
+        <p class="origin-section__panel-body">{{ chapter.body }}</p>
+      </div>
+    </div>
+
+    <hr class="origin-section__divider" />
+
+    <!-- Values (mission & vision) -->
+    <div class="origin-section__values">
+      <h3 class="origin-section__values-title">{{ data.valuesTitle }}</h3>
+      <p class="origin-section__values-hint">{{ data.valuesHint }}</p>
+
+      <div class="origin-section__value-grid">
+        @for (card of data.values; track card.title; let i = $index) {
+          <div
+            class="origin-section__value-card"
+            [class.origin-section__value-card--mission]="card.variant === 'mission'"
+            [class.origin-section__value-card--vision]="card.variant === 'vision'"
+            [class.origin-section__value-card--open]="isCardOpen(i)"
+            (mouseenter)="setCardOpen(i, true)"
+            (mouseleave)="setCardOpen(i, false)"
+          >
+            <button
+              type="button"
+              class="origin-section__value-trigger"
+              [attr.aria-expanded]="isCardOpen(i)"
+              [attr.aria-controls]="'value-body-' + i"
+              (click)="toggleCard(i)"
+            >
+              <span class="origin-section__value-icon" aria-hidden="true">
+                @switch (card.variant) {
+                  @case ('mission') {
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M12 21s-7.5-4.6-10-9.3C.7 8.8 2 5.5 5 5c2 0 3.6 1.3 4.6 2.8L12 10l2.4-2.2C15.4 6.3 17 5 19 5c3 .5 4.3 3.8 3 6.7C19.5 16.4 12 21 12 21z"
+                      />
+                    </svg>
+                  }
+                  @case ('vision') {
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M12 20V9" />
+                      <path d="M12 9C12 5 9 3 4 3c0 5 3 6 8 6z" />
+                      <path d="M12 9c0-4 3-6 8-6 0 5-3 6-8 6z" />
+                      <path d="M6 20h12" />
+                    </svg>
+                  }
+                }
+              </span>
+              <span class="origin-section__value-title">{{ card.title }}</span>
+            </button>
+
+            <div class="origin-section__value-reveal" [id]="'value-body-' + i">
+              <div class="origin-section__value-reveal-inner">
+                <p class="origin-section__value-body">{{ card.body }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -4,10 +4,8 @@ export * from './lib/about-page.component';
 // Sections
 export * from './lib/sections/hero-section/hero-section.component';
 export * from './lib/sections/hero-section/hero-section.types';
-export * from './lib/sections/story-section/story-section.component';
-export * from './lib/sections/story-section/story-section.types';
-export * from './lib/sections/mission-vision-section/mission-vision-section.component';
-export * from './lib/sections/mission-vision-section/mission-vision-section.types';
+export * from './lib/sections/origin-section/origin-section.component';
+export * from './lib/sections/origin-section/origin-section.types';
 export * from './lib/sections/values-section/values-section.component';
 export * from './lib/sections/values-section/values-section.types';
 export * from './lib/sections/approach-section/approach-section.component';

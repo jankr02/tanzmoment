@@ -17,16 +17,14 @@ import {
 import { SeoService } from '@tanzmoment/shared/services';
 
 import { HeroSectionComponent } from './sections/hero-section/hero-section.component';
-import { StorySectionComponent } from './sections/story-section/story-section.component';
-import { MissionVisionSectionComponent } from './sections/mission-vision-section/mission-vision-section.component';
+import { OriginSectionComponent } from './sections/origin-section/origin-section.component';
 import { ValuesSectionComponent } from './sections/values-section/values-section.component';
 import { ApproachSectionComponent } from './sections/approach-section/approach-section.component';
 import { SpacesSectionComponent } from './sections/spaces-section/spaces-section.component';
 import { FaqSectionComponent } from './sections/faq-section/faq-section.component';
 import { ContactSectionComponent } from './sections/contact-section/contact-section.component';
 import { AboutHeroData } from './sections/hero-section/hero-section.types';
-import { StorySectionData } from './sections/story-section/story-section.types';
-import { MissionVisionData } from './sections/mission-vision-section/mission-vision-section.types';
+import { OriginSectionData } from './sections/origin-section/origin-section.types';
 import { ValuesSectionData } from './sections/values-section/values-section.types';
 import { ApproachSectionData } from './sections/approach-section/approach-section.types';
 import { SpacesSectionData } from './sections/spaces-section/spaces-section.types';
@@ -41,8 +39,7 @@ const PLACEHOLDER_IMAGE = '/assets/images/about/portrait-placeholder.jpg';
   imports: [
     CommonModule,
     HeroSectionComponent,
-    StorySectionComponent,
-    MissionVisionSectionComponent,
+    OriginSectionComponent,
     ValuesSectionComponent,
     ApproachSectionComponent,
     SpacesSectionComponent,
@@ -83,35 +80,48 @@ export class AboutPageComponent implements OnInit {
   });
 
   // ───────────────────────────────────────────────────────────────────────────
-  // STORY DATA (Mock)
+  // ORIGIN DATA — story timeline + mission/vision values (Mock)
   // ───────────────────────────────────────────────────────────────────────────
 
-  readonly storyData = signal<StorySectionData>({
+  readonly originData = signal<OriginSectionData>({
     eyebrow: 'Unsere Geschichte',
     sectionTitle: 'Wie alles begann',
-    image: PLACEHOLDER_IMAGE,
-    imageAlt: 'Daniela Savasta im Tanzstudio',
-    paragraphs: [
-      'Tanzmoment entstand aus einer einfachen Überzeugung: Tanzen tut jedem Menschen gut – nicht als Leistung, sondern als Erlebnis. Nach vielen Jahren als Tanzpädagogin habe ich immer wieder gespürt, wie sehr Menschen sich nach einem Ort sehnen, an dem sie sich frei bewegen dürfen, ohne bewertet zu werden.',
-      'So wurde in Mössingen ein Studio geboren, das bewusst anders ist: warm statt streng, einladend statt fordernd, offen für alle Körper und Lebenssituationen. Ein Ort, an dem der eigene Rhythmus zählt und nicht die perfekte Technik.',
-      'Heute ist Tanzmoment ein Zuhause für Menschen jeden Alters – von Kinderkursen über Ausdruckstanz bis hin zu inklusiven Angeboten für Menschen mit Behinderung. Und der Wunsch, der am Anfang stand, trägt bis heute jede Stunde: dass jeder Mensch seinen eigenen Tanzmoment findet.',
+    intro:
+      'Drei Momente, die Tanzmoment zu dem gemacht haben, was es heute ist.',
+    chapters: [
+      {
+        tag: 'Eine einfache Überzeugung',
+        label: 'Der Anfang',
+        title: 'Eine einfache Überzeugung',
+        body: 'Tanzmoment entstand aus einer einfachen Überzeugung: Tanzen tut jedem Menschen gut – nicht als Leistung, sondern als Erlebnis. Nach vielen Jahren als Tanzpädagogin habe ich gespürt, wie sehr Menschen sich nach einem Ort sehnen, an dem sie sich frei bewegen dürfen, ohne bewertet zu werden.',
+      },
+      {
+        tag: 'Ein Ort, der anders ist',
+        label: 'Mössingen',
+        title: 'Ein Ort, der anders ist',
+        body: 'So wurde in Mössingen ein Studio geboren, das bewusst anders ist: warm statt streng, einladend statt fordernd, offen für alle Körper und Lebenssituationen. Ein Ort, an dem der eigene Rhythmus zählt – und nicht die perfekte Technik.',
+      },
+      {
+        tag: 'Ein Zuhause für alle',
+        label: 'Heute',
+        title: 'Ein Zuhause für alle',
+        body: 'Heute ist Tanzmoment ein Zuhause für Menschen jeden Alters – von Kinderkursen über Ausdruckstanz bis hin zu inklusiven Angeboten für Menschen mit Behinderung. Und der Wunsch vom Anfang trägt bis heute jede Stunde: dass jeder Mensch seinen eigenen Tanzmoment findet.',
+      },
     ],
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // MISSION & VISION DATA (Mock)
-  // ───────────────────────────────────────────────────────────────────────────
-
-  readonly missionVisionData = signal<MissionVisionData>({
-    sectionTitle: 'Wofür wir stehen',
-    mission: {
-      headline: 'Unsere Mission',
-      text: 'Tanzmoment steht für inklusiven, ausdrucksstarken Tanz ohne Leistungsdruck. Wir glauben, dass jeder Mensch tanzen kann – unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen. Tanz ist Ausdruck, Bewegung ist Freiheit, und bei uns hat jeder Körper seine eigene Sprache.',
-    },
-    vision: {
-      headline: 'Unsere Vision',
-      text: 'Wir schaffen einen Raum, in dem Menschen sich durch Bewegung ausdrücken, verbinden und wachsen können. Tanz wird zum Medium für Selbstentdeckung und Gemeinschaft. Ein Ort, an dem du nicht perfekt sein musst, sondern einfach du selbst sein darfst.',
-    },
+    valuesTitle: 'Wofür wir stehen',
+    valuesHint: 'Bewege den Cursor über eine Karte – sie öffnet sich.',
+    values: [
+      {
+        variant: 'mission',
+        title: 'Unsere Mission',
+        body: 'Tanzmoment steht für inklusiven, ausdrucksstarken Tanz ohne Leistungsdruck. Jeder Mensch kann tanzen – unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen. Tanz ist Ausdruck, Bewegung ist Freiheit, und bei uns hat jeder Körper seine eigene Sprache.',
+      },
+      {
+        variant: 'vision',
+        title: 'Unsere Vision',
+        body: 'Wir schaffen einen Raum, in dem Menschen sich durch Bewegung ausdrücken, verbinden und wachsen. Tanz wird zum Medium für Selbstentdeckung und Gemeinschaft – ein Ort, an dem du nicht perfekt sein musst, sondern einfach du selbst sein darfst.',
+      },
+    ],
   });
 
   // ───────────────────────────────────────────────────────────────────────────

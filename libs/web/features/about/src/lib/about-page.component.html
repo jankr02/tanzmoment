@@ -2,13 +2,10 @@
   <!-- Hero: personal introduction -->
   <tm-hero-section [data]="heroData()" />
 
-  <!-- Story: founding narrative -->
-  <tm-story-section [data]="storyData()" />
+  <!-- Origin: story timeline + mission/vision values -->
+  <tm-origin-section [data]="originData()" />
 
-  <!-- Mission & Vision (same background as Story: no wave needed) -->
-  <tm-mission-vision-section [data]="missionVisionData()" />
-
-  <!-- Transition: Mission (surface) -> Values (background) -->
+  <!-- Transition: Origin (surface) -> Values (background) -->
   <tm-wave-divider from="surface" to="background" variant="organic" height="md" />
 
   <!-- Values -->
