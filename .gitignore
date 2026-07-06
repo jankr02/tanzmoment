@@ -65,3 +65,6 @@ storybook-static
 # Local upload storage (keep directory via .gitkeep)
 apps/api/uploads/**/*
 !apps/api/uploads/**/.gitkeep
+
+# Local production secrets (never commit)
+.env.prod

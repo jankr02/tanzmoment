@@ -1,0 +1,38 @@
+# Single-origin ingress for the soft-launch.
+#
+# TLS terminates at the Cloudflare edge; cloudflared connects to this server on
+# plain HTTP (port 80), so automatic HTTPS is intentionally disabled by binding
+# to :80 with no hostname.
+#
+# One origin keeps the auth cookies first-party: the Angular SPA calls the API
+# via relative /api/* and loads media via /uploads/*, both proxied here to the
+# API. Everything else is the static SPA with a client-side routing fallback.
+:80 {
+	encode zstd gzip
+
+	# The NestJS API owns /api/* (its global prefix) and serves uploaded media at
+	# /uploads/*. `handle` (not `handle_path`) preserves the full path, which the
+	# API expects. Raw request bodies pass through unmodified, which the Stripe
+	# webhook signature check at /api/payments/webhook depends on.
+	@backend path /api/* /uploads/*
+	handle @backend {
+		reverse_proxy api:3000
+	}
+
+	# Static Angular browser bundle. Serve a prerendered route file when one
+	# exists ({path}/index.html), otherwise fall back to the client-side render
+	# shell (index.csr.html) so the router resolves dynamic routes without
+	# flashing the prerendered home page.
+	handle {
+		# Security headers for the SPA origin (helmet only runs on the API). A
+		# strict CSP is deferred to the edge; these are safe and app-compatible.
+		header {
+			X-Frame-Options "DENY"
+			X-Content-Type-Options "nosniff"
+			Referrer-Policy "strict-origin-when-cross-origin"
+		}
+		root * /srv
+		try_files {path} {path}/index.html /index.csr.html
+		file_server
+	}
+}

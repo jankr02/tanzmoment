@@ -1,0 +1,38 @@
+# Reinstalled inside the image; also host-native (wrong ABI for the Linux image).
+node_modules
+**/node_modules
+
+# Rebuilt inside the image.
+dist
+tmp
+.nx
+.angular
+
+# Secrets and local env — must never be baked into an image layer.
+.env
+.env.*
+
+# VCS / CI / editor.
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+
+# Test + coverage artifacts (not needed to build the runtime bundle).
+coverage
+**/*.spec.ts
+cypress
+**/cypress
+apps/*-e2e
+
+# Logs.
+*.log
+**/*.log
+
+# Docker / compose descriptors (not needed inside the build context).
+# NOTE: Caddyfile is intentionally NOT excluded — the web image copies it in.
+**/Dockerfile
+.dockerignore
+docker-compose*.yml

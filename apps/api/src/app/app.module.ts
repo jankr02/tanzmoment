@@ -14,6 +14,7 @@ import { AdminModule } from '../admin/admin.module';
 import { NewsModule } from '../news/news.module';
 import { NewsletterModule } from '../newsletter/newsletter.module';
 import { UploadsModule } from '../uploads/uploads.module';
+import { HealthModule } from '../health/health.module';
 import { emailConfig } from '../config/email.config';
 import { validateEnv } from '../config/env.validation';
 import { AppController } from './app.controller';
@@ -46,6 +47,7 @@ import { AppService } from './app.service';
     NewsletterModule,
     AdminModule,
     UploadsModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [

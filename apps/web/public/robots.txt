@@ -1,8 +1,5 @@
+# Soft-launch: the site is private behind a Cloudflare Access gate, so all
+# crawling is disallowed. At public launch, restore the crawl rules and sitemap
+# reference documented in the go-live runbook.
 User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /admin/
-Disallow: /auth/
-Disallow: /buchung/
-
-Sitemap: https://tanzmoment.de/sitemap.xml
+Disallow: /

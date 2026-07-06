@@ -1961,6 +1961,16 @@ async function seedCancellationPolicy() {
 }
 
 async function main() {
+  // This seed is destructive (deleteMany) and creates well-known demo
+  // credentials (admin123). It must never touch a production database; use the
+  // idempotent, non-destructive bootstrap (prisma/bootstrap.ts) there instead.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'Refusing to run the development seed with NODE_ENV=production. ' +
+        'Use the production bootstrap (prisma/bootstrap.ts) instead.',
+    );
+  }
+
   console.log('🌱 Starting database seed...\n');
   console.log('━'.repeat(50));
 

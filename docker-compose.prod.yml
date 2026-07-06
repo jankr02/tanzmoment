@@ -1,0 +1,95 @@
+# Production stack for the Tanzmoment soft-launch.
+#
+# Run with the secrets file supplied for BOTH interpolation and container env:
+#   docker compose --env-file .env.prod -f docker-compose.prod.yml up -d --build
+#
+# There are intentionally NO published host ports: the only ingress is the
+# Cloudflare tunnel (cloudflared), which reaches Caddy over the internal
+# network. Enable it with `--profile tunnel` once TUNNEL_TOKEN is set.
+# Distinct from the dev compose project (docker-compose.yml defaults to the
+# directory name "tanzmoment") so the two stacks never share containers,
+# networks, or volumes on the same host.
+name: tanzmoment-prod
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tanzmoment}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-tanzmoment}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-tanzmoment} -d ${POSTGRES_DB:-tanzmoment}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: tanzmoment-api:latest
+    restart: unless-stopped
+    init: true
+    # Secrets (JWT_SECRET, COOKIE_*, STRIPE_*, SMTP_*, ADMIN_*, ...) come from
+    # the env file. DATABASE_URL and the Redis host are derived here so they can
+    # never drift from the postgres/redis services.
+    env_file:
+      - .env.prod
+    environment:
+      # POSTGRES_PASSWORD is interpolated unencoded, so it must be URL-safe
+      # (see .env.prod.example: openssl rand -hex 32).
+      DATABASE_URL: postgresql://${POSTGRES_USER:-tanzmoment}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tanzmoment}?schema=public
+      REDIS_HOST: redis
+      REDIS_PORT: '6379'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # The API awaits Redis during module init (BullMQ job schedulers), so it
+      # only starts once Redis is ready.
+      redis:
+        condition: service_healthy
+    volumes:
+      - uploads:/app/apps/api/uploads
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    image: tanzmoment-web:latest
+    restart: unless-stopped
+    init: true
+    depends_on:
+      - api
+
+  # Cloudflare tunnel — the sole public ingress. Disabled by default; enable with
+  # `--profile tunnel` once TUNNEL_TOKEN is provisioned (see the go-live runbook).
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      - web
+    profiles:
+      - tunnel
+
+volumes:
+  pgdata:
+  redisdata:
+  uploads:
