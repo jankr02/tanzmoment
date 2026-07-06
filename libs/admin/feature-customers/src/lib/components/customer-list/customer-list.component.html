@@ -10,7 +10,9 @@
 
   <div class="customer-list__search-bar">
     <div class="search-input-wrapper">
-      <app-icon name="search" class="search-icon" aria-hidden="true" />
+      @if (!hasSearch()) {
+        <app-icon name="search" size="sm" class="search-icon" aria-hidden="true" />
+      }
       <input
         type="text"
         class="search-input"
@@ -25,7 +27,7 @@
           (click)="onClearSearch()"
           aria-label="Suche zurücksetzen"
         >
-          <app-icon name="x" aria-hidden="true" />
+          <app-icon name="x" size="sm" aria-hidden="true" />
         </button>
       }
     </div>

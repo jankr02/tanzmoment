@@ -10,7 +10,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
-  OnDestroy,
   OnInit,
   PLATFORM_ID,
   computed,
@@ -25,7 +24,6 @@ import { IconComponent } from '@tanzmoment/shared/ui';
 import { SeoService } from '@tanzmoment/shared/services';
 
 import { CourseScheduleService } from '../../services/course-schedule.service';
-import { CourseOverviewColorService } from '../../services/course-overview-color.service';
 import { ScheduleWeekViewComponent } from '../../sections/schedule-week-view/schedule-week-view.component';
 import { ScheduleListViewComponent } from '../../sections/schedule-list-view/schedule-list-view.component';
 import { ScheduleMonthViewComponent } from '../../sections/schedule-month-view/schedule-month-view.component';
@@ -68,9 +66,8 @@ interface FilterChip {
   styleUrl: './course-schedule.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CourseScheduleComponent implements OnInit, OnDestroy {
+export class CourseScheduleComponent implements OnInit {
   private readonly scheduleService = inject(CourseScheduleService);
-  private readonly colorService = inject(CourseOverviewColorService);
   private readonly seo = inject(SeoService);
   private readonly router = inject(Router);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -172,11 +169,6 @@ export class CourseScheduleComponent implements OnInit, OnDestroy {
         'Alle Tanzkurse von Tanzmoment in der Wochen-, Listen- und Monatsansicht. Finde deinen Moment für Bewegung und melde dich direkt an.',
       url: '/kursplan',
     });
-    this.colorService.setCourseOverviewColor();
-  }
-
-  ngOnDestroy(): void {
-    this.colorService.resetToDefault();
   }
 
   @HostListener('document:keydown.escape')
