@@ -6,7 +6,7 @@
  *
  * Test Accounts:
  * - Admin:      admin@tanzmoment.de / admin123
- * - Instructor: sarah@tanzmoment.de / sarah123
+ * - Instructor: daniela@tanzmoment.de / daniela123
  * - Customer:   max@example.com / customer123
  */
 
@@ -93,7 +93,7 @@ const DETAIL_CONTENT = {
       qualifications: [
         'Dipl. Tanzpädagogin',
         'Laban-Bewegungsanalyse',
-        '15 Jahre Unterrichtserfahrung',
+        'Tanz- und Bewegungspädagogin',
         'Ausbildung in Somatics & Body-Mind Centering',
       ],
     },
@@ -148,9 +148,9 @@ const DETAIL_CONTENT = {
       headline: 'Das sagen Teilnehmende',
       testimonials: [
         {
-          text: 'Ich bin total verkrampft reingekommen – ohne jede Tanzerfahrung. Nach drei Stunden habe ich mich frei bewegt und es tatsächlich genossen. Sarah schafft einen Raum, in dem man vergisst, befangen zu sein.',
+          text: 'Ich bin total verkrampft reingekommen – ohne jede Tanzerfahrung. Nach drei Stunden habe ich mich frei bewegt und es tatsächlich genossen. Daniela schafft einen Raum, in dem man vergisst, befangen zu sein.',
           authorName: 'Miriam H.',
-          authorRole: 'Teilnehmerin seit 2023',
+          authorRole: 'Teilnehmerin',
           rating: 5,
         },
         {
@@ -186,281 +186,11 @@ const DETAIL_CONTENT = {
         },
         {
           question: 'Kann ich mitten im Kurs einsteigen?',
-          answer: 'Ja! Der Kurs ist fortlaufend ohne feste Starttermine. Du kannst jederzeit einsteigen. Wir empfehlen ein kostenloses Erstgespräch mit Sarah vorab.',
+          answer: 'Ja! Der Kurs ist fortlaufend ohne feste Starttermine. Du kannst jederzeit einsteigen. Wir empfehlen ein kostenloses Erstgespräch mit Daniela vorab.',
         },
         {
           question: 'Gibt es eine Schnupperstunde?',
-          answer: 'Ja. Deine erste Stunde beinhaltet ein kostenloses Kennenlerngespräch mit Sarah. Gib das einfach bei der Buchung an.',
-        },
-      ],
-    },
-  },
-
-  expressiveVertiefung: {
-    hero: {
-      subHeadline: 'Geh tiefer – entdecke neue Ebenen deines Ausdrucks.',
-    },
-    quickFacts: {
-      customFacts: [
-        { icon: 'level', label: 'Level', value: 'Fortgeschrittene' },
-        { icon: 'group', label: 'Gruppengröße', value: 'Max. 10 Personen' },
-        { icon: 'clock', label: 'Kursdauer', value: '90 Minuten' },
-        { icon: 'check', label: 'Voraussetzung', value: 'Grundkurs oder Erfahrung' },
-      ],
-    },
-    description: {
-      headline: 'Tiefer eintauchen',
-      body: 'Für alle, die bereits erste Erfahrungen im Ausdruckstanz haben und ihre Praxis vertiefen wollen.\n\nWir arbeiten an fortgeschrittenen Improvisationstechniken, choreografischen Elementen und Performance-Vorbereitung.\n\n**Was dich erwartet:** Wir erkunden Themen wie Raumgestaltung, Dynamik, Timing und die Verbindung zwischen innerer Haltung und äußerem Ausdruck. Optional bereiten wir gemeinsame Performances für Studio-Abende vor.',
-      targetAudience: {
-        headline: 'Für wen ist dieser Aufbaukurs?',
-        body: 'Für alle, die den Grundkurs „Ausdruckstanz – frei & verbunden" abgeschlossen haben oder vergleichbare Vorerfahrung im freien Tanz mitbringen. Du solltest Freude daran haben, dich intensiver mit Bewegung und Ausdruck auseinanderzusetzen.',
-      },
-      highlights: [
-        { icon: 'sparkle', text: 'Aufbaukurs – Grundkenntnisse vorausgesetzt' },
-        { icon: 'fire', text: 'Intensivere Übungen & längere Sequenzen' },
-        { icon: 'stage', text: 'Performance-Vorbereitung für Studio-Abende' },
-        { icon: 'group', text: 'Exklusive Kleingruppe (max. 10 Teilnehmer)' },
-        { icon: 'explore', text: 'Choreografische Gestaltung und Raumarbeit' },
-      ],
-    },
-    instructor: {
-      quote:
-        'Vertiefung bedeutet nicht Perfektion – sondern Ehrlichkeit in der Bewegung.',
-      qualifications: [
-        'Dipl. Tanzpädagogin',
-        'Laban-Bewegungsanalyse',
-        'Performance & Stage Work',
-        'Choreografie und Komposition',
-      ],
-    },
-    schedule: {
-      headline: 'Termine & Verfügbarkeit',
-      infoText:
-        'Dieser Kurs läuft in festen Semestern (10 Einheiten). Einstieg zu Semesterbeginn – Einzeltermine auf Anfrage.',
-    },
-    booking: {
-      ctaText: 'Platz sichern',
-      priceNote: 'pro Einzelstunde',
-      includes: ['Materialien inklusive', 'Wasser & Tee', 'Umkleideraum'],
-      notice: 'Voraussetzung: Grundkurs oder vergleichbare Erfahrung. Bei Unsicherheit meld dich gerne vorab.',
-    },
-    courseFlow: {
-      headline: 'So arbeiten wir zusammen',
-      intro: 'Die Stunden wechseln zwischen individueller Erkundung und gemeinsamer Gruppenarbeit. Jedes Treffen baut auf dem vorherigen auf.',
-      steps: [
-        {
-          phase: 'Check-In',
-          duration: '10 Min.',
-          icon: 'heart',
-          description: 'Kurzer Body-Scan und Austausch über den individuellen Fokus für die Stunde.',
-        },
-        {
-          phase: 'Technik-Fokus',
-          duration: '25 Min.',
-          icon: 'bar-chart',
-          description: 'Arbeit an spezifischen Elementen: Dynamik, Raumwahrnehmung, Timing oder Gewichtsverlagerung.',
-        },
-        {
-          phase: 'Solo-Erkundung',
-          duration: '20 Min.',
-          icon: 'improvisation',
-          description: 'Erweiterte individuelle Improvisation mit einem gewählten Thema oder Score.',
-        },
-        {
-          phase: 'Duett & Gruppenarbeit',
-          duration: '20 Min.',
-          icon: 'users',
-          description: 'Kollaborative Strukturen und Partner-Improvisation. Material für die Studio-Abende aufbauen.',
-        },
-        {
-          phase: 'Reflexion',
-          duration: '15 Min.',
-          icon: 'sparkle',
-          description: 'Wir beobachten, diskutieren und integrieren. Was hast du bemerkt? Was willst du weiterentwickeln?',
-        },
-      ],
-    },
-    socialProof: {
-      headline: 'Stimmen aus dem Kurs',
-      testimonials: [
-        {
-          text: 'Der Vertiefungskurs hat mich genau in die richtige Richtung geschoben. Sarah stellt die richtigen Fragen und gibt Raum, in sie hineinzuwachsen.',
-          authorName: 'Anna L.',
-          authorRole: 'Fortgeschrittene Teilnehmerin',
-          rating: 5,
-        },
-        {
-          text: 'Ich habe jahrelang Tanz studiert, aber hier habe ich mehr über meine eigene Bewegung gelernt als in jedem Technikkurs.',
-          authorName: 'Thomas R.',
-          authorRole: 'Teilnehmer',
-          rating: 5,
-        },
-        {
-          text: 'Der Vertiefungskurs öffnet Türen, die man selbst noch nicht einmal gesucht hat. Nach jedem Abend trage ich etwas Neues in mir.',
-          authorName: 'Petra G.',
-          authorRole: 'Regelmäßige Teilnehmerin',
-          rating: 5,
-        },
-        {
-          text: 'Sarah bringt eine Tiefe in den Unterricht, die ich in anderen Studios nie gefunden habe. Hier wird man wirklich gesehen.',
-          authorName: 'David F.',
-          authorRole: 'Teilnehmer seit 2024',
-          rating: 5,
-        },
-      ],
-    },
-    faq: {
-      headline: 'Fragen zum Aufbaukurs',
-      items: [
-        {
-          question: 'Welche Vorerfahrung brauche ich?',
-          answer: 'Den abgeschlossenen Grundkurs „Ausdruckstanz – frei & verbunden" oder vergleichbare Erfahrung im freien Tanz. Bei Unsicherheit kontaktiere Sarah für eine kurze Einschätzung.',
-        },
-        {
-          question: 'Was sind die Studio-Abende?',
-          answer: 'Zweimal pro Semester teilt die Gruppe Work-in-Progress-Stücke in einem informellen Rahmen. Die Teilnahme ist freiwillig, aber empfohlen.',
-        },
-        {
-          question: 'Kann ich eine Stunde verpassen?',
-          answer: 'Der Kurs läuft in Semestern. Gelegentliches Fehlen ist kein Problem, aber Kontinuität ist wichtig für die Tiefe der Arbeit. Nachholterminen können individuell vereinbart werden.',
-        },
-      ],
-    },
-  },
-
-  tanzmaeuse: {
-    hero: {
-      subHeadline:
-        'Spielerisch bewegen, Rhythmus entdecken, Spaß haben!',
-    },
-    quickFacts: {
-      customFacts: [
-        { icon: 'child', label: 'Altersgruppe', value: '4–6 Jahre' },
-        { icon: 'group', label: 'Gruppengröße', value: 'Max. 12 Kinder' },
-        { icon: 'clock', label: 'Kursdauer', value: '45 Minuten' },
-        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
-      ],
-    },
-    description: {
-      headline: 'Tanz-Abenteuer für kleine Entdecker',
-      body: 'Kinder lernen am besten, wenn sie Spaß haben. In unserem Tanzkurs verbinden wir spielerische Bewegung mit kreativen Geschichten und altersgerechter Musik.\n\nJede Stunde ist ein kleines Abenteuer: Mal sind wir tanzende Tiere, mal reisen wir in fremde Länder – immer begleitet von fröhlicher Musik und viel Gelächter.\n\nDie Kinder entwickeln ganz nebenbei Koordination, Rhythmusgefühl und Selbstbewusstsein.',
-      targetAudience: {
-        headline: 'Altersgruppe & Voraussetzungen',
-        body: 'Für Kinder von 4–6 Jahren. Keine Vorkenntnisse nötig – nur Freude an Bewegung und Neugier auf Neues! Die erste Stunde kann als kostenlose Schnupperstunde gebucht werden.',
-      },
-      highlights: [
-        { icon: 'music', text: 'Altersgerechte Musik und bewegte Geschichten' },
-        { icon: 'group', text: 'Kleine Gruppen (max. 12 Kinder)' },
-        { icon: 'sparkle', text: 'Erste Schnupperstunde kostenlos' },
-        { icon: 'heart', text: 'Spielerische Förderung von Koordination & Rhythmus' },
-        { icon: 'star', text: 'Liebevolle, erfahrene Kursleitung' },
-      ],
-    },
-    instructor: {
-      bioOverride:
-        'Sarah liebt es, Kindern die Freude an Bewegung zu schenken. Ihre Stunden sind kreativ, laut und voller Lachen – jedes Kind darf sein, wie es ist.',
-      quote:
-        'Wenn Kinder tanzen, leuchten ihre Augen. Diesen Moment liebe ich.',
-      qualifications: [
-        'Dipl. Tanzpädagogin',
-        'Kindertanzausbildung (ADTV)',
-        'Rhythmik & Elementare Musikpädagogik',
-      ],
-    },
-    schedule: {
-      headline: 'Termine',
-      infoText:
-        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – wir empfehlen den Start zu Semesterbeginn.',
-    },
-    booking: {
-      ctaText: 'Kind anmelden',
-      priceNote: 'pro Monat (4 Einheiten)',
-      includes: ['Tanzraum & Musik', 'Erste Schnupperstunde gratis', 'Kleine Abschlussvorführung im Semester'],
-      notice: 'Eltern können bei der ersten Stunde zuschauen.',
-    },
-    courseFlow: {
-      headline: 'Eine Stunde bei den Tanzmäusen',
-      intro: 'Jede Stunde ist ein kleines Abenteuer – genug Struktur, damit sich die Kinder sicher fühlen, und genug Offenheit für ihre Fantasie.',
-      steps: [
-        {
-          phase: 'Begrüßungskreis',
-          duration: '5 Min.',
-          icon: 'heart',
-          description: 'Wir versammeln uns im Kreis, begrüßen uns und finden heraus, welches Tier oder Thema wir heute erkunden.',
-        },
-        {
-          phase: 'Aufwärmspiel',
-          duration: '10 Min.',
-          icon: 'sparkle',
-          description: 'Ein spielerisches Bewegungsspiel, um die Körper in Schwung zu bringen – oft ein Favorit aus der Vorwoche.',
-        },
-        {
-          phase: 'Tanzgeschichte',
-          duration: '15 Min.',
-          icon: 'music',
-          description: 'Wir bewegen uns durch eine Geschichte – die Kinder sind die Figuren und ihre Körper erzählen die Handlung.',
-        },
-        {
-          phase: 'Kreatives Spielen',
-          duration: '10 Min.',
-          icon: 'improvisation',
-          description: 'Freies Erkunden mit Requisiten, Bändern oder Schlaginstrumenten.',
-        },
-        {
-          phase: 'Cool-Down',
-          duration: '5 Min.',
-          icon: 'heart',
-          description: 'Ein ruhiges Abschlussritual – Dehnen, Atmen und ein sanftes Abschiedslied.',
-        },
-      ],
-    },
-    socialProof: {
-      headline: 'Eltern erzählen',
-      testimonials: [
-        {
-          text: 'Meine Tochter fragt jede Woche, ob Tanzmäuse-Tag ist. Sie kommt strahlend nach Hause. Sarah ist unglaublich warm und geduldig mit den Kleinen.',
-          authorName: 'Lisa M.',
-          authorRole: 'Mama einer 5-Jährigen',
-          rating: 5,
-        },
-        {
-          text: 'Wir haben schon nach einem Semester eine deutliche Verbesserung in Koordination und Selbstvertrauen gesehen. Sehr empfehlenswert.',
-          authorName: 'Stefan K.',
-          authorRole: 'Papa eines 4-Jährigen',
-          rating: 5,
-        },
-        {
-          text: 'Mein Kind ist normalerweise sehr schüchtern, aber hier blüht es auf. Sarah hat ein Gespür dafür, Kindern auf ihrem eigenen Tempo zu begegnen.',
-          authorName: 'Claudia R.',
-          authorRole: 'Mama einer 4-Jährigen',
-          rating: 5,
-        },
-        {
-          text: 'Die Tanzmäuse sind das Highlight der Woche – für meine Tochter und für mich. Wir singen die Lieder noch tagelang danach.',
-          authorName: 'Thomas B.',
-          authorRole: 'Papa einer 5-Jährigen',
-          rating: 5,
-        },
-      ],
-    },
-    faq: {
-      headline: 'Fragen zu den Tanzmäusen',
-      items: [
-        {
-          question: 'Können Eltern zuschauen?',
-          answer: 'Bei der ersten Stunde sind Eltern herzlich willkommen. Ab der zweiten Stunde haben wir die Erfahrung gemacht, dass Kinder sich schneller einleben und besser konzentrieren, wenn die Eltern draußen warten. Ihr seid aber telefonisch immer erreichbar.',
-        },
-        {
-          question: 'Was muss mein Kind mitbringen?',
-          answer: 'Bequeme, dehnbare Kleidung und nackte Füße oder Tanzsocken. Keine spezielle Tanzkleidung nötig. Eine kleine Wasserflasche wird empfohlen.',
-        },
-        {
-          question: 'Gibt es eine Schnupperstunde?',
-          answer: 'Ja – die erste Stunde ist kostenlos. Einfach über das Formular buchen oder uns direkt kontaktieren.',
-        },
-        {
-          question: 'Mein Kind ist schüchtern. Geht das trotzdem?',
-          answer: 'Absolut. Sarah hat jahrelange Erfahrung mit Kindern, die etwas mehr Zeit zum Auftauen brauchen. Es gibt keinen Druck, sofort mitzumachen – Kinder finden ihren Weg in ihrem eigenen Tempo.',
+          answer: 'Ja. Deine erste Stunde beinhaltet ein kostenloses Kennenlerngespräch mit Daniela. Gib das einfach bei der Buchung an.',
         },
       ],
     },
@@ -484,7 +214,7 @@ const DETAIL_CONTENT = {
       body: 'Die Tanzfüchse lernen bereits erste echte Tanzschritte und arbeiten an kleinen Choreografien – mit viel Teamgeist und Selbstbewusstsein.\n\nWir tanzen zu aktueller Musik und lernen Grundlagen aus Hip Hop, Jazz Dance und freier Improvisation. Am Ende jedes Semesters gibt es eine kleine Aufführung, auf die sich alle gemeinsam vorbereiten.\n\n**Wichtig:** Der Fokus liegt auf Spaß und Gemeinschaft – nicht auf Perfektion.',
       targetAudience: {
         headline: 'Für wen ist der Kurs?',
-        body: 'Für Kinder von 7–10 Jahren mit oder ohne Vorerfahrung. Wer schon die Tanzmäuse besucht hat, ist bestens vorbereitet – aber auch absolute Newcomer sind herzlich willkommen!',
+        body: 'Für Kinder von 7–10 Jahren mit oder ohne Vorerfahrung. Wer schon erste Tanzerfahrung hat, ist bestens vorbereitet – aber auch absolute Newcomer sind herzlich willkommen!',
       },
       highlights: [
         { icon: 'dance', text: 'Grundlegende Tanztechniken aus verschiedenen Stilen' },
@@ -496,7 +226,7 @@ const DETAIL_CONTENT = {
     },
     instructor: {
       bioOverride:
-        'Sarah bringt Kindern bei, sich in ihrer eigenen Haut wohlzufühlen – durch Bewegung, Musik und gemeinsames Erleben. Ihre Kurse sind energiegeladen und immer mit einem Lächeln.',
+        'Daniela bringt Kindern bei, sich in ihrer eigenen Haut wohlzufühlen – durch Bewegung, Musik und gemeinsames Erleben. Ihre Kurse sind energiegeladen und immer mit einem Lächeln.',
       quote:
         'Tanzen macht stark – im Körper und im Kopf.',
       qualifications: [
@@ -518,7 +248,7 @@ const DETAIL_CONTENT = {
     },
     courseFlow: {
       headline: 'Eine Stunde bei den Tanzfüchsen',
-      intro: 'Mehr Struktur als bei den Tanzmäusen, aber immer noch voller Spaß – die Tanzfüchse balancieren Lernen und Spiel.',
+      intro: 'Viel Struktur und trotzdem immer voller Spaß – die Tanzfüchse balancieren Lernen und Spiel.',
       steps: [
         {
           phase: 'Energiser',
@@ -562,7 +292,7 @@ const DETAIL_CONTENT = {
           rating: 5,
         },
         {
-          text: 'Die Aufführung am Semesterende war großartig. Die Kinder waren so stolz. Sarah holt wirklich das Beste aus ihnen heraus.',
+          text: 'Die Aufführung am Semesterende war großartig. Die Kinder waren so stolz. Daniela holt wirklich das Beste aus ihnen heraus.',
           authorName: 'Michael B.',
           authorRole: 'Papa eines 7-Jährigen',
           rating: 5,
@@ -586,7 +316,7 @@ const DETAIL_CONTENT = {
       items: [
         {
           question: 'Mein Kind hat keine Erfahrung – geht das?',
-          answer: 'Absolut. Wir heißen Anfänger willkommen. Kinder, die bei den Tanzmäusen waren, haben einen kleinen Vorsprung, aber Quereinsteiger holen schnell auf.',
+          answer: 'Absolut. Wir heißen Anfänger willkommen. Kinder mit erster Tanzerfahrung haben einen kleinen Vorsprung, aber Quereinsteiger holen schnell auf.',
         },
         {
           question: 'Was ist die Semesteraufführung?',
@@ -629,12 +359,12 @@ const DETAIL_CONTENT = {
     },
     instructor: {
       bioOverride:
-        'Sarah gestaltet den Schnupperkurs so, dass sich wirklich jeder wohlfühlt – egal wie viel oder wenig Erfahrung jemand mitbringt. Ihr Ziel: dass du nach der Stunde mit einem Lächeln nach Hause gehst.',
+        'Daniela gestaltet den Schnupperkurs so, dass sich wirklich jeder wohlfühlt – egal wie viel oder wenig Erfahrung jemand mitbringt. Ihr Ziel: dass du nach der Stunde mit einem Lächeln nach Hause gehst.',
       quote:
         'Der erste Schritt ist immer der mutigste – und meistens der schönste.',
       qualifications: [
         'Dipl. Tanzpädagogin',
-        '15 Jahre Unterrichtserfahrung',
+        'Tanz- und Bewegungspädagogin',
         'Erfahrung mit allen Altersgruppen',
       ],
     },
@@ -656,7 +386,7 @@ const DETAIL_CONTENT = {
           phase: 'Willkommen',
           duration: '10 Min.',
           icon: 'heart',
-          description: 'Sarah stellt sich und das Studio vor. Alle teilen, was sie hergeführt hat – oder hören einfach zu.',
+          description: 'Daniela stellt sich und das Studio vor. Alle teilen, was sie hergeführt hat – oder hören einfach zu.',
         },
         {
           phase: 'Einfaches Warm-Up',
@@ -674,7 +404,7 @@ const DETAIL_CONTENT = {
           phase: 'Q&A & Kursempfehlung',
           duration: '10 Min.',
           icon: 'info',
-          description: 'Sarah beantwortet Fragen und hilft jedem Teilnehmer, den passenden Kurs für Interessen und Verfügbarkeit zu finden.',
+          description: 'Daniela beantwortet Fragen und hilft jedem Teilnehmer, den passenden Kurs für Interessen und Verfügbarkeit zu finden.',
         },
       ],
     },
@@ -716,7 +446,7 @@ const DETAIL_CONTENT = {
         },
         {
           question: 'Ist die Stunde wirklich für alle Altersgruppen?',
-          answer: 'Ja. Wir hatten schon Teilnehmer von 6 bis 78 Jahren in derselben Stunde. Sarah passt jede Übung an, damit jeder bequem mitmachen kann.',
+          answer: 'Ja. Wir hatten schon Teilnehmer von 6 bis 78 Jahren in derselben Stunde. Daniela passt jede Übung an, damit jeder bequem mitmachen kann.',
         },
         {
           question: 'Was soll ich anziehen?',
@@ -726,310 +456,386 @@ const DETAIL_CONTENT = {
     },
   },
 
-  inklusiverTanzkreis: {
+  kinderJugend: {
     hero: {
-      subHeadline: 'Tanz kennt keine Grenzen – Bewegung für alle.',
+      subHeadline: 'Tanz, sei kreativ und neugierig – denn jeder kann tanzen',
     },
     quickFacts: {
       customFacts: [
-        {
-          icon: 'wheelchair',
-          label: 'Barrierefreiheit',
-          value: 'Vollständig barrierefrei',
-        },
-        {
-          icon: 'heart',
-          label: 'Inklusion',
-          value: 'Mit & ohne Behinderung',
-        },
-        {
-          icon: 'group',
-          label: 'Gruppengröße',
-          value: 'Max. 10 Personen',
-        },
-        {
-          icon: 'clock',
-          label: 'Kursdauer',
-          value: '60 Minuten',
-        },
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 14 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '60 Minuten' },
+        { icon: 'child', label: 'Altersgruppe', value: '11–17 Jahre' },
       ],
     },
     description: {
-      headline: 'Gemeinsam in Bewegung',
-      body: 'Inklusiver Tanz bedeutet, dass jeder Mensch teilnehmen kann – unabhängig von körperlichen oder geistigen Voraussetzungen.\n\nWir passen jede Übung individuell an und schaffen einen sicheren Raum, in dem Bewegung Freude bringt.\n\nIm Tanzkreis erleben wir Gemeinschaft durch Bewegung: Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Begleitpersonen und Assistenzen sind herzlich willkommen.',
+      headline: 'Bewegung, Fantasie und jede Menge Spaß',
+      body: 'Tanz, sei kreativ und neugierig – denn jeder kann tanzen. Mit viel Fantasie entdecken wir gemeinsam vielfältige Ausdrucksformen in Tanz und Bewegung und haben dabei eine Menge Spaß.\n\nElemente aus Jazz Dance, Hip Hop und Improvisation fließen ineinander. Schritt für Schritt erarbeiten wir eine **coole Choreographie**, die am Ende ganz euch gehört.\n\nHier zählt nicht Perfektion, sondern die Freude an der eigenen Bewegung. Jede und jeder darf sich ausprobieren und den eigenen Ausdruck finden.',
       targetAudience: {
         headline: 'Für wen ist der Kurs?',
-        body: 'Für Menschen mit und ohne Behinderung. Der Kurs ist für Rollstuhlfahrer:innen, Menschen mit Lernschwierigkeiten, Sehbehinderung, psychischen Erkrankungen und alle anderen zugänglich. Begleitpersonen sind ebenfalls willkommen.',
+        body: 'Für Kinder und Jugendliche von 11 bis 17 Jahren, die Lust auf Tanz und Bewegung haben – ganz gleich, ob mit oder ohne Vorerfahrung. Wer neugierig ist und sich gerne kreativ ausdrückt, ist genau richtig.',
       },
       highlights: [
-        { icon: 'wheelchair', text: 'Barrierefreier Zugang zum Studio' },
-        { icon: 'heart', text: 'Individuelle Anpassung jeder Übung' },
-        { icon: 'star', text: 'Erfahrung mit verschiedenen Behinderungsformen' },
-        { icon: 'group', text: 'Begleitpersonen und Assistenzen willkommen' },
-        { icon: 'sparkle', text: 'Inklusion als gelebte Praxis – nicht nur als Konzept' },
+        { icon: 'sparkle', text: 'Kreatives Entdecken statt Leistungsdruck' },
+        { icon: 'group', text: 'Kleine Gruppe mit viel Raum für jede Person' },
+        { icon: 'star', text: 'Eine eigene Choreographie erarbeiten' },
+        { icon: 'music', text: 'Jazz Dance, Hip Hop und Improvisation' },
+        { icon: 'heart', text: 'Ein Ort zum Ausprobieren und Wohlfühlen' },
       ],
     },
     instructor: {
-      bioOverride:
-        'Sarah hat über 10 Jahre Erfahrung im inklusiven Tanz und arbeitet eng mit Therapeut:innen, Heimen und Schulen zusammen. Ihr DanceAbility-Zertifikat und ihre Ausbildung in Tanztherapie befähigen sie, auf jede Teilnehmerin individuell einzugehen.',
-      quote:
-        'Jeder Körper kann tanzen – auf seine eigene, einzigartige Weise.',
+      quote: 'Ich möchte, dass jedes Kind spürt: Du darfst genau so tanzen, wie du bist. Aus Neugier und Fantasie entsteht bei uns etwas ganz Eigenes.',
       qualifications: [
-        'DanceAbility-Zertifikat',
-        'Tanztherapie (Grundausbildung)',
+        'Tanz- und Bewegungspädagogin',
+        'Jazz Dance & Hip Hop',
+        'Kinder- & Jugendtanz',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText: 'Der Kurs findet fortlaufend wöchentlich statt. Ein Schnuppern ist jederzeit möglich – meldet euch einfach für einen freien Termin an.',
+    },
+    booking: {
+      ctaText: 'Platz sichern',
+      priceNote: 'Preis auf Anfrage',
+      includes: [
+        'Wöchentliche Kursstunde in kleiner Gruppe',
+        'Gemeinsame Choreographie-Arbeit',
+        'Persönliche Begleitung durch Daniela',
+      ],
+      notice: 'Bitte bringt bequeme Kleidung und etwas zu trinken mit. Getanzt wird barfuß oder mit rutschfesten Socken.',
+    },
+    courseFlow: {
+      headline: 'So läuft eine Stunde ab',
+      intro: 'Jede Stunde folgt einem ruhigen Bogen – vom sanften Ankommen bis zum gemeinsamen Ausklang.',
+      steps: [
+        { phase: 'Ankommen & Aufwärmen', duration: '10 Min.', icon: 'heart', description: 'Wir kommen zur Ruhe, lockern den Körper und stimmen uns spielerisch auf die Bewegung ein.' },
+        { phase: 'Bewegung entdecken', duration: '15 Min.', icon: 'sparkle', description: 'Mit kleinen Übungen aus Jazz Dance und Hip Hop erkunden wir Rhythmus, Raum und den eigenen Ausdruck.' },
+        { phase: 'Choreographie', duration: '25 Min.', icon: 'music', description: 'Schritt für Schritt bauen wir gemeinsam an unserer Choreographie und setzen die Bewegungen zu Musik zusammen.' },
+        { phase: 'Freies Tanzen & Ausklang', duration: '10 Min.', icon: 'improvisation', description: 'Zum Abschluss gibt es Raum für Improvisation und ein ruhiges gemeinsames Ausklingen.' },
+      ],
+    },
+    socialProof: {
+      headline: 'Das sagen Familien über den Kurs',
+      testimonials: [
+        { text: 'Meine Tochter geht jede Woche voller Vorfreude hin und kommt strahlend zurück. Sie hat hier ihre Freude an Bewegung entdeckt.', authorName: 'Sabine R.', authorRole: 'Mutter einer Teilnehmerin', rating: 5 },
+        { text: 'Endlich ein Tanzkurs ohne Druck. Daniela nimmt jedes Kind so an, wie es ist – das spürt man sofort.', authorName: 'Markus L.', authorRole: 'Vater eines Teilnehmers', rating: 5 },
+        { text: 'Die Choreographie am Ende war ein tolles Erlebnis. Mein Sohn ist richtig aufgeblüht.', authorName: 'Christine B.', authorRole: 'Mutter eines Teilnehmers', rating: 5 },
+      ],
+    },
+    faq: {
+      headline: 'Häufige Fragen',
+      items: [
+        { question: 'Braucht mein Kind Tanzerfahrung?', answer: 'Nein, überhaupt nicht. Der Kurs ist für Anfängerinnen und Anfänger gedacht – Neugier und Lust an Bewegung reichen völlig aus.' },
+        { question: 'Was soll mein Kind anziehen?', answer: 'Bequeme Kleidung, in der man sich gut bewegen kann. Getanzt wird barfuß oder mit rutschfesten Socken.' },
+        { question: 'Kann mein Kind zuerst schnuppern?', answer: 'Ja, sehr gerne. Eine Schnupperstunde ist jederzeit möglich – meldet euch einfach vorab für einen freien Termin an.' },
+      ],
+    },
+  },
+  kindergeburtstag: {
+    hero: {
+      subHeadline: 'Ein Tanzfest voller Fantasie, Freude und Erinnerungen',
+    },
+    quickFacts: {
+      customFacts: [
+        { icon: 'sparkle', label: 'Anlass', value: 'Kindergeburtstag' },
+        { icon: 'clock', label: 'Dauer', value: '90 Minuten' },
+        { icon: 'group', label: 'Gruppe', value: 'Bis 12 Kinder' },
+        { icon: 'music', label: 'Musik', value: 'Wunschmusik' },
+      ],
+    },
+    description: {
+      headline: 'Schenkt Eurem Kind einen Tag voller Bewegung',
+      body: 'Schenkt Eurem Kind Bewegung, Selbstbewusstsein und gemeinsame Erinnerungen. Ich gestalte einen altersgerechten Workshop voller Fantasie – ganz auf das Geburtstagskind und seine Gäste abgestimmt.\n\nWir tanzen zu **Wunschmusik**, erfinden Geschichten mit dem Körper und stärken den Teamgeist. Aus Bewegung, Spiel und Fantasie wird ein Fest, an das sich alle gerne erinnern.\n\nDer Fokus liegt auf Freude, nicht auf Perfektion. Hier darf jedes Kind einfach sein und mitmachen.',
+      targetAudience: {
+        headline: 'Für wen ist der Workshop?',
+        body: 'Für Geburtstagskinder und ihre Gäste, die den besonderen Tag mit Tanz, Musik und viel Bewegung feiern möchten. Der Ablauf wird jeweils auf das Alter der Gruppe abgestimmt.',
+      },
+      highlights: [
+        { icon: 'music', text: 'Getanzt wird zur Lieblingsmusik der Kinder' },
+        { icon: 'sparkle', text: 'Geschichten mit dem Körper erfinden' },
+        { icon: 'group', text: 'Spiele, die den Teamgeist stärken' },
+        { icon: 'heart', text: 'Freude statt Perfektion' },
+        { icon: 'star', text: 'Gemeinsame Erinnerungen für den besonderen Tag' },
+      ],
+    },
+    instructor: {
+      quote: 'Ein Geburtstag ist ein besonderer Moment. Ich möchte, dass jedes Kind an diesem Tag spürt, wie viel Freude im gemeinsamen Tanzen steckt.',
+      qualifications: [
+        'Tanz- und Bewegungspädagogin',
+        'Kinder- & Jugendtanz',
+        'Jazz Dance & Hip Hop',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText: 'Der Workshop ist ein Einzeltermin und individuell buchbar. Wir stimmen den Tag und die Uhrzeit ganz nach Absprache auf euch ab.',
+    },
+    booking: {
+      ctaText: 'Workshop anfragen',
+      priceNote: 'Preis auf Anfrage',
+      includes: [
+        '90-minütiger, altersgerechter Tanzworkshop',
+        'Tanzen zur Wunschmusik der Kinder',
+        'Bewegungsspiele und kreative Geschichten',
+      ],
+      notice: 'Ort und Uhrzeit legen wir gemeinsam fest. Bitte gebt bei der Anfrage das Alter der Kinder und die gewünschte Gruppengröße an.',
+    },
+    courseFlow: {
+      headline: 'So läuft der Workshop ab',
+      intro: 'Der Ablauf passt sich flexibel an die Gruppe an – hier ein typischer Bogen durch die 90 Minuten.',
+      steps: [
+        { phase: 'Ankommen & Warmwerden', duration: '10 Min.', icon: 'heart', description: 'Wir begrüßen uns, lernen uns kennen und lockern spielerisch den Körper.' },
+        { phase: 'Bewegungsspiele', duration: '15 Min.', icon: 'sparkle', description: 'Mit kleinen Spielen kommen alle in Schwung und der Teamgeist wächst.' },
+        { phase: 'Tanzen zur Wunschmusik', duration: '25 Min.', icon: 'music', description: 'Zur Lieblingsmusik der Kinder erfinden wir Bewegungen und kleine Tanzsequenzen.' },
+        { phase: 'Fantasiereise & Ausklang', duration: '10 Min.', icon: 'improvisation', description: 'Wir erzählen Geschichten mit dem Körper und lassen den Workshop ruhig ausklingen.' },
+      ],
+    },
+    socialProof: {
+      headline: 'Das sagen Familien über den Workshop',
+      testimonials: [
+        { text: 'Der schönste Geburtstag bisher. Die Kinder waren begeistert und wir Eltern konnten einfach genießen.', authorName: 'Nadine K.', authorRole: 'Mutter des Geburtstagskindes', rating: 5 },
+        { text: 'Daniela hat eine wundervolle Art mit den Kindern. Alle haben mitgemacht, keiner stand am Rand.', authorName: 'Tobias M.', authorRole: 'Vater des Geburtstagskindes', rating: 5 },
+        { text: 'Wunschmusik, Spiele, Tanzen – rundum ein gelungenes Fest voller Bewegung und Lachen.', authorName: 'Elena S.', authorRole: 'Mutter eines Gastkindes', rating: 5 },
+      ],
+    },
+    faq: {
+      headline: 'Häufige Fragen',
+      items: [
+        { question: 'Wo findet der Workshop statt?', answer: 'Das legen wir gemeinsam fest – der Workshop kann bei euch zu Hause oder in geeigneten Räumen stattfinden. Wichtig ist genügend Platz zum Bewegen.' },
+        { question: 'Für welches Alter ist der Workshop geeignet?', answer: 'Der Ablauf wird jeweils auf das Alter der Kinder abgestimmt. Gebt bei der Anfrage einfach das Alter der Gruppe an, dann plane ich passend.' },
+        { question: 'Was ist im Workshop enthalten?', answer: 'Enthalten sind die 90-minütige Anleitung, das Tanzen zur Wunschmusik, Bewegungsspiele und kreative Geschichten. Um Kuchen und Deko kümmert ihr euch selbst.' },
+      ],
+    },
+  },
+  dancetogetherErwachsene: {
+    hero: {
+      subHeadline: 'Wir tanzen gemeinsam – mit und ohne Beeinträchtigung',
+    },
+    quickFacts: {
+      customFacts: [
+        { icon: 'wheelchair', label: 'Barrierefrei', value: 'Rollstuhl & Rollator willkommen' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 12 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '75 Minuten' },
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+      ],
+    },
+    description: {
+      headline: 'DANCETOGETHER – wir tanzen gemeinsam',
+      body: 'DANCETOGETHER heißt: Wir tanzen gemeinsam. In einer kleinen Choreographie verbinden wir Jazz Dance, Hip Hop und DanceAbility zu etwas, das uns alle trägt.\n\nDieser Kurs ist für Erwachsene mit Behinderung geeignet – egal ob mit Rollstuhl, Rollator oder mit psychischer oder geistiger Beeinträchtigung. **Alle sind willkommen**, mit und ohne Beeinträchtigung.\n\nWorte sind nicht notwendig. Lass deinen Körper sprechen und finde deinen eigenen Ausdruck in der Bewegung.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Erwachsene mit und ohne Beeinträchtigung, die gemeinsam tanzen möchten. Ob mit Rollstuhl, Rollator oder mit psychischer oder geistiger Beeinträchtigung – hier ist jede und jeder herzlich willkommen. Begleitpersonen und Assistenzen sind kostenfrei dabei.',
+      },
+      highlights: [
+        { icon: 'wheelchair', text: 'Barrierefrei – Rollstuhl und Rollator willkommen' },
+        { icon: 'users', text: 'Begleitpersonen und Assistenzen kostenfrei dabei' },
+        { icon: 'dance', text: 'Jazz Dance, Hip Hop und DanceAbility' },
+        { icon: 'heart', text: 'Worte sind nicht nötig – der Körper spricht' },
+        { icon: 'star', text: 'Eine gemeinsame Choreographie für alle' },
+      ],
+    },
+    instructor: {
+      quote: 'Beim gemeinsamen Tanzen zählt kein Können und keine Grenze. Ich erlebe immer wieder, wie viel Verbindung entsteht, wenn wir den Körper sprechen lassen.',
+      qualifications: [
+        'Tanz- und Bewegungspädagogin',
+        'DanceAbility',
         'Inklusionspädagogik',
-        '10+ Jahre Erfahrung im inklusiven Tanz',
       ],
     },
     schedule: {
-      headline: 'Termine & Verfügbarkeit',
-      infoText:
-        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – wir nehmen uns Zeit, um dich und deine Bedürfnisse kennenzulernen.',
+      headline: 'Termine',
+      infoText: 'Der Kurs findet fortlaufend wöchentlich statt. Ein Schnuppern ist jederzeit möglich – meldet euch gerne für einen freien Termin an.',
     },
     booking: {
-      ctaText: 'Jetzt anmelden',
-      priceNote: 'Ermäßigung auf Anfrage möglich',
-      includes: ['Vollständig barrierefreier Zugang', 'Individuelle Betreuung', 'Begleitperson kostenfrei'],
-      notice:
-        'Bei Fragen zur Barrierefreiheit oder besonderen Bedürfnissen kontaktiere uns gerne vorab – wir planen gemeinsam, wie wir es für dich möglich machen.',
+      ctaText: 'Platz sichern',
+      priceNote: 'Preis auf Anfrage',
+      includes: [
+        'Wöchentliche Kursstunde in barrierefreier Umgebung',
+        'Begleitpersonen und Assistenzen kostenfrei',
+        'Persönliche Begleitung durch Daniela',
+      ],
+      notice: 'Wenn du besondere Bedürfnisse hast oder etwas vorab besprechen möchtest, melde dich gerne. Wir finden gemeinsam einen Weg, der für dich passt.',
     },
     courseFlow: {
       headline: 'So läuft eine Stunde ab',
-      intro: 'Wir bewegen uns im Tempo der Gruppe. Jede Stunde wird geprägt von denen, die im Raum sind.',
+      intro: 'Jede Stunde folgt einem ruhigen, verlässlichen Ablauf, der allen Sicherheit gibt.',
       steps: [
-        {
-          phase: 'Ankommen & Check-In',
-          duration: '10 Min.',
-          icon: 'heart',
-          description: 'Wir kommen im Kreis zusammen. Jeder wird begrüßt und kann teilen, wie es ihm heute geht – in Worten, Bewegung oder einfach einer Geste.',
-        },
-        {
-          phase: 'Aufwärmen',
-          duration: '15 Min.',
-          icon: 'sparkle',
-          description: 'Sanfte Bewegung für den ganzen Körper. Alle Übungen können im Sitzen, Stehen oder im Rollstuhl gemacht werden.',
-        },
-        {
-          phase: 'Gemeinsam tanzen',
-          duration: '25 Min.',
-          icon: 'users',
-          description: 'Gruppen- und Partnerbewegung, Energie im Kreis weitergeben, kreative Antworten auf Musik.',
-        },
-        {
-          phase: 'Freier Ausdruck',
-          duration: '5 Min.',
-          icon: 'improvisation',
-          description: 'Jeder bewegt sich auf seine eigene Art zu einem selbst gewählten Musikstück.',
-        },
-        {
-          phase: 'Abschlusskreis',
-          duration: '5 Min.',
-          icon: 'heart',
-          description: 'Wir schließen die Stunde gemeinsam – ein geteilter Moment der Stille und Wertschätzung.',
-        },
+        { phase: 'Ankommen & Spüren', duration: '10 Min.', icon: 'heart', description: 'Wir kommen zusammen, atmen durch und spüren behutsam in den eigenen Körper hinein.' },
+        { phase: 'Bewegung wecken', duration: '15 Min.', icon: 'sparkle', description: 'Mit sanften Impulsen aus DanceAbility bringen wir den ganzen Körper in Bewegung – im Sitzen wie im Stehen.' },
+        { phase: 'Gemeinsame Choreographie', duration: '25 Min.', icon: 'music', description: 'Aus Jazz Dance und Hip Hop entsteht eine kleine Choreographie, die wir alle miteinander tragen.' },
+        { phase: 'Freier Ausdruck & Ausklang', duration: '10 Min.', icon: 'improvisation', description: 'Zum Abschluss gibt es Raum für freie Bewegung und ein ruhiges, verbindendes Ausklingen.' },
       ],
     },
     socialProof: {
-      headline: 'Erfahrungen von Teilnehmenden',
+      headline: 'Stimmen aus dem Kurs',
       testimonials: [
-        {
-          text: 'Zum ersten Mal hatte ich das Gefühl, dass der Rollstuhl nichts war, worum man herumarbeiten muss – er war einfach Teil meines Tanzes. Eine wirklich transformative Erfahrung.',
-          authorName: 'Marco D.',
-          authorRole: 'Rollstuhlfahrer, Teilnehmer seit 2022',
-          rating: 5,
-        },
-        {
-          text: 'Ich begleite meinen Bruder mit Down-Syndrom. Er blüht in diesem Kurs auf. Sarah ist außergewöhnlich – sie sieht jeden Menschen.',
-          authorName: 'Susanne T.',
-          authorRole: 'Geschwister und Teilnehmerin',
-          rating: 5,
-        },
-        {
-          text: 'Ich habe in vielen Kursen versucht mitzumachen, aber nirgendwo wurde ich so willkommen geheißen wie hier. Tanz ohne Ausnahme – das ist kein leeres Versprechen.',
-          authorName: 'Ali M.',
-          authorRole: 'Teilnehmer',
-          rating: 5,
-        },
-        {
-          text: 'Sarah schafft es, dass jeder Mensch im Raum Tänzer ist. Nicht Hilfsbedürftiger, nicht Zuschauer – einfach Tänzer.',
-          authorName: 'Ingrid K.',
-          authorRole: 'Teilnehmerin',
-          rating: 5,
-        },
+        { text: 'Zum ersten Mal habe ich mich beim Tanzen wirklich frei gefühlt. Hier zählt kein Können, nur das gemeinsame Erleben.', authorName: 'Petra H.', authorRole: 'Teilnehmerin', rating: 5 },
+        { text: 'Als Begleiterin durfte ich einfach mittanzen. Die Atmosphäre ist so warm und offen – das tut allen gut.', authorName: 'Andrea W.', authorRole: 'Begleitperson', rating: 5 },
+        { text: 'Endlich ein Kurs, in dem mein Rollstuhl kein Hindernis ist, sondern dazugehört. Ich freue mich jede Woche.', authorName: 'Michael D.', authorRole: 'Teilnehmer', rating: 5 },
       ],
     },
     faq: {
-      headline: 'Fragen zum inklusiven Tanz',
+      headline: 'Häufige Fragen',
       items: [
-        {
-          question: 'Ist das Studio barrierefrei?',
-          answer: 'Ja. Das Studio hat stufenfreien Zugang, eine barrierefreie Toilette und breite Türen. Bitte kontaktiere uns bei speziellen Barrierefreiheitsanforderungen, damit wir entsprechend planen können.',
-        },
-        {
-          question: 'Kann meine Betreuungsperson oder Assistenz dabei sein?',
-          answer: 'Ja, und kostenfrei. Assistenzen sind während der gesamten Stunde im Raum willkommen.',
-        },
-        {
-          question: 'Mein Familienmitglied hat noch nie getanzt – geht das?',
-          answer: 'Dieser Kurs ist speziell für Menschen ohne Tanzerfahrung konzipiert. Die einzige Voraussetzung ist die Bereitschaft, im Raum zu sein.',
-        },
-        {
-          question: 'Gibt es Ermäßigungen?',
-          answer: 'Ermäßigte Teilnahmegebühren sind möglich – kontaktiere uns, um deine Situation zu besprechen. Wir möchten nicht, dass finanzielle Hürden jemanden von der Teilnahme abhalten.',
-        },
+        { question: 'Kann ich mit Rollstuhl oder Rollator teilnehmen?', answer: 'Ja, unbedingt. Der Kurs ist barrierefrei gestaltet, und die Bewegungen lassen sich im Sitzen wie im Stehen umsetzen.' },
+        { question: 'Darf eine Begleitperson mitkommen?', answer: 'Ja, Begleitpersonen und Assistenzen sind herzlich willkommen und nehmen kostenfrei teil.' },
+        { question: 'Brauche ich Tanzerfahrung?', answer: 'Nein. Es sind keine Vorkenntnisse nötig – wichtig ist nur die Lust, gemeinsam in Bewegung zu kommen.' },
       ],
     },
   },
-
-  rollstuhltanz: {
+  dancetogetherKids: {
     hero: {
-      subHeadline: 'Elegante Bewegungen auf Rädern – Tanz ohne Grenzen.',
+      subHeadline: 'Tolle Musik, Bewegung und Spaß – gemeinsam für alle',
     },
     quickFacts: {
       customFacts: [
-        {
-          icon: 'wheelchair',
-          label: 'Barrierefreiheit',
-          value: 'Vollständig barrierefrei',
-        },
-        {
-          icon: 'group',
-          label: 'Gruppengröße',
-          value: 'Max. 8 Personen',
-        },
-        {
-          icon: 'clock',
-          label: 'Kursdauer',
-          value: '75 Minuten',
-        },
-        {
-          icon: 'sparkle',
-          label: 'Rollstuhl',
-          value: 'Eigen oder Leih',
-        },
+        { icon: 'wheelchair', label: 'Barrierefrei', value: 'Rollstuhl & Rollator willkommen' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 10 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '60 Minuten' },
+        { icon: 'child', label: 'Für', value: 'Kinder & Jugendliche' },
       ],
     },
     description: {
-      headline: 'Tanz auf Rädern',
-      body: 'Rollstuhltanz ist eine anerkannte Tanzsportdisziplin, die Eleganz und Ausdruck mit Mobilität verbindet.\n\nDer Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen als Tanzpartner:innen geeignet – so entstehen wunderschöne Duette und Gruppenformationen.\n\n**Was wir lernen:** Grundbewegungen und Drehungen im Rollstuhl, Partnerwork mit und ohne Rollstuhl sowie verschiedene Musikstile von Walzer bis Contemporary.',
+      headline: 'Habt Ihr Lust auf Tanzen und Spaß?',
+      body: 'Habt Ihr Lust auf Tanzen, auf tolle Musik und richtig viel Spaß? Dann seid Ihr hier genau richtig. Dieser Kurs ist speziell für Kinder und Jugendliche mit Behinderung gedacht.\n\nEgal ob mit Rollstuhl, Rollator oder mit psychischer oder geistiger Beeinträchtigung – **jede und jeder ist willkommen**. Aus Jazz Dance, Hip Hop und DanceAbility entsteht eine bunte Mischung aus Bewegungen und Impulsen.\n\nGemeinsam erarbeiten wir eine kleine Choreographie. Dabei steht immer die Freude an der Bewegung im Vordergrund.',
       targetAudience: {
         headline: 'Für wen ist der Kurs?',
-        body: 'Für Rollstuhlfahrer:innen jedes Alters und ihre Tanzpartner:innen (Fußgänger:innen). Keine Tanzvorkenntnisse nötig. Leih-Rollstühle sind vorhanden – du musst keinen eigenen mitbringen.',
+        body: 'Nur für Kinder und Jugendliche mit Behinderung – ob mit Rollstuhl, Rollator oder mit psychischer oder geistiger Beeinträchtigung. Wer Lust auf Musik, Bewegung und eine bunte Gruppe hat, ist herzlich willkommen. Begleitpersonen und Assistenzen sind kostenfrei dabei.',
       },
       highlights: [
-        { icon: 'wheelchair', text: 'Grundlagen des Rollstuhltanzes' },
-        { icon: 'heart', text: 'Partnerübungen für Rollstuhl & Fußgänger (optional)' },
-        { icon: 'music', text: 'Verschiedene Musikstile: Walzer, Tango, Contemporary' },
-        { icon: 'sparkle', text: 'Leih-Rollstühle vorhanden' },
-        { icon: 'star', text: 'Vollständig barrierefreies Studio' },
+        { icon: 'wheelchair', text: 'Barrierefrei – Rollstuhl und Rollator willkommen' },
+        { icon: 'music', text: 'Tolle Musik und viel Spaß' },
+        { icon: 'dance', text: 'Jazz Dance, Hip Hop und DanceAbility' },
+        { icon: 'sparkle', text: 'Eine bunte Mischung aus Bewegungen und Impulsen' },
+        { icon: 'heart', text: 'Freude an der Bewegung steht im Mittelpunkt' },
       ],
     },
     instructor: {
-      bioOverride:
-        'Sarah hat sich in ihrer Ausbildung intensiv mit Rollstuhltanz als Tanzsportdisziplin beschäftigt und unterrichtet diesen Kurs mit großer Leidenschaft. Sie sieht den Rollstuhl nicht als Einschränkung, sondern als Teil des tänzerischen Ausdrucks.',
-      quote: 'Im Tanz gibt es keine Einschränkungen – nur Möglichkeiten.',
+      quote: 'Es macht mich glücklich zu sehen, wie die Kinder aufblühen, sobald die Musik läuft. Hier darf jedes Kind auf seine eigene Weise strahlen.',
       qualifications: [
-        'DanceAbility-Zertifikat',
-        'Rollstuhltanz – Grundausbildung',
-        'Inklusiver Tanzsport',
-        'Tanztherapie (Grundausbildung)',
+        'Tanz- und Bewegungspädagogin',
+        'DanceAbility',
+        'Kinder- & Jugendtanz',
       ],
     },
     schedule: {
-      headline: 'Termine & Verfügbarkeit',
-      infoText:
-        'Der Kurs findet wöchentlich statt. Einstieg jederzeit möglich – meld dich gerne vorab an, damit wir ggf. einen Leih-Rollstuhl für dich bereitstellen können.',
+      headline: 'Termine',
+      infoText: 'Der Kurs findet fortlaufend wöchentlich statt. Ein Schnuppern ist jederzeit möglich – meldet euch gerne für einen freien Termin an.',
     },
     booking: {
-      ctaText: 'Jetzt anmelden',
-      priceNote: 'pro Einheit',
-      includes: ['Barrierefreier Zugang', 'Leih-Rollstuhl auf Anfrage', 'Wasser & Tee'],
-      notice:
-        'Eigener Rollstuhl oder Leih-Rollstuhl verfügbar – bitte bei Anmeldung angeben.',
+      ctaText: 'Platz sichern',
+      priceNote: 'Preis auf Anfrage',
+      includes: [
+        'Wöchentliche Kursstunde in barrierefreier Umgebung',
+        'Begleitpersonen und Assistenzen kostenfrei',
+        'Persönliche Begleitung durch Daniela',
+      ],
+      notice: 'Wenn euer Kind besondere Bedürfnisse hat oder ihr etwas vorab besprechen möchtet, meldet euch gerne. Wir finden gemeinsam einen Weg, der passt.',
     },
     courseFlow: {
       headline: 'So läuft eine Stunde ab',
+      intro: 'Jede Stunde folgt einem klaren, liebevollen Ablauf, der den Kindern Sicherheit gibt.',
       steps: [
-        {
-          phase: 'Warm-Up im Rollstuhl',
-          duration: '15 Min.',
-          icon: 'wheelchair',
-          description: 'Oberkörper-Mobilisation, Core-Aktivierung und Erkunden des Bewegungsradius des Rollstuhls.',
-        },
-        {
-          phase: 'Technik',
-          duration: '20 Min.',
-          icon: 'bar-chart',
-          description: 'Drehungen, Richtungswechsel, Gewichtsverlagerungen und Rollstuhl-Dynamik – das Vokabular des Rollstuhltanzes.',
-        },
-        {
-          phase: 'Partnerarbeit',
-          duration: '15 Min.',
-          icon: 'users',
-          description: 'Rollstuhltänzer und Fußgänger-Partner erkunden gemeinsam Verbindung, Führen und Folgen.',
-        },
-        {
-          phase: 'Choreografie',
-          duration: '15 Min.',
-          icon: 'music',
-          description: 'Wir bauen gemeinsam eine kurze Phrase – wechselnd durch verschiedene Musikstile.',
-        },
-        {
-          phase: 'Cool-Down',
-          duration: '10 Min.',
-          icon: 'heart',
-          description: 'Stretching und Atemarbeit. Wir schließen mit einer kurzen Reflexion der Stunde.',
-        },
+        { phase: 'Ankommen & Begrüßen', duration: '10 Min.', icon: 'heart', description: 'Wir sagen Hallo, kommen an und wärmen uns gemeinsam mit sanften Bewegungen auf.' },
+        { phase: 'Bewegung entdecken', duration: '15 Min.', icon: 'sparkle', description: 'Mit Impulsen aus DanceAbility probieren wir spielerisch aus, was der Körper alles kann.' },
+        { phase: 'Choreographie & Musik', duration: '25 Min.', icon: 'music', description: 'Zu toller Musik bauen wir Schritt für Schritt an unserer kleinen gemeinsamen Choreographie.' },
+        { phase: 'Freies Tanzen & Ausklang', duration: '10 Min.', icon: 'improvisation', description: 'Zum Schluss darf jedes Kind frei tanzen, bevor wir die Stunde ruhig ausklingen lassen.' },
       ],
     },
     socialProof: {
-      headline: 'Das erleben Teilnehmende',
+      headline: 'Das sagen Familien über den Kurs',
       testimonials: [
-        {
-          text: 'Ich benutze seit zwölf Jahren einen Rollstuhl und hätte nie an Tanz gedacht. Jetzt kann ich mir meine Woche ohne diesen Kurs nicht mehr vorstellen.',
-          authorName: 'Eva R.',
-          authorRole: 'Rollstuhlfahrerin, Teilnehmerin',
-          rating: 5,
-        },
-        {
-          text: 'Ich kam als Tanzpartner für meine Frau. Am Ende habe ich etwas völlig Unerwartetes entdeckt – wie viel ich von ihrer Bewegung lernen konnte.',
-          authorName: 'Georg N.',
-          authorRole: 'Fußgänger-Tanzpartner',
-          rating: 5,
-        },
-        {
-          text: 'Die Choreografien sind so durchdacht – sie feiern, was jeder Körper kann, statt zu verbergen, was er nicht kann. Ein Kurs, der wirklich Maßstäbe setzt.',
-          authorName: 'Helena S.',
-          authorRole: 'Rollstuhlfahrerin, Teilnehmerin',
-          rating: 5,
-        },
-        {
-          text: 'Für mich ist Rollstuhltanz bei Tanzmoment das Beste, das ich meinem Selbstbild je geschenkt habe. Ich bin ein Tänzer.',
-          authorName: 'Oliver P.',
-          authorRole: 'Teilnehmer',
-          rating: 5,
-        },
+        { text: 'Mein Sohn zählt die Tage bis zur nächsten Stunde. Hier wird er gesehen und gefeiert, so wie er ist.', authorName: 'Katrin F.', authorRole: 'Mutter eines Teilnehmers', rating: 5 },
+        { text: 'Ein Kurs, in dem der Rollstuhl einfach dazugehört. Meine Tochter tanzt mit so viel Freude – wunderbar.', authorName: 'Stefan G.', authorRole: 'Vater einer Teilnehmerin', rating: 5 },
+        { text: 'Daniela schafft eine Atmosphäre, in der sich jedes Kind trauen darf. Wir sind unendlich dankbar.', authorName: 'Yvonne P.', authorRole: 'Mutter eines Teilnehmers', rating: 5 },
       ],
     },
     faq: {
-      headline: 'Fragen zum Rollstuhltanz',
+      headline: 'Häufige Fragen',
       items: [
-        {
-          question: 'Brauche ich meinen eigenen Rollstuhl?',
-          answer: 'Nein. Leih-Rollstühle sind vorhanden. Bitte gib bei der Buchung an, ob du einen brauchst, damit wir ihn für dich bereitstellen können.',
-        },
-        {
-          question: 'Können auch Fußgänger teilnehmen?',
-          answer: 'Ja – als Tanzpartner. Der Kurs braucht aktiv sowohl Rollstuhlfahrer als auch Fußgänger-Teilnehmer. Partnerkombinationen können flexibel gestaltet werden.',
-        },
-        {
-          question: 'Ist ein bestimmtes Fitnesslevel nötig?',
-          answer: 'Kein spezielles Fitnesslevel erforderlich. Das Warm-Up passt sich der individuellen Kapazität an. Bitte informiere Sarah bei der Anmeldung über eventuelle gesundheitliche Einschränkungen.',
-        },
+        { question: 'Für welche Kinder ist der Kurs?', answer: 'Der Kurs ist speziell für Kinder und Jugendliche mit Behinderung gedacht – ob mit Rollstuhl, Rollator oder mit psychischer oder geistiger Beeinträchtigung.' },
+        { question: 'Darf eine Begleitperson mitkommen?', answer: 'Ja, Begleitpersonen und Assistenzen sind herzlich willkommen und nehmen kostenfrei teil.' },
+        { question: 'Braucht mein Kind Tanzerfahrung?', answer: 'Nein, überhaupt nicht. Wichtig ist nur die Lust auf Musik, Bewegung und gemeinsamen Spaß.' },
       ],
     },
   },
-
+  muetterToechter: {
+    hero: {
+      subHeadline: 'Gemeinsam ins Flow kommen und die Bindung stärken',
+    },
+    quickFacts: {
+      customFacts: [
+        { icon: 'sparkle', label: 'Vorkenntnisse', value: 'Keine nötig' },
+        { icon: 'group', label: 'Gruppengröße', value: 'Max. 10 Personen' },
+        { icon: 'clock', label: 'Kursdauer', value: '90 Minuten' },
+        { icon: 'heart', label: 'Für', value: 'Mütter & Töchter ab ca. 14 J.' },
+      ],
+    },
+    description: {
+      headline: 'Ein besonderer Kurs für Mütter und Töchter',
+      body: 'Ein besonderer Kurs für Mütter und Töchter ab etwa 14 Jahren, die ihre Bindung stärken, sich wieder näherkommen und gemeinsam ins **Flow** kommen möchten.\n\nIn einer geschützten Atmosphäre schenken wir uns eine bewusste Auszeit vom Alltag. Über Bewegung entstehen Nähe, Vertrauen und ein gemeinsamer kreativer Ausdruck.\n\nWorte sind nicht immer nötig – manchmal spricht die Bewegung für sich. Hier dürft ihr euch spüren, loslassen und einfach zusammen sein.',
+      targetAudience: {
+        headline: 'Für wen ist der Kurs?',
+        body: 'Für Mütter und Töchter ab etwa 14 Jahren, die sich eine gemeinsame Auszeit wünschen und ihre Verbindung über die Bewegung vertiefen möchten. Vorerfahrung ist nicht nötig – nur die Offenheit, sich aufeinander einzulassen.',
+      },
+      highlights: [
+        { icon: 'heart', text: 'Bindung und Vertrauen stärken' },
+        { icon: 'sparkle', text: 'Eine bewusste Auszeit zu zweit' },
+        { icon: 'dance', text: 'Gemeinsamer kreativer Ausdruck' },
+        { icon: 'group', text: 'Geschützte Atmosphäre in kleiner Gruppe' },
+        { icon: 'music', text: 'Nähe finden, wo Worte nicht nötig sind' },
+      ],
+    },
+    instructor: {
+      quote: 'Wenn Mutter und Tochter gemeinsam in Bewegung kommen, entsteht eine Nähe, die keine Worte braucht. Diesen Raum halte ich mit viel Achtsamkeit.',
+      qualifications: [
+        'Tanz- und Bewegungspädagogin',
+        'Kinder- & Jugendtanz',
+        'Inklusionspädagogik',
+      ],
+    },
+    schedule: {
+      headline: 'Termine',
+      infoText: 'Der Kurs findet zu festen Terminen statt. Meldet euch gerne für einen freien Termin an – Mutter und Tochter buchen gemeinsam als Paar.',
+    },
+    booking: {
+      ctaText: 'Platz sichern',
+      priceNote: 'Preis auf Anfrage',
+      includes: [
+        '90-minütige gemeinsame Kursstunde',
+        'Geschützter Raum für Mutter und Tochter',
+        'Achtsame Begleitung durch Daniela',
+      ],
+      notice: 'Gebucht wird als Paar aus Mutter und Tochter. Bringt bequeme Kleidung mit, in der ihr euch frei bewegen könnt.',
+    },
+    courseFlow: {
+      headline: 'So läuft eine Stunde ab',
+      intro: 'Jede Stunde führt behutsam vom Ankommen über die gemeinsame Bewegung bis zu einem ruhigen Ausklang.',
+      steps: [
+        { phase: 'Ankommen & Einstimmen', duration: '10 Min.', icon: 'heart', description: 'Wir lassen den Alltag hinter uns, kommen zur Ruhe und stimmen uns achtsam aufeinander ein.' },
+        { phase: 'Verbindung wecken', duration: '15 Min.', icon: 'sparkle', description: 'Mit sanften Partnerübungen spüren Mutter und Tochter einander und bauen Vertrauen auf.' },
+        { phase: 'Gemeinsam in Bewegung', duration: '25 Min.', icon: 'music', description: 'Über Musik und Bewegung finden wir einen gemeinsamen Ausdruck und kommen ins Flow.' },
+        { phase: 'Freier Ausdruck & Ausklang', duration: '10 Min.', icon: 'improvisation', description: 'Zum Abschluss gibt es Raum für freie Bewegung und ein ruhiges, verbindendes Ausklingen.' },
+      ],
+    },
+    socialProof: {
+      headline: 'Stimmen aus dem Kurs',
+      testimonials: [
+        { text: 'Diese 90 Minuten gehören nur uns beiden. Meiner Tochter und mir hat der Kurs eine ganz neue Nähe geschenkt.', authorName: 'Birgit E.', authorRole: 'Mutter', rating: 5 },
+        { text: 'Ohne Handy, ohne Alltag – einfach zusammen bewegen. Ich habe meine Mama noch nie so entspannt erlebt.', authorName: 'Lena T.', authorRole: 'Tochter', rating: 5 },
+        { text: 'Ein wunderbarer, geschützter Raum. Man muss nichts können, man darf einfach da sein und spüren.', authorName: 'Claudia N.', authorRole: 'Mutter', rating: 5 },
+      ],
+    },
+    faq: {
+      headline: 'Häufige Fragen',
+      items: [
+        { question: 'Ab welchem Alter können Töchter mitmachen?', answer: 'Der Kurs richtet sich an Töchter ab etwa 14 Jahren. Wenn ihr unsicher seid, ob es schon passt, meldet euch gerne vorab.' },
+        { question: 'Brauchen wir Tanzerfahrung?', answer: 'Nein. Es geht nicht um Können oder Technik, sondern um das gemeinsame Erleben. Vorerfahrung ist nicht nötig.' },
+        { question: 'Müssen wir zusammen buchen?', answer: 'Ja, Mutter und Tochter nehmen als Paar teil und buchen gemeinsam. So ist der Kurs von Beginn an auf euch beide ausgerichtet.' },
+      ],
+    },
+  },
   mamaTanzt: {
     hero: {
       subHeadline: 'Zeit für dich – Bewegung, die Kraft gibt.',
@@ -1059,14 +865,14 @@ const DETAIL_CONTENT = {
     },
     instructor: {
       bioOverride:
-        'Sarah ist selbst Mutter und weiß genau, wie wertvoll eine Stunde nur für sich selbst ist. In ihren Mütter-Kursen schafft sie eine Atmosphäre, in der sich jede Frau wohlfühlt und ihren eigenen Rhythmus findet.',
+        'Daniela ist selbst Mutter und weiß genau, wie wertvoll eine Stunde nur für sich selbst ist. In ihren Mütter-Kursen schafft sie eine Atmosphäre, in der sich jede Frau wohlfühlt und ihren eigenen Rhythmus findet.',
       quote:
         'Als Mutter weiß ich, wie wertvoll eine Stunde nur für sich selbst ist.',
       qualifications: [
         'Dipl. Tanzpädagogin',
         'Rückbildungsgymnastik (Grundkenntnisse)',
         'Achtsamkeit & Somatische Arbeit',
-        '15 Jahre Erfahrung',
+        'Erfahrung in achtsamer Bewegung',
       ],
     },
     schedule: {
@@ -1112,7 +918,7 @@ const DETAIL_CONTENT = {
           phase: 'Verbindung',
           duration: '10 Min.',
           icon: 'users',
-          description: 'Optional – Austausch bei Tee mit anderen Müttern. Sarah bleibt für Fragen da.',
+          description: 'Optional – Austausch bei Tee mit anderen Müttern. Daniela bleibt für Fragen da.',
         },
       ],
     },
@@ -1121,7 +927,7 @@ const DETAIL_CONTENT = {
       testimonials: [
         {
           text: 'Ich hatte vergessen, wie es sich anfühlt, in meinem eigenen Körper zu sein. Dieser Kurs gibt mir mich selbst zurück, einmal die Woche. Ich hüte diese Stunde wie einen Schatz.',
-          authorName: 'Sarah B.',
+          authorName: 'Sandra B.',
           authorRole: 'Mutter von zwei Kindern',
           rating: 5,
         },
@@ -1138,7 +944,7 @@ const DETAIL_CONTENT = {
           rating: 5,
         },
         {
-          text: 'Ich war sechs Wochen nach der Geburt dabei und hätte nie erwartet, mich so willkommen zu fühlen. Sarah ist unglaublich einfühlsam.',
+          text: 'Ich war sechs Wochen nach der Geburt dabei und hätte nie erwartet, mich so willkommen zu fühlen. Daniela ist unglaublich einfühlsam.',
           authorName: 'Anna-Marie W.',
           authorRole: 'Frischgebackene Mutter',
           rating: 5,
@@ -1154,7 +960,7 @@ const DETAIL_CONTENT = {
         },
         {
           question: 'Bin ich nach der Geburt schon fit genug?',
-          answer: 'Bitte kläre das mit deiner Hebamme oder Ärztin. Sarah hat eine Ausbildung in rückbildungsfreundlicher Bewegung und bietet immer Alternativen an. Im Zweifel sprich sie vor deiner ersten Stunde an.',
+          answer: 'Bitte kläre das mit deiner Hebamme oder Ärztin. Daniela hat eine Ausbildung in rückbildungsfreundlicher Bewegung und bietet immer Alternativen an. Im Zweifel sprich sie vor deiner ersten Stunde an.',
         },
         {
           question: 'Muss ich mich für ein Semester anmelden?',
@@ -1194,7 +1000,7 @@ const DETAIL_CONTENT = {
     },
     instructor: {
       bioOverride:
-        'Sarah liebt es, Mütter und ihre Babys in dieser besonderen Zeit zu begleiten. Ihr Kurs ist ein warmer, offener Raum, in dem Tränen, Lachen und alles dazwischen willkommen sind.',
+        'Daniela liebt es, Mütter und ihre Babys in dieser besonderen Zeit zu begleiten. Ihr Kurs ist ein warmer, offener Raum, in dem Tränen, Lachen und alles dazwischen willkommen sind.',
       quote:
         'Dieser Tanz zwischen Mutter und Kind ist der älteste der Welt.',
       qualifications: [
@@ -1285,7 +1091,7 @@ const DETAIL_CONTENT = {
       items: [
         {
           question: 'Mein Baby ist sehr unruhig – stört das?',
-          answer: 'Überhaupt nicht. Weinen, Stillen und Quengeln sind völlig normal und erwartet. Jedes Baby im Raum lebt in der gleichen Welt. Sarah strukturiert die Stunde so, dass sie mit den natürlichen Rhythmen der Babys arbeitet.',
+          answer: 'Überhaupt nicht. Weinen, Stillen und Quengeln sind völlig normal und erwartet. Jedes Baby im Raum lebt in der gleichen Welt. Daniela strukturiert die Stunde so, dass sie mit den natürlichen Rhythmen der Babys arbeitet.',
         },
         {
           question: 'Ab welchem Alter kann mein Baby mitmachen?',
@@ -1315,18 +1121,6 @@ const COURSE_DETAIL_MAP: Record<
     metaDescription:
       'Entdecke Ausdruckstanz bei Tanzmoment. Emotionen in Bewegung umsetzen – für Anfänger und Fortgeschrittene.',
   },
-  'ausdruckstanz-vertiefung': {
-    content: 'expressiveVertiefung',
-    metaTitle: 'Ausdruckstanz Vertiefung | Tanzmoment',
-    metaDescription:
-      'Vertiefe deine Ausdruckstanz-Praxis mit fortgeschrittenen Techniken und Performance-Vorbereitung.',
-  },
-  'tanzmaeuse-4-6': {
-    content: 'tanzmaeuse',
-    metaTitle: 'Tanzmäuse (4-6 Jahre) | Tanzmoment',
-    metaDescription:
-      'Spielerischer Tanzkurs für Kinder von 4–6 Jahren. Bewegung, Musik und Spaß in kleinen Gruppen.',
-  },
   'tanzfuechse-7-10': {
     content: 'tanzfuechse',
     metaTitle: 'Tanzfüchse (7-10 Jahre) | Tanzmoment',
@@ -1339,17 +1133,35 @@ const COURSE_DETAIL_MAP: Record<
     metaDescription:
       'Der perfekte Einstieg in die Welt des Tanzes. Für alle Altersgruppen – keine Vorkenntnisse nötig.',
   },
-  'inklusiver-tanzkreis': {
-    content: 'inklusiverTanzkreis',
-    metaTitle: 'Inklusiver Tanzkreis | Tanzmoment',
+  'kinder-jugendliche-11-17': {
+    content: 'kinderJugend',
+    metaTitle: 'Kinder & Jugendliche (11-17 Jahre) | Tanzmoment',
     metaDescription:
-      'Inklusiver Tanz für Menschen mit und ohne Behinderung. Barrierefreier Zugang, individuelle Anpassung.',
+      'Tanzkurs für Kinder & Jugendliche von 11–17 Jahren. Jazz Dance, Hip Hop und kreative Choreografien – mit und ohne Vorerfahrung.',
   },
-  rollstuhltanz: {
-    content: 'rollstuhltanz',
-    metaTitle: 'Rollstuhltanz | Tanzmoment',
+  'tanzworkshop-kindergeburtstag': {
+    content: 'kindergeburtstag',
+    metaTitle: 'Tanzworkshop zum Kindergeburtstag | Tanzmoment',
     metaDescription:
-      'Rollstuhltanz bei Tanzmoment. Eleganz und Ausdruck auf Rädern – für Rollstuhlfahrer:innen und Partner:innen.',
+      'Altersgerechter Tanzworkshop zum Kindergeburtstag. Tanzen zu Wunschmusik, Geschichten mit dem Körper und jede Menge Spaß.',
+  },
+  'dancetogether-erwachsene': {
+    content: 'dancetogetherErwachsene',
+    metaTitle: 'Dancetogether – Erwachsene | Tanzmoment',
+    metaDescription:
+      'Inklusiver Tanzkurs für Erwachsene mit und ohne Behinderung. Jazz Dance, Hip Hop und DanceAbility – barrierefrei, gemeinsam, mit Freude.',
+  },
+  'dancetogether-kinder-jugendliche': {
+    content: 'dancetogetherKids',
+    metaTitle: 'Dancetogether – Kinder & Jugendliche | Tanzmoment',
+    metaDescription:
+      'Inklusiver Tanzkurs für Kinder & Jugendliche mit Behinderung. Tolle Musik, kleine Choreografien und jede Menge Spaß – egal ob mit Rollstuhl, Rollator oder Beeinträchtigung.',
+  },
+  'muetter-toechter': {
+    content: 'muetterToechter',
+    metaTitle: 'Mütter & Töchter | Tanzmoment',
+    metaDescription:
+      'Besonderer Tanzkurs für Mütter und Töchter ab ca. 14 Jahren. Bindung stärken, sich näherkommen und gemeinsam in den Flow kommen.',
   },
   'mama-tanzt-zeit-fuer-mich': {
     content: 'mamaTanzt',
@@ -1407,70 +1219,12 @@ Dieser Kurs ist perfekt für alle, die Tanz als Form der Selbsterfahrung entdeck
       status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
-    {
-      title: 'Ausdruckstanz – Vertiefung',
-      slug: 'ausdruckstanz-vertiefung',
-      catchPhrase: 'Geh tiefer ...',
-      shortDescription:
-        'Für alle, die bereits erste Erfahrungen im Ausdruckstanz gesammelt haben und ihre Praxis vertiefen möchten.',
-      description: `In diesem Aufbaukurs vertiefen wir die Grundlagen des Ausdruckstanzes und erkunden fortgeschrittene Techniken.
-
-Schwerpunkte:
-• Erweiterte Improvisationstechniken
-• Choreografische Elemente
-• Emotionale Tiefe und Ausdruck
-• Performance-Vorbereitung
-
-Voraussetzung: Grundkurs oder vergleichbare Erfahrung im freien Tanz.`,
-      danceStyle: 'expressive',
-      targetGroup: 'Fortgeschrittene',
-      level: CourseLevel.INTERMEDIATE,
-      maxParticipants: 10,
-      priceInCents: 2800,
-      duration: 90,
-      imageUrl: '/assets/images/courses/expressive-vertiefung.jpg',
-      bookingMode: BookingMode.FULL_COURSE,
-      isFree: false,
-      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
-      isPublished: true,
-      status: 'ACTIVE',
-      isMarkedAsHighlighted: false,
-    },
   ],
 
   // =========================================================================
   // TANZEN FÜR KINDER (Kids Dance)
   // =========================================================================
   kids: [
-    {
-      title: 'Tanzmäuse (4-6 Jahre)',
-      slug: 'tanzmaeuse-4-6',
-      catchPhrase: 'Kinderleicht ...',
-      shortDescription:
-        'Spielerischer Einstieg in die Welt des Tanzes. Hier wird gelacht, gehüpft und die Freude an Bewegung entdeckt.',
-      description: `Bei den Tanzmäusen steht der Spaß im Vordergrund! Durch spielerische Übungen und kindgerechte Musik entdecken die Kleinen ihren Körper und seine Möglichkeiten.
-
-Was wir machen:
-• Bewegungsspiele und Tanzgeschichten
-• Rhythmusübungen mit Musik
-• Kreative Improvisation
-• Kleine Choreografien
-
-Die Kinder entwickeln Körpergefühl, Koordination und Selbstvertrauen – ganz nebenbei und mit viel Freude!`,
-      danceStyle: 'kids',
-      targetGroup: 'Kinder 4-6 Jahre',
-      level: CourseLevel.BEGINNER,
-      maxParticipants: 12,
-      priceInCents: 1500,
-      duration: 45,
-      imageUrl: '/assets/images/courses/kids-tanzmaeuse.jpg',
-      bookingMode: BookingMode.FULL_COURSE,
-      isFree: false,
-      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
-      isPublished: true,
-      status: 'ACTIVE',
-      isMarkedAsHighlighted: false,
-    },
     {
       title: 'Tanzfüchse (7-10 Jahre)',
       slug: 'tanzfuechse-7-10',
@@ -1529,34 +1283,28 @@ Keine Vorkenntnisse nötig. Komm wie du bist!`,
       status: 'ACTIVE',
       isMarkedAsHighlighted: true, // Featured course
     },
-  ],
-
-  // =========================================================================
-  // TANZEN MIT BEHINDERUNG (Accessible Dance)
-  // =========================================================================
-  accessible: [
     {
-      title: 'Inklusiver Tanzkreis',
-      slug: 'inklusiver-tanzkreis',
-      catchPhrase: 'Gemeinsam bewegen ...',
+      title: 'Kinder & Jugendliche (11-17 Jahre)',
+      slug: 'kinder-jugendliche-11-17',
+      catchPhrase: 'Sei kreativ & neugierig ...',
       shortDescription:
-        'Tanz für alle – angepasst an individuelle Bedürfnisse. Hier zählt die Freude an der Bewegung, nicht die Perfektion.',
-      description: `Im inklusiven Tanzkreis ist jede:r willkommen, unabhängig von körperlichen oder geistigen Einschränkungen.
+        'Tanz, tanz, sei kreativ und neugierig – denn jeder kann tanzen! Mit viel Fantasie entdecken wir vielfältige Ausdrucksformen und haben eine Menge Spaß dabei.',
+      description: `Für Kinder und Jugendliche, die Lust auf Musik, Bewegung und Spaß haben. Mit viel Fantasie entdecken wir vielfältige Ausdrucksformen in Tanz und Bewegung.
 
-Unser Ansatz:
-• Individuell angepasste Bewegungen
-• Unterstützung durch erfahrene Assistenz
-• Musik und Rhythmus als verbindende Elemente
-• Gemeinschaft und Akzeptanz
+Was wir machen:
+• Aktuelle Musik und kreative Bewegungsspiele
+• Elemente aus Jazz Dance, Hip Hop und freier Improvisation
+• Gemeinsam eine coole Choreographie erarbeiten
+• Selbstbewusstsein und Ausdruckskraft stärken
 
-Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Das Wichtigste ist die Freude am gemeinsamen Erleben.`,
-      danceStyle: 'accessible',
-      targetGroup: 'Menschen mit und ohne Behinderung',
-      level: CourseLevel.ALL_LEVELS,
-      maxParticipants: 10,
-      priceInCents: 2000,
+Wichtig: Der Fokus liegt auf Freude und Gemeinschaft – mit und ohne Tanzerfahrung.`,
+      danceStyle: 'kids',
+      targetGroup: 'Kinder & Jugendliche 11-17 Jahre',
+      level: CourseLevel.BEGINNER,
+      maxParticipants: 14,
+      priceInCents: 0, // Price on request – to be confirmed by Daniela
       duration: 60,
-      imageUrl: '/assets/images/courses/inclusive-tanzkreis.jpg',
+      imageUrl: '/assets/images/courses/kids-jugendliche.jpg',
       bookingMode: BookingMode.FULL_COURSE,
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
@@ -1565,27 +1313,91 @@ Wir tanzen im Sitzen, Stehen oder in Bewegung – so wie es für dich passt. Das
       isMarkedAsHighlighted: false,
     },
     {
-      title: 'Rollstuhltanz',
-      slug: 'rollstuhltanz',
-      catchPhrase: 'Tanz kennt keine Grenzen ...',
+      title: 'Tanzworkshop zum Kindergeburtstag',
+      slug: 'tanzworkshop-kindergeburtstag',
+      catchPhrase: 'Bewegung schenken ...',
       shortDescription:
-        'Elegante Bewegungen auf Rädern. Entdecke, wie viel Ausdruck und Freude im Rollstuhltanz steckt.',
-      description: `Rollstuhltanz ist eine anerkannte Tanzsportdisziplin, die Eleganz und Ausdruck mit Mobilität verbindet.
+        'Schenkt Eurem Kind Bewegung, Selbstbewusstsein und gemeinsame Erinnerungen – ein altersgerechter Tanzworkshop voller Fantasie.',
+      description: `Schenkt Eurem Kind Bewegung, Selbstbewusstsein und gemeinsame Erinnerungen.
 
-Was dich erwartet:
-• Grundlagen des Rollstuhltanzes
-• Koordination und Körpergefühl
-• Partnerübungen (optional)
-• Verschiedene Musikstile
+Ich gestalte einen altersgerechten Workshop voller Fantasie. Wir tanzen zu Wunschmusik, erfinden Geschichten mit dem Körper und stärken den Teamgeist. Der Fokus liegt auf Freude, nicht auf Perfektion.
 
-Der Kurs ist sowohl für Rollstuhlfahrer:innen als auch für Fußgänger:innen als Tanzpartner:innen geeignet.`,
+Ein besonderes Erlebnis für den Kindergeburtstag – gemeinsam tanzen, lachen und den Tag unvergesslich machen.`,
+      danceStyle: 'kids',
+      targetGroup: 'Kindergeburtstage',
+      level: CourseLevel.ALL_LEVELS,
+      maxParticipants: 12,
+      priceInCents: 0, // Package price on request – to be confirmed by Daniela
+      duration: 90,
+      imageUrl: '/assets/images/courses/kindergeburtstag.jpg',
+      bookingMode: BookingMode.SINGLE_SESSION,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
+      isPublished: true,
+      status: 'ACTIVE',
+      isMarkedAsHighlighted: false,
+    },
+  ],
+
+  // =========================================================================
+  // DANCETOGETHER (Accessible / Inclusive Dance)
+  // =========================================================================
+  accessible: [
+    {
+      title: 'Dancetogether – Erwachsene',
+      slug: 'dancetogether-erwachsene',
+      catchPhrase: 'Wir tanzen gemeinsam ...',
+      shortDescription:
+        'Dancetogether – wir tanzen gemeinsam! Egal ob mit oder ohne Beeinträchtigung, mit Rollstuhl, Rollator oder psychischer/geistiger Beeinträchtigung. Mach mit!',
+      description: `Dancetogether ist für alle: Erwachsene mit und ohne Behinderung tanzen gemeinsam. Egal ob mit Rollstuhl, Rollator oder mit psychischer/geistiger Beeinträchtigung – hier zählt die Freude an der Bewegung, nicht die Perfektion.
+
+Tanzrichtung: Wir kombinieren zu einer kleinen Choreographie Elemente aus Jazz Dance, Hip Hop und DanceAbility.
+
+Unser Ansatz:
+• Individuell angepasste Bewegungen – im Sitzen, Stehen oder in Bewegung
+• Musik und Rhythmus als verbindende Elemente
+• Gemeinschaft, Inklusion und Akzeptanz
+• Begleitpersonen und Assistenzen herzlich willkommen
+
+Worte sind nicht notwendig – lass deinen Körper sprechen.`,
       danceStyle: 'accessible',
-      targetGroup: 'Rollstuhlfahrer:innen & Partner:innen',
-      level: CourseLevel.BEGINNER,
-      maxParticipants: 8,
-      priceInCents: 2200,
+      targetGroup: 'Erwachsene mit & ohne Behinderung',
+      level: CourseLevel.ALL_LEVELS,
+      maxParticipants: 12,
+      priceInCents: 0, // Price on request – to be confirmed by Daniela
       duration: 75,
-      imageUrl: '/assets/images/courses/rollstuhltanz.jpg',
+      imageUrl: '/assets/images/courses/dancetogether-erwachsene.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
+      isPublished: true,
+      status: 'ACTIVE',
+      isMarkedAsHighlighted: true, // Featured inclusion course
+    },
+    {
+      title: 'Dancetogether – Kinder & Jugendliche',
+      slug: 'dancetogether-kinder-jugendliche',
+      catchPhrase: 'Tanzen ohne Grenzen ...',
+      shortDescription:
+        'Habt Ihr Lust auf Tanzen, tolle Musik und Spaß? Für Kinder und Jugendliche mit Behinderung – egal ob mit Rollstuhl, Rollator oder Beeinträchtigung.',
+      description: `Dieser Kurs ist für Kinder und Jugendliche mit Behinderung – egal ob mit Rollstuhl, Rollator oder mit psychischer/geistiger Beeinträchtigung. Habt Ihr Lust auf Tanzen, auf tolle Musik und darauf, Spaß zu haben?
+
+Tanzrichtung: Wir kombinieren zu einer kleinen Choreographie Elemente aus Jazz Dance, Hip Hop und DanceAbility.
+
+Was wir machen:
+• Bunte Mischung aus Bewegungen und Impulsen
+• Individuell angepasst an jede:n Teilnehmer:in
+• Gemeinsam eine kleine Choreographie erarbeiten
+• Begleitpersonen und Assistenzen herzlich willkommen
+
+Also, mach mit – egal ob mit oder ohne Beeinträchtigung!`,
+      danceStyle: 'accessible',
+      targetGroup: 'Kinder & Jugendliche mit & ohne Behinderung',
+      level: CourseLevel.ALL_LEVELS,
+      maxParticipants: 10,
+      priceInCents: 0, // Price on request – to be confirmed by Daniela
+      duration: 60,
+      imageUrl: '/assets/images/courses/dancetogether-kinder.jpg',
       bookingMode: BookingMode.FULL_COURSE,
       isFree: false,
       cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
@@ -1657,6 +1469,35 @@ Geeignet für Babys von 3-12 Monaten. Stillen und Wickeln jederzeit möglich.`,
       status: 'ACTIVE',
       isMarkedAsHighlighted: false,
     },
+    {
+      title: 'Mütter & Töchter',
+      slug: 'muetter-toechter',
+      catchPhrase: 'Gemeinsam im Flow ...',
+      shortDescription:
+        'Ein besonderer Kurs für Mütter und Töchter (ab ca. 14 Jahre) – die Bindung stärken, sich wieder näherkommen und gemeinsam in den Flow kommen.',
+      description: `Ein besonderer Kurs für Mütter und Töchter (ab ca. 14 Jahre), die ihre Bindung stärken, sich wieder näherkommen und gemeinsam in den Flow kommen möchten.
+
+Was dich erwartet:
+• Gemeinsame Bewegung, die verbindet
+• Achtsame Übungen für Nähe und Vertrauen
+• Kreativer Ausdruck ohne Leistungsdruck
+• Eine wertvolle gemeinsame Auszeit
+
+Worte sind nicht immer nötig – manchmal spricht die Bewegung für sich.`,
+      danceStyle: 'mothers',
+      targetGroup: 'Mütter & Töchter (ab ca. 14 Jahre)',
+      level: CourseLevel.ALL_LEVELS,
+      maxParticipants: 10,
+      priceInCents: 0, // Price on request – to be confirmed by Daniela
+      duration: 90,
+      imageUrl: '/assets/images/courses/muetter-toechter.jpg',
+      bookingMode: BookingMode.FULL_COURSE,
+      isFree: false,
+      cancellationPolicy: DEFAULT_CANCELLATION_POLICY,
+      isPublished: true,
+      status: 'ACTIVE',
+      isMarkedAsHighlighted: false,
+    },
   ],
 };
 
@@ -1693,15 +1534,15 @@ async function seedUsers() {
   console.log('  ✅ Admin:', admin.email);
 
   // Instructor User
-  const instructorPassword = await bcrypt.hash('sarah123', 10);
+  const instructorPassword = await bcrypt.hash('daniela123', 10);
   const instructorUser = await prisma.user.upsert({
-    where: { email: 'sarah@tanzmoment.de' },
+    where: { email: 'daniela@tanzmoment.de' },
     update: {},
     create: {
-      email: 'sarah@tanzmoment.de',
+      email: 'daniela@tanzmoment.de',
       passwordHash: instructorPassword,
-      firstName: 'Sarah',
-      lastName: 'Müller',
+      firstName: 'Daniela',
+      lastName: 'Savasta-Eberle',
       role: UserRole.INSTRUCTOR,
       emailVerified: true,
     },
@@ -1714,14 +1555,14 @@ async function seedUsers() {
     update: {},
     create: {
       userId: instructorUser.id,
-      bio: 'Professionelle Tänzerin und Tanzpädagogin mit 15 Jahren Erfahrung. Ich liebe es, Menschen durch Bewegung zu inspirieren und ihre eigene Ausdrucksform zu finden. Mein Herz schlägt besonders für inklusiven Tanz.',
+      bio: 'In Ragusa auf Sizilien geboren, verheiratet, zwei erwachsene Kinder. Die Liebe zum Tanz begleitet mich seit Kindheitstagen. Als Tanz- und Bewegungspädagogin gebe ich diese Freude weiter – für mich ist Tanz Kunst, Sprache und Ausdruck. Seit Juni 2025 habe ich meinen Kindheitstraum zum Beruf gemacht und mich freiberuflich selbstständig gemacht.',
       expertise: [
         'Ausdruckstanz',
-        'Inklusiver Tanz',
-        'Kindertanz',
-        'Improvisation',
+        'Inklusiver Tanz (DanceAbility)',
+        'Kinder- & Jugendtanz',
+        'Jazz Dance & Hip Hop',
       ],
-      imageUrl: '/assets/images/instructors/sarah-mueller.jpg',
+      imageUrl: '/assets/images/instructors/daniela-savasta-eberle.jpg',
     },
   });
   console.log('  ✅ Instructor profile created');
@@ -1834,6 +1675,7 @@ const COURSE_SCHEDULES: { a: WeeklySlot; b: WeeklySlot }[] = [
   { a: { day: 5, hour: 17, minute: 30 }, b: { day: 1, hour: 17, minute: 0 } },
   { a: { day: 2, hour: 9, minute: 30 }, b: { day: 4, hour: 9, minute: 30 } },
   { a: { day: 4, hour: 10, minute: 0 }, b: { day: 1, hour: 10, minute: 0 } },
+  { a: { day: 5, hour: 10, minute: 30 }, b: { day: 2, hour: 17, minute: 30 } },
 ];
 
 const SESSION_WEEKS = 3;
@@ -2001,7 +1843,7 @@ async function main() {
   console.log('\n🔐 Test Accounts:');
   console.log('━'.repeat(50));
   console.log('   Admin:      admin@tanzmoment.de / admin123');
-  console.log('   Instructor: sarah@tanzmoment.de / sarah123');
+  console.log('   Instructor: daniela@tanzmoment.de / daniela123');
   console.log('   Customer:   max@example.com / customer123');
   console.log('━'.repeat(50) + '\n');
 }

@@ -69,7 +69,7 @@ export class AccessiblePageComponent implements OnInit {
     backgroundImage: '/assets/images/target-groups/accessible-hero.jpg',
     headline: 'Dein Körper. Deine Bewegung. Deine Art zu tanzen.',
     subheadline:
-      'Tanz kennt keine Grenzen. Bei uns zählt nicht, was du nicht kannst – sondern was du ausdrücken möchtest.',
+      'Schalte deinen Kopf aus und tanze dich frei. Tanz kennt keine Grenzen – bei uns zählt nicht, was du nicht kannst, sondern was du ausdrücken möchtest.',
     ctaText: 'Persönliches Gespräch vereinbaren',
     ctaRoute: '/kontakt',
   });

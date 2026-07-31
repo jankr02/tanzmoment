@@ -76,7 +76,7 @@ GET /api/courses?danceStyle=kids&location=moessingen&dateFrom=2025-01-01T00:00:0
         "id": "clx0987654321",
         "firstName": "Sarah",
         "lastName": "Müller",
-        "imageUrl": "/assets/images/instructors/sarah-mueller.jpg"
+        "imageUrl": "/assets/images/instructors/daniela-savasta-eberle.jpg"
       },
       "nextSession": {
         "startTime": "2025-01-15T18:00:00.000Z",

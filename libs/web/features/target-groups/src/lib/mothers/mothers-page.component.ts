@@ -70,7 +70,7 @@ export class MothersPageComponent implements OnInit {
     backgroundImage: '/assets/images/target-groups/mothers-hero.jpg',
     headline: 'Dein Moment. Deine Bewegung.',
     subheadline:
-      'Du bist Mutter – und so viel mehr. Hier darfst du für eine Stunde einfach nur du sein. Ohne schlechtes Gewissen. Ohne Zeitdruck. In deinem Tempo.',
+      'Tanz und gönn dir eine Auszeit. Du bist Mutter – und so viel mehr. Hier darfst du für eine Stunde einfach nur du sein. Ohne schlechtes Gewissen. Ohne Zeitdruck. In deinem Tempo.',
     ctaText: 'Kurstermine entdecken',
     ctaRoute: '/courses',
   });

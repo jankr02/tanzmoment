@@ -161,10 +161,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   // ==========================================================================
 
   readonly introData = signal<IntroSectionData>({
-    headline: 'Willkommen bei Tanzmoment',
+    headline: 'Lebensfreude, Kreativität, Selbstentfaltung',
     paragraphs: [
-      'Tanz ist mehr als Bewegung – er ist Ausdruck, Verbindung und ein Moment ganz für dich.',
-      'Bei Tanzmoment findest du einen Raum, in dem du dich entfalten kannst, unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen.',
+      'Tanzen ist Freude, Tanzen ist Freiheit – und mehr als Schritte lernen. Es ist eine Auszeit vom Alltag, ein Raum, in dem du dich neu spüren kannst.',
+      'Tanz weckt Fantasie und Kreativität, stärkt Herz und Selbstbewusstsein. Ich lade dich ein zu einer kreativen und fantasievollen Reise der Selbstentfaltung.',
     ],
   });
 
