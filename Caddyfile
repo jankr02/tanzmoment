@@ -33,6 +33,11 @@
 		}
 		root * /srv
 		try_files {path} {path}/index.html /index.csr.html
-		file_server
+		# Directory requests use a prerendered index.html when present, else the
+		# client-render shell (index.csr.html) — the landing route "/" is
+		# client-rendered and has no prerendered index.html.
+		file_server {
+			index index.html index.csr.html
+		}
 	}
 }
