@@ -49,6 +49,16 @@ export const serverRoutes: ServerRoute[] = [
     path: 'meine-buchungen/:id',
     renderMode: RenderMode.Client,
   },
+  // The landing page opens with a one-time intro splash whose visibility depends
+  // on localStorage (client-only). Prerendering it bakes in the post-splash state
+  // (header + skeleton loaders), which then flashes before the client shows the
+  // splash. Render the landing route on the client so the splash is the first
+  // paint. Other catch-all routes have no such client-state dependency and stay
+  // prerendered below.
+  {
+    path: '',
+    renderMode: RenderMode.Client,
+  },
   {
     path: '**',
     renderMode: RenderMode.Prerender,
