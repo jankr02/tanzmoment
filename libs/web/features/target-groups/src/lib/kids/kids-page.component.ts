@@ -66,7 +66,7 @@ export class KidsPageComponent implements OnInit {
     backgroundImage: '/assets/images/target-groups/kids-hero.jpg',
     headline: 'Tanzen. Lachen. Wachsen.',
     subheadline:
-      'Bei uns entdecken Kinder die Freude an Bewegung – spielerisch, ohne Druck und mit ganz viel Spass. Jedes Kind tanzt auf seine eigene Art.',
+      'Tanzen weckt deine Fantasie und Kreativität. Bei uns entdecken Kinder die Freude an Bewegung – spielerisch, ohne Druck und mit ganz viel Spaß. Jedes Kind tanzt auf seine eigene Art.',
     ctaText: 'Schnupperstunde buchen',
     ctaRoute: '/kontakt',
   });

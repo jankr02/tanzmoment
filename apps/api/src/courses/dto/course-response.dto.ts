@@ -62,7 +62,7 @@ export class InstructorInfoDto {
 
   @ApiPropertyOptional({
     description: 'Instructor profile image URL',
-    example: '/assets/images/instructors/sarah-mueller.jpg',
+    example: '/assets/images/instructors/daniela-savasta-eberle.jpg',
   })
   imageUrl?: string;
 }

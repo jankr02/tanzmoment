@@ -40,6 +40,7 @@ interface CourseWithRelations {
   level: string;
   duration: number;
   priceInCents: number;
+  isFree: boolean;
   imageUrl: string | null;
   isMarkedAsHighlighted: boolean;
   maxParticipants: number;
@@ -407,7 +408,11 @@ export class CoursesService {
   private transformToDetail(course: any): CourseDetailResponseDto {
     const priceInEuros = course.priceInCents / 100;
     const priceFormatted =
-      priceInEuros === 0 ? 'Kostenlos' : `${priceInEuros.toFixed(0)} €`;
+      priceInEuros === 0
+        ? course.isFree
+          ? 'Kostenlos'
+          : 'Auf Anfrage'
+        : `${priceInEuros.toFixed(0)} €`;
 
     const detailContent = course.detailContent as Record<string, any> | null;
     const scheduleContent = detailContent?.schedule as
@@ -577,7 +582,9 @@ export class CoursesService {
     const priceInEuros = course.priceInCents / 100;
     const priceFormatted =
       priceInEuros === 0
-        ? 'Kostenlos'
+        ? course.isFree
+          ? 'Kostenlos'
+          : 'Auf Anfrage'
         : `${priceInEuros.toFixed(0)} €`;
 
     return {

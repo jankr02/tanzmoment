@@ -32,7 +32,7 @@ import { SpacesSectionData } from './sections/spaces-section/spaces-section.type
 import { FaqSectionData } from './sections/faq-section/faq-section.types';
 import { ContactSectionData } from './sections/contact-section/contact-section.types';
 
-const PLACEHOLDER_IMAGE = '/assets/images/about/portrait-placeholder.jpg';
+const DANIELA_PORTRAIT = '/assets/images/about/daniela-portrait.jpg';
 
 @Component({
   selector: 'tm-about-page',
@@ -60,9 +60,9 @@ export class AboutPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.seo.setMetadata({
-      title: 'Über uns — Daniela Savasta & Tanzmoment',
+      title: 'Über uns — Daniela Savasta-Eberle & Tanzmoment',
       description:
-        'Lerne Daniela Savasta und die Geschichte von Tanzmoment kennen. Inklusiver, ausdrucksstarker Tanz ohne Leistungsdruck in Mössingen.',
+        'Lerne Daniela Savasta-Eberle und die Geschichte von Tanzmoment kennen. Inklusiver, ausdrucksstarker Tanz ohne Leistungsdruck in Mössingen.',
       url: '/about',
     });
   }
@@ -72,13 +72,13 @@ export class AboutPageComponent implements OnInit {
   // ───────────────────────────────────────────────────────────────────────────
 
   readonly heroData = signal<AboutHeroData>({
-    portraitImage: PLACEHOLDER_IMAGE,
-    name: 'Daniela Savasta',
-    title: 'Tanzpädagogin & Gründerin von Tanzmoment',
+    portraitImage: DANIELA_PORTRAIT,
+    name: 'Daniela Savasta-Eberle',
+    title: 'Tanz- und Bewegungspädagogin & Gründerin von Tanzmoment',
     quote:
-      'Tanz ist für mich mehr als Bewegung – er ist Ausdruck, Verbindung und Freiheit.',
+      'Für mich ist Tanz Kunst, Sprache und Ausdruck – ich lade dich ein zu einer kreativen Reise der Selbstentfaltung.',
     description:
-      'Mit über 20 Jahren Erfahrung in der Tanzpädagogik habe ich Tanzmoment gegründet, um einen Raum zu schaffen, in dem jeder Mensch die Freude am Tanzen entdecken kann – unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen.',
+      'In Ragusa auf Sizilien geboren, verheiratet, zwei erwachsene Kinder. Die Liebe zum Tanz begleitet mich seit Kindheitstagen. Seit Juni 2025 habe ich meinen Kindheitstraum zum Beruf gemacht und mich als Tanz- und Bewegungspädagogin selbstständig gemacht – um einen Raum zu schaffen, in dem jeder Mensch die Freude am Tanzen entdecken kann, unabhängig von Alter, Erfahrung oder körperlichen Voraussetzungen.',
   });
 
   // ───────────────────────────────────────────────────────────────────────────

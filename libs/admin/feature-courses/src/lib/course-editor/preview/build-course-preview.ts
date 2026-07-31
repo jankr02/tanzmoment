@@ -48,6 +48,7 @@ const TIME_FORMAT = new Intl.DateTimeFormat('de-DE', {
 
 function formatPrice(priceInEuros: number, isFree: boolean): string {
   if (isFree) return 'Kostenlos';
+  if (priceInEuros === 0) return 'Auf Anfrage';
   return `${priceInEuros.toFixed(2).replace('.', ',')} €`;
 }
 

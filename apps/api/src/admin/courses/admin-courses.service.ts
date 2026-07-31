@@ -370,7 +370,9 @@ export class AdminCoursesService {
     const priceInEuros = course.priceInCents / 100;
     const priceFormatted =
       priceInEuros === 0
-        ? 'Kostenlos'
+        ? course.isFree
+          ? 'Kostenlos'
+          : 'Auf Anfrage'
         : `${priceInEuros.toFixed(2).replace('.', ',')} €`;
 
     return {
