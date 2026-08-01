@@ -84,8 +84,18 @@ export class AppComponent {
     };
   });
 
-  protected readonly shouldShowHeaderFooter = computed(() => {
-    const route = this.currentRoute();
+  // The landing page renders its own hero-integrated header (logo + nav), so the
+  // global header is hidden there entirely. The footer still appears on landing
+  // once the splash screen has finished.
+  protected readonly shouldShowHeader = computed(() => {
+    const route = this.currentRoute().split('?')[0];
+    if (route.startsWith('/admin')) return false;
+    if (route === '/') return false;
+    return true;
+  });
+
+  protected readonly shouldShowFooter = computed(() => {
+    const route = this.currentRoute().split('?')[0];
     const isLandingPage = route === '/';
     const isAdminPage = route.startsWith('/admin');
     const isSplashVisible = this.splashScreenVisibility.showSplash();

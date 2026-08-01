@@ -20,33 +20,25 @@
 
     <!-- ─────────────────────────────────────────────────────────────────────
          HERO SECTION
-         Hintergrund: Bilder (keine feste Farbe)
+         Split-Layout: Text/CTA links, organische Illustration rechts.
+         Hintergrund: --color-accent (blendet mit dem globalen Header).
          ───────────────────────────────────────────────────────────────────── -->
     @if (showHero()) {
     <section class="landing-page__hero">
-      <tm-hero-gallery (ready)="onHeroReady()" (loadError)="onHeroError($event)" />
-
-      <!--
-        Wave Divider im Overlay-Modus
-        - overlay=true: Positioniert sich absolut am unteren Rand der Hero-Section
-        - from="transparent": Kein sichtbarer Hintergrund über den Hero-Bildern
-        - to="neutral": Übergang zur neutral-farbigen Intro-Section
-        - variant="hero": Verwendet den originalen Landing-Page Wave-Pfad
-        - shadow=true: Subtiler Schatten für Tiefe
-        - height="lg": Responsive Höhen (100px desktop, 60px mobile)
-
-        Note: Wave Divider wird am Ende der Section positioniert, um Layout-Verschiebungen zu vermeiden.
-        Mit [overlay]="true" wird es absolut positioniert und beeinflusst nicht den Document Flow.
-      -->
-      <tm-wave-divider
-        from="transparent"
-        to="neutral"
-        variant="hero"
-        height="lg"
-        [overlay]="true"
-        [shadow]="true"
-      />
+      <tm-hero />
     </section>
+
+    <!--
+      Wave Divider (Flow-Modus)
+      Übergang vom warmen Hero-Hintergrund (accent) zur neutralen Intro-Section.
+    -->
+    <tm-wave-divider
+      from="accent"
+      to="neutral"
+      variant="hero"
+      height="lg"
+      [shadow]="true"
+    />
     }
 
     <!-- ─────────────────────────────────────────────────────────────────────

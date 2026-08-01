@@ -1,0 +1,22 @@
+# Local-only preview overlay for the production stack.
+#
+# Publishes Caddy on http://localhost:8080 so you can view the full prod stack on
+# your machine WITHOUT a Cloudflare tunnel. The production compose file
+# deliberately exposes no host ports; this overlay adds one for local use only.
+#
+# Usage (note BOTH -f files, order matters):
+#   docker compose --env-file .env.prod \
+#     -f docker-compose.prod.yml -f docker-compose.local-preview.yml \
+#     up -d --build
+#
+# Then open http://localhost:8080.
+#
+# To actually log in over plain http, set COOKIE_SECURE=false in .env.prod first
+# (browsers drop Secure cookies over http, so login would not persist otherwise).
+#
+# Deliberately NOT named docker-compose.override.yml: that name auto-merges into
+# the dev docker-compose.yml and would break the dev stack.
+services:
+  web:
+    ports:
+      - '8080:80'

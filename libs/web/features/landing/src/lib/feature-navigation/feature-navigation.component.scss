@@ -79,7 +79,8 @@
     flex-direction: column;
     align-items: center;
     gap: 0;
-    padding: var(--space-10);
+    // Generous padding so the blob illustration has breathing room on all sides.
+    padding: var(--space-8) var(--space-6);
     border-radius: var(--radius-xl);
     background: transparent;
     border: none;
@@ -126,8 +127,8 @@
 
   &__illustration {
     // Mobile: Larger fixed size for horizontal layout
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -136,21 +137,23 @@
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     @include respond-to('sm') {
-      width: 100px;
-      height: 100px;
+      width: 116px;
+      height: 116px;
     }
 
-    // Desktop: Full width vertical layout
+    // Desktop: Full width vertical layout. object-fit: contain guarantees the
+    // whole blob is visible — sizing is driven by the frame, never by an
+    // overflow-clipping scale.
     @include respond-to('md') {
       width: 100%;
       height: 420px;
       flex: 1;
       flex-shrink: 1;
-      align-items: flex-end;
+      align-items: center;
     }
 
     @include respond-to('lg') {
-      height: 500px;
+      height: 480px;
     }
 
     img {
@@ -159,19 +162,15 @@
       object-fit: contain;
       display: block;
       transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      // Mobile: no extra scaling
       transform: scale(1);
-
-      @include respond-to('md') {
-        transform: scale(1.25);
-      }
     }
   }
 
-  // Subtle illustration scale on hover (desktop only)
+  // Subtle illustration lift on hover (desktop only) — small enough to stay
+  // within the blob's built-in padding, so nothing clips.
   @include respond-to('md') {
     &:hover &__illustration img {
-      transform: scale(1.35);
+      transform: scale(1.03);
     }
   }
 

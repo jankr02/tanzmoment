@@ -1,0 +1,280 @@
+@use 'tokens' as *;
+
+// ============================================================================
+// HERO SECTION
+// ============================================================================
+// Editorial layout with an integrated top bar (logo + navigation). The global
+// site header is hidden on the landing route, so the hero owns the full width.
+//
+// Layout is driven by named grid areas so the visual order is independent of the
+// DOM order (the H1 stays early in the DOM for a11y / SEO):
+//   - Desktop: top bar + content stack in the left column, illustration spans
+//     the full height of the right column.
+//   - Mobile: top bar, then the illustration as an edge-to-edge hero banner,
+//     then the headline / copy / CTA.
+
+.hero {
+  position: relative;
+  width: 100%;
+  background-color: var(--color-accent);
+  overflow: hidden;
+}
+
+.hero__inner {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--container-padding) var(--space-12);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'topbar'
+    'illustration'
+    'content';
+  gap: var(--space-6);
+  align-items: center;
+
+  @include respond-to('lg') {
+    grid-template-columns: 0.92fr 1.08fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      'topbar      illustration'
+      'content     illustration';
+    column-gap: var(--space-10);
+    row-gap: 0;
+    padding-block: var(--space-8) var(--space-16);
+    align-items: stretch;
+  }
+}
+
+// ============================================================================
+// Top bar (logo + navigation)
+// ============================================================================
+
+.hero__topbar {
+  grid-area: topbar;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.hero__logo {
+  display: inline-flex;
+  align-self: flex-start;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition-fast);
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 4px;
+  }
+
+  img {
+    width: 190px;
+    height: auto;
+
+    @include respond-to('md') {
+      width: 210px;
+    }
+  }
+}
+
+.hero__nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__nav-link {
+  position: relative;
+  display: inline-block;
+  padding: var(--space-1) 0;
+
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-l);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  text-decoration: none;
+
+  transition: color var(--transition-fast);
+
+  // Understated underline that grows on hover / active.
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-primary-dark);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-fast);
+  }
+
+  &:hover {
+    color: var(--color-primary-dark);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &--active {
+    color: var(--color-primary-dark);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+// ============================================================================
+// Headline block
+// ============================================================================
+
+.hero__content {
+  grid-area: content;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  @include respond-to('lg') {
+    // Center the headline block in the space beneath the top bar.
+    justify-content: center;
+    padding-block: var(--space-8);
+  }
+}
+
+.hero__headline {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-weight: var(--font-weight-heading);
+  font-size: clamp(2.75rem, 1.5rem + 5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.hero__headline-line {
+  display: block;
+}
+
+.hero__subcopy {
+  margin: 0;
+  max-width: 44ch;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body-l);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+}
+
+.hero__cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-4) var(--space-8);
+
+  font-family: var(--font-cta);
+  font-size: var(--font-size-cta);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-surface);
+  text-decoration: none;
+
+  background-color: var(--color-primary-dark);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  &:hover {
+    background-color: var(--color-text-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-soft-accent);
+    outline-offset: 3px;
+  }
+}
+
+// ============================================================================
+// Illustration
+// ============================================================================
+
+.hero__illustration {
+  grid-area: illustration;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Mobile: edge-to-edge hero banner sitting between the nav and the headline.
+  margin-inline: calc(-1 * var(--container-padding));
+
+  @include respond-to('lg') {
+    margin-inline: 0;
+    justify-content: flex-end;
+  }
+
+  img {
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    filter: drop-shadow(var(--shadow-illustration-warm));
+
+    @include respond-to('lg') {
+      max-width: none;
+      // Large, dominant illustration that bleeds toward the right edge.
+      width: min(58vw, 860px);
+      margin-right: calc(-1 * var(--container-padding));
+    }
+
+    @include respond-to('xl') {
+      width: min(54vw, 920px);
+    }
+  }
+}
+
+// ============================================================================
+// Accessibility
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta,
+  .hero__nav-link,
+  .hero__nav-link::after,
+  .hero__logo {
+    transition: none;
+  }
+
+  .hero__cta:hover {
+    transform: none;
+  }
+}

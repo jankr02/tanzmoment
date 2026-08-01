@@ -1,0 +1,48 @@
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero__inner">
+    <header class="hero__topbar">
+      <a class="hero__logo" routerLink="/" aria-label="Tanzmoment – zur Startseite">
+        <img src="assets/images/logo-with-name.svg" alt="Tanzmoment" />
+      </a>
+
+      <nav class="hero__nav" aria-label="Hauptnavigation">
+        <ul class="hero__nav-list">
+          @for (item of navItems; track item.route) {
+          <li>
+            <a
+              class="hero__nav-link"
+              [routerLink]="item.route"
+              routerLinkActive="hero__nav-link--active"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+    </header>
+
+    <div class="hero__content">
+      <h1 id="hero-heading" class="hero__headline">
+        <span class="hero__headline-line">Finde deinen</span>
+        <span class="hero__headline-line">Tanzmoment</span>
+      </h1>
+
+      <p class="hero__subcopy">
+        Warm, achtsam und für jeden Körper: Bei Tanzmoment findest du einen Raum,
+        dich frei zu bewegen, kreativ zu sein und ganz bei dir anzukommen.
+      </p>
+
+      <a class="hero__cta" routerLink="/courses">Kurse entdecken</a>
+    </div>
+
+    <div class="hero__illustration">
+      <img
+        src="assets/illustrations/hero/hero-dancer.svg"
+        alt="Tänzerin, die frei auf einer sonnigen Frühlingswiese tanzt"
+        width="1024"
+        height="1024"
+      />
+    </div>
+  </div>
+</section>

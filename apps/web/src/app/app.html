@@ -1,5 +1,5 @@
-<!-- Global Header (hidden during splash screen on landing page) -->
-@if (shouldShowHeaderFooter()) {
+<!-- Global Header (landing page uses its own hero-integrated header) -->
+@if (shouldShowHeader()) {
   <tm-header
     [isAuthenticated]="isAuthenticated()"
     [userData]="userMenuData()"
@@ -14,7 +14,7 @@
 </main>
 
 <!-- Global Footer (hidden during splash screen on landing page) -->
-@if (shouldShowHeaderFooter()) {
+@if (shouldShowFooter()) {
   <tm-footer
     [waveFrom]="footerColors().from"
     [waveTo]="footerColors().to"

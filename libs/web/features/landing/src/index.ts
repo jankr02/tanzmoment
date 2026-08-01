@@ -3,7 +3,7 @@
  */
 
 export * from './lib/landing-page/landing-page.component';
-export * from './lib/hero-gallery/hero-gallery.component';
+export * from './lib/hero/hero.component';
 export * from './lib/intro-section/intro-section.component';
 export * from './lib/intro-section/intro-section.types';
 export * from './lib/feature-navigation/feature-navigation.component';

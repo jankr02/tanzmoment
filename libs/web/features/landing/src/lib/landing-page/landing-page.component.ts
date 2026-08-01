@@ -30,7 +30,7 @@ import {
 } from '@tanzmoment/shared/ui';
 
 // Feature Components
-import { HeroGalleryComponent } from '../hero-gallery/hero-gallery.component';
+import { HeroComponent } from '../hero/hero.component';
 import { FeatureNavigationComponent } from '../feature-navigation/feature-navigation.component';
 import { LandingIntroSectionComponent } from '../intro-section/intro-section.component';
 import { IntroSectionData } from '../intro-section/intro-section.types';
@@ -53,7 +53,7 @@ import {
   imports: [
     CommonModule,
     SplashScreenComponent,
-    HeroGalleryComponent,
+    HeroComponent,
     LandingIntroSectionComponent,
     FeatureNavigationComponent,
     SkeletonFeatureGridComponent,
@@ -115,14 +115,13 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     shortenedDuration: 500,
     preloadConfig: {
       criticalAssets: [
-        // Hero images - highest priority
+        // Hero illustration - highest priority so it is ready when the splash ends
         {
-          id: 'hero-hero-1',
-          url: 'assets/images/hero/hero-1.webp',
+          id: 'hero-dancer',
+          url: 'assets/illustrations/hero/hero-dancer.svg',
           type: AssetType.IMAGE,
           priority: SPLASH_ASSET_PRIORITY.HERO_IMAGE_FIRST,
         },
-        // Additional hero images can be added here
       ],
       continueOnError: true,
       minDisplayDuration: 3500,
@@ -200,8 +199,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
       this.showHero.set(true);
       this.splashVisibility.setSplashVisible(false);
 
-      // Update state service
       this.stateService.setSectionReady(LandingPageSection.SPLASH);
+      this.stateService.setSectionReady(LandingPageSection.HERO);
+
+      this.loadFeatures();
     });
   }
 
@@ -212,35 +213,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     if (isDevMode()) {
       console.log('[LandingPage] Splash progress:', progress.percentage);
     }
-  }
-
-  // ==========================================================================
-  // Hero Section Handlers
-  // ==========================================================================
-
-  /**
-   * Handle hero gallery ready event
-   */
-  onHeroReady(): void {
-    if (isDevMode()) {
-      console.log('[LandingPage] Hero ready');
-    }
-
-    this.ngZone.run(() => {
-      this.stateService.setSectionReady(LandingPageSection.HERO);
-      this.loadFeatures();
-    });
-  }
-
-  /**
-   * Handle hero gallery error
-   */
-  onHeroError(error: ErrorEvent): void {
-    console.error('[LandingPage] Hero error:', error);
-    this.stateService.setSectionError(LandingPageSection.HERO, error.message);
-
-    // Still try to load features
-    this.loadFeatures();
   }
 
   // ==========================================================================
